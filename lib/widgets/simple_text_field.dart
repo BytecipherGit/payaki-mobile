@@ -1,0 +1,110 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/image_utility.dart';
+import 'package:payaki/utilities/style_utility.dart';
+
+class SimpleTextField extends StatelessWidget {
+  const SimpleTextField({
+    Key? key,
+    required this.controller,
+    required this.hintText,
+    this.textInputType,
+    required this.image,
+    required this.titleText,
+    this.passwordVisible,
+    this.onPrefixIconTap,
+  }) : super(key: key);
+
+  final TextEditingController controller;
+  final String hintText;
+  final String titleText;
+  final String image;
+  final TextInputType? textInputType;
+  final bool? passwordVisible;
+  final VoidCallback? onPrefixIconTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          titleText,
+          style: StyleUtility.inputTextStyle,
+        ),
+        SizedBox(
+          height: 55.sp,
+          child: TextFormField(
+            obscureText: passwordVisible ?? false,
+            controller: controller,
+            textAlign: TextAlign.start,
+            keyboardType: textInputType ?? TextInputType.text,
+            style: StyleUtility.inputTextStyle,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(
+                  top: 12.sp, bottom: 12.sp, left: 10.sp, right: 10.sp),
+
+              filled: true,
+              fillColor: ColorUtility.colorF8FAFB,
+              hintStyle: StyleUtility.hintTextStyle,
+              hintText: hintText,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: const BorderSide(
+                  color: ColorUtility.colorE2E5EF,
+                ),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: const BorderSide(
+                  color: ColorUtility.colorE2E5EF,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: const BorderSide(
+                  color: ColorUtility.colorE2E5EF,
+                ),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: const BorderSide(
+                  color: ColorUtility.colorE2E5EF,
+                ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: const BorderSide(
+                  color: ColorUtility.colorE2E5EF,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: const BorderSide(
+                  color: ColorUtility.colorE2E5EF,
+                ),
+              ),
+              prefixIcon: Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.sp),
+                child: Image.asset(image),
+              ),
+              suffixIcon: onPrefixIconTap != null
+                  ? InkWell(
+                      onTap: onPrefixIconTap,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.sp),
+                        child: Image.asset(passwordVisible == true
+                            ? ImageUtility.eyeShowIcon
+                            : ImageUtility.eyeHideIcon),
+                      ),
+                    )
+                  : null,
+              // focusColor: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
