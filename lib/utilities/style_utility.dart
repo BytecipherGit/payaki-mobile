@@ -38,6 +38,12 @@ class StyleUtility {
     color: ColorUtility.whiteColor,
   );
 
+  static TextStyle bottomTextStyle = TextStyle(
+    fontFamily: "Axiforma_Medium",
+    fontSize: TextSizeUtility.textSize14,
+  );
+
+
 
   static TextStyle inputTextStyle = TextStyle(
     fontFamily: "Axiforma_Regular",

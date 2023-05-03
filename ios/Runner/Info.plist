@@ -47,5 +47,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>lease grant photo gallery access</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+     <string>lease grant camera access</string>
 </dict>
 </plist>

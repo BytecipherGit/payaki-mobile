@@ -10,18 +10,20 @@ class SimpleTextField extends StatelessWidget {
     required this.controller,
     required this.hintText,
     this.textInputType,
-    required this.image,
+    this.image,
     required this.titleText,
     this.passwordVisible,
     this.onPrefixIconTap,
+    this.maxLine,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String hintText;
   final String titleText;
-  final String image;
+  final String? image;
   final TextInputType? textInputType;
   final bool? passwordVisible;
+  final int? maxLine;
   final VoidCallback? onPrefixIconTap;
 
   @override
@@ -34,16 +36,18 @@ class SimpleTextField extends StatelessWidget {
           style: StyleUtility.inputTextStyle,
         ),
         SizedBox(
-          height: 55.sp,
+         // height: 55.sp,
           child: TextFormField(
             obscureText: passwordVisible ?? false,
             controller: controller,
             textAlign: TextAlign.start,
             keyboardType: textInputType ?? TextInputType.text,
+            maxLines:  maxLine ?? 1,
             style: StyleUtility.inputTextStyle,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(
-                  top: 12.sp, bottom: 12.sp, left: 10.sp, right: 10.sp),
+                  top: 12.sp, bottom: 12.sp,
+                  left: 20.w, right: 5.w),
 
               filled: true,
               fillColor: ColorUtility.colorF8FAFB,
@@ -85,22 +89,28 @@ class SimpleTextField extends StatelessWidget {
                   color: ColorUtility.colorE2E5EF,
                 ),
               ),
-              prefixIcon: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.sp),
-                child: Image.asset(image),
-              ),
+              prefixIcon: image != null ? SizedBox(
+                height: 55.sp,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.sp),
+                  child: Image.asset(image!),
+                ),
+              ):null,
               suffixIcon: onPrefixIconTap != null
-                  ? InkWell(
-                      onTap: onPrefixIconTap,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20.sp),
-                        child: Image.asset(passwordVisible == true
-                            ? ImageUtility.eyeShowIcon
-                            : ImageUtility.eyeHideIcon),
-                      ),
-                    )
+                  ? SizedBox(
+                height: 55.sp,
+                    child: Padding(
+                      padding:  EdgeInsets.symmetric(vertical: 20.sp),
+                      child: InkWell(
+                          onTap: onPrefixIconTap,
+                          child: Image.asset(passwordVisible == true
+                              ? ImageUtility.eyeShowIcon
+                              : ImageUtility.eyeHideIcon),
+                        ),
+                    ),
+                  )
                   : null,
-              // focusColor: Colors.white,
+              focusColor: Colors.white,
             ),
           ),
         ),

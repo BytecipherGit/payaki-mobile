@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/modules/auth/logIn/screens/log_in_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
-
-import 'modules/auth/forgotPassword/screens/forgot_pass_send_otp_screen.dart';
-import 'modules/postAdd/screens/choose_category_screen.dart';
-
 void main() {
   runApp(const MyApp());
 }

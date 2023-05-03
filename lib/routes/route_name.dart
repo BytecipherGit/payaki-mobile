@@ -6,5 +6,11 @@ class RouteName {
   static const String forgotPassVerifyOtpScreen = "/forgotPassVerifyOtpScreen";
   static const String forgotNewPasswordScreen = "/forgotNewPasswordScreen";
   static const String forgotPassSuccessScreen = "/forgotPassSuccessScreen";
+  static const String bottomNavigationBarScreen = "/bottomNavigationBarScreen";
+  static const String chooseCategoryScreen = "/chooseCategoryScreen";
+  static const String addDetailScreen = "/addDetailScreen";
+  static const String setPriceScreen = "/setPriceScreen";
+  static const String galleryScreen = "/galleryScreen";
+  static const String addLocationScreen = "/addLocationScreen";
 
 }

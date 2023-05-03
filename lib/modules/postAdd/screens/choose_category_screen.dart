@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -48,6 +49,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                         return InkWell(
                           onTap: (){
 
+                            Navigator.pushNamed(context, RouteName.addDetailScreen);
                           },
                           child: ListTile(
                             contentPadding: EdgeInsets.symmetric(horizontal: 0.w,vertical: 0),

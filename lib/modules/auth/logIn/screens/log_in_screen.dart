@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/modules/auth/signUp/screens/sign_up_screen.dart';
 import 'package:payaki/modules/postAdd/screens/choose_category_screen.dart';
+import 'package:payaki/routes/app_routes.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -159,11 +160,10 @@ class _LogInScreenState extends State<LogInScreen> {
                       CustomButton(
                           buttonText: "Log In",
                           onTab: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ChooseCategoryScreen()));
+
+                            Navigator.pushReplacementNamed(context, RouteName.bottomNavigationBarScreen);
+
+
                           }),
                       SizedBox(
                         height: 28.h,
