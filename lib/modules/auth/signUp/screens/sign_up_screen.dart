@@ -1,14 +1,19 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:payaki/modules/auth/logIn/screens/log_in_screen.dart';
+import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/modules/auth/signUp/provider/signup_view_model.dart';
+import 'package:payaki/network/end_points.dart';
+import 'package:payaki/network/model/request/auth/signup_request.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -163,7 +168,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         height: 37.h,
                       ),
-                      CustomButton(buttonText: "Register", onTab: () {}),
+                      Consumer<SignUpViewModel>(
+                          builder: (context, model, child) {
+                        return CustomButton(
+                            buttonText: "Register",
+                            onTab: () {
+
+                              // CommonDialog.showLoadingDialog(context);
+                              // model.signUp(
+                              //     request: SignUpRequest(
+                              //         name: Endpoints.auth.signup,
+                              //         param: Param(
+                              //           fullName: "f name",
+                              //           userName: "U name",
+                              //           email: "ab@gmail.com",
+                              //           phone: "1234123456",
+                              //           countryCode: "+91",
+                              //           pass: "123456",
+                              //         )),
+                              //     onSuccess: (value) {
+                              //       Navigator.pop(context);
+                              //       context.showSnackBar(message: value);
+                              //     },
+                              //     onFailure: (value) {
+                              //       Navigator.pop(context);
+                              //       context.showSnackBar(message: value);
+                              //     },
+                              //     );
+                            });
+                      }),
                       SizedBox(
                         height: 28.h,
                       ),

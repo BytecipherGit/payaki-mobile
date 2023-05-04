@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -62,7 +63,11 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                   ),
                 ),
               ),
-              CustomButton(buttonText: "Next", onTab: () {}),
+              CustomButton(buttonText: "Next", onTab: () {
+
+                Navigator.pushNamed(context, RouteName.userDetailScreen);
+
+              }),
               SizedBox(
                 height: 20.h,
               ),

@@ -21,7 +21,6 @@ class _BottomNavigationBarScreenState
     Screen2(),
     Screen3(),
     Screen4(),
-    Screen5(),
   ];
 
   void onTabTapped(int index) {
@@ -141,6 +140,13 @@ class Screen1 extends StatelessWidget {
     return Center(
       child: Text('Home'),
     );
+
+    // return Container(
+    //   color: Colors.white12,
+    //   child: ListView.builder(itemBuilder: (context,inde){
+    //     return Text("inde  ds s  s s ds ds d sd sd sd s ds dx$inde");
+    //   }),
+    // );
   }
 }
 class Screen2 extends StatelessWidget {
@@ -164,20 +170,16 @@ class Screen3 extends StatelessWidget {
 class Screen4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Profile'),
+    return GestureDetector(
+      onTap: (){
+
+        Navigator.pushNamedAndRemoveUntil(context, RouteName.logInScreen, (route) => false);
+      },
+      child: Center(child: Text('Profile')),
     );
   }
 }
 
-class Screen5 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Screen 5'),
-    );
-  }
-}
 
 class NewScreen extends StatelessWidget {
   @override

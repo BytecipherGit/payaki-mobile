@@ -12,5 +12,6 @@ class RouteName {
   static const String setPriceScreen = "/setPriceScreen";
   static const String galleryScreen = "/galleryScreen";
   static const String addLocationScreen = "/addLocationScreen";
+  static const String userDetailScreen = "/userDetailScreen";
 
 }

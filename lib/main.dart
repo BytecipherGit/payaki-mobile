@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loggy/loggy.dart';
 import 'package:payaki/modules/auth/logIn/screens/log_in_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
+
 void main() {
+  Loggy.initLoggy();
   runApp(const MyApp());
 }
 
@@ -14,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: const Size(430, 932),
+        // splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,

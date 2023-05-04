@@ -151,7 +151,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
               CustomButton(
                   buttonText: "Next",
                   onTab: () {
-                    //    Navigator.pushNamed(context, RouteName.addLocationScreen);
+                       Navigator.pushNamed(context, RouteName.addLocationScreen);
                   }),
               SizedBox(
                 height: 20.h,
