@@ -1,10 +1,10 @@
-class SignUpRequest {
+class ForgotPassSendOtpRequest {
   String? name;
   Param? param;
 
-  SignUpRequest({this.name, this.param});
+  ForgotPassSendOtpRequest({this.name, this.param});
 
-  SignUpRequest.fromJson(Map<String, dynamic> json) {
+  ForgotPassSendOtpRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     param = json['param'] != null ? new Param.fromJson(json['param']) : null;
   }
@@ -20,32 +20,20 @@ class SignUpRequest {
 }
 
 class Param {
-  String? fullName;
-  String? userName;
-  String? email;
-  String? phone;
+  String? mobile;
   String? countryCode;
-  String? pass;
 
-  Param({this.fullName, this.userName, this.email, this.phone,this.countryCode, this.pass});
+  Param({this.mobile, this.countryCode});
 
   Param.fromJson(Map<String, dynamic> json) {
-    fullName = json['full_name'];
-    userName = json['user_name'];
-    email = json['email'];
-    phone = json['phone'];
+    mobile = json['mobile'];
     countryCode = json['country_code'];
-    pass = json['pass'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['full_name'] = this.fullName;
-    data['user_name'] = this.userName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
+    data['mobile'] = this.mobile;
     data['country_code'] = this.countryCode;
-    data['pass'] = this.pass;
     return data;
   }
 }

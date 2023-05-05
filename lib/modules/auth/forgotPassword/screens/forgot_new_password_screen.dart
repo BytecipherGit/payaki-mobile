@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/modules/auth/forgotPassword/provider/forgot_new_pass_vm.dart';
+import 'package:payaki/network/end_points.dart';
+import 'package:payaki/network/model/request/forgotPassword/generate_new_pass_request.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
+import 'package:provider/provider.dart';
 
 class ForgotNewPasswordScreen extends StatefulWidget {
-  const ForgotNewPasswordScreen({Key? key}) : super(key: key);
+  final String userId;
+
+  const ForgotNewPasswordScreen({Key? key, required this.userId})
+      : super(key: key);
 
   @override
-  State<ForgotNewPasswordScreen> createState() => _ForgotNewPasswordScreenState();
+  State<ForgotNewPasswordScreen> createState() =>
+      _ForgotNewPasswordScreenState();
 }
 
 class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
@@ -79,16 +89,48 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                   ),
                 ),
               ),
-              Container(
-                  alignment: Alignment.bottomCenter,
-                  child: CustomButton(
-                      buttonText: "Done",
-                      onTab: () {
+              Consumer<ForgotNewPassVm>(
+                  builder: (context, forgotNewPassVm, child) {
+                return Container(
+                    alignment: Alignment.bottomCenter,
+                    child: CustomButton(
+                        buttonText: "Done",
+                        onTab: () {
 
 
-                        Navigator.pushReplacementNamed(
-                            context, RouteName.forgotPassSuccessScreen);
-                      })),
+                          if(newPasswordController.text.isEmpty){
+                            context.showSnackBar(message: "Please Enter New Password");
+                          }
+                          else if(confirmPasswordController.text.isEmpty){
+                            context.showSnackBar(message: "Please Confirm Password");
+                          }
+                          else if(newPasswordController.text != confirmPasswordController.text){
+                            context.showSnackBar(message: "Confirm Password Not Matched.");
+                          }
+                          else{
+                            CommonDialog.showLoadingDialog(context);
+                            forgotNewPassVm.generateNewPass(
+                                onSuccess: (value) {
+                                  Navigator.pop(context);
+                                  context.showSnackBar(message: value);
+                                  Navigator.pushReplacementNamed(
+                                      context, RouteName.forgotPassSuccessScreen);
+                                },
+                                onFailure: (value) {
+                                  Navigator.pop(context);
+                                  context.showSnackBar(message: value);
+                                },
+                                request: GenerateNewPassRequest(
+                                    name: Endpoints.auth.generateNewPassword,
+                                    param: Param(
+                                        userId: widget.userId,
+                                        password: newPasswordController.text)));
+
+                          }
+
+
+                        }));
+              }),
               SizedBox(
                 height: 35.h,
               ),

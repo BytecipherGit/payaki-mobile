@@ -1,10 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/auth/logIn/provider/login_provider.dart';
 import 'package:payaki/network/end_points.dart';
-import 'package:payaki/network/model/request/auth/login_request.dart';
+import 'package:payaki/network/model/request/loginSignup/login_request.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
@@ -237,7 +238,8 @@ class _LogInScreenState extends State<LogInScreen> {
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    },
                                   child: Container(
                                     height: 55.w,
                                     width: 55.w,
@@ -303,4 +305,22 @@ class _LogInScreenState extends State<LogInScreen> {
       ),
     );
   }
+
+  GoogleSignInAccount? _currentUser;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  Future<void> _getUser() async {
+    try {
+      final user = await _googleSignIn.signIn();
+      if (user != null) {
+        _currentUser = user;
+        print(_currentUser!.displayName);
+        print(_currentUser!.email);
+        print(_currentUser!.photoUrl);
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
 }

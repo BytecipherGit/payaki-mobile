@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/network/model/request/auth/signup_request.dart';
+import 'package:payaki/network/model/request/forgotPassword/generate_new_pass_request.dart';
 import 'package:payaki/network/repository/auth_repository.dart';
 
-class SignUpViewModel extends ChangeNotifier {
+class ForgotNewPassVm extends ChangeNotifier {
   final AuthRepository authRepository = AuthRepository();
 
-  signUp({
+  generateNewPass({
     required ValueChanged<String> onSuccess,
     required ValueChanged<String> onFailure,
-    required SignUpRequest request,
+    required GenerateNewPassRequest request,
   }) {
-    authRepository.signup(request).then((value) {
+    authRepository.generateNewPass(request).then((value) {
       if (value.code == 200) {
         onSuccess.call(value.message ?? "");
       } else {
@@ -19,7 +19,6 @@ class SignUpViewModel extends ChangeNotifier {
       }
     }).onError((error, stackTrace) {
       logE("error $error");
-
       onFailure.call("Server Error");
     });
   }

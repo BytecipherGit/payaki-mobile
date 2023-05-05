@@ -1,19 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/network/model/request/loginSignup/login_request.dart';
+import 'package:payaki/network/model/request/forgotPassword/forgot_pass_send_otp_request.dart';
+import 'package:payaki/network/model/response/forgotPassword/forgot_pass_send_otp_response.dart';
 import 'package:payaki/network/repository/auth_repository.dart';
 
-class LogInProvider extends ChangeNotifier {
+class ForgotPassSendOtpVm extends ChangeNotifier {
   final AuthRepository authRepository = AuthRepository();
 
-  loginApi({
-    required ValueChanged<String> onSuccess,
+  forgotPassSendOtp({
+    required ValueChanged<ForgotPassSendOtpResponse> onSuccess,
     required ValueChanged<String> onFailure,
-    required LogInRequest request,
+    required ForgotPassSendOtpRequest request,
   }) {
-    authRepository.logIn(request).then((value) {
+    authRepository.forgotPassSendOtp(request).then((value) {
       if (value.code == 200) {
-        onSuccess.call(value.message ?? "");
+        onSuccess.call(value);
       } else {
         onFailure.call(value.message ?? "");
       }

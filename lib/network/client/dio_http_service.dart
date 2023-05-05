@@ -10,12 +10,9 @@ import 'package:payaki/network/interceptors/loggy_dio_interceptor.dart';
 import 'package:payaki/network/interceptors/retry_on_connection_change_interceptor.dart';
 
 class DioHttpService implements HttpService {
-
-
   static final DioHttpService _apiServiceInstance = DioHttpService();
 
   static DioHttpService get apiServicesInstance => _apiServiceInstance;
-
 
   String tokenBox = "dff";
   final String _baseUrl = "";
@@ -24,15 +21,13 @@ class DioHttpService implements HttpService {
 
   /// The Dio base options
   BaseOptions get baseOptions => BaseOptions(
-    baseUrl: "http://themindcrm.com/payaki-web/jwt-api/",
-    headers: headers,
-  );
+      //  baseUrl: "http://themindcrm.com/payaki-web/jwt-api/",
+        headers: headers,
+      );
 
   /// Creates new instance of [DioHttpService]
   DioHttpService() {
-
     Dio(baseOptions);
-
 
     dio.interceptors.add(LoggyDioInterceptor());
     dio.interceptors.add(BearerTokenInterceptor(tokenBox));
@@ -44,6 +39,8 @@ class DioHttpService implements HttpService {
     'accept': 'application/json',
     'content-type': 'application/json'
   };
+
+
 
   @override
   Future<dynamic> get(

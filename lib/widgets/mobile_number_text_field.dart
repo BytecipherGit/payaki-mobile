@@ -32,7 +32,7 @@ class MobileNumberTextField extends StatelessWidget {
           textAlign: TextAlign.left,
           style: StyleUtility.inputTextStyle,
 
-        //  dropdownIconPosition: IconPosition.trailing,
+          dropdownIconPosition: IconPosition.trailing,
 
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(

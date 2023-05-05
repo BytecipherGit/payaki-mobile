@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/network/model/request/loginSignup/login_request.dart';
+import 'package:payaki/network/model/request/loginSignup/signup_request.dart';
 import 'package:payaki/network/repository/auth_repository.dart';
 
-class LogInProvider extends ChangeNotifier {
+class SignUpVm extends ChangeNotifier {
   final AuthRepository authRepository = AuthRepository();
 
-  loginApi({
+  signUp({
     required ValueChanged<String> onSuccess,
     required ValueChanged<String> onFailure,
-    required LogInRequest request,
+    required SignUpRequest request,
   }) {
-    authRepository.logIn(request).then((value) {
+    authRepository.signup(request).then((value) {
       if (value.code == 200) {
         onSuccess.call(value.message ?? "");
       } else {
