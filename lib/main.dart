@@ -4,8 +4,9 @@ import 'package:loggy/loggy.dart';
 import 'package:payaki/modules/auth/logIn/screens/log_in_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 
-void main() {
+Future<void> main() async {
   Loggy.initLoggy();
+
   runApp(const MyApp());
 }
 

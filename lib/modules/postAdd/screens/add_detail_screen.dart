@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -7,14 +8,18 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 
 class AddDetailScreen extends StatefulWidget {
-  const AddDetailScreen({Key? key}) : super(key: key);
+
+  final int  catId;
+  final int  subCatId;
+
+  const AddDetailScreen({Key? key, required this.catId, required this.subCatId}) : super(key: key);
 
   @override
   State<AddDetailScreen> createState() => _AddDetailScreenState();
 }
 
 class _AddDetailScreenState extends State<AddDetailScreen> {
-  TextEditingController brandController = TextEditingController();
+ // TextEditingController brandController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
@@ -51,14 +56,14 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(height: 25.h),
-                      SimpleTextField(
-                        controller: brandController,
-                        hintText: "Brand",
-                        titleText: "Brand *",
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
+                      // SimpleTextField(
+                      //   controller: brandController,
+                      //   hintText: "Brand",
+                      //   titleText: "Brand *",
+                      // ),
+                      // SizedBox(
+                      //   height: 15.h,
+                      // ),
                       SimpleTextField(
                         controller: titleController,
                         hintText: "Title for your advertise",
@@ -83,7 +88,20 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
               CustomButton(
                   buttonText: "Next",
                   onTab: () {
-                    Navigator.pushNamed(context, RouteName.setPriceScreen);
+                    if (titleController.text.isEmpty) {
+                      context.showSnackBar(message: 'Please Enter Title.');
+                    } else if (descriptionController.text.isEmpty) {
+                      context.showSnackBar(
+                          message: 'Please Enter Description.');
+                    } else {
+                       Navigator.pushNamed(context, RouteName.setPriceScreen,
+                           arguments: {
+                             "catId": widget.catId,
+                             "subCatId": widget.subCatId,
+                             "title": titleController.text,
+                             "description": descriptionController.text,
+                           });
+                    }
                   }),
               SizedBox(
                 height: 20.h,

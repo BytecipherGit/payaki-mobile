@@ -92,10 +92,15 @@ class _ForgotPassSendOtpScreenState extends State<ForgotPassSendOtpScreen> {
                                   onSuccess: (value) {
                                     Navigator.pop(context);
 
-                                    context.showSnackBar(message: "${value.message} ${value.data!.otp}");
+                                    context.showSnackBar(
+                                        message:
+                                            "${value.message} ${value.data!.otp}");
                                     Navigator.pushNamed(context,
-                                        RouteName.forgotPassVerifyOtpScreen,arguments: {
-                                      "userId":value.data!.userId
+                                        RouteName.forgotPassVerifyOtpScreen,
+                                        arguments: {
+                                          "userId": value.data!.userId,
+                                          "countryCode": countryCode,
+                                          "mobile": mobileController.text
                                         });
                                   },
                                   onFailure: (value) {

@@ -4,12 +4,15 @@ class Endpoints {
   static const baseUrl = "http://themindcrm.com/payaki-web/jwt-api/";
   static AuthEndPoints auth = AuthEndPoints();
   static CategoryEndPoints category = CategoryEndPoints();
+  static PostEndPoints post = PostEndPoints();
 }
 
 // TODO API flavours UAT/Production
 
 class AuthEndPoints {
   String get login => "login";
+  String get loginWithPhone => "loginWithPhone";
+  String get verifyLoginOTP => "verifyLoginOTP";
   String get signup => "register";
   String get forgetPasswordSendOtp => "forgetPassword";
   String get forgetPasswordVerifyOtp => "verifyForgetPassword";
@@ -17,4 +20,8 @@ class AuthEndPoints {
 }
 class CategoryEndPoints {
   String get getCategories => "getCategories";
+  String get getSubCategories => "getSubCategories";
+}
+class PostEndPoints {
+  String get addPost => "addPost";
 }

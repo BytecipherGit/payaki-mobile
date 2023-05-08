@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/modules/auth/forgotPassword/provider/forgot_pass_verify_otp_vm.dart';
+import 'package:payaki/modules/auth/logIn/provider/login_with_phone_verify_otp_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
-import 'package:payaki/network/model/request/forgotPassword/forgot_pass_verify_otp_request.dart';
+import 'package:payaki/network/model/request/loginSignup/login_with_phone_verify_otp_request.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
@@ -12,20 +12,21 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/otp_text_field.dart';
 import 'package:provider/provider.dart';
 
-class ForgotPassVerifyOtpScreen extends StatefulWidget {
-  final String userId;
+class LoginWithPhoneVerifyOtpScreen extends StatefulWidget {
   final String countryCode;
   final String mobile;
 
-  const ForgotPassVerifyOtpScreen({Key? key, required this.userId, required this.countryCode, required this.mobile})
+  const LoginWithPhoneVerifyOtpScreen(
+      {Key? key, required this.countryCode, required this.mobile})
       : super(key: key);
 
   @override
-  State<ForgotPassVerifyOtpScreen> createState() =>
-      _ForgotPassVerifyOtpScreenState();
+  State<LoginWithPhoneVerifyOtpScreen> createState() =>
+      _LoginWithPhoneVerifyOtpScreenState();
 }
 
-class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
+class _LoginWithPhoneVerifyOtpScreenState
+    extends State<LoginWithPhoneVerifyOtpScreen> {
   TextEditingController otpController = TextEditingController();
 
   @override
@@ -47,8 +48,8 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Consumer<ForgotPassVerifyOtpVm>(
-              builder: (context, forgotPassVerifyOtpVm, child) {
+          child: Consumer<LoginWithPhoneVerifyOtpVm>(
+              builder: (context, loginWithPhoneVerifyOtpVm, child) {
             return Column(
               children: [
                 Expanded(
@@ -134,21 +135,22 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                                 message: "Please Enter 6 Digit Otp");
                           } else {
                             CommonDialog.showLoadingDialog(context);
-                            forgotPassVerifyOtpVm.verifyOtp(
-                                request: ForgotPassVerifyOtpRequest(
+                            loginWithPhoneVerifyOtpVm.verifyOtp(
+                                request: LoginWithPhoneVerifyOtpRequest(
                                     name:
-                                        Endpoints.auth.forgetPasswordVerifyOtp,
+                                        Endpoints.auth.verifyLoginOTP,
                                     param: Param(
-                                      userId: widget.userId,
+                                      countryCode: widget.countryCode,
+                                      phone: widget.mobile,
                                       otp: otpController.text,
                                     )),
                                 onSuccess: (value) {
                                   Navigator.pop(context);
+                                  Navigator.pushReplacementNamed(
+                                      context,
+                                      RouteName
+                                          .bottomNavigationBarScreen);
 
-                                  context.showSnackBar(message: value);
-                                  Navigator.pushReplacementNamed(context,
-                                      RouteName.forgotNewPasswordScreen,
-                                      arguments: {"userId": widget.userId});
                                 },
                                 onFailure: (value) {
                                   Navigator.pop(context);

@@ -6,17 +6,23 @@ import 'package:payaki/modules/auth/forgotPassword/screens/forgot_new_password_s
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_pass_send_otp_screen.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_pass_success_screen.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_pass_verify_otp_screen.dart';
+import 'package:payaki/modules/auth/logIn/provider/log_in_with_phone_send_otp_screen_vm.dart';
 import 'package:payaki/modules/auth/logIn/provider/login_provider.dart';
+import 'package:payaki/modules/auth/logIn/provider/login_with_phone_verify_otp_screen_vm.dart';
 import 'package:payaki/modules/auth/logIn/screens/log_in_screen.dart';
+import 'package:payaki/modules/auth/logIn/screens/login_with_phone_send_otp_screen.dart';
+import 'package:payaki/modules/auth/logIn/screens/login_with_phone_verify_otp_screen.dart';
 import 'package:payaki/modules/auth/signUp/provider/signup_screen_vm.dart';
 import 'package:payaki/modules/auth/signUp/screens/sign_up_screen.dart';
 import 'package:payaki/modules/bottomBar/BottomNavigationBarScreen.dart';
 import 'package:payaki/modules/postAdd/provider/choose_category_screen_vm.dart';
+import 'package:payaki/modules/postAdd/provider/sub_category_screen_vm.dart';
 import 'package:payaki/modules/postAdd/screens/add_detail_screen.dart';
 import 'package:payaki/modules/postAdd/screens/add_location_screen.dart';
 import 'package:payaki/modules/postAdd/screens/choose_category_screen.dart';
 import 'package:payaki/modules/postAdd/screens/gallery_screen.dart';
 import 'package:payaki/modules/postAdd/screens/set_price_screen.dart';
+import 'package:payaki/modules/postAdd/screens/sub_category_screen.dart';
 import 'package:payaki/modules/postAdd/screens/user_detail_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +32,25 @@ class AppRoute {
     switch (settings.name) {
       case RouteName.logInScreen:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
+
+      case RouteName.loginWithPhoneSendOtpScreen:
+        return MaterialPageRoute(
+            builder: (context) =>
+                ChangeNotifierProvider<LoginWithPhoneSendOtpVm>(
+                    create: (_) => LoginWithPhoneSendOtpVm(),
+                    child: const LoginWithPhoneSendOtpScreen()));
+
+      case RouteName.loginWithPhoneVerifyOtpScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) =>
+                ChangeNotifierProvider<LoginWithPhoneVerifyOtpVm>(
+                    create: (_) => LoginWithPhoneVerifyOtpVm(),
+                    child: LoginWithPhoneVerifyOtpScreen(
+                      countryCode: arg["countryCode"],
+                      mobile: arg["mobile"],
+                    )));
+
       case RouteName.signUpScreen:
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider<SignUpVm>(
@@ -42,8 +67,9 @@ class AppRoute {
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => ForgotPassVerifyOtpVm(),
                   child: ForgotPassVerifyOtpScreen(
-                    userId: arg["userId"],
-                  ),
+                      userId: arg["userId"],
+                      countryCode: arg["countryCode"],
+                      mobile: arg["mobile"]),
                 ));
 
       case RouteName.forgotNewPasswordScreen:
@@ -70,16 +96,57 @@ class AppRoute {
                   child: const ChooseCategoryScreen(),
                 ));
 
+      case RouteName.subCategoryScreen:
+        var arg = settings.arguments as Map;
+
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => SubCategoryScreenVm(),
+                  child: SubCategoryScreen(
+                      catId: arg["catId"], catName: arg["catName"]),
+                ));
+
       case RouteName.addDetailScreen:
-        return MaterialPageRoute(builder: (context) => const AddDetailScreen());
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => AddDetailScreen(
+                  catId: arg["catId"],
+                  subCatId: arg["subCatId"],
+                ));
 
       case RouteName.setPriceScreen:
-        return MaterialPageRoute(builder: (context) => const SetPriceScreen());
-      case RouteName.galleryScreen:
-        return MaterialPageRoute(builder: (context) => const GalleryScreen());
-      case RouteName.addLocationScreen:
+        var arg = settings.arguments as Map;
         return MaterialPageRoute(
-            builder: (context) => const AddLocationScreen());
+            builder: (context) => SetPriceScreen(
+                  catId: arg["catId"],
+                  subCatId: arg["subCatId"],
+                  title: arg["title"],
+                  description: arg["description"],
+                ));
+
+      case RouteName.galleryScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => GalleryScreen(
+                  catId: arg["catId"],
+                  subCatId: arg["subCatId"],
+                  title: arg["title"],
+                  price: arg["price"],
+                  description: arg["description"],
+                  negotiate: arg["negotiate"],
+                ));
+      case RouteName.addLocationScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => AddLocationScreen(
+                  catId: arg["catId"],
+                  subCatId: arg["subCatId"],
+                  title: arg["title"],
+                  price: arg["price"],
+                  description: arg["description"],
+                  negotiate: arg["negotiate"],
+                  selectedImages: arg["selectedImages"],
+                ));
       case RouteName.userDetailScreen:
         return MaterialPageRoute(
             builder: (context) => const UserDetailScreen());

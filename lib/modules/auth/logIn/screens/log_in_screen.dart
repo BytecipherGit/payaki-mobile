@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/auth/logIn/provider/login_provider.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/loginSignup/login_request.dart';
@@ -30,6 +31,16 @@ class _LogInScreenState extends State<LogInScreen> {
   TextEditingController passwordController = TextEditingController();
   bool passwordVisible = true;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+prefCall();
+  }
+  prefCall() async {
+    await Preference().instance();
+
+  }
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -178,7 +189,6 @@ class _LogInScreenState extends State<LogInScreen> {
                                   context.showSnackBar(
                                       message: 'Please Enter Password.');
                                 } else {
-
                                   CommonDialog.showLoadingDialog(context);
                                   logInProvider.loginApi(
                                       request: LogInRequest(
@@ -198,6 +208,16 @@ class _LogInScreenState extends State<LogInScreen> {
                                         context.showSnackBar(message: value);
                                       });
                                 }
+                              }),
+
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          CustomButton(
+                              buttonText: "Log In with Phone",
+                              onTab: () {
+                                Navigator.pushNamed(context, RouteName.loginWithPhoneSendOtpScreen);
+
                               }),
                           SizedBox(
                             height: 28.h,
@@ -238,8 +258,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () {
-                                    },
+                                  onTap: () {},
                                   child: Container(
                                     height: 55.w,
                                     width: 55.w,
@@ -322,5 +341,4 @@ class _LogInScreenState extends State<LogInScreen> {
       print(error);
     }
   }
-
 }

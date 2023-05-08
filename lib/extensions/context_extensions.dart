@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 extension ContextExtensions on BuildContext {
   void showSnackBar({
@@ -49,5 +50,22 @@ extension ContextExtensions on BuildContext {
       ),
     );
   }
+
+
+  void showToast({
+    required String message,
+  }) {
+    Fluttertoast.cancel();
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+  }
+
 }
 

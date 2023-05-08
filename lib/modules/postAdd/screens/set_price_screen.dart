@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
@@ -8,7 +9,13 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 
 class SetPriceScreen extends StatefulWidget {
-  const SetPriceScreen({Key? key}) : super(key: key);
+
+  final int catId;
+  final int subCatId;
+  final String title;
+  final String description;
+
+  const SetPriceScreen({Key? key, required this.catId, required this.subCatId, required this.title, required this.description}) : super(key: key);
 
   @override
   State<SetPriceScreen> createState() => _SetPriceScreenState();
@@ -104,7 +111,19 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
               CustomButton(
                   buttonText: "Next",
                   onTab: () {
-                    Navigator.pushNamed(context, RouteName.galleryScreen);
+                    if (priceController.text.isEmpty) {
+                      context.showSnackBar(message: 'Please Enter Price.');
+                    } else {
+                      Navigator.pushNamed(context, RouteName.galleryScreen,
+                          arguments: {
+                            "catId": widget.catId,
+                            "subCatId": widget.subCatId,
+                            "title": widget.title,
+                            "description": widget.description,
+                            "price": priceController.text,
+                            "negotiate": negotiatePrice == true ? 1:0,
+                          });
+                    }
                   }),
               SizedBox(
                 height: 20.h,

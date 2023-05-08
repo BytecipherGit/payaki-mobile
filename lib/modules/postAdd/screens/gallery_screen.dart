@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -11,11 +12,27 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 
 class GalleryScreen extends StatefulWidget {
-  const GalleryScreen({Key? key}) : super(key: key);
+  final int catId;
+  final int subCatId;
+  final String title;
+  final String description;
+  final String price;
+  final int negotiate;
+
+  const GalleryScreen(
+      {Key? key,
+      required this.catId,
+      required this.subCatId,
+      required this.title,
+      required this.description,
+      required this.price,
+      required this.negotiate})
+      : super(key: key);
 
   @override
   State<GalleryScreen> createState() => _GalleryScreenState();
 }
+
 class _GalleryScreenState extends State<GalleryScreen> {
   List<XFile> selectedImages = []; // List of selected image
   final picker = ImagePicker();
@@ -151,7 +168,20 @@ class _GalleryScreenState extends State<GalleryScreen> {
               CustomButton(
                   buttonText: "Next",
                   onTab: () {
-                       Navigator.pushNamed(context, RouteName.addLocationScreen);
+                    if (selectedImages.isEmpty) {
+                      context.showSnackBar(message: "Please Upload Images.");
+                    }else{
+                      Navigator.pushNamed(context, RouteName.addLocationScreen,
+                          arguments: {
+                            "catId": widget.catId,
+                            "subCatId": widget.subCatId,
+                            "title": widget.title,
+                            "description": widget.description,
+                            "price": widget.price,
+                            "negotiate": widget.negotiate,
+                            "selectedImages": selectedImages,
+                          });
+                    }
                   }),
               SizedBox(
                 height: 20.h,
