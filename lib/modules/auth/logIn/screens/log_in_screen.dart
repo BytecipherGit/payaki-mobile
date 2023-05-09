@@ -4,12 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/auth/logIn/provider/login_provider.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/loginSignup/login_request.dart';
+import 'package:payaki/network/model/request/loginSignup/social_login_request.dart' as sr;
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -258,7 +261,11 @@ prefCall();
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+
+                                    googleAuth(logInProvider);
+
+                                  },
                                   child: Container(
                                     height: 55.w,
                                     width: 55.w,
@@ -325,20 +332,42 @@ prefCall();
     );
   }
 
-  GoogleSignInAccount? _currentUser;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<void> _getUser() async {
+  Future<void> googleAuth(LogInProvider logInProvider) async {
     try {
-      final user = await _googleSignIn.signIn();
+      final user = await googleSignIn.signIn();
       if (user != null) {
-        _currentUser = user;
-        print(_currentUser!.displayName);
-        print(_currentUser!.email);
-        print(_currentUser!.photoUrl);
+        logD(user.displayName);
+        logD("id${user.id}");
+        logD(user.email);
+        logD(user.photoUrl);
+        googleLogIn(logInProvider,user.id);
       }
     } catch (error) {
-      print(error);
+      logE(error);
     }
+  }
+
+
+  googleLogIn(LogInProvider logInProvider,String id){
+
+    CommonDialog.showLoadingDialog(context);
+    logInProvider.socialLoginApi(
+        request: sr.SocialLoginRequest(
+            name: Endpoints.auth.socialLogin,
+            param: sr.Param(
+                oauthProvider: "google",
+                oauthUid: id)),
+        onSuccess: (value) {
+          Navigator.pop(context);
+          Navigator.pushReplacementNamed(
+              context,
+              RouteName
+                  .bottomNavigationBarScreen);
+        },
+        onFailure: (value) {
+          Navigator.pop(context);
+          context.showSnackBar(message: value);
+        });
   }
 }

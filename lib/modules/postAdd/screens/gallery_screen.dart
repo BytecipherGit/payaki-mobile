@@ -10,6 +10,7 @@ import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
+import 'package:payaki/widgets/upload_image_widget.dart';
 
 class GalleryScreen extends StatefulWidget {
   final int catId;
@@ -73,53 +74,11 @@ class _GalleryScreenState extends State<GalleryScreen> {
                 style: StyleUtility.headingTextStyle,
               ),
               SizedBox(height: 25.h),
-              Text(
-                "Attach File",
-                style: StyleUtility.inputTextStyle,
-              ),
-              DottedBorder(
-                  strokeWidth: 2,
-                  borderType: BorderType.RRect,
-                  color: ColorUtility.colorDEDEDE,
-                  radius: Radius.circular(10.r),
-                  padding: EdgeInsets.only(top: 24.sp, bottom: 24.sp),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: GestureDetector(
-                      onTap: () {
-                        getImages();
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            ImageUtility.uploadImage,
-                            width: 50.w,
-                            height: 50.w,
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Text(
-                            "Upload Images",
-                            style: StyleUtility.axiforma500.copyWith(
-                                fontSize: TextSizeUtility.textSize14,
-                                color: ColorUtility.color8F8F8F),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: 2.h,
-              ),
-              Text(
-                "Mandatory Only JPG, PNG, JPEG File Accepted",
-                style: StyleUtility.axiforma400.copyWith(
-                    fontSize: TextSizeUtility.textSize12,
-                    color: ColorUtility.color8F8F8F),
-              ),
+              UploadImageWidget(
+                  onTap: () {
+                    getImages();
+                  },
+                  title: "Attach File"),
               SizedBox(
                 height: 20.h,
               ),
@@ -170,7 +129,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   onTab: () {
                     if (selectedImages.isEmpty) {
                       context.showSnackBar(message: "Please Upload Images.");
-                    }else{
+                    } else {
                       Navigator.pushNamed(context, RouteName.addLocationScreen,
                           arguments: {
                             "catId": widget.catId,
@@ -193,3 +152,4 @@ class _GalleryScreenState extends State<GalleryScreen> {
     );
   }
 }
+

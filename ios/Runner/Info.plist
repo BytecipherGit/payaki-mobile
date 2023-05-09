@@ -51,5 +51,16 @@
     <string>lease grant photo gallery access</string>
     <key>NSPhotoLibraryUsageDescription</key>
      <string>lease grant camera access</string>
+     <key>CFBundleURLTypes</key>
+     <array>
+     	<dict>
+     		<key>CFBundleTypeRole</key>
+     		<string>Editor</string>
+     		<key>CFBundleURLSchemes</key>
+     		<array>
+     			<string>com.googleusercontent.apps.489007257025-a58psehi6jfe9p5bbb7v89vhn2u8p55m</string>
+     		</array>
+     	</dict>
+     </array>
 </dict>
 </plist>

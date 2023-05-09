@@ -96,25 +96,23 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                     child: CustomButton(
                         buttonText: "Done",
                         onTab: () {
-
-
-                          if(newPasswordController.text.isEmpty){
-                            context.showSnackBar(message: "Please Enter New Password");
-                          }
-                          else if(confirmPasswordController.text.isEmpty){
-                            context.showSnackBar(message: "Please Confirm Password");
-                          }
-                          else if(newPasswordController.text != confirmPasswordController.text){
-                            context.showSnackBar(message: "Confirm Password Not Matched.");
-                          }
-                          else{
+                          if (newPasswordController.text.isEmpty) {
+                            context.showSnackBar(
+                                message: "Please Enter New Password");
+                          } else if (confirmPasswordController.text.isEmpty) {
+                            context.showSnackBar(
+                                message: "Please Confirm Password");
+                          } else if (newPasswordController.text !=
+                              confirmPasswordController.text) {
+                            context.showSnackBar(
+                                message: "Confirm Password Not Matched.");
+                          } else {
                             CommonDialog.showLoadingDialog(context);
                             forgotNewPassVm.generateNewPass(
                                 onSuccess: (value) {
                                   Navigator.pop(context);
-                                  context.showSnackBar(message: value);
-                                  Navigator.pushReplacementNamed(
-                                      context, RouteName.forgotPassSuccessScreen);
+                                  Navigator.pushReplacementNamed(context,
+                                      RouteName.forgotPassSuccessScreen);
                                 },
                                 onFailure: (value) {
                                   Navigator.pop(context);
@@ -125,10 +123,7 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                                     param: Param(
                                         userId: widget.userId,
                                         password: newPasswordController.text)));
-
                           }
-
-
                         }));
               }),
               SizedBox(

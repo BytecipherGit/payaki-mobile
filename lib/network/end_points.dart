@@ -11,6 +11,7 @@ class Endpoints {
 
 class AuthEndPoints {
   String get login => "login";
+  String get socialLogin => "social_login";
   String get loginWithPhone => "loginWithPhone";
   String get verifyLoginOTP => "verifyLoginOTP";
   String get signup => "register";

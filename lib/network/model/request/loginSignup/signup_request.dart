@@ -19,6 +19,8 @@
 //   }
 // }
 
+import 'package:dio/dio.dart';
+
 class SignUpRequest {
   String? name;
   String? fullName;
@@ -27,8 +29,11 @@ class SignUpRequest {
   String? phone;
   String? countryCode;
   String? pass;
+  MultipartFile? idProof;
+  MultipartFile? addressProof;
 
-  SignUpRequest({this.name,this.fullName, this.userName, this.email, this.phone,this.countryCode, this.pass});
+  SignUpRequest({this.name,this.fullName, this.userName, this.email, this.phone,this.countryCode,
+    this.pass,this.idProof,this.addressProof});
 
   SignUpRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -38,6 +43,8 @@ class SignUpRequest {
     phone = json['phone'];
     countryCode = json['country_code'];
     pass = json['pass'];
+    idProof = json['id_proof'];
+    addressProof = json['address_proof'];
   }
 
   Map<String, dynamic> toJson() {
@@ -49,6 +56,8 @@ class SignUpRequest {
     data['phone'] = this.phone;
     data['country_code'] = this.countryCode;
     data['pass'] = this.pass;
+    data['id_proof'] = this.idProof;
+    data['address_proof'] = this.addressProof;
     return data;
   }
 }

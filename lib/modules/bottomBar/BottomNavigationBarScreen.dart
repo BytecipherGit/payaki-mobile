@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 
@@ -171,11 +172,12 @@ class Screen4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () async {
 
+        await googleSignIn.signOut();
         Navigator.pushNamedAndRemoveUntil(context, RouteName.logInScreen, (route) => false);
       },
-      child: Center(child: Text('Profile')),
+      child: Center(child: Text('Profile \n Log out',textAlign: TextAlign.center,)),
     );
   }
 }
