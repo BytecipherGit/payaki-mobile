@@ -16,6 +16,7 @@ class GalleryScreen extends StatefulWidget {
   final int catId;
   final int subCatId;
   final String title;
+  final String tag;
   final String description;
   final String price;
   final int negotiate;
@@ -25,6 +26,7 @@ class GalleryScreen extends StatefulWidget {
       required this.catId,
       required this.subCatId,
       required this.title,
+      required this.tag,
       required this.description,
       required this.price,
       required this.negotiate})
@@ -135,6 +137,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                             "catId": widget.catId,
                             "subCatId": widget.subCatId,
                             "title": widget.title,
+                            "tag": widget.tag,
                             "description": widget.description,
                             "price": widget.price,
                             "negotiate": widget.negotiate,

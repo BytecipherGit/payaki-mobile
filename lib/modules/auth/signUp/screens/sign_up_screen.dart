@@ -343,6 +343,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: ColorUtility.colorBCBCBC,
                                 height: 1,
                               )),
+
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                                 child: Text(

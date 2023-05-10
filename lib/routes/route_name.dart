@@ -16,5 +16,6 @@ class RouteName {
   static const String galleryScreen = "/galleryScreen";
   static const String addLocationScreen = "/addLocationScreen";
   static const String userDetailScreen = "/userDetailScreen";
+  static const String selectAddTypeScreen = "/selectAddTypeScreen";
 
 }

@@ -24,6 +24,10 @@ class AddPostVm extends ChangeNotifier {
     required String country,
     required String latlong,
     required String state,
+    required String tag,
+    required String featured,
+    required String urgent,
+    required String highlight,
   }) async {
     logD("User Id is ${Preference().getUserId()}");
 
@@ -40,6 +44,7 @@ class AddPostVm extends ChangeNotifier {
       'name': Endpoints.post.addPost,
       'user_id': Preference().getUserId(),
       'product_name': productName,
+      'tag': tag,
       'description': description,
       'category': categoryId,
       'sub_category': subCategoryId,
@@ -50,7 +55,10 @@ class AddPostVm extends ChangeNotifier {
       'country': country,
       'latlong': latlong,
       'state': state,
-      'product_images[]': multiPartList
+      'product_images[]': multiPartList,
+      'featured': featured,
+      'urgent': urgent,
+      'highlight': highlight
     });
     postRepository.addPost(formData).then((value) {
       notifyListeners();

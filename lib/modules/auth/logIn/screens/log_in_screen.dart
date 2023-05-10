@@ -8,7 +8,8 @@ import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/auth/logIn/provider/login_provider.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/loginSignup/login_request.dart';
-import 'package:payaki/network/model/request/loginSignup/social_login_request.dart' as sr;
+import 'package:payaki/network/model/request/loginSignup/social_login_request.dart'
+    as sr;
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
@@ -38,12 +39,13 @@ class _LogInScreenState extends State<LogInScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-prefCall();
+    prefCall();
   }
+
   prefCall() async {
     await Preference().instance();
-
   }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -212,15 +214,14 @@ prefCall();
                                       });
                                 }
                               }),
-
                           SizedBox(
                             height: 20.h,
                           ),
                           CustomButton(
                               buttonText: "Log In with Phone",
                               onTab: () {
-                                Navigator.pushNamed(context, RouteName.loginWithPhoneSendOtpScreen);
-
+                                Navigator.pushNamed(context,
+                                    RouteName.loginWithPhoneSendOtpScreen);
                               }),
                           SizedBox(
                             height: 28.h,
@@ -262,9 +263,7 @@ prefCall();
                                 color: Colors.transparent,
                                 child: InkWell(
                                   onTap: () {
-
                                     googleAuth(logInProvider);
-
                                   },
                                   child: Container(
                                     height: 55.w,
@@ -332,7 +331,6 @@ prefCall();
     );
   }
 
-
   Future<void> googleAuth(LogInProvider logInProvider) async {
     try {
       final user = await googleSignIn.signIn();
@@ -341,29 +339,23 @@ prefCall();
         logD("id${user.id}");
         logD(user.email);
         logD(user.photoUrl);
-        googleLogIn(logInProvider,user.id);
+        googleLogIn(logInProvider, user.id);
       }
     } catch (error) {
       logE(error);
     }
   }
 
-
-  googleLogIn(LogInProvider logInProvider,String id){
-
+  googleLogIn(LogInProvider logInProvider, String id) {
     CommonDialog.showLoadingDialog(context);
     logInProvider.socialLoginApi(
         request: sr.SocialLoginRequest(
             name: Endpoints.auth.socialLogin,
-            param: sr.Param(
-                oauthProvider: "google",
-                oauthUid: id)),
+            param: sr.Param(oauthProvider: "google", oauthUid: id)),
         onSuccess: (value) {
           Navigator.pop(context);
           Navigator.pushReplacementNamed(
-              context,
-              RouteName
-                  .bottomNavigationBarScreen);
+              context, RouteName.bottomNavigationBarScreen);
         },
         onFailure: (value) {
           Navigator.pop(context);

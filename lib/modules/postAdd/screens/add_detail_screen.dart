@@ -19,7 +19,7 @@ class AddDetailScreen extends StatefulWidget {
 }
 
 class _AddDetailScreenState extends State<AddDetailScreen> {
- // TextEditingController brandController = TextEditingController();
+  TextEditingController tagController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
@@ -56,19 +56,20 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(height: 25.h),
-                      // SimpleTextField(
-                      //   controller: brandController,
-                      //   hintText: "Brand",
-                      //   titleText: "Brand *",
-                      // ),
-                      // SizedBox(
-                      //   height: 15.h,
-                      // ),
                       SimpleTextField(
                         controller: titleController,
                         hintText: "Title for your advertise",
                         titleText: "Title *",
                       ),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      SimpleTextField(
+                        controller: tagController,
+                        hintText: "Tag",
+                        titleText: "Tag *",
+                      ),
+
                       SizedBox(
                         height: 15.h,
                       ),
@@ -90,7 +91,11 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                   onTab: () {
                     if (titleController.text.isEmpty) {
                       context.showSnackBar(message: 'Please Enter Title.');
-                    } else if (descriptionController.text.isEmpty) {
+                    }
+                   else if (tagController.text.isEmpty) {
+                      context.showSnackBar(message: 'Please Enter Tag.');
+                    }
+                     else if (descriptionController.text.isEmpty) {
                       context.showSnackBar(
                           message: 'Please Enter Description.');
                     } else {
@@ -99,6 +104,7 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                              "catId": widget.catId,
                              "subCatId": widget.subCatId,
                              "title": titleController.text,
+                             "tag": tagController.text,
                              "description": descriptionController.text,
                            });
                     }

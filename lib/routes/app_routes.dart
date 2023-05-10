@@ -21,6 +21,7 @@ import 'package:payaki/modules/postAdd/screens/add_detail_screen.dart';
 import 'package:payaki/modules/postAdd/screens/add_location_screen.dart';
 import 'package:payaki/modules/postAdd/screens/choose_category_screen.dart';
 import 'package:payaki/modules/postAdd/screens/gallery_screen.dart';
+import 'package:payaki/modules/postAdd/screens/select_add_type_screen.dart';
 import 'package:payaki/modules/postAdd/screens/set_price_screen.dart';
 import 'package:payaki/modules/postAdd/screens/sub_category_screen.dart';
 import 'package:payaki/modules/postAdd/screens/user_detail_screen.dart';
@@ -121,6 +122,7 @@ class AppRoute {
                   catId: arg["catId"],
                   subCatId: arg["subCatId"],
                   title: arg["title"],
+              tag: arg["tag"],
                   description: arg["description"],
                 ));
 
@@ -131,6 +133,7 @@ class AppRoute {
                   catId: arg["catId"],
                   subCatId: arg["subCatId"],
                   title: arg["title"],
+                  tag: arg["tag"],
                   price: arg["price"],
                   description: arg["description"],
                   negotiate: arg["negotiate"],
@@ -142,11 +145,32 @@ class AppRoute {
                   catId: arg["catId"],
                   subCatId: arg["subCatId"],
                   title: arg["title"],
+                  tag: arg["tag"],
                   price: arg["price"],
                   description: arg["description"],
                   negotiate: arg["negotiate"],
                   selectedImages: arg["selectedImages"],
                 ));
+
+      case RouteName.selectAddTypeScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => SelectAddTypeScreen(
+              catId: arg["catId"],
+              subCatId: arg["subCatId"],
+              title: arg["title"],
+              tag: arg["tag"],
+              price: arg["price"],
+              description: arg["description"],
+              negotiate: arg["negotiate"],
+              selectedImages: arg["selectedImages"],
+              location: arg["location"],
+              city: arg["city"],
+              country: arg["country"],
+              latlong: arg["latlong"],
+              state: arg["state"],
+            ));
+
       case RouteName.userDetailScreen:
         return MaterialPageRoute(
             builder: (context) => const UserDetailScreen());

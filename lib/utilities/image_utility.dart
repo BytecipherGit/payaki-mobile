@@ -23,6 +23,7 @@ class ImageUtility {
   static const String myAddIcon = 'assets/images/my_add_icon.png';
   static const String profileIcon = 'assets/images/profile_icon.png';
   static const String homeIcon = 'assets/images/home_icon.png';
+  static const String welcomeBoardImage = 'assets/images/welcome_board.png';
 
 
 

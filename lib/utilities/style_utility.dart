@@ -25,6 +25,12 @@ class StyleUtility {
     color: ColorUtility.colorB3B3B3,
   );
 
+  static TextStyle welcomeDetailTextStyle = TextStyle(
+    fontFamily: "Axiforma_Medium",
+    fontSize: TextSizeUtility.textSize16,
+    color: ColorUtility.color60605F,
+  );
+
   static TextStyle urlTextStyle = TextStyle(
     fontFamily: "Axiforma_SemiBold",
     fontSize: TextSizeUtility.textSize16,
@@ -72,6 +78,11 @@ class StyleUtility {
   );
 
 
+  static TextStyle radioTitleTextStyle = TextStyle(
+    fontFamily: "Axiforma_Regular",
+    fontSize: TextSizeUtility.textSize16,
+    color: ColorUtility.colorB0B9C3,
+  );
 
   static TextStyle axiforma300 = const TextStyle(
     fontFamily: "Axiforma_Regular",

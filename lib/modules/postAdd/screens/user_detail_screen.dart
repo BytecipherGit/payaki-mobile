@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/modules/postAdd/screens/select_add_type_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -79,7 +80,6 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                           print(phone.countryCode);
                         },
                       ),
-
                       SizedBox(
                         height: 20.h,
                       ),
@@ -90,10 +90,8 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
               Container(
                   alignment: Alignment.bottomCenter,
                   child: CustomButton(
-                      buttonText: "Post Ad",
+                      buttonText: "Next",
                       onTab: () {
-
-                        Navigator.pushNamedAndRemoveUntil(context, RouteName.bottomNavigationBarScreen, (route) => false);
 
                       })),
               SizedBox(

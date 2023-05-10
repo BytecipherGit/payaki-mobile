@@ -13,9 +13,10 @@ class SetPriceScreen extends StatefulWidget {
   final int catId;
   final int subCatId;
   final String title;
+  final String tag;
   final String description;
 
-  const SetPriceScreen({Key? key, required this.catId, required this.subCatId, required this.title, required this.description}) : super(key: key);
+  const SetPriceScreen({Key? key, required this.catId, required this.subCatId, required this.title,required this.tag, required this.description}) : super(key: key);
 
   @override
   State<SetPriceScreen> createState() => _SetPriceScreenState();
@@ -119,6 +120,7 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
                             "catId": widget.catId,
                             "subCatId": widget.subCatId,
                             "title": widget.title,
+                            "tag": widget.tag,
                             "description": widget.description,
                             "price": priceController.text,
                             "negotiate": negotiatePrice == true ? 1:0,
