@@ -5,6 +5,7 @@ class Endpoints {
   static AuthEndPoints auth = AuthEndPoints();
   static CategoryEndPoints category = CategoryEndPoints();
   static PostEndPoints post = PostEndPoints();
+  static LocationEndPoints location = LocationEndPoints();
 }
 
 // TODO API flavours UAT/Production
@@ -26,3 +27,8 @@ class CategoryEndPoints {
 class PostEndPoints {
   String get addPost => "addPost";
 }
+
+class LocationEndPoints {
+  String get getCities => "getCities";
+}
+

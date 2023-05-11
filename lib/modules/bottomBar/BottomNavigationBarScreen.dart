@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payaki/modules/home/screens/home_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/constants.dart';
@@ -18,7 +19,7 @@ class _BottomNavigationBarScreenState
   int _selectIndex = 0;
 
   final List<Widget> _children = [
-    Screen1(),
+    HomeScreen(),
     Screen2(),
     Screen3(),
     Screen4(),
@@ -135,21 +136,6 @@ class _BottomNavigationBarScreenState
 }
 
 
-class Screen1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Home'),
-    );
-
-    // return Container(
-    //   color: Colors.white12,
-    //   child: ListView.builder(itemBuilder: (context,inde){
-    //     return Text("inde  ds s  s s ds ds d sd sd sd s ds dx$inde");
-    //   }),
-    // );
-  }
-}
 class Screen2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

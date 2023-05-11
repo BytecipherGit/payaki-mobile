@@ -384,18 +384,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                            Container(
-                              height: 55.w,
-                              width: 55.w,
-                              padding: EdgeInsets.all(15.sp),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  color: ColorUtility.colorEFEFEF),
-                              child: Image.asset(ImageUtility.faceBookIcon),
-                            ),
+                            // SizedBox(
+                            //   width: 20.w,
+                            // ),
+                            // Container(
+                            //   height: 55.w,
+                            //   width: 55.w,
+                            //   padding: EdgeInsets.all(15.sp),
+                            //   decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(10.r),
+                            //       color: ColorUtility.colorEFEFEF),
+                            //   child: Image.asset(ImageUtility.faceBookIcon),
+                            // ),
                           ],
                         ),
                         SizedBox(

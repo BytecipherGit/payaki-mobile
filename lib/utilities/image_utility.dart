@@ -24,6 +24,10 @@ class ImageUtility {
   static const String profileIcon = 'assets/images/profile_icon.png';
   static const String homeIcon = 'assets/images/home_icon.png';
   static const String welcomeBoardImage = 'assets/images/welcome_board.png';
+  static const String searchIcon = 'assets/images/search_icon.png';
+  static const String notificationIcon = 'assets/images/notification_icon.png';
+  static const String productImage = 'assets/images/product_image.png';
+  static const String addFavIcon = 'assets/images/add_fav_icon.png';
 
 
 

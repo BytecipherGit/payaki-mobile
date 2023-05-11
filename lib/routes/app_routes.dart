@@ -16,6 +16,7 @@ import 'package:payaki/modules/auth/signUp/provider/signup_screen_vm.dart';
 import 'package:payaki/modules/auth/signUp/screens/sign_up_screen.dart';
 import 'package:payaki/modules/bottomBar/BottomNavigationBarScreen.dart';
 import 'package:payaki/modules/postAdd/provider/choose_category_screen_vm.dart';
+import 'package:payaki/modules/postAdd/provider/location_vm.dart';
 import 'package:payaki/modules/postAdd/provider/sub_category_screen_vm.dart';
 import 'package:payaki/modules/postAdd/screens/add_detail_screen.dart';
 import 'package:payaki/modules/postAdd/screens/add_location_screen.dart';
@@ -122,7 +123,7 @@ class AppRoute {
                   catId: arg["catId"],
                   subCatId: arg["subCatId"],
                   title: arg["title"],
-              tag: arg["tag"],
+                  tag: arg["tag"],
                   description: arg["description"],
                 ));
 
@@ -141,7 +142,24 @@ class AppRoute {
       case RouteName.addLocationScreen:
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
-            builder: (context) => AddLocationScreen(
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => LocationVm(),
+                  child: AddLocationScreen(
+                    catId: arg["catId"],
+                    subCatId: arg["subCatId"],
+                    title: arg["title"],
+                    tag: arg["tag"],
+                    price: arg["price"],
+                    description: arg["description"],
+                    negotiate: arg["negotiate"],
+                    selectedImages: arg["selectedImages"],
+                  ),
+                ));
+
+      case RouteName.selectAddTypeScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => SelectAddTypeScreen(
                   catId: arg["catId"],
                   subCatId: arg["subCatId"],
                   title: arg["title"],
@@ -150,26 +168,12 @@ class AppRoute {
                   description: arg["description"],
                   negotiate: arg["negotiate"],
                   selectedImages: arg["selectedImages"],
+                  location: arg["location"],
+                  city: arg["city"],
+                  country: arg["country"],
+                  latlong: arg["latlong"],
+                  state: arg["state"],
                 ));
-
-      case RouteName.selectAddTypeScreen:
-        var arg = settings.arguments as Map;
-        return MaterialPageRoute(
-            builder: (context) => SelectAddTypeScreen(
-              catId: arg["catId"],
-              subCatId: arg["subCatId"],
-              title: arg["title"],
-              tag: arg["tag"],
-              price: arg["price"],
-              description: arg["description"],
-              negotiate: arg["negotiate"],
-              selectedImages: arg["selectedImages"],
-              location: arg["location"],
-              city: arg["city"],
-              country: arg["country"],
-              latlong: arg["latlong"],
-              state: arg["state"],
-            ));
 
       case RouteName.userDetailScreen:
         return MaterialPageRoute(

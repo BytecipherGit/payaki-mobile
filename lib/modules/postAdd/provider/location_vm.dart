@@ -2,28 +2,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/basic_request.dart';
-import 'package:payaki/network/model/response/category/category_list_response.dart';
-import 'package:payaki/network/repository/category_repository.dart';
+import 'package:payaki/network/repository/LocationRepository.dart';
 
-class ChooseCategoryScreenVm extends ChangeNotifier {
-  final CategoryRepository categoryRepository = CategoryRepository();
+import '../../../network/model/response/location/city_list_response.dart';
 
-  List<Data>? categoryList;
+class LocationVm extends ChangeNotifier {
+  final LocationRepository locationRepository = LocationRepository();
+
+  List<Data>? cityList;
   bool isLoading = true;
 
-  categoryListApi({
+ cityListApi({
     ValueChanged<String>? onSuccess,
     ValueChanged<String>? onFailure,
   }) {
-    categoryRepository
-        .categoryList(BasicRequest(
-            name: Endpoints.category.getCategories, param: Param()))
+    locationRepository
+        .cityList(BasicRequest(
+        name: Endpoints.location.getCities,
+        param: Param()))
         .then((value) {
-      categoryList = value.data;
+      cityList = value.data;
       isLoading = false;
       notifyListeners();
 
-      logD("category length ${categoryList?.length}");
+      logD("length ${cityList?.length}");
       if (value.code == 200) {
         onSuccess?.call(value.message ?? "");
       } else {

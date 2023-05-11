@@ -1,10 +1,10 @@
-class CategoryListRequest {
+class BasicRequest {
   String? name;
   Param? param;
 
-  CategoryListRequest({this.name, this.param});
+  BasicRequest({this.name, this.param});
 
-  CategoryListRequest.fromJson(Map<String, dynamic> json) {
+  BasicRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     param = json['param'] != null ? new Param.fromJson(json['param']) : null;
   }
