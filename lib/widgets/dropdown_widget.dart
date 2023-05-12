@@ -4,27 +4,21 @@ import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 
-class SimpleTextField extends StatelessWidget {
-  const SimpleTextField({
-    Key? key,
-    required this.controller,
-    required this.hintText,
-    this.textInputType,
-    this.image,
-    required this.titleText,
-    this.passwordVisible,
-    this.onPrefixIconTap,
-    this.maxLine,
-  }) : super(key: key);
-
-  final TextEditingController controller;
-  final String hintText;
+class DropDownWidget extends StatelessWidget {
   final String titleText;
-  final String? image;
-  final TextInputType? textInputType;
-  final bool? passwordVisible;
-  final int? maxLine;
-  final VoidCallback? onPrefixIconTap;
+  final String hintText;
+  final List<String> itemList;
+  final String? selectedValue;
+  final ValueChanged<String> onValueChange;
+
+  const DropDownWidget(
+      {Key? key,
+      required this.titleText,
+      required this.itemList,
+      required this.selectedValue,
+      required this.onValueChange,
+      required this.hintText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,26 +29,16 @@ class SimpleTextField extends StatelessWidget {
           titleText,
           style: StyleUtility.inputTextStyle,
         ),
-        Container(
-         // height: 55.sp,
-          child: TextFormField(
-            obscureText: passwordVisible ?? false,
-            controller: controller,
-            textAlign: TextAlign.start,
-            keyboardType: textInputType ?? TextInputType.text,
-            maxLines:  maxLine ?? 1,
-            style: StyleUtility.inputTextStyle,
-            textAlignVertical: TextAlignVertical.center,
-            decoration: InputDecoration(
-              // contentPadding: EdgeInsets.only(
-              //   //  top: 12.sp, bottom: 12.sp,
-              //     left: 20.w, right: 5.w),
-              contentPadding: EdgeInsets.only(left: 20.w,top: 16,bottom: 16,right: 5.w),
+        DropdownButtonHideUnderline(
+          child: DropdownButtonFormField(
+            isExpanded: false,
 
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(
+                  top: 15.sp, bottom: 15.sp, left: 20.w, right: 5.w),
               filled: true,
               fillColor: ColorUtility.colorF8FAFB,
               hintStyle: StyleUtility.hintTextStyle,
-              hintText: hintText,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),
                 borderSide: const BorderSide(
@@ -91,29 +75,37 @@ class SimpleTextField extends StatelessWidget {
                   color: ColorUtility.colorE2E5EF,
                 ),
               ),
-              prefixIcon: image != null ? SizedBox(
-                height: 55.sp,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.sp),
-                  child: Image.asset(image!),
-                ),
-              ):null,
-              suffixIcon: onPrefixIconTap != null
-                  ? SizedBox(
-                height: 55.sp,
-                    child: Padding(
-                      padding:  EdgeInsets.symmetric(vertical: 20.sp),
-                      child: InkWell(
-                          onTap: onPrefixIconTap,
-                          child: Image.asset(passwordVisible == true
-                              ? ImageUtility.eyeShowIcon
-                              : ImageUtility.eyeHideIcon),
-                        ),
-                    ),
-                  )
-                  : null,
-              focusColor: Colors.white,
+              focusColor: ColorUtility.whiteColor,
             ),
+            borderRadius: BorderRadius.circular(10.r),
+            hint: Text(
+              hintText,
+              style: StyleUtility.hintTextStyle,
+              overflow: TextOverflow.ellipsis,
+            ),
+            items: itemList
+                .map((item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: StyleUtility.inputTextStyle,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ))
+                .toList(),
+            value: selectedValue,
+            onChanged: (value) {
+              onValueChange.call(value!);
+            },
+            icon: Padding(
+              padding: EdgeInsets.only(right: 10.w),
+              child: Image.asset(
+                ImageUtility.dropDownIcon,
+                width: 14.w,
+              ),
+            ),
+
+            //  offset: const Offset(-20, 0),
           ),
         ),
       ],

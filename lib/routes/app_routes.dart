@@ -26,6 +26,8 @@ import 'package:payaki/modules/postAdd/screens/select_add_type_screen.dart';
 import 'package:payaki/modules/postAdd/screens/set_price_screen.dart';
 import 'package:payaki/modules/postAdd/screens/sub_category_screen.dart';
 import 'package:payaki/modules/postAdd/screens/user_detail_screen.dart';
+import 'package:payaki/modules/search/providers/search_screen_vm.dart';
+import 'package:payaki/modules/search/screens/search_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:provider/provider.dart';
 
@@ -178,6 +180,13 @@ class AppRoute {
       case RouteName.userDetailScreen:
         return MaterialPageRoute(
             builder: (context) => const UserDetailScreen());
+
+      case RouteName.searchScreen:
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => SearchScreenVm(),
+                  child: const SearchScreen(),
+                ));
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
     }

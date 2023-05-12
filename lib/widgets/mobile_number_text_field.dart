@@ -35,8 +35,8 @@ class MobileNumberTextField extends StatelessWidget {
           dropdownIconPosition: IconPosition.trailing,
 
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(
-                top: 12.sp, bottom: 12.sp, left: 10.sp, right: 10.sp),
+           // contentPadding: EdgeInsets.only(top: 12.sp, bottom: 12.sp, left: 10.sp, right: 10.sp),
+            contentPadding: EdgeInsets.only(top: 16, bottom: 16, left: 10.sp, right: 10.sp),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),
               borderSide: const BorderSide(

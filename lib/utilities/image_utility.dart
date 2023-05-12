@@ -28,6 +28,7 @@ class ImageUtility {
   static const String notificationIcon = 'assets/images/notification_icon.png';
   static const String productImage = 'assets/images/product_image.png';
   static const String addFavIcon = 'assets/images/add_fav_icon.png';
+  static const String dropDownIcon = 'assets/images/drop_down_icon.png';
 
 
 
