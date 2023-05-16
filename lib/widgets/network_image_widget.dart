@@ -12,6 +12,8 @@ class NetworkImageWidget extends StatelessWidget {
   final Widget? error;
   final Widget? alternate; // if url is empty
 
+  final double? errorIconSize; // if url is empty
+
   const NetworkImageWidget({Key? key,
     required this.url,
     this.placeholder,
@@ -19,7 +21,7 @@ class NetworkImageWidget extends StatelessWidget {
     this.width,
     this.height,
     this.error,
-    this.alternate})
+    this.alternate, this.errorIconSize})
       : super(key: key);
 
   @override
@@ -43,12 +45,11 @@ class NetworkImageWidget extends StatelessWidget {
             } else {
               return Container(
                 color: ColorUtility.colorAEB1B9,
-                child: const Center(
+                child:  Center(
                   child: Icon(
-                    //  Icons.image_not_supported_rounded,
                     Icons.image_not_supported_rounded,
                     color: ColorUtility.color43576F,
-                    size: 10,
+                    size: errorIconSize ?? 10,
                   ),
                 ),
               );

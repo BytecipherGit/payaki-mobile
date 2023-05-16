@@ -5,14 +5,20 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
+import 'package:payaki/modules/search/screens/search_result_screen.dart';
+import 'package:payaki/network/end_points.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
-import '../../../network/model/response/category/category_list_response.dart' as category;
+import '../../../network/model/response/category/category_list_response.dart'
+    as category;
 import '../../../network/model/response/location/city_list_response.dart';
+import 'package:payaki/network/model/request/search/search_request.dart'
+    as s_request;
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({
@@ -47,7 +53,8 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     searchScreenVm = Provider.of<SearchScreenVm>(context, listen: false);
     searchScreenVm.cityListApi(onSuccess: (value) {}, onFailure: (value) {});
-    searchScreenVm.categoryListApi(onSuccess: (value) {}, onFailure: (value) {});
+    searchScreenVm.categoryListApi(
+        onSuccess: (value) {}, onFailure: (value) {});
   }
 
   @override
@@ -80,7 +87,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 23.h),
-
                         Text(
                           "Category",
                           style: StyleUtility.inputTextStyle,
@@ -91,7 +97,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.only(
-                                  top: 15.sp, bottom: 15.sp, left: 20.w, right: 5.w),
+                                  top: 15.sp,
+                                  bottom: 15.sp,
+                                  left: 20.w,
+                                  right: 5.w),
                               filled: true,
                               fillColor: ColorUtility.colorF8FAFB,
                               hintStyle: StyleUtility.hintTextStyle,
@@ -141,13 +150,13 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                             items: searchScreenVm.categoryList
                                 ?.map((item) => DropdownMenuItem<category.Data>(
-                              value: item,
-                              child: Text(
-                                item.catName!,
-                                style: StyleUtility.inputTextStyle,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
+                                      value: item,
+                                      child: Text(
+                                        item.catName!,
+                                        style: StyleUtility.inputTextStyle,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ))
                                 .toList(),
                             value: selectedCategory,
                             onChanged: (value) {
@@ -173,7 +182,6 @@ class _SearchScreenState extends State<SearchScreen> {
                           hintText: "Title",
                           titleText: "Title *",
                         ),
-
                         SizedBox(
                           height: 15.h,
                         ),
@@ -275,14 +283,12 @@ class _SearchScreenState extends State<SearchScreen> {
                             searchScreenVm.notifyListeners();
                           },
                         ),
-
                         selectedLocation != null
                             ? Text(
-                          selectedLocation ?? "",
-                          style: StyleUtility.inputTextStyle,
-                        )
+                                selectedLocation ?? "",
+                                style: StyleUtility.inputTextStyle,
+                              )
                             : const SizedBox(),
-
                         SizedBox(
                           height: 15.h,
                         ),
@@ -291,14 +297,44 @@ class _SearchScreenState extends State<SearchScreen> {
                   }),
                 ),
               ),
+
               CustomButton(
                   buttonText: "Search",
                   onTab: () {
-                    logD("Slected location $location");
+                    logD("Selected location $location");
                     // if (locationController.text.isEmpty) {
-                    if (location == null) {
-                      context.showSnackBar(message: "Please Select Location.");
-                    } else {}
+                    if (titleController.text.isEmpty) {
+                      context.showSnackBar(message: "Please Enter Title.");
+                    } else {
+
+                      CommonDialog.showLoadingDialog(context);
+                      searchScreenVm.searchPostApi(
+                          searchRequest: s_request.SearchRequest(
+                              name: Endpoints.search.getAllPost,
+                              param: s_request.Param(
+                                title: titleController.text,
+                                category: selectedCategory?.catId,
+                                location: location,
+                                city: city,
+                                country: country,
+                                state: state,
+                              )),
+                        onSuccess: (searchPostList){
+                            Navigator.pop(context);
+
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchResultScreen(
+                              searchPostList: searchPostList,
+                            )));
+
+                        },
+
+                          onFailure: (value){
+                            Navigator.pop(context);
+                            context.showSnackBar(message: value);
+
+                      }
+                      );
+                    }
                   }),
               SizedBox(
                 height: 20.h,

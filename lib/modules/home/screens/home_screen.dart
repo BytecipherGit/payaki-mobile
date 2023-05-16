@@ -5,6 +5,7 @@ import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
+import 'package:payaki/widgets/grid_item_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -147,117 +148,18 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.only(left: 20.w, right: 20.w),
               child: GridView.builder(
                 padding: EdgeInsets.only(top: 20.h,bottom: 50.h),
-               //  shrinkWrap: true,
-                // physics: const NeverScrollableScrollPhysics(),
                 itemCount: 21,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 10.w,
                     mainAxisSpacing: 15.w,
                     childAspectRatio: 0.90),
-                // physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Stack(
-                        children: [
-                          ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10.r),
-                                  topLeft: Radius.circular(10.r)),
-                              // Image border
-                              child: Image.asset(
-                                ImageUtility.productImage,
-                                height: 110.sp,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              )),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(10.w),
-                                child: Container(
-                                    padding: EdgeInsets.only(
-                                        left: 10.w,
-                                        right: 10.w,
-                                        top: 4.w,
-                                        bottom: 4.w),
-                                    decoration: BoxDecoration(
-                                        color: ColorUtility.colorA3803F
-                                            .withOpacity(0.7),
-                                        borderRadius:
-                                            BorderRadius.circular(3.r)),
-                                    child: Text(
-                                      "Urgent".toUpperCase(),
-                                      style:
-                                          StyleUtility.titleTextStyle.copyWith(
-                                        color: ColorUtility.whiteColor,
-                                        fontSize: TextSizeUtility.textSize12,
-                                      ),
-                                    )),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(10.w),
-                                child: Image.asset(
-                                  ImageUtility.addFavIcon,
-                                  width: 22.w,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: ColorUtility.whiteColor,
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(10.r),
-                                bottomLeft: Radius.circular(10.r)),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 7.w, top: 7.w),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "₹ 6,50,000",
-                                  style: StyleUtility.headingTextStyle,
-                                  maxLines: 1,
-                                ),
-                                Text(
-                                  "samsung camera ",
-                                  style: StyleUtility.titleTextStyle.copyWith(
-                                      color: ColorUtility.color8B97A4),
-                                  maxLines: 1,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on,
-                                      size: 13,
-                                      color: ColorUtility.colorC0C0C0,
-                                    ),
-                                    Text(
-                                      "bangalore airport area, be",
-                                      style: StyleUtility.titleTextStyle
-                                          .copyWith(
-                                              fontSize:
-                                                  TextSizeUtility.textSize10,
-                                              color: ColorUtility.colorC0C0C0),
-                                      maxLines: 1,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
+                  return const GridItemWidget(
+                    price: "6,50,000",
+                    type: "Urgent",
+                    title: "samsung camera",
+                    address: "bangalore airport area, be",
                   );
                 },
               ),
