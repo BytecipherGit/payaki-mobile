@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/modules/search/screens/search_result_screen.dart';
 import 'package:payaki/network/end_points.dart';
@@ -322,9 +323,26 @@ class _SearchScreenState extends State<SearchScreen> {
                         onSuccess: (searchPostList){
                             Navigator.pop(context);
 
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchResultScreen(
-                              searchPostList: searchPostList,
-                            )));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+
+                                ChangeNotifierProvider(create: (_) => SearchResultScreenVm()
+                                  ,child:  SearchResultScreen(
+                                    initialPostList: searchPostList,
+                                      title: titleController.text,
+                                      category: selectedCategory?.catId ?? "",
+                                      location: location ?? "",
+                                      city: city ?? "",
+                                      country: country ?? "",
+                                      state: state ?? "",
+
+
+
+                                  ),)
+                            //     SearchResultScreen(
+                            //   searchPostList: searchPostList,
+                            // )
+
+                            ));
 
                         },
 

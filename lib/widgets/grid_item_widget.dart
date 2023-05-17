@@ -11,13 +11,14 @@ class GridItemWidget extends StatelessWidget {
   final String type;
   final String title;
   final String address;
+  final String imageUrl;
 
   const GridItemWidget({
     super.key,
     required this.price,
     required this.type,
     required this.title,
-    required this.address,
+    required this.address, required this.imageUrl,
   });
 
   @override
@@ -41,7 +42,8 @@ class GridItemWidget extends StatelessWidget {
                 // )
               NetworkImageWidget(
                 height: 110.sp,
-                url: "http://themindcrm.com/payaki-web/storage/products/1683716425.1942.jpg",
+                url: imageUrl,
+                width: double.infinity,
                 errorIconSize: 40.sp,
               ),
 

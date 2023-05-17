@@ -11,7 +11,7 @@ class SimpleTextField extends StatelessWidget {
     required this.hintText,
     this.textInputType,
     this.image,
-    required this.titleText,
+     this.titleText,
     this.passwordVisible,
     this.onPrefixIconTap,
     this.maxLine,
@@ -19,7 +19,7 @@ class SimpleTextField extends StatelessWidget {
 
   final TextEditingController controller;
   final String hintText;
-  final String titleText;
+  final String? titleText;
   final String? image;
   final TextInputType? textInputType;
   final bool? passwordVisible;
@@ -31,8 +31,10 @@ class SimpleTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
+        if(titleText != null)
         Text(
-          titleText,
+          titleText ?? "",
           style: StyleUtility.inputTextStyle,
         ),
         Container(

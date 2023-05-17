@@ -21,6 +21,14 @@ class CustomButton extends StatelessWidget {
   })  : buttonType = 1,
         super(key: key);
 
+  const CustomButton.outline({
+    Key? key,
+    required this.buttonText,
+    required this.onTab,
+  })  : buttonType = 2,
+        super(key: key);
+
+
   final String buttonText;
   final VoidCallback onTab;
 
@@ -35,8 +43,30 @@ class CustomButton extends StatelessWidget {
           child: Text(
             buttonText,
             maxLines: 1,
-            style: StyleUtility.buttonTextStyle,
+            style: StyleUtility.buttonTextStyle
           ));
+    }
+    if (buttonType == 2) {
+      return SizedBox(
+        height: TextSizeUtility.buttonHeight,
+        width: MediaQuery.of(context).size.width,
+        child: OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            side: const BorderSide(color: ColorUtility.color06C972, width: 2),
+          ),
+          onPressed: onTab,
+          child: Text(
+            buttonText,
+            maxLines: 1,
+            style: StyleUtility.buttonTextStyle.copyWith(
+                color: ColorUtility.color06C972
+            ),
+          ),
+        ),
+      );
     }
 
     Gradient gradient = const LinearGradient(

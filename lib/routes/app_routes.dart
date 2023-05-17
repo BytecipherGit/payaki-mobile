@@ -186,7 +186,8 @@ class AppRoute {
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => SearchScreenVm(),
                   child: const SearchScreen(),
-                ));
+                )
+        );
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
     }
