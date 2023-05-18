@@ -47,6 +47,14 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
 
   List<Data>? filterPostList;
 
+  String? selectedShortByValue; //no radio button will be selected on initial
+
+  String name = "product_name_asc";
+  String date = "created_at_desc";
+  String priceLowToHeigh = "price_asc";
+  String priceHeighToLow = "price_desc";
+
+
   @override
   void initState() {
     super.initState();
@@ -82,6 +90,10 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                 children: [
                   Expanded(
                     child: InkWell(
+                      onTap: (){
+                        showShortByDialog(context,searchResultScreenVm);
+
+                      },
                       child: Container(
                         height: 45.sp,
                         decoration: BoxDecoration(
@@ -270,9 +282,6 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                             child: CustomButton(
                                 buttonText: "Done",
                                 onTab: () {
-                                  logD(
-                                      "Length DONE ${widget.initialPostList.length}");
-
                                   if (priceFromController.text.isEmpty) {
                                     context.showToast(
                                         message:
@@ -298,9 +307,212 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
     );
   }
 
+
+  Future<dynamic> showShortByDialog(
+      BuildContext context,
+      SearchResultScreenVm searchResultScreenVm,
+      ) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return StatefulBuilder(
+              builder: (context, setState) {
+                return Dialog(
+                  insetPadding: EdgeInsets.only(left: 20.w, right: 20.w),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  elevation: 0,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.r))),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 17.w, right: 17.w, top: 25.w, bottom: 25.w),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Sort by",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            SizedBox(
+                              height: 30.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Name",
+                                  style: StyleUtility.inputTextStyle,
+                                ),
+
+                                SizedBox(
+                                  width: 30.sp,
+                                  height: 30.sp,
+                                  child: Radio(
+                                    activeColor: ColorUtility.color06C972,
+                                    value: name,
+                                    groupValue: selectedShortByValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedShortByValue = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Date",
+                                  style: StyleUtility.inputTextStyle,
+                                ),
+
+                                SizedBox(
+                                  width: 30.sp,
+                                  height: 30.sp,
+                                  child: Radio(
+                                    activeColor: ColorUtility.color06C972,
+                                    value: date,
+                                    groupValue: selectedShortByValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedShortByValue = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+
+
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Price : Low to High",
+                                  style: StyleUtility.inputTextStyle,
+                                ),
+
+                                SizedBox(
+                                  width: 30.sp,
+                                  height: 30.sp,
+                                  child: Radio(
+                                    activeColor: ColorUtility.color06C972,
+                                    value: priceLowToHeigh,
+                                    groupValue: selectedShortByValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedShortByValue = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+
+
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Price : High to low",
+                                  style: StyleUtility.inputTextStyle,
+                                ),
+
+                                SizedBox(
+                                  width: 30.sp,
+                                  height: 30.sp,
+                                  child: Radio(
+                                    activeColor: ColorUtility.color06C972,
+                                    value: priceHeighToLow,
+                                    groupValue: selectedShortByValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedShortByValue = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+
+
+                            SizedBox(
+                              height: 40.h,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: CustomButton.outline(
+                                        buttonText: "Reset",
+                                        onTab: () {
+                                          Navigator.pop(context);
+                                          resetFilter(searchResultScreenVm);
+                                        })),
+                                SizedBox(
+                                  width: 16.w,
+                                ),
+                                Expanded(
+                                    child: CustomButton(
+                                        buttonText: "Done",
+                                        onTab: () {
+                                          if (selectedShortByValue == null) {
+                                            context.showToast(
+                                                message:
+                                                "Please Select Short By");
+                                          }  else {
+                                            Navigator.pop(context);
+
+                                            onFilterApply(searchResultScreenVm);
+                                          }
+                                        })),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+          );
+        }
+    );
+  }
+
+
+
+
   void resetFilter(SearchResultScreenVm searchResultScreenVm) {
     priceFromController.clear();
     priceToController.clear();
+
+    selectedShortByValue = null;
 
     logD("Length ${widget.initialPostList.length}");
     filterPostList = widget.initialPostList.toList();
@@ -329,6 +541,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
               state: widget.state,
               pricefrom: priceFromController.text,
               priceto: priceToController.text,
+              sortbyfieldname: selectedShortByValue,
             )),
         onSuccess: (searchedPostList) {
           Navigator.pop(context);
