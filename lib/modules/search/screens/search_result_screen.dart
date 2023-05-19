@@ -176,10 +176,23 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   mainAxisSpacing: 15.w,
                                   childAspectRatio: 0.90),
                           itemBuilder: (context, index) {
+                            String? type;
+                            if(filterPostList?[index].featured == "1"){
+                              type = "Featured";
+                            }else if(filterPostList?[index].urgent == "1"){
+                              type = "Urgent";
+
+                            }else if(filterPostList?[index].highlight == "1"){
+                              type = "Highlight";
+
+                            }
+
+
                             return GridItemWidget(
                               imageUrl: filterPostList?[index].image?[0] ?? "",
                               price: filterPostList?[index].price ?? "",
-                              type: "Urgent",
+                             // type: "Urgent",
+                              type: type,
                               title: filterPostList?[index].productName ?? "",
                               address: filterPostList?[index].location ?? "",
                             );

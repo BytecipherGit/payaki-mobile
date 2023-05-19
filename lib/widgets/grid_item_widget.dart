@@ -8,7 +8,7 @@ import 'package:payaki/widgets/network_image_widget.dart';
 
 class GridItemWidget extends StatelessWidget {
   final String price;
-  final String type;
+  final String? type;
   final String title;
   final String address;
   final String imageUrl;
@@ -51,6 +51,7 @@ class GridItemWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                if(type != null)
                 Padding(
                   padding: EdgeInsets.all(10.w),
                   child: Container(
@@ -60,7 +61,7 @@ class GridItemWidget extends StatelessWidget {
                           color: ColorUtility.colorA3803F.withOpacity(0.7),
                           borderRadius: BorderRadius.circular(3.r)),
                       child: Text(
-                        type.toUpperCase(),
+                        (type ?? "").toUpperCase(),
                         style: StyleUtility.titleTextStyle.copyWith(
                           color: ColorUtility.whiteColor,
                           fontSize: TextSizeUtility.textSize12,
