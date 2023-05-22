@@ -9,7 +9,7 @@ class NetworkImageWidget extends StatelessWidget {
   final BoxFit? fit;
   final double? width;
   final double? height;
-  final Widget? error;
+  final Widget? errorWidget;
   final Widget? alternate; // if url is empty
 
   final double? errorIconSize; // if url is empty
@@ -20,7 +20,7 @@ class NetworkImageWidget extends StatelessWidget {
     this.fit,
     this.width,
     this.height,
-    this.error,
+    this.errorWidget,
     this.alternate, this.errorIconSize})
       : super(key: key);
 
@@ -40,8 +40,8 @@ class NetworkImageWidget extends StatelessWidget {
           //  errorWidget:
           errorWidget: (context, url, value) {
             if (
-            error != null) {
-              return error!;
+            errorWidget != null) {
+              return errorWidget!;
             } else {
               return Container(
                 color: ColorUtility.colorAEB1B9,

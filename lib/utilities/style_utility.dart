@@ -69,6 +69,19 @@ class StyleUtility {
     color: ColorUtility.color43576F,
   );
 
+  static TextStyle typeStyle = TextStyle(
+    fontFamily: "Axiforma_Regular",
+    color: ColorUtility.whiteColor,
+    fontSize: TextSizeUtility.textSize12,
+  );
+
+  static TextStyle postDescTextStyle = TextStyle(
+    fontFamily: "Axiforma_Regular",
+    color: ColorUtility.color8B97A4,
+    fontSize: TextSizeUtility.textSize14,
+  );
+
+
 
 
   static TextStyle resendOtpTextStyle =  TextStyle(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/auth/logIn/provider/login_provider.dart';
+import 'package:payaki/modules/postDetails/screens/post_details_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';

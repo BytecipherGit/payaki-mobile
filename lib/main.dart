@@ -4,6 +4,8 @@ import 'package:loggy/loggy.dart';
 import 'package:payaki/modules/welcome/welcome_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 
+import 'modules/postDetails/screens/post_details_screen.dart';
+
 Future<void> main() async {
   Loggy.initLoggy();
 

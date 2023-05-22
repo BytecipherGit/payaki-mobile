@@ -16,6 +16,7 @@ class ImageUtility {
   static const String carImage = 'assets/images/car.png';
   static const String uploadImage = 'assets/images/upload_image.png';
   static const String removeImage = 'assets/images/remove_image.png';
+  static const String locationSelectIcon = 'assets/images/location_select_icon.png';
   static const String locationIcon = 'assets/images/location_icon.png';
   static const String bottomBarBg = 'assets/images/bottom_bar_bg.png';
   static const String addPostIcon = 'assets/images/add_post_icon.png';
@@ -31,6 +32,7 @@ class ImageUtility {
   static const String dropDownIcon = 'assets/images/drop_down_icon.png';
   static const String shortByIcon = 'assets/images/short_by_icon.png';
   static const String filterIcon = 'assets/images/filter_icon.png';
+  static const String addReviewIcon = 'assets/images/add_review_icon.png';
 
 
 

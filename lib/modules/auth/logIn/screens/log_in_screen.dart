@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
@@ -14,6 +13,7 @@ import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/constants.dart';
+import 'package:payaki/utilities/validators.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -190,7 +190,13 @@ class _LogInScreenState extends State<LogInScreen> {
                                 if (emailController.text.isEmpty) {
                                   context.showSnackBar(
                                       message: 'Please Enter Email.');
-                                } else if (passwordController.text.isEmpty) {
+                                }
+                                else if (Validators.checkValidateEmail(
+                                    emailController.text) ==
+                                    false) {
+                                  context.showSnackBar(
+                                      message: "Please Enter Valid Email.");
+                                }else if (passwordController.text.isEmpty) {
                                   context.showSnackBar(
                                       message: 'Please Enter Password.');
                                 } else {

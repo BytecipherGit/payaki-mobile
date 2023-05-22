@@ -244,7 +244,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 child: Padding(
                                   padding:
                                       EdgeInsets.symmetric(vertical: 20.sp),
-                                  child: Image.asset(ImageUtility.locationIcon),
+                                  child: Image.asset(ImageUtility.locationSelectIcon),
                                 ),
                               ),
                               focusColor: Colors.white,

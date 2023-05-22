@@ -16,6 +16,7 @@ import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/constants.dart';
+import 'package:payaki/utilities/validators.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -52,8 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? selectedIdProofType;
   String? selectedAddressProofType;
 
- List<String> itemList =  ["Aadhaar Card", "Pan Card"];
-
+  List<String> itemList = ["Driving licence", "Pancard", "Passport"];
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           controller: idProofNumberController,
                           hintText: "Enter Id Proof Number",
                           titleText: "Id Proof Number",
-                        //  image: ImageUtility.passwordIcon,
+                          //  image: ImageUtility.passwordIcon,
                           textInputType: TextInputType.visiblePassword,
                         ),
                         SizedBox(
@@ -235,8 +235,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(
                           height: 15.h,
                         ),
-
-
                         DropDownWidget(
                           titleText: "Address Proof  Type",
                           hintText: "Select Address Proof Type",
@@ -257,11 +255,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           //  image: ImageUtility.passwordIcon,
                           textInputType: TextInputType.visiblePassword,
                         ),
-
                         SizedBox(
                           height: 15.h,
                         ),
-
                         UploadImageWidget(
                             onTap: () {
                               getAddressImage(signUpVm);
@@ -338,6 +334,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 } else if (emailController.text.isEmpty) {
                                   context.showSnackBar(
                                       message: "Please Enter Your Email.");
+                                } else if (Validators.checkValidateEmail(
+                                        emailController.text) ==
+                                    false) {
+                                  context.showSnackBar(
+                                      message: "Please Enter Valid Email.");
                                 } else if (phoneNumberController.text.isEmpty) {
                                   context.showSnackBar(
                                       message:
@@ -345,29 +346,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 } else if (passwordController.text.isEmpty) {
                                   context.showSnackBar(
                                       message: "Please Enter Your Password.");
-                                }
-                                else if (selectedIdProofType == null) {
+                                } else if (selectedIdProofType == null) {
+                                  context.showSnackBar(
+                                      message: "Please Select ID Proof Type.");
+                                } else if (idProofNumberController
+                                    .text.isEmpty) {
+                                  context.showSnackBar(
+                                      message: "Please Enter ID Proof Number.");
+                                } else if (idProofImage == null) {
+                                  context.showSnackBar(
+                                      message: "Please Upload ID Proof Image.");
+                                } else if (selectedAddressProofType == null) {
                                   context.showSnackBar(
                                       message:
-                                      "Please Select ID Proof Type.");
-                                }else if (idProofNumberController.text.isEmpty) {
+                                          "Please Select Address Proof Type.");
+                                } else if (addressProofNumberController
+                                    .text.isEmpty) {
                                   context.showSnackBar(
                                       message:
-                                      "Please Enter ID Proof Number.");
-                                }else if (idProofImage == null) {
-                                  context.showSnackBar(
-                                      message:
-                                          "Please Upload ID Proof Image.");
-                                }else if (selectedAddressProofType == null) {
-                                  context.showSnackBar(
-                                      message:
-                                      "Please Select Address Proof Type.");
-                                }
-                                else if (addressProofNumberController.text.isEmpty) {
-                                  context.showSnackBar(
-                                      message:
-                                      "Please Enter Address Proof Number.");
-                                }else if (addressProofImage == null) {
+                                          "Please Enter Address Proof Number.");
+                                } else if (addressProofImage == null) {
                                   context.showSnackBar(
                                       message:
                                           "Please Upload Address Proof Image.");
@@ -394,10 +392,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       countryCode: countryCode,
                                       pass: passwordController.text,
                                       idProofType: selectedIdProofType,
-                                      idProofNumber: idProofNumberController.text,
+                                      idProofNumber:
+                                          idProofNumberController.text,
                                       idProof: idImageFile,
-                                      addressProofType: selectedAddressProofType,
-                                      addressProofNumber: addressProofNumberController.text,
+                                      addressProofType:
+                                          selectedAddressProofType,
+                                      addressProofNumber:
+                                          addressProofNumberController.text,
                                       addressProof: addressImageFile,
                                     ),
                                     onSuccess: (value) {
@@ -542,4 +543,3 @@ class _SignUpScreenState extends State<SignUpScreen> {
         });
   }
 }
-

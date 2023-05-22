@@ -186,8 +186,6 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                               type = "Highlight";
 
                             }
-
-
                             return GridItemWidget(
                               imageUrl: filterPostList?[index].image?[0] ?? "",
                               price: filterPostList?[index].price ?? "",

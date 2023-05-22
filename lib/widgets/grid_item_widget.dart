@@ -62,10 +62,7 @@ class GridItemWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(3.r)),
                       child: Text(
                         (type ?? "").toUpperCase(),
-                        style: StyleUtility.titleTextStyle.copyWith(
-                          color: ColorUtility.whiteColor,
-                          fontSize: TextSizeUtility.textSize12,
-                        ),
+                        style: StyleUtility.typeStyle
                       )),
                 ),
                 Padding(
