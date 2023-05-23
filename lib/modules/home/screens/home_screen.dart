@@ -40,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.pushNamed(
-                                context, RouteName.searchScreen);
+                            // Navigator.pushNamed(
+                            //     context, RouteName.searchScreen);
                           },
                           child: Padding(
                             padding: EdgeInsets.all(5.sp),

@@ -16,6 +16,7 @@ class LogInProvider extends ChangeNotifier {
     authRepository.logIn(request).then((value) {
       if (value.code == 200) {
         Preference.setUserId(value.data?.id);
+        Preference.setUserLogin(true);
         onSuccess.call(value.message ?? "");
       } else {
         onFailure.call(value.message ?? "");
@@ -36,6 +37,7 @@ class LogInProvider extends ChangeNotifier {
       if (value.code == 200) {
 
         Preference.setUserId(value.data?.id);
+        Preference.setUserLogin(true);
         onSuccess.call(value.message ?? "");
       } else {
         onFailure.call(value.message ?? "");

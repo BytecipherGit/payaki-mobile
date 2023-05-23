@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loggy/loggy.dart';
+import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/welcome/welcome_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 
-import 'modules/postDetails/screens/post_details_screen.dart';
+import 'modules/bottomBar/BottomNavigationBarScreen.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Preference().instance();
   Loggy.initLoggy();
-
   runApp(const MyApp());
 }
 
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return ScreenUtilInit(
         designSize: const Size(430, 932),
         // splitScreenMode: true,
@@ -40,7 +43,8 @@ class MyApp extends StatelessWidget {
             ),
             // home: const LogInScreen(),
             onGenerateRoute: AppRoute.generateRoute,
-            home: const WelcomeScreen(),
+           // home: Preference().getUserId() == "" ? const WelcomeScreen():BottomNavigationBarScreen(),
+            home: Preference().getUserLogin() == false ? const WelcomeScreen():BottomNavigationBarScreen(),
           );
         });
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/home/screens/home_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -14,30 +15,29 @@ class BottomNavigationBarScreen extends StatefulWidget {
       _BottomNavigationBarScreenState();
 }
 
-class _BottomNavigationBarScreenState
-    extends State<BottomNavigationBarScreen> {
+class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   int _selectIndex = 0;
 
   final List<Widget> _children = [
-    HomeScreen(),
-    Screen2(),
+    const HomeScreen(),
+    const Screen2(),
     Screen3(),
     Screen4(),
   ];
 
   void onTabTapped(int index) {
-    setState(() {
-      // if (index == 2) {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => NewScreen()),
-      //   );
-      // } else {
-      _selectIndex = index;
-      // }
+   // if (Preference().getUserId() == "" && index != _selectIndex) {
+    if (Preference().getUserLogin() == false && index != _selectIndex) {
+      goToLogIn();
+    } else {
+      setState(() {
+        _selectIndex = index;
+      });
+    }
+  }
 
-      print("Imsndcfghj");
-    });
+  goToLogIn() {
+    Navigator.pushNamed(context, RouteName.logInScreen);
   }
 
   @override
@@ -51,8 +51,13 @@ class _BottomNavigationBarScreenState
       floatingActionButton: Container(
           margin: const EdgeInsets.only(bottom: 30),
           child: GestureDetector(
-            onTap: (){
-              Navigator.pushNamed(context, RouteName.chooseCategoryScreen);
+            onTap: () {
+            //  if (Preference().getUserId() != "") {
+              if (Preference().getUserLogin() == true) {
+                Navigator.pushNamed(context, RouteName.chooseCategoryScreen);
+              } else {
+                goToLogIn();
+              }
             },
             child: Image.asset(
               ImageUtility.addPostIcon,
@@ -77,7 +82,7 @@ class _BottomNavigationBarScreenState
                 fit: BoxFit.fill,
               ),
             ),
-            Container(
+            SizedBox(
               height: 80,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -135,11 +140,12 @@ class _BottomNavigationBarScreenState
   }
 }
 
-
 class Screen2 extends StatelessWidget {
+  const Screen2({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Chat'),
     );
   }
@@ -159,15 +165,19 @@ class Screen4 extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-
         await googleSignIn.signOut();
-        Navigator.pushNamedAndRemoveUntil(context, RouteName.logInScreen, (route) => false);
+        Preference().clearSharedPreference();
+        Navigator.pushNamedAndRemoveUntil(
+            context, RouteName.logInScreen, (route) => false);
       },
-      child: Center(child: Text('Profile \n Log out',textAlign: TextAlign.center,)),
+      child: const Center(
+          child: Text(
+        'Profile \n Log out',
+        textAlign: TextAlign.center,
+      )),
     );
   }
 }
-
 
 class NewScreen extends StatelessWidget {
   @override

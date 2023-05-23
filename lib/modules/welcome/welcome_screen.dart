@@ -68,17 +68,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 SizedBox(
                   height: 50.h,
                 ),
-                CustomButton(buttonText: "Log In", onTab: () {
-
-                  Navigator.pushReplacementNamed(context, RouteName.logInScreen);
-                }),
+                CustomButton(
+                    buttonText: "Log In",
+                    onTab: () {
+                      Navigator.pushReplacementNamed(
+                          context, RouteName.logInScreen);
+                    }),
                 SizedBox(
                   height: 50.h,
                 ),
-                Text(
-                  "Skip Log In",
-                  style: StyleUtility.urlTextStyle.copyWith(
-                    color: ColorUtility.color152D4A
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(
+                        context, RouteName.bottomNavigationBarScreen);
+                  },
+                  child: Text(
+                    "Skip Log In",
+                    style: StyleUtility.urlTextStyle
+                        .copyWith(color: ColorUtility.color152D4A),
                   ),
                 ),
               ],

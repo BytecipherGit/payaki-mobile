@@ -403,6 +403,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     onSuccess: (value) {
                                       Navigator.pop(context);
+                                      context.showToast(message: value);
                                       Navigator.pushReplacementNamed(context,
                                           RouteName.bottomNavigationBarScreen);
                                     },

@@ -61,16 +61,26 @@ class _LogInScreenState extends State<LogInScreen> {
               bottom: false,
               child: Column(
                 children: [
-                  Container(
-                    height: height * 0.35,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 44.w, vertical: 30.h),
-                    child: Center(
-                      child: Image.asset(
-                        ImageUtility.loginBoardImage,
+                  Stack(
+                    children: [
+                      Container(
+                        height: height * 0.35,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 44.w, vertical: 30.h),
+                        child: Center(
+                          child: Image.asset(
+                            ImageUtility.loginBoardImage,
+                          ),
+                        ),
                       ),
-                    ),
+
+                      AppBar(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      )
+                    ],
                   ),
+
                   Container(
                     constraints: BoxConstraints(
                       minHeight: height * 0.65,
