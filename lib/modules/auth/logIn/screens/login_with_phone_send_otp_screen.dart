@@ -24,7 +24,7 @@ class LoginWithPhoneSendOtpScreen extends StatefulWidget {
 class _LoginWithPhoneSendOtpScreenState extends State<LoginWithPhoneSendOtpScreen> {
   TextEditingController mobileController = TextEditingController();
 
-  String countryCode = "+91";
+  String countryCode = "+1";
 
   @override
   Widget build(BuildContext context) {

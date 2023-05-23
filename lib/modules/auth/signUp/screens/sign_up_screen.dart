@@ -43,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController idProofNumberController = TextEditingController();
   TextEditingController addressProofNumberController = TextEditingController();
 
-  String countryCode = '+91';
+  String countryCode = "+1";
 
   XFile? idProofImage;
   XFile? addressProofImage;
@@ -53,7 +53,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? selectedIdProofType;
   String? selectedAddressProofType;
 
-  List<String> itemList = ["Driving licence", "Pancard", "Passport"];
+  List<String> idItemList = [
+    "State identification (ID) card",
+    "Driver license",
+    "US passport or passport card",
+    "US military card",
+    "Military dependents ID card",
+    "Permanent Resident Card",
+    "Certificate of Citizenship",
+    "Certificate of Naturalization",
+    "Employment Authorization Document",
+    "Foreign passport"
+  ];
+
+
+  List<String> addressItemList = [
+    "Utility bill",
+    "Cable TV or internet bill",
+    "Telephone bill",
+    "Bank statement",
+    "Property tax bill",
+    "Mortgage statement"
+  ];
+
+
+
+//  List<String> itemList = ["Driving licence", "Pancard", "Passport"];
+
+
+ // List<String> itemList = ["Driving licence", "Pancard", "Passport"];
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         DropDownWidget(
                           titleText: "Id Proof Type",
                           hintText: "Select ID Proof Type",
-                          itemList: itemList,
+                          itemList: idItemList,
                           selectedValue: selectedIdProofType,
                           onValueChange: (value) {
                             selectedIdProofType = value;
@@ -238,7 +266,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         DropDownWidget(
                           titleText: "Address Proof  Type",
                           hintText: "Select Address Proof Type",
-                          itemList: itemList,
+                          itemList: addressItemList,
                           selectedValue: selectedAddressProofType,
                           onValueChange: (value) {
                             selectedAddressProofType = value;

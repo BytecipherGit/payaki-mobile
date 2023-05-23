@@ -79,7 +79,7 @@ class MobileNumberTextField extends StatelessWidget {
             hintText: "Mobile Number",
 
           ),
-          initialCountryCode: 'IN',
+          initialCountryCode: 'US',
           onChanged: (phone) {
             onChanged.call(phone);
           },
