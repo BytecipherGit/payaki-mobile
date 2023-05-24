@@ -78,11 +78,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 
 
-//  List<String> itemList = ["Driving licence", "Pancard", "Passport"];
-
-
- // List<String> itemList = ["Driving licence", "Pancard", "Passport"];
-
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;

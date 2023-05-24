@@ -12,6 +12,7 @@ class LoginWithPhoneSendOtpVm extends ChangeNotifier {
     required ValueChanged<String> onFailure,
     required LoginWithPhoneSendOtpRequest request,
   }) {
+   logD(request.toJson());
     authRepository.loginWithPhoneSendOtp(request).then((value) {
       if (value.code == 200) {
         onSuccess.call(value);

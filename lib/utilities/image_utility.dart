@@ -33,6 +33,8 @@ class ImageUtility {
   static const String shortByIcon = 'assets/images/short_by_icon.png';
   static const String filterIcon = 'assets/images/filter_icon.png';
   static const String addReviewIcon = 'assets/images/add_review_icon.png';
+  static const String saveAddIcon = 'assets/images/save_add_icon.png';
+  static const String userDummyIcon = 'assets/images/user_dummy_icon.png';
 
 
 
