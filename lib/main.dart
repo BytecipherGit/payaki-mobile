@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
             ),
             // home: const LogInScreen(),
             onGenerateRoute: AppRoute.generateRoute,
-          //  home: Preference().getUserLogin() == false ? const WelcomeScreen():const BottomNavigationBarScreen(),
-            home: PostDetailsScreen(),
+            home: Preference().getUserLogin() == false ? const WelcomeScreen():const BottomNavigationBarScreen(),
+          //  home: PostDetailsScreen(),
           );
         });
   }

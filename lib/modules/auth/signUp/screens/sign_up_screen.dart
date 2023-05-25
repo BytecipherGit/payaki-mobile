@@ -43,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController idProofNumberController = TextEditingController();
   TextEditingController addressProofNumberController = TextEditingController();
 
-  String countryCode = "+1";
+  String? countryCode;
 
   XFile? idProofImage;
   XFile? addressProofImage;

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -124,11 +125,22 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                         ),
                       ],
                     ),
-                    Text(
-                      "Samsung camera for sale",
-                      style: StyleUtility.postDescTextStyle.copyWith(
-                          fontSize: TextSizeUtility.textSize18,
-                          color: ColorUtility.color43576F),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Samsung camera for sale",
+                            style: StyleUtility.postDescTextStyle.copyWith(
+                                fontSize: TextSizeUtility.textSize18,
+                                color: ColorUtility.color43576F),
+                          ),
+                        ),
+                        Text(
+                          "1 Day Ago",
+                          style: StyleUtility.postDescTextStyle
+                              .copyWith(fontSize: TextSizeUtility.textSize12),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 25.h,
@@ -137,7 +149,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                       "Location",
                       style: StyleUtility.headingTextStyle,
                     ),
-
                     SizedBox(
                       height: 5.h,
                     ),
@@ -212,10 +223,20 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                 width: 10.w,
                               ),
                               Expanded(
-                                child: Text(
-                                  "User@gmail.com",
-                                  style: StyleUtility.headingTextStyle.copyWith(
-                                      color: ColorUtility.color43576F),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "User@gmail.com",
+                                      style: StyleUtility.headingTextStyle
+                                          .copyWith(
+                                              color: ColorUtility.color43576F),
+                                    ),
+                                    Text("+91 1234567890",
+                                        style:
+                                            StyleUtility.reviewTitleTextStyle),
+                                  ],
                                 ),
                               ),
                             ],
@@ -277,38 +298,43 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                     SizedBox(
                       height: 25.h,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                ImageUtility.addReviewIcon,
-                                width: 25.w,
-                              ),
-                              SizedBox(
-                                width: 18.w,
-                              ),
-                              Text(
-                                "Add Review",
-                                style: StyleUtility.headingTextStyle
-                                    .copyWith(color: ColorUtility.color43576F),
-                              ),
-                            ],
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RouteName.addReviewScreen);
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  ImageUtility.addReviewIcon,
+                                  width: 25.w,
+                                ),
+                                SizedBox(
+                                  width: 18.w,
+                                ),
+                                Text(
+                                  "Add Review",
+                                  style: StyleUtility.headingTextStyle.copyWith(
+                                      color: ColorUtility.color43576F),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16.sp,
-                          color: ColorUtility.color43576F,
-                        )
-                      ],
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16.sp,
+                            color: ColorUtility.color43576F,
+                          )
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 42.h,
                     ),
                     Text(
-                      "Reviews",
+                      "User reviews",
                       style: StyleUtility.headingTextStyle,
                     ),
                     SizedBox(
@@ -340,19 +366,40 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                           children: [
                                             Image.asset(
                                               ImageUtility.userDummyIcon,
-                                              width: 30.w,
-                                              height: 30.w,
+                                              width: 40.w,
+                                              height: 40.w,
                                             ),
                                             SizedBox(
                                               width: 10.w,
                                             ),
-                                            Text(
-                                              "User@gmail.com",
-                                              style: StyleUtility
-                                                  .headingTextStyle
-                                                  .copyWith(
-                                                      fontSize: TextSizeUtility
-                                                          .textSize16),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "User@gmail.com",
+                                                    style: StyleUtility
+                                                        .headingTextStyle
+                                                        .copyWith(
+                                                            fontSize:
+                                                                TextSizeUtility
+                                                                    .textSize16),
+                                                    maxLines: 1,
+                                                  ),
+                                                  Text(
+                                                    "1 m Ago",
+                                                    style: StyleUtility
+                                                        .axiforma600
+                                                        .copyWith(
+                                                            fontSize:
+                                                                TextSizeUtility
+                                                                    .textSize10,
+                                                            color: ColorUtility
+                                                                .color8B97A4),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -368,9 +415,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         itemPadding: const EdgeInsets.symmetric(
                                             horizontal: 0.0),
                                         itemBuilder: (context, _) => const Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
+                                            Icons.star,
+                                            color: ColorUtility.colorFFA500),
                                         onRatingUpdate: (rating) {
                                           print(rating);
                                         },
@@ -402,24 +448,26 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                         ),
                         Expanded(
                             child: CustomButton(
-                                buttonText: "Chat", onTab: () {
+                                buttonText: "Chat",
+                                onTab: () {
+                                  Moment yesterday = Moment.now() -
+                                      Duration(
+                                          days: 766, hours: 2); // -26 hours
 
-                              Moment yesterday = Moment.now() - Duration(days: 766, hours: 2); // -26 hours
+                                  context.showSnackBar(
+                                      message: yesterday.fromNow());
 
-                              context.showSnackBar(message:yesterday.fromNow());
-                            }))
+                                  showLoginDialog(context);
+                                }))
                       ],
                     ),
-
-
-
                     SizedBox(
                       height: 35.h,
                     ),
-                    
-                    Text("Similar Ads ",style: StyleUtility.headingTextStyle,),
-
-
+                    Text(
+                      "Similar Ads ",
+                      style: StyleUtility.headingTextStyle,
+                    ),
                     GridView.builder(
                       primary: false,
                       shrinkWrap: true,
@@ -447,7 +495,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                       fit: BoxFit.cover,
                                     )),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.all(10.w),
@@ -461,13 +510,14 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                               color: ColorUtility.colorA3803F
                                                   .withOpacity(0.7),
                                               borderRadius:
-                                              BorderRadius.circular(3.r)),
+                                                  BorderRadius.circular(3.r)),
                                           child: Text(
                                             "Urgent".toUpperCase(),
-                                            style:
-                                            StyleUtility.titleTextStyle.copyWith(
+                                            style: StyleUtility.titleTextStyle
+                                                .copyWith(
                                               color: ColorUtility.whiteColor,
-                                              fontSize: TextSizeUtility.textSize12,
+                                              fontSize:
+                                                  TextSizeUtility.textSize12,
                                             ),
                                           )),
                                     ),
@@ -495,7 +545,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                   padding: EdgeInsets.only(left: 7.w, top: 7.w),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "₹ 6,50,000",
@@ -504,8 +555,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                       ),
                                       Text(
                                         "samsung camera",
-                                        style: StyleUtility.titleTextStyle.copyWith(
-                                            color: ColorUtility.color8B97A4),
+                                        style: StyleUtility.titleTextStyle
+                                            .copyWith(
+                                                color:
+                                                    ColorUtility.color8B97A4),
                                         maxLines: 1,
                                       ),
                                       Row(
@@ -519,9 +572,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                             "bangalore airport area, be",
                                             style: StyleUtility.titleTextStyle
                                                 .copyWith(
-                                                fontSize:
-                                                TextSizeUtility.textSize10,
-                                                color: ColorUtility.colorC0C0C0),
+                                                    fontSize: TextSizeUtility
+                                                        .textSize10,
+                                                    color: ColorUtility
+                                                        .colorC0C0C0),
                                             maxLines: 1,
                                           ),
                                         ],
@@ -535,8 +589,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                         );
                       },
                     ),
-
-
                   ],
                 ),
               ),
@@ -545,5 +597,85 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> showLoginDialog(
+    BuildContext context,
+  ) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Dialog(
+              insetPadding: EdgeInsets.only(left: 20.w, right: 20.w),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              elevation: 0,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.r))),
+              child: SingleChildScrollView(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: 17.w, right: 17.w, top: 42.w, bottom: 27.w),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Image.asset(
+                          ImageUtility.loginDialogImage,
+                          width: 160.w,
+                        ),
+                        SizedBox(
+                          height: 13.h,
+                        ),
+                        Text(
+                          "Log In to chat or send quote",
+                          style: StyleUtility.headingTextStyle,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Text(
+                          "Please log In first for chat",
+                          style: StyleUtility.titleTextStyle,
+                        ),
+                        SizedBox(
+                          height: 30.h,
+                        ),
+                        CustomButton(
+                            buttonText: "Log In",
+                            onTab: () {
+                              Navigator.pop(context);
+                            }),
+                        SizedBox(
+                          height: 25.h,
+                        ),
+                        InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                "Later",
+                                style: StyleUtility.laterTextStyle,
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          });
+        });
   }
 }

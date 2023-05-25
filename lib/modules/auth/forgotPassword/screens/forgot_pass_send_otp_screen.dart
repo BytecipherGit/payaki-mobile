@@ -24,7 +24,7 @@ class ForgotPassSendOtpScreen extends StatefulWidget {
 class _ForgotPassSendOtpScreenState extends State<ForgotPassSendOtpScreen> {
   TextEditingController mobileController = TextEditingController();
 
-  String countryCode = "+1";
+  String? countryCode;
 
   @override
   Widget build(BuildContext context) {

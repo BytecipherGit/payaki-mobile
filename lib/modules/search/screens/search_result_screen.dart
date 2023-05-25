@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
-import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/search/search_request.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -538,12 +537,6 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         searchRequest: SearchRequest(
             name: Endpoints.search.getAllPost,
             param: Param(
-              // title: "tt",
-              // category: "",
-              // location: "",
-              // city: "",
-              // country: "",
-              // state: "",
               title: widget.title,
               category: widget.category,
               location: widget.location,

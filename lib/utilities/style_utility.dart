@@ -25,6 +25,10 @@ class StyleUtility {
     color: ColorUtility.colorB3B3B3,
   );
 
+
+
+
+
   static TextStyle welcomeDetailTextStyle = TextStyle(
     fontFamily: "Axiforma_Medium",
     fontSize: TextSizeUtility.textSize16,
@@ -37,6 +41,15 @@ class StyleUtility {
     color: ColorUtility.color06C972,
     decoration: TextDecoration.underline
   );
+
+
+  static TextStyle laterTextStyle = TextStyle(
+      fontFamily: "Axiforma_Medium",
+      fontSize: TextSizeUtility.textSize14,
+      color: ColorUtility.color282828,
+      decoration: TextDecoration.underline
+  );
+
 
   static TextStyle buttonTextStyle = TextStyle(
     fontFamily: "Axiforma_Medium",
@@ -69,6 +82,9 @@ class StyleUtility {
     color: ColorUtility.color43576F,
   );
 
+
+
+
   static TextStyle typeStyle = TextStyle(
     fontFamily: "Axiforma_Regular",
     color: ColorUtility.whiteColor,
@@ -80,6 +96,13 @@ class StyleUtility {
     color: ColorUtility.color8B97A4,
     fontSize: TextSizeUtility.textSize14,
   );
+
+  static TextStyle reviewTitleTextStyle = TextStyle(
+    fontFamily: "Axiforma_Medium",
+    color: ColorUtility.color8B97A4,
+      fontSize: TextSizeUtility.textSize16
+  );
+
 
 
 
@@ -107,6 +130,11 @@ class StyleUtility {
   static TextStyle axiforma500 = const TextStyle(
     fontFamily: "Axiforma_Medium",
   );
+
+
+
+
+
 
   static TextStyle axiforma600 = const TextStyle(
     fontFamily: "Axiforma_SemiBold",

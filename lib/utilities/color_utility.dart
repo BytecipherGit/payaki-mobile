@@ -36,6 +36,8 @@ class ColorUtility {
   static const Color colorC3F4DA = Color(0xFFC3F4DA);
   static const Color colorEEEEEE = Color(0xFFEEEEEE);
   static const Color color4285F4 = Color(0xFF4285F4);
+  static const Color colorFFA500 = Color(0xFFFFA500);
+  static const Color color282828 = Color(0xFF282828);
 
 
 }
