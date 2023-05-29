@@ -26,6 +26,8 @@ import 'package:payaki/modules/postAdd/screens/select_add_type_screen.dart';
 import 'package:payaki/modules/postAdd/screens/set_price_screen.dart';
 import 'package:payaki/modules/postAdd/screens/sub_category_screen.dart';
 import 'package:payaki/modules/postAdd/screens/user_detail_screen.dart';
+import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
+import 'package:payaki/modules/postDetails/screens/post_details_screen.dart';
 import 'package:payaki/modules/review/addReview/screens/add_review_screen.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/modules/search/screens/search_screen.dart';
@@ -188,6 +190,13 @@ class AppRoute {
                   create: (_) => SearchScreenVm(),
                   child: const SearchScreen(),
                 )
+        );
+      case RouteName.postDetailsScreen:
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+              create: (_) => PostDetailScreenVm(),
+              child: const PostDetailsScreen(postId: 10,),
+            )
         );
       case RouteName.addReviewScreen:
         return MaterialPageRoute(

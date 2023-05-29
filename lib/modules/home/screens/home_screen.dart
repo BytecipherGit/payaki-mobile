@@ -135,11 +135,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   "Premium Ad",
                   style: StyleUtility.headingTextStyle,
                 ),
-                Text(
-                  "See All",
-                  style: StyleUtility.titleTextStyle.copyWith(
-                      fontSize: TextSizeUtility.textSize12,
-                      color: ColorUtility.color152D4A),
+                InkWell(
+                  onTap: (){
+                    Navigator.pushNamed(context, RouteName.postDetailsScreen);
+                  },
+                  child: Text(
+                    "See All",
+                    style: StyleUtility.titleTextStyle.copyWith(
+                        fontSize: TextSizeUtility.textSize12,
+                        color: ColorUtility.color152D4A),
+                  ),
                 ),
               ],
             ),

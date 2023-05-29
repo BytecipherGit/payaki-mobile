@@ -5,7 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -13,9 +13,12 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
+import 'package:provider/provider.dart';
 
 class PostDetailsScreen extends StatefulWidget {
-  const PostDetailsScreen({Key? key}) : super(key: key);
+  final int postId;
+
+  const PostDetailsScreen({Key? key, required this.postId}) : super(key: key);
 
   @override
   State<PostDetailsScreen> createState() => _PostDetailsScreenState();
@@ -24,578 +27,732 @@ class PostDetailsScreen extends StatefulWidget {
 class _PostDetailsScreenState extends State<PostDetailsScreen> {
   int _current = 0;
 
-  var list = [
-    "https://picsum.photos/250?image=9",
-    "https://picsum.photos/250?image=10",
-    "https://picsum.photos/250?image=12",
-    "https://picsum.photos/250?image=15"
-  ];
+  PostDetailScreenVm postDetailScreenVm = PostDetailScreenVm();
+  // var list = [
+  //   "https://picsum.photos/250?image=9",
+  //   "https://picsum.photos/250?image=10",
+  //   "https://picsum.photos/250?image=12",
+  //   "https://picsum.photos/250?image=15"
+  // ];
+
+  @override
+  void initState() {
+    super.initState();
+    postDetailScreenVm =
+        Provider.of<PostDetailScreenVm>(context, listen: false);
+    postDetailScreenVm.getPostDetail(
+        onSuccess: (value) {},
+        onFailure: (value) {
+          Navigator.pop(context);
+          context.showSnackBar(message: value);
+        },
+        postId: widget.postId);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                CarouselSlider.builder(
-                  itemCount: list.length,
-                  itemBuilder: (BuildContext context, int itemIndex,
-                          int pageViewIndex) =>
-                      Container(
-                    width: double.infinity,
-                    height: 330.h //       height: 350.h,
-                    ,
-                    child: Stack(
-                      children: [
-                        NetworkImageWidget(
-                            width: double.infinity,
-                            height: 330.h,
-                            errorIconSize: 70.sp,
-                            url: list[_current])
-                      ],
-                    ),
-                  ),
-                  options: CarouselOptions(
-                      height: 350.h,
-                      viewportFraction: 1,
-                      autoPlay: true,
-                      enlargeCenterPage: false,
-                      //  aspectRatio: 16 / 9,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _current = index;
-                        });
-                      }),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 300.h),
-                  alignment: Alignment.center,
-                  child: DotsIndicator(
-                    dotsCount: list.length,
-                    position: _current,
-                    decorator: DotsDecorator(
-                      spacing: EdgeInsets.only(left: 2.5, right: 2.5),
-                      color: ColorUtility.color7A7A7A,
-                      activeColor: ColorUtility.color06C972,
-                      size: const Size(7.0, 7.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0),
-                      ),
-                      activeSize: const Size(40.0, 7.0),
-                      activeShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0),
-                      ),
-                    ),
-                  ),
-                ),
-                AppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: SafeArea(
-                top: false,
+      body: Consumer<PostDetailScreenVm>(
+          builder: (context, postDetailScreenVm, child) {
+        return postDetailScreenVm.isLoading == false
+            ? SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    Stack(
                       children: [
-                        Expanded(
-                            child: Text(
-                          "₹ 6,50,000",
-                          style: StyleUtility.headingTextStyle
-                              .copyWith(fontSize: TextSizeUtility.textSize26),
-                        )),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 6.w, vertical: 3.w),
-                          decoration: BoxDecoration(
-                              color: ColorUtility.color06C972,
-                              borderRadius: BorderRadius.circular(3.r)),
-                          child: Center(
-                            child: Text("Negotiate".toUpperCase(),
-                                style: StyleUtility.typeStyle),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            "Samsung camera for sale",
-                            style: StyleUtility.postDescTextStyle.copyWith(
-                                fontSize: TextSizeUtility.textSize18,
-                                color: ColorUtility.color43576F),
-                          ),
-                        ),
-                        Text(
-                          "1 Day Ago",
-                          style: StyleUtility.postDescTextStyle
-                              .copyWith(fontSize: TextSizeUtility.textSize12),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 25.h,
-                    ),
-                    Text(
-                      "Location",
-                      style: StyleUtility.headingTextStyle,
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Row(
-                      children: [
-                        Image.asset(
-                          ImageUtility.locationIcon,
-                          width: 12.5.w,
-                        ),
-                        SizedBox(
-                          width: 9.w,
-                        ),
-                        Expanded(
-                          child: Text(
-                              "Bangalore airport area, Jodhpur, Rajasthan",
-                              style: StyleUtility.postDescTextStyle),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 25.h,
-                    ),
-                    Text(
-                      "Description",
-                      style: StyleUtility.headingTextStyle,
-                    ),
-                    Text(
-                        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex eaolo.",
-                        style: StyleUtility.postDescTextStyle),
-                    SizedBox(
-                      height: 25.h,
-                    ),
-                    Text(
-                      "Tags",
-                      style: StyleUtility.headingTextStyle,
-                    ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.w),
-                      decoration: BoxDecoration(
-                          color: ColorUtility.colorC3F4DA,
-                          borderRadius: BorderRadius.circular(3.r)),
-                      child: Text("Samsung",
-                          style: StyleUtility.axiforma400.copyWith(
-                              fontSize: TextSizeUtility.textSize14,
-                              color: ColorUtility.color06C972)),
-                    ),
-                    SizedBox(
-                      height: 25.h,
-                    ),
-                    Text(
-                      "Posted By",
-                      style: StyleUtility.headingTextStyle,
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                ImageUtility.userDummyIcon,
-                                width: 60.w,
-                                height: 60.w,
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "User@gmail.com",
-                                      style: StyleUtility.headingTextStyle
-                                          .copyWith(
-                                              color: ColorUtility.color43576F),
-                                    ),
-                                    Text("+91 1234567890",
-                                        style:
-                                            StyleUtility.reviewTitleTextStyle),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16.sp,
-                          color: ColorUtility.color43576F,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 25.h,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 44.h),
-                      height: TextSizeUtility.buttonHeight,
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorUtility.color4285F4,
-                            shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.r)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                ImageUtility.saveAddIcon,
-                                width: 12.w,
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Text("Save this Ad",
-                                  maxLines: 1,
-                                  style: StyleUtility.buttonTextStyle),
-                            ],
-                          )),
-                    ),
-                    Text(
-                      "Ad ID",
-                      style: StyleUtility.headingTextStyle,
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Text("5997", style: StyleUtility.postDescTextStyle),
-                    SizedBox(
-                      height: 25.h,
-                    ),
-                    Text(
-                      "Add your review",
-                      style: StyleUtility.headingTextStyle,
-                    ),
-                    SizedBox(
-                      height: 25.h,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, RouteName.addReviewScreen);
-                      },
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Row(
+                        CarouselSlider.builder(
+                          itemCount: postDetailScreenVm.postDetailResponse?.data?.image?.length ?? 0,
+                          itemBuilder: (BuildContext context, int itemIndex,
+                                  int pageViewIndex) =>
+                              Container(
+                            width: double.infinity,
+                            height: 330.h //       height: 350.h,
+                            ,
+                            child: Stack(
                               children: [
-                                Image.asset(
-                                  ImageUtility.addReviewIcon,
-                                  width: 25.w,
-                                ),
-                                SizedBox(
-                                  width: 18.w,
-                                ),
-                                Text(
-                                  "Add Review",
-                                  style: StyleUtility.headingTextStyle.copyWith(
-                                      color: ColorUtility.color43576F),
-                                ),
+                                NetworkImageWidget(
+                                    width: double.infinity,
+                                    height: 330.h,
+                                    errorIconSize: 70.sp,
+                                  //  url: list[_current]
+                                    url: postDetailScreenVm.postDetailResponse?.data?.image?[_current]
+                                )
                               ],
                             ),
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16.sp,
-                            color: ColorUtility.color43576F,
-                          )
-                        ],
-                      ),
+                          options: CarouselOptions(
+                              height: 350.h,
+                              viewportFraction: 1,
+                              autoPlay: true,
+                              enlargeCenterPage: false,
+                              //  aspectRatio: 16 / 9,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              }),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 300.h),
+                          alignment: Alignment.center,
+                          child: DotsIndicator(
+                            dotsCount:postDetailScreenVm.postDetailResponse?.data?.image?.length ?? 0,
+                            position: _current,
+                            decorator: DotsDecorator(
+                              spacing: EdgeInsets.only(left: 2.5, right: 2.5),
+                              color: ColorUtility.color7A7A7A,
+                              activeColor: ColorUtility.color06C972,
+                              size: const Size(7.0, 7.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0),
+                              ),
+                              activeSize: const Size(40.0, 7.0),
+                              activeShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                        AppBar(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        )
+                      ],
                     ),
-                    SizedBox(
-                      height: 42.h,
-                    ),
-                    Text(
-                      "User reviews",
-                      style: StyleUtility.headingTextStyle,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: 2,
-                        shrinkWrap: true,
-                        primary: false,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 10.h),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.r),
-                                color: ColorUtility.colorEEEEEE),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 13.w,
-                                  right: 13.w,
-                                  top: 10.w,
-                                  bottom: 12.w),
-                              child: Column(
-                                children: [
-                                  Row(
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: SafeArea(
+                        top: false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  "₹ ${postDetailScreenVm.postDetailResponse?.data?.price ?? ""}",
+                                  style: StyleUtility.headingTextStyle.copyWith(
+                                      fontSize: TextSizeUtility.textSize26),
+                                )),
+                                postDetailScreenVm.postDetailResponse?.data?.negotiable ==
+                                        "1"
+                                    ? Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 6.w, vertical: 3.w),
+                                        decoration: BoxDecoration(
+                                            color: ColorUtility.color06C972,
+                                            borderRadius:
+                                                BorderRadius.circular(3.r)),
+                                        child: Center(
+                                          child: Text("Negotiate".toUpperCase(),
+                                              style: StyleUtility.typeStyle),
+                                        ),
+                                      )
+                                    : SizedBox(),
+                              ],
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    // "Samsung camera for sale",
+                                    postDetailScreenVm.postDetailResponse?.data?.productName ??
+                                        "",
+                                    style: StyleUtility.postDescTextStyle
+                                        .copyWith(
+                                            fontSize:
+                                                TextSizeUtility.textSize18,
+                                            color: ColorUtility.color43576F),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                if (postDetailScreenVm
+                                        .postDetailResponse?.data?.createdAt !=
+                                    null)
+                                  Text(
+                                    Moment(DateTime.parse(postDetailScreenVm
+                                        .postDetailResponse!.data!.createdAt!))
+                                        .fromNow(),
+                                    style: StyleUtility.postDescTextStyle
+                                        .copyWith(
+                                            fontSize:
+                                                TextSizeUtility.textSize12),
+                                  ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 25.h,
+                            ),
+                            Text(
+                              "Location",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Row(
+                              children: [
+                                Image.asset(
+                                  ImageUtility.locationIcon,
+                                  width: 12.5.w,
+                                ),
+                                SizedBox(
+                                  width: 9.w,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                      //  "Bangalore airport area, Jodhpur, Rajasthan",
+                                      postDetailScreenVm.postDetailResponse
+                                              ?.data?.fullAddress ??
+                                          "",
+                                      style: StyleUtility.postDescTextStyle),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 25.h,
+                            ),
+
+                            Text(
+                              "Phone Number",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Row(
+                              children: [
+                                Image.asset(
+                                  ImageUtility.phoneIcon,
+                                  width: 12.5.w,
+                                ),
+                                SizedBox(
+                                  width: 9.w,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                      postDetailScreenVm.postDetailResponse
+                                          ?.data?.phone ??
+                                          "",
+                                      style: StyleUtility.postDescTextStyle),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 25.h,
+                            ),
+
+
+
+                            Text(
+                              "Description",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            Text(
+                                //  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex eaolo.",
+                                postDetailScreenVm
+                                        .postDetailResponse?.data?.description ??
+                                    "",
+                                style: StyleUtility.postDescTextStyle),
+                            SizedBox(
+                              height: 25.h,
+                            ),
+                            Text(
+                              "Tags",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            Wrap(
+                              children: List<Widget>.generate(
+                                postDetailScreenVm.tagArray?.length ?? 0,
+                                (index) {
+                                  return Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 6.w, vertical: 3.w),
+                                    margin: EdgeInsets.only(
+                                        right: 10.w, bottom: 10.w),
+                                    decoration: BoxDecoration(
+                                        color: ColorUtility.colorC3F4DA,
+                                        borderRadius:
+                                            BorderRadius.circular(3.r)),
+                                    child: Text(
+                                        postDetailScreenVm.tagArray?[index] ??
+                                            "",
+                                        style: StyleUtility.axiforma400
+                                            .copyWith(
+                                                fontSize:
+                                                    TextSizeUtility.textSize14,
+                                                color:
+                                                    ColorUtility.color06C972)),
+                                  );
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            Text(
+                              "Posted By",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
                                     children: [
+                                      Image.asset(
+                                        ImageUtility.userDummyIcon,
+                                        width: 60.w,
+                                        height: 60.w,
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
                                       Expanded(
-                                        child: Row(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Image.asset(
-                                              ImageUtility.userDummyIcon,
-                                              width: 40.w,
-                                              height: 40.w,
+                                            Text(
+                                            //  "User@gmail.com",
+                                              postDetailScreenVm.postDetailResponse?.data?.postUserDetails?.email ?? "",
+                                              style: StyleUtility
+                                                  .headingTextStyle
+                                                  .copyWith(
+                                                      color: ColorUtility
+                                                          .color43576F),
                                             ),
-                                            SizedBox(
-                                              width: 10.w,
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                            Text("+91 1234567890",
+                                                style: StyleUtility
+                                                    .reviewTitleTextStyle),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 16.sp,
+                                  color: ColorUtility.color43576F,
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 25.h,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 44.h),
+                              height: TextSizeUtility.buttonHeight,
+                              width: MediaQuery.of(context).size.width,
+                              child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: ColorUtility.color4285F4,
+                                    shadowColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r)),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        ImageUtility.saveAddIcon,
+                                        width: 12.w,
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      Text("Save this Ad",
+                                          maxLines: 1,
+                                          style: StyleUtility.buttonTextStyle),
+                                    ],
+                                  )),
+                            ),
+                            Text(
+                              "Ad ID",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Text(
+                                postDetailScreenVm
+                                        .postDetailResponse?.data?.id ??
+                                    "",
+                                style: StyleUtility.postDescTextStyle),
+                            SizedBox(
+                              height: 25.h,
+                            ),
+                            Text(
+                              "Add your review",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            SizedBox(
+                              height: 25.h,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteName.addReviewScreen);
+                              },
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          ImageUtility.addReviewIcon,
+                                          width: 25.w,
+                                        ),
+                                        SizedBox(
+                                          width: 18.w,
+                                        ),
+                                        Text(
+                                          "Add Review",
+                                          style: StyleUtility.headingTextStyle
+                                              .copyWith(
+                                                  color:
+                                                      ColorUtility.color43576F),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16.sp,
+                                    color: ColorUtility.color43576F,
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 42.h,
+                            ),
+                            Text(
+                              "User reviews",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            (postDetailScreenVm.postDetailResponse?.data?.reviewRating?.length ??
+                                        0) >
+                                    0
+                                ? ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    itemCount: postDetailScreenVm
+                                            .postDetailResponse
+                                            ?.data
+                                        ?.reviewRating
+                                            ?.length ??
+                                        0,
+                                    shrinkWrap: true,
+                                    primary: false,
+                                    itemBuilder: (context, index) {
+                                      var userReview = postDetailScreenVm
+                                          .postDetailResponse
+                                          ?.data
+                                          ?.reviewRating;
+                                      return Container(
+                                        margin: EdgeInsets.only(bottom: 10.h),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.r),
+                                            color: ColorUtility.colorEEEEEE),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 13.w,
+                                              right: 13.w,
+                                              top: 10.w,
+                                              bottom: 12.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  Text(
-                                                    "User@gmail.com",
+                                                  Expanded(
+                                                    child: Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          ImageUtility
+                                                              .userDummyIcon,
+                                                          width: 40.w,
+                                                          height: 40.w,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 10.w,
+                                                        ),
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                userReview?[index]
+                                                                        .reviewerName ??
+                                                                    "",
+                                                                style: StyleUtility
+                                                                    .headingTextStyle
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            TextSizeUtility.textSize16),
+                                                                maxLines: 1,
+                                                              ),
+                                                              if(userReview?[index]
+                                                                  .reviewDate != null)
+                                                              Text(
+                                                                Moment(DateTime.parse(userReview![index]
+                                                                    .reviewDate!))
+                                                                    .fromNow(),
+                                                                style: StyleUtility
+                                                                    .axiforma600
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            TextSizeUtility
+                                                                                .textSize10,
+                                                                        color: ColorUtility
+                                                                            .color8B97A4),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  RatingBar.builder(
+                                                    ignoreGestures: true,
+                                                    initialRating: double.parse(
+                                                        userReview?[index]
+                                                                .rating ??
+                                                            "0.0"),
+                                                    minRating: 1,
+                                                    direction: Axis.horizontal,
+                                                    allowHalfRating: true,
+                                                    itemCount: 5,
+                                                    itemSize: 15,
+                                                    itemPadding:
+                                                        const EdgeInsets
+                                                                .symmetric(
+                                                            horizontal: 0.0),
+                                                    itemBuilder: (context, _) =>
+                                                        const Icon(Icons.star,
+                                                            color: ColorUtility
+                                                                .colorFFA500),
+                                                    onRatingUpdate: (rating) {},
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 15.h,
+                                              ),
+                                              Text(
+                                                userReview?[index].review ?? "",
+                                                style: StyleUtility
+                                                    .postDescTextStyle,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    })
+                                : Text(
+                                    "No User reviews",
+                                    style: StyleUtility.headingTextStyle,
+                                  ),
+                            SizedBox(
+                              height: 35.h,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: CustomButton.outline(
+                                        buttonText: "Quote", onTab: () {})),
+                                SizedBox(
+                                  width: 11.w,
+                                ),
+                                Expanded(
+                                    child: CustomButton(
+                                        buttonText: "Chat",
+                                        onTab: () {
+                                          Moment yesterday = Moment.now() -
+                                              Duration(
+                                                  days: 766,
+                                                  hours: 2); // -26 hours
+
+                                          context.showSnackBar(
+                                              message: yesterday.fromNow());
+
+                                          showLoginDialog(context);
+                                        }))
+                              ],
+                            ),
+                            SizedBox(
+                              height: 35.h,
+                            ),
+                            Text(
+                              "Similar Ads ",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            GridView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
+                              itemCount: 4,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 10.w,
+                                      mainAxisSpacing: 15.w,
+                                      childAspectRatio: 0.90),
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        ClipRRect(
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(10.r),
+                                                topLeft: Radius.circular(10.r)),
+                                            // Image border
+                                            child: Image.asset(
+                                              ImageUtility.productImage,
+                                              height: 110.sp,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                            )),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.all(10.w),
+                                              child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10.w,
+                                                      right: 10.w,
+                                                      top: 4.w,
+                                                      bottom: 4.w),
+                                                  decoration: BoxDecoration(
+                                                      color: ColorUtility
+                                                          .colorA3803F
+                                                          .withOpacity(0.7),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              3.r)),
+                                                  child: Text(
+                                                    "Urgent".toUpperCase(),
                                                     style: StyleUtility
-                                                        .headingTextStyle
+                                                        .titleTextStyle
                                                         .copyWith(
-                                                            fontSize:
-                                                                TextSizeUtility
-                                                                    .textSize16),
-                                                    maxLines: 1,
+                                                      color: ColorUtility
+                                                          .whiteColor,
+                                                      fontSize: TextSizeUtility
+                                                          .textSize12,
+                                                    ),
+                                                  )),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(10.w),
+                                              child: Image.asset(
+                                                ImageUtility.addFavIcon,
+                                                width: 22.w,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: ColorUtility.whiteColor,
+                                          borderRadius: BorderRadius.only(
+                                              bottomRight:
+                                                  Radius.circular(10.r),
+                                              bottomLeft:
+                                                  Radius.circular(10.r)),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 7.w, top: 7.w),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "₹ 6,50,000",
+                                                style: StyleUtility
+                                                    .headingTextStyle,
+                                                maxLines: 1,
+                                              ),
+                                              Text(
+                                                "samsung camera",
+                                                style: StyleUtility
+                                                    .titleTextStyle
+                                                    .copyWith(
+                                                        color: ColorUtility
+                                                            .color8B97A4),
+                                                maxLines: 1,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.location_on,
+                                                    size: 13.sp,
+                                                    color: ColorUtility
+                                                        .colorC0C0C0,
                                                   ),
                                                   Text(
-                                                    "1 m Ago",
+                                                    "bangalore airport area, be",
                                                     style: StyleUtility
-                                                        .axiforma600
+                                                        .titleTextStyle
                                                         .copyWith(
                                                             fontSize:
                                                                 TextSizeUtility
                                                                     .textSize10,
                                                             color: ColorUtility
-                                                                .color8B97A4),
+                                                                .colorC0C0C0),
+                                                    maxLines: 1,
                                                   ),
                                                 ],
-                                              ),
-                                            ),
-                                          ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      RatingBar.builder(
-                                        ignoreGestures: true,
-                                        initialRating: 3,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 15,
-                                        itemPadding: const EdgeInsets.symmetric(
-                                            horizontal: 0.0),
-                                        itemBuilder: (context, _) => const Icon(
-                                            Icons.star,
-                                            color: ColorUtility.colorFFA500),
-                                        onRatingUpdate: (rating) {
-                                          print(rating);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 15.h,
-                                  ),
-                                  Text(
-                                    "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.",
-                                    style: StyleUtility.postDescTextStyle,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                    SizedBox(
-                      height: 35.h,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: CustomButton.outline(
-                                buttonText: "Quote", onTab: () {})),
-                        SizedBox(
-                          width: 11.w,
-                        ),
-                        Expanded(
-                            child: CustomButton(
-                                buttonText: "Chat",
-                                onTab: () {
-                                  Moment yesterday = Moment.now() -
-                                      Duration(
-                                          days: 766, hours: 2); // -26 hours
-
-                                  context.showSnackBar(
-                                      message: yesterday.fromNow());
-
-                                  showLoginDialog(context);
-                                }))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 35.h,
-                    ),
-                    Text(
-                      "Similar Ads ",
-                      style: StyleUtility.headingTextStyle,
-                    ),
-                    GridView.builder(
-                      primary: false,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
-                      itemCount: 4,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.w,
-                          mainAxisSpacing: 15.w,
-                          childAspectRatio: 0.90),
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(10.r),
-                                        topLeft: Radius.circular(10.r)),
-                                    // Image border
-                                    child: Image.asset(
-                                      ImageUtility.productImage,
-                                      height: 110.sp,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    )),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(10.w),
-                                      child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 10.w,
-                                              right: 10.w,
-                                              top: 4.w,
-                                              bottom: 4.w),
-                                          decoration: BoxDecoration(
-                                              color: ColorUtility.colorA3803F
-                                                  .withOpacity(0.7),
-                                              borderRadius:
-                                                  BorderRadius.circular(3.r)),
-                                          child: Text(
-                                            "Urgent".toUpperCase(),
-                                            style: StyleUtility.titleTextStyle
-                                                .copyWith(
-                                              color: ColorUtility.whiteColor,
-                                              fontSize:
-                                                  TextSizeUtility.textSize12,
-                                            ),
-                                          )),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10.w),
-                                      child: Image.asset(
-                                        ImageUtility.addFavIcon,
-                                        width: 22.w,
-                                      ),
-                                    ),
+                                    )
                                   ],
-                                )
-                              ],
+                                );
+                              },
                             ),
-                            Expanded(
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: ColorUtility.whiteColor,
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(10.r),
-                                      bottomLeft: Radius.circular(10.r)),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 7.w, top: 7.w),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "₹ 6,50,000",
-                                        style: StyleUtility.headingTextStyle,
-                                        maxLines: 1,
-                                      ),
-                                      Text(
-                                        "samsung camera",
-                                        style: StyleUtility.titleTextStyle
-                                            .copyWith(
-                                                color:
-                                                    ColorUtility.color8B97A4),
-                                        maxLines: 1,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.location_on,
-                                            size: 13.sp,
-                                            color: ColorUtility.colorC0C0C0,
-                                          ),
-                                          Text(
-                                            "bangalore airport area, be",
-                                            style: StyleUtility.titleTextStyle
-                                                .copyWith(
-                                                    fontSize: TextSizeUtility
-                                                        .textSize10,
-                                                    color: ColorUtility
-                                                        .colorC0C0C0),
-                                            maxLines: 1,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
                           ],
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
-              ),
-            )
-          ],
-        ),
-      ),
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              );
+      }),
     );
   }
 

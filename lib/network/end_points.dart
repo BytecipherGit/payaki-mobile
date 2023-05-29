@@ -27,6 +27,7 @@ class CategoryEndPoints {
 }
 class PostEndPoints {
   String get addPost => "addPost";
+  String get getPostDetails => "getPostDetails";
 }
 
 class LocationEndPoints {
