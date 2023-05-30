@@ -11,6 +11,7 @@ import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
+import 'package:payaki/widgets/mobile_number_text_field.dart';
 import 'package:provider/provider.dart';
 
 import '../../../network/model/response/location/city_list_response.dart';
@@ -57,6 +58,8 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
 
 
   String? selectedLocation;
+  TextEditingController phoneNumberController = TextEditingController();
+  String? countryCode;
 
 
 
@@ -216,7 +219,14 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
 
 
 
-
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        MobileNumberTextField(
+                            controller: phoneNumberController,
+                            onChanged: (phone) {
+                              countryCode = phone.countryCode;
+                            }),
 
                         SizedBox(
                           height: 15.h,
@@ -234,6 +244,9 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                    // if (locationController.text.isEmpty) {
                     if (location == null) {
                       context.showSnackBar(message: "Please Select Location.");
+                    }
+                   else if (phoneNumberController.text.isEmpty) {
+                      context.showSnackBar(message: "Please Enter Mobile Number.");
                     } else {
                       Navigator.pushNamed(
                           context, RouteName.selectAddTypeScreen,
@@ -251,6 +264,7 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                             "country": country,
                             "latlong": latlong,
                             "state": state,
+                            "phone": phoneNumberController.text,
                             // "location": "Subh Sampada Colony Nipania",
                             // "city": "Indore",
                             // "country": "IN",

@@ -7,7 +7,6 @@ import 'package:payaki/modules/auth/forgotPassword/screens/forgot_pass_send_otp_
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_pass_success_screen.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_pass_verify_otp_screen.dart';
 import 'package:payaki/modules/auth/logIn/provider/log_in_with_phone_send_otp_screen_vm.dart';
-import 'package:payaki/modules/auth/logIn/provider/login_provider.dart';
 import 'package:payaki/modules/auth/logIn/provider/login_with_phone_verify_otp_screen_vm.dart';
 import 'package:payaki/modules/auth/logIn/screens/log_in_screen.dart';
 import 'package:payaki/modules/auth/logIn/screens/login_with_phone_send_otp_screen.dart';
@@ -29,6 +28,7 @@ import 'package:payaki/modules/postAdd/screens/user_detail_screen.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
 import 'package:payaki/modules/postDetails/screens/post_details_screen.dart';
 import 'package:payaki/modules/review/addReview/screens/add_review_screen.dart';
+import 'package:payaki/modules/review/addReview/viewModel/add_review_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/modules/search/screens/search_screen.dart';
 import 'package:payaki/routes/route_name.dart';
@@ -178,6 +178,7 @@ class AppRoute {
                   country: arg["country"],
                   latlong: arg["latlong"],
                   state: arg["state"],
+                  phone: arg["phone"],
                 ));
 
       case RouteName.userDetailScreen:
@@ -192,17 +193,19 @@ class AppRoute {
                 )
         );
       case RouteName.postDetailsScreen:
+        var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
               create: (_) => PostDetailScreenVm(),
-              child: const PostDetailsScreen(postId: 10,),
+              child:  PostDetailsScreen(postId: arg["postId"],),
             )
         );
       case RouteName.addReviewScreen:
+        var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-              create: (_) => SearchScreenVm(),
-              child: const AddReviewScreen(),
+              create: (_) => AddReviewScreenVm(),
+              child:  AddReviewScreen(postId: arg["postId"],),
             )
         );
 

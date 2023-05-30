@@ -2,15 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/routes/route_name.dart';
+import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/network/end_points.dart';
+import 'package:payaki/network/model/request/review/add_review_request.dart';
 import 'package:payaki/utilities/color_utility.dart';
-import 'package:payaki/utilities/text_size_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
+import 'package:provider/provider.dart';
+
+import '../viewModel/add_review_screen_vm.dart';
 
 class AddReviewScreen extends StatefulWidget {
-  const AddReviewScreen({Key? key}) : super(key: key);
+
+  final String postId;
+
+
+  const AddReviewScreen({Key? key, required this.postId}) : super(key: key);
 
   @override
   State<AddReviewScreen> createState() => _AddReviewScreenState();
@@ -19,6 +29,7 @@ class AddReviewScreen extends StatefulWidget {
 class _AddReviewScreenState extends State<AddReviewScreen> {
   TextEditingController descriptionController = TextEditingController();
 
+  int? selectRating = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,10 +67,10 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                           style: StyleUtility.reviewTitleTextStyle),
                       SizedBox(height: 15.h),
                       RatingBar.builder(
-                        initialRating: 3,
+                        initialRating: 1,
                         minRating: 1,
                         direction: Axis.horizontal,
-                        allowHalfRating: true,
+                        allowHalfRating: false,
                         itemCount: 5,
                         itemSize: 25,
                         itemPadding:
@@ -67,7 +78,8 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                         itemBuilder: (context, _) => const Icon(Icons.star,
                             color: ColorUtility.colorFFA500),
                         onRatingUpdate: (rating) {
-                          print(rating);
+                          selectRating = rating.toInt();
+                          logD(rating);
                         },
                       ),
                       SizedBox(height: 25.h),
@@ -84,23 +96,40 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                   ),
                 ),
               ),
-              CustomButton(
-                  buttonText: "Submit Review",
-                  onTab: () {
-                    if (descriptionController.text.isEmpty) {
-                      context.showSnackBar(
-                          message: 'Please Enter Your Reviews.');
-                    } else {
-                      // Navigator.pushNamed(context, RouteName.setPriceScreen,
-                      //     arguments: {
-                      //       "catId": widget.catId,
-                      //       "subCatId": widget.subCatId,
-                      //       "title": titleController.text,
-                      //       "tag": tagController.text,
-                      //       "description": descriptionController.text,
-                      //     });
-                    }
-                  }),
+              Consumer<AddReviewScreenVm>(
+                builder: (context, addReviewScreenVm,child) {
+                  return CustomButton(
+                      buttonText: "Submit Review",
+                      onTab: () {
+                        if (descriptionController.text.isEmpty) {
+                          context.showSnackBar(
+                              message: 'Please Enter Your Reviews.');
+                        } else {
+
+                          CommonDialog.showLoadingDialog(context);
+                          addReviewScreenVm.addReview(
+                              request: AddReviewRequest(
+                                  name: Endpoints.reviewEndPoints.addReview,
+                                  param: Param(
+                                      userId: Preference().getUserId(),
+                                      productId: widget.postId,
+                                      rating: selectRating.toString(),
+                                      comment: descriptionController.text
+                                  )
+                              ),
+                            onSuccess: (message){
+                                Navigator.pop(context);
+                            context.showSnackBar(message: message);
+                          }, onFailure: (message){
+                            Navigator.pop(context);
+
+                            context.showSnackBar(message: message);
+
+                          }, );
+                        }
+                      });
+                }
+              ),
               SizedBox(
                 height: 20.h,
               ),

@@ -137,7 +137,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 InkWell(
                   onTap: (){
-                    Navigator.pushNamed(context, RouteName.postDetailsScreen);
+                    Navigator.pushNamed(context, RouteName.postDetailsScreen,
+                    arguments: {
+                      "postId":"2"
+                    });
                   },
                   child: Text(
                     "See All",

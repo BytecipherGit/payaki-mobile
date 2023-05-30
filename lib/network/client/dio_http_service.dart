@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/network/base/basic_error_response.dart';
 import 'package:payaki/network/client/http_service.dart';
 import 'package:payaki/network/exception/app_exception.dart';
 import 'package:payaki/network/interceptors/bearer_token_interceptor.dart';
@@ -14,11 +16,11 @@ class DioHttpService implements HttpService {
 
   static DioHttpService get apiServicesInstance => _apiServiceInstance;
 
-  String tokenBox = "dff";
+//  String tokenBox = "dff";
+  String tokenBox = Preference().getAccessToken();
   final String _baseUrl = "";
 
   final Dio dio = Dio();
-
   /// The Dio base options
   BaseOptions get baseOptions => BaseOptions(
       //  baseUrl: "http://themindcrm.com/payaki-web/jwt-api/",
@@ -110,11 +112,36 @@ class DioHttpService implements HttpService {
     }
   }
 
+  // dynamic parseDioError(DioError error) {
+  //   logD(
+  //       "Parse Error => message =>${error.message}\n error =>${error.error} \n type=>${error.type}\n socket exception = ${error.error is SocketException}");
+  //   switch (error.type) {
+  //     case DioErrorType.connectionTimeout:
+  //       return AppException.error("Connection Time out");
+  //     case DioErrorType.sendTimeout:
+  //       return AppException.error("Send Time out");
+  //     case DioErrorType.receiveTimeout:
+  //       return AppException.error("Receive Time out");
+  //     case DioErrorType.cancel:
+  //       return AppException.error("Request is Cancelled");
+  //     case DioErrorType.badResponse:
+  //       //   return BasicErrorResponse.fromJson(error.response!.data);
+  //       return error.response!.data;
+  //     case DioErrorType.unknown:
+  //       if (error.error is SocketException) {
+  //         return AppException.noInternet(requestOptions: error.requestOptions);
+  //       }
+  //       return AppException.error("Error Occurred!!");
+  //     default:
+  //       return AppException.error("Error Occurred!!");
+  //   }
+  // }
+
   dynamic parseDioError(DioError error) {
     logD(
         "Parse Error => message =>${error.message}\n error =>${error.error} \n type=>${error.type}\n socket exception = ${error.error is SocketException}");
     switch (error.type) {
-      case DioErrorType.connectionTimeout:
+         case DioErrorType.connectionTimeout:
         return AppException.error("Connection Time out");
       case DioErrorType.sendTimeout:
         return AppException.error("Send Time out");
@@ -123,8 +150,7 @@ class DioHttpService implements HttpService {
       case DioErrorType.cancel:
         return AppException.error("Request is Cancelled");
       case DioErrorType.badResponse:
-        //   return BasicErrorResponse.fromJson(error.response!.data);
-        return error.response!.data;
+        return error.response!.statusMessage!;
       case DioErrorType.unknown:
         if (error.error is SocketException) {
           return AppException.noInternet(requestOptions: error.requestOptions);
@@ -134,6 +160,8 @@ class DioHttpService implements HttpService {
         return AppException.error("Error Occurred!!");
     }
   }
+
+
 
   dynamic parseHttpException(Response? response) {
     logD("parseHttpException $response");

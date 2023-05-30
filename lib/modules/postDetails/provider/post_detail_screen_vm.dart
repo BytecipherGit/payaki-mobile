@@ -15,7 +15,7 @@ class PostDetailScreenVm extends ChangeNotifier {
   getPostDetail({
     ValueChanged<String>? onSuccess,
     ValueChanged<String>? onFailure,
-    required int postId,
+    required String postId,
   }) {
     postRepository
         .postDetails(PostDetailRequest(
@@ -27,7 +27,7 @@ class PostDetailScreenVm extends ChangeNotifier {
 
       if (value.code == 200) {
         String tags = postDetailResponse?.data?.tag ?? "";
-        tagArray = tags.split(', ');
+        tagArray = tags.split(',');
 
         onSuccess?.call(value.message ?? "");
       } else {
@@ -38,7 +38,8 @@ class PostDetailScreenVm extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
 
-      onFailure?.call("Server Error");
+     // onFailure?.call("Server Error");
+      onFailure?.call(error.toString());
     });
   }
 }

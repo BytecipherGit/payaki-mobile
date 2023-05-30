@@ -20,7 +20,6 @@ class Preference {
   static const String _accessToken = "accessToken";
   static const String _userId = "userId";
 
-
   static setUserName(String value) async {
     _pref?.setString(_userName, value);
   }
@@ -37,9 +36,6 @@ class Preference {
     return _pref?.getString(_accessToken) ?? "";
   }
 
-
-
-
   static setUserId(var value) async {
     _pref?.setString(_userId, value.toString());
   }
@@ -55,7 +51,6 @@ class Preference {
   bool getUserLogin() {
     return _pref?.getBool(_isUserLoggedIn) ?? false;
   }
-
 
   clearSharedPreference() {
     _pref?.clear();

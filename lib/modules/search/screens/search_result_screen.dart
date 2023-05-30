@@ -5,6 +5,7 @@ import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/search/search_request.dart';
+import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -175,6 +176,12 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   mainAxisSpacing: 15.w,
                                   childAspectRatio: 0.90),
                           itemBuilder: (context, index) {
+                            String? image;
+
+                            if((filterPostList?[index].image?.length ?? 0) > 0 ){
+                              image = filterPostList?[index].image?[0];
+                            }
+
                             String? type;
                             if(filterPostList?[index].featured == "1"){
                               type = "Featured";
@@ -185,13 +192,20 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                               type = "Highlight";
 
                             }
-                            return GridItemWidget(
-                              imageUrl: filterPostList?[index].image?[0] ?? "",
-                              price: filterPostList?[index].price ?? "",
-                             // type: "Urgent",
-                              type: type,
-                              title: filterPostList?[index].productName ?? "",
-                              address: filterPostList?[index].location ?? "",
+                            return GestureDetector(
+                              onTap: (){
+                                Navigator.pushNamed(context, RouteName.postDetailsScreen,arguments: {
+                                  "postId":filterPostList?[index].id
+                                });
+                              },
+                              child: GridItemWidget(
+                                imageUrl: image ?? "",
+                                price: filterPostList?[index].price ?? "",
+                               // type: "Urgent",
+                                type: type,
+                                title: filterPostList?[index].productName ?? "",
+                                address: filterPostList?[index].location ?? "",
+                              ),
                             );
                           },
                         )

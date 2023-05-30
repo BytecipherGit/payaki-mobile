@@ -26,6 +26,7 @@ class SelectAddTypeScreen extends StatefulWidget {
   final String country;
   final String latlong;
   final String state;
+  final String phone;
 
   const SelectAddTypeScreen(
       {Key? key,
@@ -41,7 +42,9 @@ class SelectAddTypeScreen extends StatefulWidget {
       required this.city,
       required this.country,
       required this.latlong,
-      required this.state})
+      required this.state,
+      required this.phone
+      })
       : super(key: key);
 
   @override
@@ -272,6 +275,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                               country: widget.country,
                               latlong: widget.latlong,
                               state: widget.state,
+                              phone: widget.phone,
                               featured: selectPremiumValue == featured ? "1":"0",
                               urgent:  selectPremiumValue == urgent ? "1":"0",
                               highlight:  selectPremiumValue == highlight ? "1":"0",

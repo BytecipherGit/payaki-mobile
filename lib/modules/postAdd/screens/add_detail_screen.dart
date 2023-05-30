@@ -66,7 +66,7 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                       ),
                       SimpleTextField(
                         controller: tagController,
-                        hintText: "Tag",
+                        hintText: "Enter the tags separated by commas.",
                         titleText: "Tag *",
                       ),
 

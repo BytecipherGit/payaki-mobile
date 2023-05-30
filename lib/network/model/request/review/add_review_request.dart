@@ -1,10 +1,10 @@
-class PostDetailRequest {
+class AddReviewRequest {
   String? name;
   Param? param;
 
-  PostDetailRequest({this.name, this.param});
+  AddReviewRequest({this.name, this.param});
 
-  PostDetailRequest.fromJson(Map<String, dynamic> json) {
+  AddReviewRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     param = json['param'] != null ? new Param.fromJson(json['param']) : null;
   }
@@ -20,17 +20,26 @@ class PostDetailRequest {
 }
 
 class Param {
-  String? postId;
+  String? userId;
+  String? productId;
+  String? rating;
+  String? comment;
 
-  Param({required this.postId});
+  Param({this.userId, this.productId, this.rating, this.comment});
 
   Param.fromJson(Map<String, dynamic> json) {
-    postId = json['postId'];
+    userId = json['user_id'];
+    productId = json['product_id'];
+    rating = json['rating'];
+    comment = json['comment'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['postId'] = this.postId;
+    data['user_id'] = this.userId;
+    data['product_id'] = this.productId;
+    data['rating'] = this.rating;
+    data['comment'] = this.comment;
     return data;
   }
 }

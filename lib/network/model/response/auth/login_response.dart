@@ -33,7 +33,7 @@ class Data {
   String? passwordHash;
   String? email;
   String? name;
-  Null? tagline;
+  dynamic tagline;
   String? phone;
   String? image;
   String? isEmailVerified;

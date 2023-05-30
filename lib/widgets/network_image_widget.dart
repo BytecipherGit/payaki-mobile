@@ -58,7 +58,17 @@ class NetworkImageWidget extends StatelessWidget {
         // : null,
       );
     }
-    return alternate ?? const SizedBox();
+    return alternate ??  Container(
+      height: height,
+      color: ColorUtility.colorEFEFEF,
+      child:  Center(
+        child: Icon(
+          Icons.image_not_supported_rounded,
+          color: ColorUtility.color43576F,
+          size:  errorIconSize,
+        ),
+      ),
+    );
   }
 }
 

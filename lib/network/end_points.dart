@@ -7,6 +7,7 @@ class Endpoints {
   static PostEndPoints post = PostEndPoints();
   static LocationEndPoints location = LocationEndPoints();
   static SearchEndPoints search = SearchEndPoints();
+  static ReviewEndPoints reviewEndPoints = ReviewEndPoints();
 }
 
 // TODO API flavours UAT/Production
@@ -36,6 +37,10 @@ class LocationEndPoints {
 
 class SearchEndPoints {
   String get getAllPost => "getAllPost";
+}
+
+class ReviewEndPoints {
+  String get addReview => "reviewAndRating";
 }
 
 
