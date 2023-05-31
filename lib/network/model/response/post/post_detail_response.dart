@@ -475,6 +475,7 @@ class SimilarPost {
   String? adminSeen;
   String? emailed;
   String? hide;
+  String? fullAddress;
   String? catName;
   String? subCatName;
   String? name;
@@ -513,6 +514,7 @@ class SimilarPost {
         this.adminSeen,
         this.emailed,
         this.hide,
+        this.fullAddress,
         this.catName,
         this.subCatName,
         this.name,
@@ -551,6 +553,7 @@ class SimilarPost {
     adminSeen = json['admin_seen'];
     emailed = json['emailed'];
     hide = json['hide'];
+    fullAddress = json['full_address'];
     catName = json['cat_name'];
     subCatName = json['sub_cat_name'];
     name = json['name'];
@@ -592,6 +595,7 @@ class SimilarPost {
     data['admin_seen'] = this.adminSeen;
     data['emailed'] = this.emailed;
     data['hide'] = this.hide;
+    data['full_address'] = this.fullAddress;
     data['cat_name'] = this.catName;
     data['sub_cat_name'] = this.subCatName;
     data['name'] = this.name;

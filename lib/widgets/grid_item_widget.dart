@@ -98,12 +98,14 @@ class GridItemWidget extends StatelessWidget {
                           size: 13.sp,
                           color: ColorUtility.colorC0C0C0,
                         ),
-                        Text(
-                          address,
-                          style: StyleUtility.titleTextStyle.copyWith(
-                              fontSize: TextSizeUtility.textSize10,
-                              color: ColorUtility.colorC0C0C0),
-                          maxLines: 1,
+                        Expanded(
+                          child: Text(
+                            address,
+                            style: StyleUtility.titleTextStyle.copyWith(
+                                fontSize: TextSizeUtility.textSize10,
+                                color: ColorUtility.colorC0C0C0),
+                            maxLines: 1,
+                          ),
                         ),
                       ],
                     )

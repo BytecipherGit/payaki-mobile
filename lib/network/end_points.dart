@@ -29,6 +29,7 @@ class CategoryEndPoints {
 class PostEndPoints {
   String get addPost => "addPost";
   String get getPostDetails => "getPostDetails";
+  String get likeDislikePost => "likeDislikePost";
 }
 
 class LocationEndPoints {

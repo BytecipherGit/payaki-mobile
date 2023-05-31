@@ -5,9 +5,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
+import 'package:payaki/network/model/response/post/post_detail_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
@@ -40,7 +43,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
         onSuccess: (value) {},
         onFailure: (value) {
           Navigator.pop(context);
-         context.showSnackBar(message: value);
+          context.showSnackBar(message: value);
         },
         postId: widget.postId);
   }
@@ -205,7 +208,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                     Moment(DateTime.parse(postDetailScreenVm
                                             .postDetailResponse!
                                             .data!
-                                            .createdAt!)).fromNow(),
+                                            .createdAt!))
+                                        .fromNow(),
 
                                     // Moment(DateTime.parse("2023-06-01 20:47:40"))
                                     //     .fromNow(form: UnitStringForm.full).replaceAll('in','')+" left",
@@ -385,35 +389,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             SizedBox(
                               height: 25.h,
                             ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 44.h),
-                              height: TextSizeUtility.buttonHeight,
-                              width: MediaQuery.of(context).size.width,
-                              child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: ColorUtility.color4285F4,
-                                    shadowColor: Colors.transparent,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.r)),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        ImageUtility.saveAddIcon,
-                                        width: 12.w,
-                                      ),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      Text("Save this Ad",
-                                          maxLines: 1,
-                                          style: StyleUtility.buttonTextStyle),
-                                    ],
-                                  )),
-                            ),
                             Text(
                               "Ad ID",
                               style: StyleUtility.headingTextStyle,
@@ -429,54 +404,110 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             SizedBox(
                               height: 25.h,
                             ),
-                            Text(
-                              "Add your review",
-                              style: StyleUtility.headingTextStyle,
-                            ),
-                            SizedBox(
-                              height: 25.h,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, RouteName.addReviewScreen,
-                                    arguments: {
-                                      "postId": widget.postId,
-                                    });
-                              },
-                              child: Row(
+                            if (Preference().getUserLogin())
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
+                                  SizedBox(
+                                    height: TextSizeUtility.buttonHeight,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          CommonDialog.showLoadingDialog(
+                                              context);
+                                          postDetailScreenVm.postLikeDislike(
+                                              onSuccess: (message) {
+                                                Navigator.pop(context);
+                                                context.showSnackBar(
+                                                    message: message);
+                                              },
+                                              onFailure: (message) {
+                                                Navigator.pop(context);
+                                                context.showSnackBar(
+                                                    message: message);
+                                              },
+                                              postId: widget.postId);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              ColorUtility.color4285F4,
+                                          shadowColor: Colors.transparent,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r)),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              ImageUtility.saveAddIcon,
+                                              width: 12.w,
+                                            ),
+                                            SizedBox(
+                                              width: 10.w,
+                                            ),
+                                            Text("Save this Ad",
+                                                maxLines: 1,
+                                                style: StyleUtility
+                                                    .buttonTextStyle),
+                                          ],
+                                        )),
+                                  ),
+                                  SizedBox(
+                                    height: 26.h,
+                                  ),
+                                  Text(
+                                    "Add your review",
+                                    style: StyleUtility.headingTextStyle,
+                                  ),
+                                  SizedBox(
+                                    height: 25.h,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, RouteName.addReviewScreen,
+                                          arguments: {
+                                            "postId": widget.postId,
+                                          });
+                                    },
                                     child: Row(
                                       children: [
-                                        Image.asset(
-                                          ImageUtility.addReviewIcon,
-                                          width: 25.w,
+                                        Expanded(
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                ImageUtility.addReviewIcon,
+                                                width: 25.w,
+                                              ),
+                                              SizedBox(
+                                                width: 18.w,
+                                              ),
+                                              Text(
+                                                "Add Review",
+                                                style: StyleUtility
+                                                    .headingTextStyle
+                                                    .copyWith(
+                                                        color: ColorUtility
+                                                            .color43576F),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        SizedBox(
-                                          width: 18.w,
-                                        ),
-                                        Text(
-                                          "Add Review",
-                                          style: StyleUtility.headingTextStyle
-                                              .copyWith(
-                                                  color:
-                                                      ColorUtility.color43576F),
-                                        ),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 16.sp,
+                                          color: ColorUtility.color43576F,
+                                        )
                                       ],
                                     ),
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16.sp,
-                                    color: ColorUtility.color43576F,
-                                  )
+                                  SizedBox(
+                                    height: 42.h,
+                                  ),
                                 ],
                               ),
-                            ),
-                            SizedBox(
-                              height: 42.h,
-                            ),
                             Text(
                               "User reviews",
                               style: StyleUtility.headingTextStyle,
@@ -488,127 +519,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                             ?.reviewRating?.length ??
                                         0) >
                                     0
-                                ? ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    itemCount: postDetailScreenVm
-                                            .postDetailResponse
-                                            ?.data
-                                            ?.reviewRating
-                                            ?.length ??
-                                        0,
-                                    shrinkWrap: true,
-                                    primary: false,
-                                    itemBuilder: (context, index) {
-                                      var userReview = postDetailScreenVm
-                                          .postDetailResponse
-                                          ?.data
-                                          ?.reviewRating;
-                                      return Container(
-                                        margin: EdgeInsets.only(bottom: 10.h),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10.r),
-                                            color: ColorUtility.colorEEEEEE),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 13.w,
-                                              right: 13.w,
-                                              top: 10.w,
-                                              bottom: 12.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Row(
-                                                      children: [
-                                                        Image.asset(
-                                                          ImageUtility
-                                                              .userDummyIcon,
-                                                          width: 40.w,
-                                                          height: 40.w,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10.w,
-                                                        ),
-                                                        Expanded(
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                userReview?[index]
-                                                                        .reviewerName ??
-                                                                    "",
-                                                                style: StyleUtility
-                                                                    .headingTextStyle
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            TextSizeUtility.textSize16),
-                                                                maxLines: 1,
-                                                              ),
-                                                              if (userReview?[
-                                                                          index]
-                                                                      .reviewDate !=
-                                                                  null)
-                                                                Text(
-                                                                  Moment(DateTime.parse(
-                                                                          userReview![index]
-                                                                              .reviewDate!))
-                                                                      .fromNow(),
-                                                                  style: StyleUtility
-                                                                      .axiforma600
-                                                                      .copyWith(
-                                                                          fontSize: TextSizeUtility
-                                                                              .textSize10,
-                                                                          color:
-                                                                              ColorUtility.color8B97A4),
-                                                                ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  RatingBar.builder(
-                                                    ignoreGestures: true,
-                                                    initialRating: double.parse(
-                                                        userReview?[index]
-                                                                .rating ??
-                                                            "0.0"),
-                                                    minRating: 1,
-                                                    direction: Axis.horizontal,
-                                                    allowHalfRating: true,
-                                                    itemCount: 5,
-                                                    itemSize: 15,
-                                                    itemPadding:
-                                                        const EdgeInsets
-                                                                .symmetric(
-                                                            horizontal: 0.0),
-                                                    itemBuilder: (context, _) =>
-                                                        const Icon(Icons.star,
-                                                            color: ColorUtility
-                                                                .colorFFA500),
-                                                    onRatingUpdate: (rating) {},
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 15.h,
-                                              ),
-                                              Text(
-                                                userReview?[index].review ?? "",
-                                                style: StyleUtility
-                                                    .postDescTextStyle,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    })
+                                ? UserReviews(
+                                    reviewRating: postDetailScreenVm
+                                        .postDetailResponse?.data?.reviewRating)
                                 : Text(
                                     "No User reviews",
                                     style: StyleUtility.headingTextStyle,
@@ -628,7 +541,12 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                     child: CustomButton(
                                         buttonText: "Chat",
                                         onTab: () {
-                                          showLoginDialog(context);
+                                          if (Preference().getUserLogin()) {
+                                            context.showSnackBar(
+                                                message: "Comming Soon.");
+                                          } else {
+                                            showLoginDialog(context);
+                                          }
                                         }))
                               ],
                             ),
@@ -677,7 +595,12 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                   price: similarAdd?[index].price ?? "",
                                   type: type,
                                   title: similarAdd?[index].productName ?? "",
-                                  address: similarAdd?[index].location ?? "",
+                                  address: similarAdd?[index].fullAddress ?? "",
+                                  onTap: (){
+                                    Navigator.pushNamed(context, RouteName.postDetailsScreen,arguments: {
+                                      "postId":similarAdd?[index].id
+                                    });
+                                  },
                                 );
                               },
                             ),
@@ -750,6 +673,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             buttonText: "Log In",
                             onTab: () {
                               Navigator.pop(context);
+                              goToLogIn();
                             }),
                         SizedBox(
                           height: 25.h,
@@ -773,5 +697,119 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
             );
           });
         });
+  }
+
+  goToLogIn() {
+    Navigator.pushNamed(context, RouteName.logInScreen);
+  }
+}
+
+class UserReviews extends StatelessWidget {
+  final List<ReviewRating>? reviewRating;
+
+  const UserReviews({
+    super.key,
+    this.reviewRating,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return (reviewRating?.length ?? 0) > 0
+        ? ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: reviewRating?.length ?? 0,
+            shrinkWrap: true,
+            primary: false,
+            itemBuilder: (context, index) {
+              var userReview = reviewRating;
+              return Container(
+                margin: EdgeInsets.only(bottom: 10.h),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: ColorUtility.colorEEEEEE),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: 13.w, right: 13.w, top: 10.w, bottom: 12.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  ImageUtility.userDummyIcon,
+                                  width: 40.w,
+                                  height: 40.w,
+                                ),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        userReview?[index].reviewerName ?? "",
+                                        style: StyleUtility.headingTextStyle
+                                            .copyWith(
+                                                fontSize:
+                                                    TextSizeUtility.textSize16),
+                                        maxLines: 1,
+                                      ),
+                                      if (userReview?[index].reviewDate != null)
+                                        Text(
+                                          Moment(DateTime.parse(
+                                                  userReview![index]
+                                                      .reviewDate!))
+                                              .fromNow(),
+                                          style: StyleUtility.axiforma600
+                                              .copyWith(
+                                                  fontSize: TextSizeUtility
+                                                      .textSize10,
+                                                  color:
+                                                      ColorUtility.color8B97A4),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          RatingBar.builder(
+                            ignoreGestures: true,
+                            initialRating: double.parse(
+                                userReview?[index].rating ?? "0.0"),
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemSize: 15,
+                            itemPadding:
+                                const EdgeInsets.symmetric(horizontal: 0.0),
+                            itemBuilder: (context, _) => const Icon(Icons.star,
+                                color: ColorUtility.colorFFA500),
+                            onRatingUpdate: (rating) {},
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      Text(
+                        userReview?[index].review ?? "",
+                        style: StyleUtility.postDescTextStyle,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            })
+        : Text(
+            "No User reviews",
+            style: StyleUtility.headingTextStyle,
+          );
   }
 }

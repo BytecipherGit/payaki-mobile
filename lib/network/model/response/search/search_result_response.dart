@@ -65,6 +65,7 @@ class Data {
   String? hide;
   String? catName;
   String? subCatName;
+  String? fullAddress;
   String? name;
   List<String>? image;
 
@@ -103,6 +104,7 @@ class Data {
         this.hide,
         this.catName,
         this.subCatName,
+        this.fullAddress,
         this.name,
         this.image});
 
@@ -141,6 +143,7 @@ class Data {
     hide = json['hide'];
     catName = json['cat_name'];
     subCatName = json['sub_cat_name'];
+    fullAddress = json['full_address'];
     name = json['name'];
     image = json['image'].cast<String>();
   }
@@ -181,6 +184,7 @@ class Data {
     data['hide'] = this.hide;
     data['cat_name'] = this.catName;
     data['sub_cat_name'] = this.subCatName;
+    data['full_address'] = this.fullAddress;
     data['name'] = this.name;
     data['image'] = this.image;
     return data;

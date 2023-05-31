@@ -204,7 +204,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                // type: "Urgent",
                                 type: type,
                                 title: filterPostList?[index].productName ?? "",
-                                address: filterPostList?[index].location ?? "",
+                                address: filterPostList?[index].fullAddress ?? "",
                               ),
                             );
                           },
