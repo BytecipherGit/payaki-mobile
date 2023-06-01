@@ -569,7 +569,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 10.w,
                                       mainAxisSpacing: 15.w,
-                                      childAspectRatio: 0.90),
+                                     // childAspectRatio: 0.90
+                                      childAspectRatio: 0.82
+                                  ),
                               itemBuilder: (context, index) {
                                 var similarAdd = postDetailScreenVm
                                     .postDetailResponse?.data?.similarPost;
@@ -596,6 +598,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                   type: type,
                                   title: similarAdd?[index].productName ?? "",
                                   address: similarAdd?[index].fullAddress ?? "",
+                                  expiredDate: similarAdd?[index].expiredDate,
+                                  isVerified: similarAdd?[index].isVerified,
                                   onTap: (){
                                     Navigator.pushNamed(context, RouteName.postDetailsScreen,arguments: {
                                       "postId":similarAdd?[index].id

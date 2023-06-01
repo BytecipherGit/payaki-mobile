@@ -174,7 +174,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 10.w,
                                   mainAxisSpacing: 15.w,
-                                  childAspectRatio: 0.90),
+                                 // childAspectRatio: 0.90
+                                  childAspectRatio: 0.82
+                              ),
                           itemBuilder: (context, index) {
                             String? image;
 
@@ -198,13 +200,18 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   "postId":filterPostList?[index].id
                                 });
                               },
-                              child: GridItemWidget(
+                              child:
+
+
+                              GridItemWidget(
                                 imageUrl: image ?? "",
                                 price: filterPostList?[index].price ?? "",
                                // type: "Urgent",
                                 type: type,
                                 title: filterPostList?[index].productName ?? "",
                                 address: filterPostList?[index].fullAddress ?? "",
+                                expiredDate: filterPostList?[index].expiredDate,
+                                isVerified: filterPostList?[index].isVerified,
                               ),
                             );
                           },

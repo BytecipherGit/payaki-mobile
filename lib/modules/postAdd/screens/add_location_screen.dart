@@ -340,7 +340,10 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                       if (location == null) {
                         context.showSnackBar(message: "Please Select Location.");
                       }
-                     else if (phoneNumberController.text.isEmpty) {
+                      else if (selectDayValue?.value == null) {
+                        context.showSnackBar(message: "Please Select Expire Days.");
+                      }
+                      else if (phoneNumberController.text.isEmpty) {
                         context.showSnackBar(message: "Please Enter Mobile Number.");
                       } else {
                         Navigator.pushNamed(
@@ -360,6 +363,7 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                               "latlong": latlong,
                               "state": state,
                               "phone": phoneNumberController.text,
+                              "availableDays": selectDayValue?.value,
                               // "location": "Subh Sampada Colony Nipania",
                               // "city": "Indore",
                               // "country": "IN",

@@ -179,6 +179,7 @@ class AppRoute {
                   latlong: arg["latlong"],
                   state: arg["state"],
                   phone: arg["phone"],
+              availableDays: arg["availableDays"],
                 ));
 
       case RouteName.userDetailScreen:

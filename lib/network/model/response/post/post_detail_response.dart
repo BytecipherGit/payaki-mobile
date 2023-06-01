@@ -476,6 +476,9 @@ class SimilarPost {
   String? emailed;
   String? hide;
   String? fullAddress;
+  String? expireDays;
+  String? expiredDate;
+  String? isVerified;
   String? catName;
   String? subCatName;
   String? name;
@@ -515,6 +518,9 @@ class SimilarPost {
         this.emailed,
         this.hide,
         this.fullAddress,
+        this.expireDays,
+        this.expiredDate,
+        this.isVerified,
         this.catName,
         this.subCatName,
         this.name,
@@ -554,6 +560,9 @@ class SimilarPost {
     emailed = json['emailed'];
     hide = json['hide'];
     fullAddress = json['full_address'];
+    expireDays = json['expire_days'];
+    expiredDate = json['expired_date'];
+    isVerified = json['is_verified'];
     catName = json['cat_name'];
     subCatName = json['sub_cat_name'];
     name = json['name'];
@@ -596,6 +605,9 @@ class SimilarPost {
     data['emailed'] = this.emailed;
     data['hide'] = this.hide;
     data['full_address'] = this.fullAddress;
+    data['expire_days'] = this.expireDays;
+    data['expired_date'] = this.expiredDate;
+    data['is_verified'] = this.isVerified;
     data['cat_name'] = this.catName;
     data['sub_cat_name'] = this.subCatName;
     data['name'] = this.name;

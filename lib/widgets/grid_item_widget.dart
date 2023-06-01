@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -12,6 +13,8 @@ class GridItemWidget extends StatelessWidget {
   final String title;
   final String address;
   final String imageUrl;
+  final String? expiredDate;
+  final String? isVerified;
   final VoidCallback? onTap;
 
   const GridItemWidget({
@@ -21,6 +24,8 @@ class GridItemWidget extends StatelessWidget {
     required this.title,
     required this.address,
     required this.imageUrl,
+    required this.expiredDate,
+    required this.isVerified,
      this.onTap,
   });
 
@@ -108,7 +113,39 @@ class GridItemWidget extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    Padding(
+                      padding:  EdgeInsets.only(right: 10.w),
+                      child: Row(
+                        children: [
+                          expiredDate != null ?
+                          Expanded(
+                            child: Text(
+                             // "Exp. in 21 Hours",
+                              "Exp.${Moment(DateTime.parse(expiredDate!)).fromNow()}",
+                              style: StyleUtility.titleTextStyle.copyWith(
+                                  color: ColorUtility.color323436),
+                              maxLines: 1,
+                            ),
+                          ):const SizedBox(),
+
+                          isVerified == "1" ?
+                          Text(
+                            "Verified".toUpperCase(),
+                            style: StyleUtility.headingTextStyle.copyWith(
+                                fontSize: TextSizeUtility.textSize10,
+                                color: ColorUtility.color06C972),
+                            maxLines: 1,
+                          ):const SizedBox(),
+                        ],
+                      ),
                     )
+
+
                   ],
                 ),
               ),

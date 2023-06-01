@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:payaki/local_store/shared_preference.dart';
-import 'package:payaki/modules/auth/logIn/provider/login_provider.dart';
-import 'package:payaki/modules/postDetails/screens/post_details_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
-import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -27,11 +24,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         children: [
           SizedBox(
             height: height * 0.56,
-            child: Container(
-              margin: EdgeInsets.only(bottom: 20.h),
-              alignment: Alignment.bottomCenter,
-              child: Image.asset(
-                ImageUtility.welcomeBoardImage,
+            child: SafeArea(
+              bottom: false,
+              child: Container(
+                margin: EdgeInsets.only(left: 36.w,right: 36.w),
+                alignment: Alignment.center,
+                child: Image.asset(
+                  ImageUtility.welcomeBoardImage,
+                ),
               ),
             ),
           ),
@@ -66,28 +66,90 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
-                  height: 50.h,
+                  height: 45.h,
                 ),
-                CustomButton(
-                    buttonText: "Log In",
-                    onTab: () {
-                      Navigator.pushReplacementNamed(
-                          context, RouteName.logInScreen);
-                    }),
-                SizedBox(
-                  height: 50.h,
+
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+
+                    GestureDetector(
+                      onTap: (){
+                            Navigator.pushReplacementNamed(
+                                context, RouteName.bottomNavigationBarScreen);
+
+                      },
+                      child: Column(
+                        children: [
+                          ClipOval(
+                            child: Container(
+                              width: 100.w,
+                              height: 100.w,
+                              color: ColorUtility.colorF5F6FA,
+                              child: Center(child: Image.asset(ImageUtility.buyIcon,width: 45.w,),),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 9.h,
+                          ),
+                          Text("BUY",style: StyleUtility.titleTextStyle.copyWith(fontSize: TextSizeUtility.textSize20),)
+
+                        ],
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pushReplacementNamed(
+                                      context, RouteName.logInScreen);
+                      },
+                      child: Column(
+                        children: [
+                          ClipOval(
+                            child: Container(
+                              width: 100.w,
+                              height: 100.w,
+                              color: ColorUtility.colorF5F6FA,
+                              child: Center(child: Image.asset(ImageUtility.sellIcon,width: 45.w,),),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 9.h,
+                          ),
+                          Text("SELL",style: StyleUtility.titleTextStyle.copyWith(fontSize: TextSizeUtility.textSize20),)
+
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(
-                        context, RouteName.bottomNavigationBarScreen);
-                  },
-                  child: Text(
-                    "Skip Log In",
-                    style: StyleUtility.urlTextStyle
-                        .copyWith(color: ColorUtility.color152D4A),
-                  ),
-                ),
+
+
+
+
+
+                // CustomButton(
+                //     buttonText: "Log In",
+                //     onTab: () {
+                //       Navigator.pushReplacementNamed(
+                //           context, RouteName.logInScreen);
+                //     }),
+                // SizedBox(
+                //   height: 50.h,
+                // ),
+                // InkWell(
+                //   onTap: () {
+                //     Navigator.pushReplacementNamed(
+                //         context, RouteName.bottomNavigationBarScreen);
+                //   },
+                //   child: Text(
+                //     "Skip Log In",
+                //     style: StyleUtility.urlTextStyle
+                //         .copyWith(color: ColorUtility.color152D4A),
+                //   ),
+                // ),
               ],
             ),
           ),

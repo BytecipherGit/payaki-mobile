@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
         designSize: const Size(430, 932),
         // splitScreenMode: true,
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
 
-            title: 'Flutter Demo',
+            title: 'PAYAKI',
             theme: ThemeData(
               // This is the theme of your application.
               //
@@ -44,8 +43,10 @@ class MyApp extends StatelessWidget {
             ),
             // home: const LogInScreen(),
             onGenerateRoute: AppRoute.generateRoute,
-            home: Preference().getUserLogin() == false ? const WelcomeScreen():const BottomNavigationBarScreen(),
-          //  home: PostDetailsScreen(),
+            home: Preference().getUserLogin() == false
+                ? const WelcomeScreen()
+                : const BottomNavigationBarScreen(),
+            //  home: PostDetailsScreen(),
           );
         });
   }

@@ -37,6 +37,8 @@ class ImageUtility {
   static const String userDummyIcon = 'assets/images/user_dummy_icon.png';
   static const String loginDialogImage = 'assets/images/login_dialog_image.png';
   static const String phoneIcon = 'assets/images/phone_icon.png';
+  static const String buyIcon = 'assets/images/buy_icon.png';
+  static const String sellIcon = 'assets/images/sell_icon.png';
 
 
 

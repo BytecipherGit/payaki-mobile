@@ -66,6 +66,9 @@ class Data {
   String? catName;
   String? subCatName;
   String? fullAddress;
+  String? expireDays;
+  String? expiredDate;
+  String? isVerified;
   String? name;
   List<String>? image;
 
@@ -105,6 +108,9 @@ class Data {
         this.catName,
         this.subCatName,
         this.fullAddress,
+        this.expireDays,
+        this.expiredDate,
+        this.isVerified,
         this.name,
         this.image});
 
@@ -144,6 +150,9 @@ class Data {
     catName = json['cat_name'];
     subCatName = json['sub_cat_name'];
     fullAddress = json['full_address'];
+    expireDays = json['expire_days'];
+    expiredDate = json['expired_date'];
+    isVerified = json['is_verified'];
     name = json['name'];
     image = json['image'].cast<String>();
   }
@@ -185,6 +194,9 @@ class Data {
     data['cat_name'] = this.catName;
     data['sub_cat_name'] = this.subCatName;
     data['full_address'] = this.fullAddress;
+    data['expire_days'] = this.expireDays;
+    data['expired_date'] = this.expiredDate;
+    data['is_verified'] = this.isVerified;
     data['name'] = this.name;
     data['image'] = this.image;
     return data;
