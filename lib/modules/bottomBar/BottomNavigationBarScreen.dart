@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/home/screens/home_screen.dart';
+import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
@@ -19,7 +21,16 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   int _selectIndex = 0;
 
   final List<Widget> _children = [
-    const HomeScreen(),
+
+
+   // const HomeScreen(),
+
+
+    ChangeNotifierProvider(
+      create: (_) => HomeScreenVm(),
+      child: const HomeScreen(),
+    ),
+
     const Screen2(),
     Screen3(),
     Screen4(),

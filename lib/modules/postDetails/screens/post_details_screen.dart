@@ -18,6 +18,7 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/widgets/grid_item_widget.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PostDetailsScreen extends StatefulWidget {
   final String postId;
@@ -64,7 +65,21 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         ?.length ??
                                     0) >
                                 0
-                            ? Stack(
+                            ?
+
+
+                        postDetailScreenVm.postDetailResponse!.data!.image
+                            !.length == 1 ?
+                        NetworkImageWidget(
+                            width: double.infinity,
+                            height: imageHeight,
+                            errorIconSize: 70.sp,
+                            url: postDetailScreenVm
+                                .postDetailResponse
+                                ?.data
+                                ?.image?[_current]):
+
+                        Stack(
                                 children: [
                                   CarouselSlider.builder(
                                     itemCount: postDetailScreenVm
@@ -130,6 +145,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                   ),
                                 ],
                               )
+
+
                             : SizedBox(
                                 height: imageHeight,
                                 child: Container(
@@ -146,6 +163,24 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                         AppBar(
                           backgroundColor: Colors.transparent,
                           elevation: 0,
+                          actions: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 22.w),
+                              child: InkWell(
+                                onTap: () {
+                                  Share.share(postDetailScreenVm
+                                          .postDetailResponse
+                                          ?.data
+                                          ?.productName ??
+                                      "");
+                                },
+                                child: Image.asset(
+                                  ImageUtility.shareIcon,
+                                  width: 17.w,
+                                ),
+                              ),
+                            )
+                          ],
                         )
                       ],
                     ),
@@ -404,6 +439,26 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             SizedBox(
                               height: 25.h,
                             ),
+                            Text(
+                              "Expire Ad",
+                              style: StyleUtility.headingTextStyle,
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            if (postDetailScreenVm
+                                    .postDetailResponse?.data?.expiredDate !=
+                                null)
+                              Text(
+                                  Moment(DateTime.parse(postDetailScreenVm
+                                          .postDetailResponse!
+                                          .data!
+                                          .expiredDate!))
+                                      .fromNow(),
+                                  style: StyleUtility.postDescTextStyle),
+                            SizedBox(
+                              height: 25.h,
+                            ),
                             if (Preference().getUserLogin())
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -569,9 +624,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 10.w,
                                       mainAxisSpacing: 15.w,
-                                     // childAspectRatio: 0.90
-                                      childAspectRatio: 0.82
-                                  ),
+                                      // childAspectRatio: 0.90
+                                      childAspectRatio: 0.82),
                               itemBuilder: (context, index) {
                                 var similarAdd = postDetailScreenVm
                                     .postDetailResponse?.data?.similarPost;
@@ -600,10 +654,12 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                   address: similarAdd?[index].fullAddress ?? "",
                                   expiredDate: similarAdd?[index].expiredDate,
                                   isVerified: similarAdd?[index].isVerified,
-                                  onTap: (){
-                                    Navigator.pushNamed(context, RouteName.postDetailsScreen,arguments: {
-                                      "postId":similarAdd?[index].id
-                                    });
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, RouteName.postDetailsScreen,
+                                        arguments: {
+                                          "postId": similarAdd?[index].id
+                                        });
                                   },
                                 );
                               },

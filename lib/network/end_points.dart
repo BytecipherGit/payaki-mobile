@@ -30,6 +30,7 @@ class PostEndPoints {
   String get addPost => "addPost";
   String get getPostDetails => "getPostDetails";
   String get likeDislikePost => "likeDislikePost";
+  String get premiumAndLatestPost => "getPremiumAndLatestPost";
 }
 
 class LocationEndPoints {

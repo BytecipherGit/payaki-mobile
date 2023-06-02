@@ -66,6 +66,8 @@ class Data {
   String? stateName;
   String? countryName;
   String? fullAddress;
+  String? expireDays;
+  String? expiredDate;
   List<String>? image;
   PostUserDetails? postUserDetails;
   List<ReviewRating>? reviewRating;
@@ -110,6 +112,8 @@ class Data {
         this.stateName,
         this.countryName,
         this.fullAddress,
+        this.expireDays,
+        this.expiredDate,
         this.image,
         this.postUserDetails,
         this.reviewRating,
@@ -154,6 +158,8 @@ class Data {
     stateName = json['state_name'];
     countryName = json['country_name'];
     fullAddress = json['full_address'];
+    expireDays = json['expire_days'];
+    expiredDate = json['expired_date'];
     image = json["image"] == null ? [] : List<String>.from(json["image"]!.map((x) => x));
 
     postUserDetails = json['post_user_details'] != null
@@ -213,6 +219,8 @@ class Data {
     data['state_name'] = this.stateName;
     data['country_name'] = this.countryName;
     data['full_address'] = this.fullAddress;
+    data['expire_days'] = this.expireDays;
+    data['expired_date'] = this.expiredDate;
     data['image'] = this.image;
     if (this.postUserDetails != null) {
       data['post_user_details'] = this.postUserDetails!.toJson();

@@ -40,11 +40,11 @@ class Data {
 
   Data(
       {this.catId,
-        this.catOrder,
-        this.catName,
-        this.slug,
-        this.icon,
-        this.picture});
+      this.catOrder,
+      this.catName,
+      this.slug,
+      this.icon,
+      this.picture});
 
   Data.fromJson(Map<String, dynamic> json) {
     catId = json['cat_id'];

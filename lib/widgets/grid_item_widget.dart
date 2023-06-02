@@ -42,13 +42,6 @@ class GridItemWidget extends StatelessWidget {
                     topRight: Radius.circular(10.r),
                     topLeft: Radius.circular(10.r)),
                 child:
-
-                    // Image.asset(
-                    //   ImageUtility.productImage,
-                    //   height: 110.sp,
-                    //   width: double.infinity,
-                    //   fit: BoxFit.cover,
-                    // )
                     NetworkImageWidget(
                   height: 110.sp,
                   url: imageUrl,
@@ -56,18 +49,28 @@ class GridItemWidget extends StatelessWidget {
                   errorIconSize: 40.sp,
                 ),
               ),
-              if (type != null)
-                Padding(
-                  padding: EdgeInsets.all(10.w),
-                  child: Container(
-                      padding: EdgeInsets.only(
-                          left: 10.w, right: 10.w, top: 4.w, bottom: 4.w),
-                      decoration: BoxDecoration(
-                          color: ColorUtility.colorA3803F.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(3.r)),
-                      child: Text((type ?? "").toUpperCase(),
-                          style: StyleUtility.typeStyle)),
-                )
+
+              Padding(
+                padding: EdgeInsets.all(10.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    type != null ?
+                      Container(
+                          padding: EdgeInsets.only(
+                              left: 10.w, right: 10.w, top: 4.w, bottom: 4.w),
+                          decoration: BoxDecoration(
+                              color: ColorUtility.colorA3803F.withOpacity(0.7),
+                              borderRadius: BorderRadius.circular(3.r)),
+                          child: Text((type ?? "").toUpperCase(),
+                              style: StyleUtility.typeStyle)):const SizedBox(),
+                    isVerified == "1" ?
+                    Image.asset(ImageUtility.verifiedPostIcon,width: 26.w,):const SizedBox(),
+
+                  ],
+                ),
+              )
+
             ],
           ),
           Expanded(
@@ -133,14 +136,14 @@ class GridItemWidget extends StatelessWidget {
                             ),
                           ):const SizedBox(),
 
-                          isVerified == "1" ?
-                          Text(
-                            "Verified".toUpperCase(),
-                            style: StyleUtility.headingTextStyle.copyWith(
-                                fontSize: TextSizeUtility.textSize10,
-                                color: ColorUtility.color06C972),
-                            maxLines: 1,
-                          ):const SizedBox(),
+                          // isVerified == "1" ?
+                          // Text(
+                          //   "Verified".toUpperCase(),
+                          //   style: StyleUtility.headingTextStyle.copyWith(
+                          //       fontSize: TextSizeUtility.textSize10,
+                          //       color: ColorUtility.color06C972),
+                          //   maxLines: 1,
+                          // ):const SizedBox(),
                         ],
                       ),
                     )

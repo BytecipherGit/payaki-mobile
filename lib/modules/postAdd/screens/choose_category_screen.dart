@@ -5,7 +5,6 @@ import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/postAdd/provider/choose_category_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
-import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';

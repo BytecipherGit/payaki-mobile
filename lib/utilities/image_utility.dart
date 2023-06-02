@@ -39,6 +39,8 @@ class ImageUtility {
   static const String phoneIcon = 'assets/images/phone_icon.png';
   static const String buyIcon = 'assets/images/buy_icon.png';
   static const String sellIcon = 'assets/images/sell_icon.png';
+  static const String shareIcon = 'assets/images/share_icon.png';
+  static const String verifiedPostIcon = 'assets/images/verified_post_icon.png';
 
 
 
