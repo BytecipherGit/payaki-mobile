@@ -43,6 +43,7 @@ class SearchEndPoints {
 
 class ReviewEndPoints {
   String get addReview => "reviewAndRating";
+  String get replyByEmail => "replyByEmail";
 }
 
 

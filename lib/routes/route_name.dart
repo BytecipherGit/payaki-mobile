@@ -20,5 +20,6 @@ class RouteName {
   static const String searchScreen = "/searchScreen";
   static const String addReviewScreen = "/addReviewScreen";
   static const String postDetailsScreen = "/postDetailsScreen";
+  static const String replyEmailScreen = "/replyEmailScreen";
 
 }

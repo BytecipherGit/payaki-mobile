@@ -5,7 +5,7 @@ import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/end_points.dart';
-import 'package:payaki/network/model/request/review/add_review_request.dart';
+import 'package:payaki/network/model/request/reviewAndMail/add_review_request.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/widgets/custom_button.dart';

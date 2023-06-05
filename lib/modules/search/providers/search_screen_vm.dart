@@ -80,6 +80,9 @@ class SearchScreenVm extends ChangeNotifier {
   }
 
 
+  updateUi(){
+    notifyListeners();
+  }
 
   searchPostApi({
     ValueChanged<List<s_result.Data>>? onSuccess,

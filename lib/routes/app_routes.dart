@@ -27,12 +27,15 @@ import 'package:payaki/modules/postAdd/screens/sub_category_screen.dart';
 import 'package:payaki/modules/postAdd/screens/user_detail_screen.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
 import 'package:payaki/modules/postDetails/screens/post_details_screen.dart';
-import 'package:payaki/modules/review/addReview/screens/add_review_screen.dart';
-import 'package:payaki/modules/review/addReview/viewModel/add_review_screen_vm.dart';
+import 'package:payaki/modules/reviewAndMail/addReview/screens/add_review_screen.dart';
+import 'package:payaki/modules/reviewAndMail/addReview/viewModel/add_review_screen_vm.dart';
+import 'package:payaki/modules/reviewAndMail/replyEmail/screen/reply_email_screen.dart';
+import 'package:payaki/modules/reviewAndMail/replyEmail/viewModel/reply_email_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/modules/search/screens/search_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:provider/provider.dart';
+
 
 class AppRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -207,6 +210,20 @@ class AppRoute {
             builder: (context) => ChangeNotifierProvider(
               create: (_) => AddReviewScreenVm(),
               child:  AddReviewScreen(postId: arg["postId"],),
+            )
+        );
+
+      case RouteName.replyEmailScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+              create: (_) => ReplyEmailScreenVm(),
+              child:  ReplyEmailScreen(
+                postId: arg["postId"],
+                receiverEmail: arg["receiverEmail"],
+                receiverName: arg["receiverName"],
+                productName: arg["productName"]
+              ),
             )
         );
 

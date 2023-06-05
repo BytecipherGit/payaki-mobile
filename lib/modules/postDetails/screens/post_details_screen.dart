@@ -7,6 +7,7 @@ import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
+import 'package:payaki/modules/reviewAndMail/replyEmail/screen/reply_email_screen.dart';
 import 'package:payaki/network/model/response/post/post_detail_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -65,88 +66,83 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         ?.length ??
                                     0) >
                                 0
-                            ?
-
-
-                        postDetailScreenVm.postDetailResponse!.data!.image
-                            !.length == 1 ?
-                        NetworkImageWidget(
-                            width: double.infinity,
-                            height: imageHeight,
-                            errorIconSize: 70.sp,
-                            url: postDetailScreenVm
-                                .postDetailResponse
-                                ?.data
-                                ?.image?[_current]):
-
-                        Stack(
-                                children: [
-                                  CarouselSlider.builder(
-                                    itemCount: postDetailScreenVm
-                                            .postDetailResponse
-                                            ?.data
-                                            ?.image
-                                            ?.length ??
-                                        0,
-                                    itemBuilder: (BuildContext context,
-                                            int itemIndex, int pageViewIndex) =>
-                                        Stack(
-                                      children: [
-                                        NetworkImageWidget(
-                                            width: double.infinity,
-                                            height: imageHeight,
-                                            errorIconSize: 70.sp,
-                                            url: postDetailScreenVm
+                            ? postDetailScreenVm.postDetailResponse!.data!
+                                        .image!.length ==
+                                    1
+                                ? NetworkImageWidget(
+                                    width: double.infinity,
+                                    height: imageHeight,
+                                    errorIconSize: 70.sp,
+                                    url: postDetailScreenVm.postDetailResponse
+                                        ?.data?.image?[_current])
+                                : Stack(
+                                    children: [
+                                      CarouselSlider.builder(
+                                        itemCount: postDetailScreenVm
                                                 .postDetailResponse
                                                 ?.data
-                                                ?.image?[_current])
-                                      ],
-                                    ),
-                                    options: CarouselOptions(
-                                        height: 350.h,
-                                        viewportFraction: 1,
-                                        autoPlay: true,
-                                        enlargeCenterPage: false,
-                                        //  aspectRatio: 16 / 9,
-                                        onPageChanged: (index, reason) {
-                                          setState(() {
-                                            _current = index;
-                                          });
-                                        }),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 300.h),
-                                    alignment: Alignment.center,
-                                    child: DotsIndicator(
-                                      dotsCount: postDetailScreenVm
-                                              .postDetailResponse
-                                              ?.data
-                                              ?.image
-                                              ?.length ??
-                                          0,
-                                      position: _current,
-                                      decorator: DotsDecorator(
-                                        spacing: EdgeInsets.only(
-                                            left: 2.5, right: 2.5),
-                                        color: ColorUtility.color7A7A7A,
-                                        activeColor: ColorUtility.color06C972,
-                                        size: const Size(7.0, 7.0),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(7.0),
+                                                ?.image
+                                                ?.length ??
+                                            0,
+                                        itemBuilder: (BuildContext context,
+                                                int itemIndex,
+                                                int pageViewIndex) =>
+                                            Stack(
+                                          children: [
+                                            NetworkImageWidget(
+                                                width: double.infinity,
+                                                height: imageHeight,
+                                                errorIconSize: 70.sp,
+                                                url: postDetailScreenVm
+                                                    .postDetailResponse
+                                                    ?.data
+                                                    ?.image?[_current])
+                                          ],
                                         ),
-                                        activeSize: const Size(40.0, 7.0),
-                                        activeShape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(7.0),
+                                        options: CarouselOptions(
+                                            height: imageHeight,
+                                            viewportFraction: 1,
+                                            autoPlay: true,
+                                            enlargeCenterPage: false,
+                                            //  aspectRatio: 16 / 9,
+                                            onPageChanged: (index, reason) {
+                                              setState(() {
+                                                _current = index;
+                                              });
+                                            }),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 300.h),
+                                        alignment: Alignment.center,
+                                        child: DotsIndicator(
+                                          dotsCount: postDetailScreenVm
+                                                  .postDetailResponse
+                                                  ?.data
+                                                  ?.image
+                                                  ?.length ??
+                                              0,
+                                          position: _current,
+                                          decorator: DotsDecorator(
+                                            spacing: EdgeInsets.only(
+                                                left: 2.5, right: 2.5),
+                                            color: ColorUtility.color7A7A7A,
+                                            activeColor:
+                                                ColorUtility.color06C972,
+                                            size: const Size(7.0, 7.0),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(7.0),
+                                            ),
+                                            activeSize: const Size(40.0, 7.0),
+                                            activeShape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(7.0),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              )
-
-
+                                    ],
+                                  )
                             : SizedBox(
                                 height: imageHeight,
                                 child: Container(
@@ -184,6 +180,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                         )
                       ],
                     ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: SafeArea(
@@ -214,7 +213,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                               style: StyleUtility.typeStyle),
                                         ),
                                       )
-                                    : SizedBox(),
+                                    : const SizedBox(),
                               ],
                             ),
                             Row(
@@ -463,51 +462,146 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
-                                    height: TextSizeUtility.buttonHeight,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          CommonDialog.showLoadingDialog(
-                                              context);
-                                          postDetailScreenVm.postLikeDislike(
-                                              onSuccess: (message) {
-                                                Navigator.pop(context);
-                                                context.showSnackBar(
-                                                    message: message);
-                                              },
-                                              onFailure: (message) {
-                                                Navigator.pop(context);
-                                                context.showSnackBar(
-                                                    message: message);
-                                              },
-                                              postId: widget.postId);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              ColorUtility.color4285F4,
-                                          shadowColor: Colors.transparent,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r)),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              ImageUtility.saveAddIcon,
-                                              width: 12.w,
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                          child: SizedBox(
+                                        height: TextSizeUtility.buttonHeight,
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pushNamed(context,
+                                                  RouteName.replyEmailScreen,
+                                                  arguments: {
+                                                    "postId": widget.postId,
+                                                    "productName":
+                                                        postDetailScreenVm
+                                                                .postDetailResponse
+                                                                ?.data
+                                                                ?.productName ??
+                                                            "",
+                                                    "receiverName":
+                                                        postDetailScreenVm
+                                                                .postDetailResponse
+                                                                ?.data
+                                                                ?.postUserDetails
+                                                                ?.name ??
+                                                            "",
+                                                    "receiverEmail":
+                                                        postDetailScreenVm
+                                                                .postDetailResponse
+                                                                ?.data
+                                                                ?.postUserDetails
+                                                                ?.email ??
+                                                            "",
+                                                  });
+
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder:
+                                              //             (context) =>
+                                              //                 ReplyEmailScreen(
+                                              //                   postId: widget
+                                              //                       .postId,
+                                              //                   productName: postDetailScreenVm
+                                              //                           .postDetailResponse
+                                              //                           ?.data
+                                              //                           ?.productName ??
+                                              //                       "",
+                                              //                   receiverName: postDetailScreenVm
+                                              //                           .postDetailResponse
+                                              //                           ?.data
+                                              //                           ?.postUserDetails
+                                              //                           ?.name ??
+                                              //                       "",
+                                              //                   receiverEmail: postDetailScreenVm
+                                              //                           .postDetailResponse
+                                              //                           ?.data
+                                              //                           ?.postUserDetails
+                                              //                           ?.email ??
+                                              //                       "",
+                                              //                 )));
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  ColorUtility.color4285F4,
+                                              shadowColor: Colors.transparent,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.r)),
                                             ),
-                                            SizedBox(
-                                              width: 10.w,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  ImageUtility.emailIcon,
+                                                  width: 14.w,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(
+                                                  width: 10.w,
+                                                ),
+                                                Text("Reply on Email",
+                                                    maxLines: 1,
+                                                    style: StyleUtility
+                                                        .buttonTextStyle),
+                                              ],
+                                            )),
+                                      )),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      Expanded(
+                                          child: SizedBox(
+                                        height: TextSizeUtility.buttonHeight,
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              CommonDialog.showLoadingDialog(
+                                                  context);
+                                              postDetailScreenVm
+                                                  .postLikeDislike(
+                                                      onSuccess: (message) {
+                                                        Navigator.pop(context);
+                                                        context.showSnackBar(
+                                                            message: message);
+                                                      },
+                                                      onFailure: (message) {
+                                                        Navigator.pop(context);
+                                                        context.showSnackBar(
+                                                            message: message);
+                                                      },
+                                                      postId: widget.postId);
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  ColorUtility.color4285F4,
+                                              shadowColor: Colors.transparent,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.r)),
                                             ),
-                                            Text("Save this Ad",
-                                                maxLines: 1,
-                                                style: StyleUtility
-                                                    .buttonTextStyle),
-                                          ],
-                                        )),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  ImageUtility.saveAddIcon,
+                                                  width: 12.w,
+                                                ),
+                                                SizedBox(
+                                                  width: 10.w,
+                                                ),
+                                                Text("Save this Ad",
+                                                    maxLines: 1,
+                                                    style: StyleUtility
+                                                        .buttonTextStyle),
+                                              ],
+                                            )),
+                                      ))
+                                    ],
                                   ),
                                   SizedBox(
                                     height: 26.h,

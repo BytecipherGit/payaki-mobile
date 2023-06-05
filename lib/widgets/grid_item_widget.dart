@@ -128,8 +128,7 @@ class GridItemWidget extends StatelessWidget {
                           expiredDate != null ?
                           Expanded(
                             child: Text(
-                             // "Exp. in 21 Hours",
-                              "Exp.${Moment(DateTime.parse(expiredDate!)).fromNow()}",
+                              "Exp. ${Moment(DateTime.parse(expiredDate!)).fromNow()}",
                               style: StyleUtility.titleTextStyle.copyWith(
                                   color: ColorUtility.color323436),
                               maxLines: 1,

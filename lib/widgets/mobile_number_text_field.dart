@@ -24,7 +24,7 @@ class MobileNumberTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Phone Number",
+          "Phone Number*",
           style: StyleUtility.inputTextStyle,
         ),
         IntlPhoneField(

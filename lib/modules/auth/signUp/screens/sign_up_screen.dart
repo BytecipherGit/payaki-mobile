@@ -149,7 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SimpleTextField(
                           controller: fullNameController,
                           hintText: "Enter your Full Name",
-                          titleText: "Full Name",
+                          titleText: "Full Name*",
                           image: ImageUtility.fullNameIcon,
                         ),
                         SizedBox(
@@ -158,7 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SimpleTextField(
                           controller: userNameController,
                           hintText: "Enter Username",
-                          titleText: "Username",
+                          titleText: "Username*",
                           image: ImageUtility.userNameIcon,
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -168,7 +168,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SimpleTextField(
                           controller: emailController,
                           hintText: "Enter Email",
-                          titleText: "Email",
+                          titleText: "Email*",
                           image: ImageUtility.emailIcon,
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -186,7 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SimpleTextField(
                           controller: passwordController,
                           hintText: "Enter Password",
-                          titleText: "Password",
+                          titleText: "Password*",
                           image: ImageUtility.passwordIcon,
                           textInputType: TextInputType.visiblePassword,
                         ),
@@ -194,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           height: 15.h,
                         ),
                         DropDownWidget(
-                          titleText: "Id Proof Type",
+                          titleText: "Id Proof Type*",
                           hintText: "Select ID Proof Type",
                           itemList: idItemList,
                           selectedValue: selectedIdProofType,
@@ -209,7 +209,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SimpleTextField(
                           controller: idProofNumberController,
                           hintText: "Enter Id Proof Number",
-                          titleText: "Id Proof Number",
+                          titleText: "Id Proof Number*",
                           //  image: ImageUtility.passwordIcon,
                           textInputType: TextInputType.visiblePassword,
                         ),
@@ -220,7 +220,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onTap: () {
                               getIdImage(signUpVm);
                             },
-                            title: "ID Proof"),
+                            title: "ID Proof*"),
                         idProofImage != null
                             ? Padding(
                                 padding: EdgeInsets.only(top: 15.h),
@@ -259,7 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           height: 15.h,
                         ),
                         DropDownWidget(
-                          titleText: "Address Proof  Type",
+                          titleText: "Address Proof  Type*",
                           hintText: "Select Address Proof Type",
                           itemList: addressItemList,
                           selectedValue: selectedAddressProofType,
@@ -274,7 +274,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SimpleTextField(
                           controller: addressProofNumberController,
                           hintText: "Enter Address Proof Number",
-                          titleText: "Address Proof Number",
+                          titleText: "Address Proof Number*",
                           //  image: ImageUtility.passwordIcon,
                           textInputType: TextInputType.visiblePassword,
                         ),
@@ -285,7 +285,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onTap: () {
                               getAddressImage(signUpVm);
                             },
-                            title: "Address Proof"),
+                            title: "Address Proof*"),
                         addressProofImage != null
                             ? Padding(
                                 padding: EdgeInsets.only(top: 15.h),

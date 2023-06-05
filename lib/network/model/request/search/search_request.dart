@@ -22,7 +22,7 @@ class SearchRequest {
 class Param {
   String? title;
   String? category;
-  Null? subCategory;
+  String? subCategory;
   String? location;
   String? city;
   String? state;

@@ -251,6 +251,17 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                           ),
                           suggestionsCallback: (query) {
+
+                            if(locationController.text.isEmpty){
+                             location = null;
+                              city = null;
+                              country = null;
+                              state = null;
+                              selectedLocation = null;
+                              searchScreenVm.updateUi();
+
+                            }
+
                             if (locationController.text.isNotEmpty) {
                               return searchScreenVm.cityList!.where((obj) => obj
                                   .name!
@@ -304,8 +315,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   onTab: () {
                     logD("Selected location $location");
                     // if (locationController.text.isEmpty) {
-                    if (titleController.text.isEmpty) {
-                      context.showSnackBar(message: "Please Enter Title.");
+                    if (titleController.text.isEmpty && location == null && selectedCategory == null) {
+                      context.showSnackBar(message: "Please Fill Up At Least One Field.");
                     } else {
 
                       CommonDialog.showLoadingDialog(context);
