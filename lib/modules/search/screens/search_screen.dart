@@ -4,10 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
-import 'package:payaki/modules/search/screens/search_result_screen.dart';
 import 'package:payaki/network/end_points.dart';
+import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -244,22 +243,21 @@ class _SearchScreenState extends State<SearchScreen> {
                                 child: Padding(
                                   padding:
                                       EdgeInsets.symmetric(vertical: 20.sp),
-                                  child: Image.asset(ImageUtility.locationSelectIcon),
+                                  child: Image.asset(
+                                      ImageUtility.locationSelectIcon),
                                 ),
                               ),
                               focusColor: Colors.white,
                             ),
                           ),
                           suggestionsCallback: (query) {
-
-                            if(locationController.text.isEmpty){
-                             location = null;
+                            if (locationController.text.isEmpty) {
+                              location = null;
                               city = null;
                               country = null;
                               state = null;
                               selectedLocation = null;
                               searchScreenVm.updateUi();
-
                             }
 
                             if (locationController.text.isNotEmpty) {
@@ -309,16 +307,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   }),
                 ),
               ),
-
               CustomButton(
                   buttonText: "Search",
                   onTab: () {
                     logD("Selected location $location");
                     // if (locationController.text.isEmpty) {
-                    if (titleController.text.isEmpty && location == null && selectedCategory == null) {
-                      context.showSnackBar(message: "Please Fill Up At Least One Field.");
+                    if (titleController.text.isEmpty &&
+                        location == null &&
+                        selectedCategory == null) {
+                      context.showSnackBar(
+                          message: "Please Fill Up At Least One Field.");
                     } else {
-
                       CommonDialog.showLoadingDialog(context);
                       searchScreenVm.searchPostApi(
                           searchRequest: s_request.SearchRequest(
@@ -331,38 +330,26 @@ class _SearchScreenState extends State<SearchScreen> {
                                 country: country,
                                 state: state,
                               )),
-                        onSuccess: (searchPostList){
+                          onSuccess: (searchPostList) {
                             Navigator.pop(context);
 
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
-
-                                ChangeNotifierProvider(create: (_) => SearchResultScreenVm()
-                                  ,child:  SearchResultScreen(
-                                    initialPostList: searchPostList,
-                                      title: titleController.text,
-                                      category: selectedCategory?.catId ?? "",
-                                      location: location ?? "",
-                                      city: city ?? "",
-                                      country: country ?? "",
-                                      state: state ?? "",
-
-
-
-                                  ),)
-                            //     SearchResultScreen(
-                            //   searchPostList: searchPostList,
-                            // )
-
-                            ));
-
-                        },
-
-                          onFailure: (value){
+                            Navigator.pushNamed(
+                                context, RouteName.searchResultScreen,
+                                arguments: {
+                                  "initialPostList": searchPostList,
+                                  "headerTitle": "Search Result",
+                                  "title": titleController.text,
+                                  "category": selectedCategory?.catId,
+                                  "location": location,
+                                  "city": city,
+                                  "country": country,
+                                  "state": state,
+                                });
+                          },
+                          onFailure: (value) {
                             Navigator.pop(context);
                             context.showSnackBar(message: value);
-
-                      }
-                      );
+                          });
                     }
                   }),
               SizedBox(

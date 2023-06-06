@@ -30,18 +30,21 @@ class Param {
   String? priceto;
   String? pricefrom;
   String? sortbyfieldname;
+  String? listingType;
 
-  Param(
-      {this.title,
-        this.category,
-        this.subCategory,
-        this.location,
-        this.city,
-        this.state,
-        this.country,
-        this.priceto,
-        this.pricefrom,
-        this.sortbyfieldname});
+  Param({
+    this.title,
+    this.category,
+    this.subCategory,
+    this.location,
+    this.city,
+    this.state,
+    this.country,
+    this.priceto,
+    this.pricefrom,
+    this.sortbyfieldname,
+    this.listingType,
+  });
 
   Param.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -53,7 +56,9 @@ class Param {
     country = json['country'];
     priceto = json['priceto'];
     pricefrom = json['pricefrom'];
-    sortbyfieldname = json['sortbyfieldname'];}
+    sortbyfieldname = json['sortbyfieldname'];
+    listingType = json['listing_type'];
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -67,6 +72,7 @@ class Param {
     data['priceto'] = this.priceto;
     data['pricefrom'] = this.pricefrom;
     data['sortbyfieldname'] = this.sortbyfieldname;
+    data['listing_type'] = this.listingType;
     return data;
   }
 }

@@ -1,8 +1,10 @@
 class RouteName {
   static const String splashScreen = "/";
   static const String logInScreen = "/logInScreen";
-  static const String loginWithPhoneSendOtpScreen = "/loginWithPhoneSendOtpScreen";
-  static const String loginWithPhoneVerifyOtpScreen = "/loginWithPhoneVerifyOtpScreen";
+  static const String loginWithPhoneSendOtpScreen =
+      "/loginWithPhoneSendOtpScreen";
+  static const String loginWithPhoneVerifyOtpScreen =
+      "/loginWithPhoneVerifyOtpScreen";
   static const String signUpScreen = "/signUpScreen";
   static const String forgotPassSendOtpScreen = "/forgotPassSendOtpScreen";
   static const String forgotPassVerifyOtpScreen = "/forgotPassVerifyOtpScreen";
@@ -18,8 +20,8 @@ class RouteName {
   static const String userDetailScreen = "/userDetailScreen";
   static const String selectAddTypeScreen = "/selectAddTypeScreen";
   static const String searchScreen = "/searchScreen";
+  static const String searchResultScreen = "/searchResultScreen";
   static const String addReviewScreen = "/addReviewScreen";
   static const String postDetailsScreen = "/postDetailsScreen";
   static const String replyEmailScreen = "/replyEmailScreen";
-
 }

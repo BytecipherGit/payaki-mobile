@@ -18,23 +18,28 @@ import 'package:provider/provider.dart';
 
 class SearchResultScreen extends StatefulWidget {
   final List<Data> initialPostList;
+  final String headerTitle;
 
-  final String title;
-  final String category;
-  final String location;
-  final String city;
-  final String country;
-  final String state;
+  final String? title;
+  final String? category;
+  final String? location;
+  final String? city;
+  final String? country;
+  final String? state;
+  final String? listingType;
 
   const SearchResultScreen(
       {Key? key,
       required this.initialPostList,
-      required this.title,
-      required this.category,
-      required this.location,
-      required this.city,
-      required this.country,
-      required this.state})
+        required this.headerTitle,
+        this.title,
+       this.category,
+       this.location,
+       this.city,
+       this.country,
+       this.state,
+       this.listingType
+      })
       : super(key: key);
 
   @override
@@ -68,7 +73,8 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
       appBar: AppBar(
           backgroundColor: ColorUtility.whiteColor,
           title: Text(
-            "Search Result",
+           // "Search Result",
+            widget.headerTitle,
             style: StyleUtility.headerTextStyle,
           ),
           centerTitle: true,
@@ -558,6 +564,16 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         searchRequest: SearchRequest(
             name: Endpoints.search.getAllPost,
             param: Param(
+              // title: widget.title,
+              // category: widget.category,
+              // location: widget.location,
+              // city: widget.city,
+              // country: widget.country,
+              // state: widget.state,
+              // pricefrom: priceFromController.text,
+              // priceto: priceToController.text,
+              // sortbyfieldname: selectedShortByValue,
+              // listingType: widget.listingType,
               title: widget.title,
               category: widget.category,
               location: widget.location,
@@ -567,6 +583,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
               pricefrom: priceFromController.text,
               priceto: priceToController.text,
               sortbyfieldname: selectedShortByValue,
+              listingType: widget.listingType,
             )),
         onSuccess: (searchedPostList) {
           Navigator.pop(context);

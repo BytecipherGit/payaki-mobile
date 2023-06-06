@@ -57,6 +57,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   moment_dart: ^0.17.4
   share_plus: ^7.0.2
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   flutter_test:

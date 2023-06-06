@@ -12,11 +12,10 @@ class CategoryRepository {
         .then((value) => CategoryListResponse.fromJson(value));
   }
 
-  Future<SubCategoryListResponse> subCategoryList(SubCategoryListRequest request) {
+  Future<SubCategoryListResponse> subCategoryList(
+      SubCategoryListRequest request) {
     return DioHttpService.apiServicesInstance
         .post(Endpoints.baseUrl, data: request.toJson())
         .then((value) => SubCategoryListResponse.fromJson(value));
   }
-
-
 }

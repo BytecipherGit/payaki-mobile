@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
+import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
+import 'package:payaki/modules/search/screens/search_result_screen.dart';
+import 'package:payaki/network/end_points.dart';
+import 'package:payaki/network/model/request/search/search_request.dart';
 import 'package:payaki/network/model/response/category/category_list_response.dart'
     as category;
 import 'package:payaki/network/model/response/post/premium_and_latest_post_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
@@ -108,16 +115,68 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 37.h,
                           ),
                           HomePostWidget(
-                              title: "Premium Ad",
-                              post: homeScreenVm
-                                  .premiumAndLatestPost?.data?.premium),
+                            title: "Premium Ad",
+                            post: homeScreenVm
+                                .premiumAndLatestPost?.data?.premium,
+                            onSeeAllTap: () {
+                              CommonDialog.showLoadingDialog(context);
+                              homeScreenVm.searchPostApi(
+                                  searchRequest: SearchRequest(
+                                      name: Endpoints.search.getAllPost,
+                                      param: Param(
+                                        listingType: Constant.premium,
+                                      )),
+                                  onSuccess: (searchPostList) {
+                                    Navigator.pop(context);
+
+                                    Navigator.pushNamed(
+                                        context, RouteName.searchResultScreen,
+                                        arguments: {
+                                          "initialPostList": searchPostList,
+                                          "headerTitle": "Premium Ad",
+                                          "listingType": Constant.premium,
+                                        });
+                                  },
+                                  onFailure: (value) {
+                                    Navigator.pop(context);
+                                    context.flushBarBottomMessage(
+                                        message: value);
+                                  });
+                            },
+                          ),
                           SizedBox(
                             height: 20.h,
                           ),
                           HomePostWidget(
-                              title: "Latest Ad",
-                              post: homeScreenVm
-                                  .premiumAndLatestPost?.data?.latest),
+                            title: "Latest Ad",
+                            post:
+                                homeScreenVm.premiumAndLatestPost?.data?.latest,
+                            onSeeAllTap: () {
+                              CommonDialog.showLoadingDialog(context);
+                              homeScreenVm.searchPostApi(
+                                  searchRequest: SearchRequest(
+                                      name: Endpoints.search.getAllPost,
+                                      param: Param(
+                                        listingType: Constant.latest,
+                                      )),
+                                  onSuccess: (searchPostList) {
+                                    Navigator.pop(context);
+
+                                    Navigator.pushNamed(
+                                        context, RouteName.searchResultScreen,
+                                        arguments: {
+                                          "initialPostList": searchPostList,
+                                          "headerTitle": "Latest Ad",
+                                          "listingType": Constant.latest,
+                                        });
+                                  },
+                                  onFailure: (value) {
+                                    Navigator.pop(context);
+                                    context.flushBarBottomMessage(
+                                        message: value);
+                                  });
+                            },
+                          ),
                           SizedBox(
                             height: 60.h,
                           ),
@@ -160,37 +219,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: EdgeInsets.only(right: 34.w),
-                      child: SizedBox(
-                        width: 70.sp,
-                        height: 70.sp,
-                        child: Column(
-                          children: [
-                            Container(
-                                width: 70.sp,
-                                height: 70.sp,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: ColorUtility.colorF5F6FA),
-                                child: Center(
-                                    child: Padding(
-                                  padding: EdgeInsets.all(20.sp),
-                                  child: NetworkImageWidget(
-                                      width: 25.w,
-                                      height: 25.w,
-                                      url: categoryList?[index].picture ?? ""),
-                                ))),
-                            SizedBox(
-                              height: 5.sp,
-                            ),
-                            Text(
-                              // "Cars & Bike",
-                              categoryList?[index].catName ?? "",
-                              style: StyleUtility.titleTextStyle.copyWith(
-                                  fontSize: TextSizeUtility.textSize12),
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
+                      child: InkWell(
+                        onTap: () {
+                          CommonDialog.showLoadingDialog(context);
+                          homeScreenVm.searchPostApi(
+                              searchRequest: SearchRequest(
+                                  name: Endpoints.search.getAllPost,
+                                  param: Param(
+                                    category: categoryList?[index].catId,
+                                  )),
+                              onSuccess: (searchPostList) {
+                                Navigator.pop(context);
+
+                                Navigator.pushNamed(
+                                    context, RouteName.searchResultScreen,
+                                    arguments: {
+                                      "initialPostList": searchPostList,
+                                      "headerTitle":
+                                          categoryList?[index].catName,
+                                      "category": categoryList?[index].catId,
+                                    });
+                              },
+                              onFailure: (value) {
+                                Navigator.pop(context);
+                                context.flushBarBottomMessage(message: value);
+                              });
+                        },
+                        child: SizedBox(
+                          width: 70.sp,
+                          height: 70.sp,
+                          child: Column(
+                            children: [
+                              Container(
+                                  width: 70.sp,
+                                  height: 70.sp,
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: ColorUtility.colorF5F6FA),
+                                  child: Center(
+                                      child: Padding(
+                                    padding: EdgeInsets.all(20.sp),
+                                    child: NetworkImageWidget(
+                                        width: 25.w,
+                                        height: 25.w,
+                                        url:
+                                            categoryList?[index].picture ?? ""),
+                                  ))),
+                              SizedBox(
+                                height: 5.sp,
+                              ),
+                              Text(
+                                // "Cars & Bike",
+                                categoryList?[index].catName ?? "",
+                                style: StyleUtility.titleTextStyle.copyWith(
+                                    fontSize: TextSizeUtility.textSize12),
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -204,11 +291,13 @@ class _HomeScreenState extends State<HomeScreen> {
 class HomePostWidget extends StatelessWidget {
   final List<Premium>? post;
   final String title;
+  final VoidCallback onSeeAllTap;
 
   const HomePostWidget({
     super.key,
     this.post,
     required this.title,
+    required this.onSeeAllTap,
   });
 
   @override
@@ -226,7 +315,7 @@ class HomePostWidget extends StatelessWidget {
                 style: StyleUtility.headingTextStyle,
               ),
               InkWell(
-                onTap: () {},
+                onTap: onSeeAllTap,
                 child: Text(
                   "See All",
                   style: StyleUtility.titleTextStyle.copyWith(

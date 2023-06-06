@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -155,4 +156,3 @@ class _GalleryScreenState extends State<GalleryScreen> {
     );
   }
 }
-

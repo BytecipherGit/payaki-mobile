@@ -31,11 +31,12 @@ import 'package:payaki/modules/reviewAndMail/addReview/screens/add_review_screen
 import 'package:payaki/modules/reviewAndMail/addReview/viewModel/add_review_screen_vm.dart';
 import 'package:payaki/modules/reviewAndMail/replyEmail/screen/reply_email_screen.dart';
 import 'package:payaki/modules/reviewAndMail/replyEmail/viewModel/reply_email_screen_vm.dart';
+import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
+import 'package:payaki/modules/search/screens/search_result_screen.dart';
 import 'package:payaki/modules/search/screens/search_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:provider/provider.dart';
-
 
 class AppRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -182,7 +183,7 @@ class AppRoute {
                   latlong: arg["latlong"],
                   state: arg["state"],
                   phone: arg["phone"],
-              availableDays: arg["availableDays"],
+                  availableDays: arg["availableDays"],
                 ));
 
       case RouteName.userDetailScreen:
@@ -194,39 +195,56 @@ class AppRoute {
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => SearchScreenVm(),
                   child: const SearchScreen(),
-                )
-        );
+                ));
+
+      case RouteName.searchResultScreen:
+        var arg = settings.arguments as Map;
+
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => SearchResultScreenVm(),
+                  child: SearchResultScreen(
+                      initialPostList: arg["initialPostList"],
+                      headerTitle: arg["headerTitle"],
+                      title: arg["title"],
+                      category: arg["category"],
+                      location: arg["location"],
+                      city: arg["city"],
+                      country: arg["country"],
+                      state: arg["state"],
+                      listingType: arg["listingType"]),
+                ));
+
       case RouteName.postDetailsScreen:
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-              create: (_) => PostDetailScreenVm(),
-              child:  PostDetailsScreen(postId: arg["postId"],),
-            )
-        );
+                  create: (_) => PostDetailScreenVm(),
+                  child: PostDetailsScreen(
+                    postId: arg["postId"],
+                  ),
+                ));
       case RouteName.addReviewScreen:
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-              create: (_) => AddReviewScreenVm(),
-              child:  AddReviewScreen(postId: arg["postId"],),
-            )
-        );
+                  create: (_) => AddReviewScreenVm(),
+                  child: AddReviewScreen(
+                    postId: arg["postId"],
+                  ),
+                ));
 
       case RouteName.replyEmailScreen:
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-              create: (_) => ReplyEmailScreenVm(),
-              child:  ReplyEmailScreen(
-                postId: arg["postId"],
-                receiverEmail: arg["receiverEmail"],
-                receiverName: arg["receiverName"],
-                productName: arg["productName"]
-              ),
-            )
-        );
-
+                  create: (_) => ReplyEmailScreenVm(),
+                  child: ReplyEmailScreen(
+                      postId: arg["postId"],
+                      receiverEmail: arg["receiverEmail"],
+                      receiverName: arg["receiverName"],
+                      productName: arg["productName"]),
+                ));
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
