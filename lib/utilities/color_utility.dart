@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColorUtility {
 
-
+  ColorUtility._();
   static const Color colorEFF6EE = Color(0xFFEFF6EE);
   static const Color whiteColor = Colors.white;
   static const Color color141414 = Color(0xFF141414);
@@ -39,6 +39,8 @@ class ColorUtility {
   static const Color colorFFA500 = Color(0xFFFFA500);
   static const Color color282828 = Color(0xFF282828);
   static const Color color323436 = Color(0xFF323436);
+  static const Color colorEAF2EB = Color(0xFFEAF2EB);
+  static const Color color001802 = Color(0xFF001802);
 
 
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loggy/loggy.dart';
 import 'package:payaki/local_store/shared_preference.dart';
-import 'package:payaki/modules/postDetails/screens/post_details_screen.dart';
 import 'package:payaki/modules/welcome/welcome_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 

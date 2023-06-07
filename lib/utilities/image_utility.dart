@@ -41,6 +41,13 @@ class ImageUtility {
   static const String sellIcon = 'assets/images/sell_icon.png';
   static const String shareIcon = 'assets/images/share_icon.png';
   static const String verifiedPostIcon = 'assets/images/verified_post_icon.png';
+  static const String logOutIcon = 'assets/images/log_out_icon.png';
+  static const String editIcon = 'assets/images/edit_icon.png';
+  static const String verifyEmailIcon = 'assets/images/verify_email_icon.png';
+  static const String pinterestIcon = 'assets/images/pinterest_icon.png';
+  static const String twitterIcon = 'assets/images/twitter_icon.png';
+  static const String instagramIcon = 'assets/images/instagram_icon.png';
+  static const String youTubeIcon = 'assets/images/you_tube_icon.png';
 
 
 

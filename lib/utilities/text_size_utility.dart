@@ -1,6 +1,8 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextSizeUtility {
+
+  TextSizeUtility._();
   static double buttonHeight = 55.h;
 
 

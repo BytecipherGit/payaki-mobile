@@ -27,6 +27,7 @@ import 'package:payaki/modules/postAdd/screens/sub_category_screen.dart';
 import 'package:payaki/modules/postAdd/screens/user_detail_screen.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
 import 'package:payaki/modules/postDetails/screens/post_details_screen.dart';
+import 'package:payaki/modules/profile/screens/edit_profile_screen.dart';
 import 'package:payaki/modules/reviewAndMail/addReview/screens/add_review_screen.dart';
 import 'package:payaki/modules/reviewAndMail/addReview/viewModel/add_review_screen_vm.dart';
 import 'package:payaki/modules/reviewAndMail/replyEmail/screen/reply_email_screen.dart';
@@ -245,6 +246,10 @@ class AppRoute {
                       receiverName: arg["receiverName"],
                       productName: arg["productName"]),
                 ));
+
+      case RouteName.editProfileScreen:
+        return MaterialPageRoute(
+            builder: (context) => const EditProfileScreen());
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());

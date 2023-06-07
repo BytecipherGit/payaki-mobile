@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/home/screens/home_screen.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
+import 'package:payaki/modules/profile/screens/profile_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/constants.dart';
@@ -33,7 +34,8 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
     const Screen2(),
     Screen3(),
-    Screen4(),
+   // Screen4(),
+    const ProfileScreen(),
   ];
 
   void onTabTapped(int index) {
