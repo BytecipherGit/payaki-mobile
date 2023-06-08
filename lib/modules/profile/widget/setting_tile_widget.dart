@@ -7,9 +7,9 @@ class SettingTileWidget extends StatelessWidget {
   final String title;
   final String image;
   final double imageWidth;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   const SettingTileWidget({
-    super.key, required this.title, required this.image, required this.onTap, required this.imageWidth,
+    super.key, required this.title, required this.image,  this.onTap, required this.imageWidth,
   });
 
   @override
@@ -25,7 +25,7 @@ class SettingTileWidget extends StatelessWidget {
               color: ColorUtility.color43576F,
             ),
             SizedBox(width: 16.w,),
-            Text(title,style: StyleUtility.titleTextStyle,)
+            Expanded(child: Text(title,style: StyleUtility.titleTextStyle,))
           ],
         ),
       ),

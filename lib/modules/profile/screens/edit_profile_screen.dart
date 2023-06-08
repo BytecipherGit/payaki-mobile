@@ -4,15 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/network/model/response/profile/user_profile_response.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
+import 'package:payaki/utilities/validators.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
+  final Data userProfile;
+
+  const EditProfileScreen({Key? key, required this.userProfile})
+      : super(key: key);
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -28,18 +34,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController twitterController = TextEditingController();
   TextEditingController instagramController = TextEditingController();
   TextEditingController youtubeController = TextEditingController();
-
+  TextEditingController websiteURLController = TextEditingController();
   XFile? image;
 
-  String? networkImage;
+  // String? networkImage;
 
   // var networkImage;
 
-  Future selectFromGallery() async {
-    image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = widget.userProfile.name ?? "";
+    addressController.text = widget.userProfile.address ?? "";
+    aboutMeController.text = widget.userProfile.description ?? "";
+    facebookController.text = widget.userProfile.facebook ?? "";
+    pinterestController.text = widget.userProfile.googleplus ?? "";
+    twitterController.text = widget.userProfile.twitter ?? "";
+    instagramController.text = widget.userProfile.instagram ?? "";
+    youtubeController.text = widget.userProfile.youtube ?? "";
+    websiteURLController.text = widget.userProfile.website ?? "";
+  }
 
+  Future selectImageFromGallery() async {
+    image = await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {});
-    print('image select from gallery:- $image');
   }
 
   @override
@@ -80,14 +98,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     height: 90.w,
                                     fit: BoxFit.cover,
                                   )
-                                : networkImage != null && networkImage != ""
-                                    ? Container(
-                                        width: 100.w,
-                                        height: 100.w,
+                                : widget.userProfile.image != null &&
+                                        widget.userProfile.image != ""
+                                    ? SizedBox(
+                                        width: 90.w,
+                                        height: 90.w,
                                         child: NetworkImageWidget(
                                             width: 25.w,
                                             height: 25.w,
-                                            url: networkImage ?? ""),
+                                            url:
+                                                widget.userProfile.image ?? ""),
                                       )
                                     : Image.asset(
                                         ImageUtility.userDummyIcon,
@@ -101,13 +121,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             alignment: Alignment.bottomRight,
                             child: GestureDetector(
                               onTap: () {
-                                selectFromGallery();
+                                selectImageFromGallery();
                               },
-                              child: Container(
-                                child: Image.asset(
-                                  ImageUtility.editIcon,
-                                  width: 26.w,
-                                ),
+                              child: Image.asset(
+                                ImageUtility.editIcon,
+                                width: 26.w,
                               ),
                             ),
                           )
@@ -177,6 +195,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         titleText: "Youtube",
                       ),
                       SizedBox(
+                        height: 15.h,
+                      ),
+                      SimpleTextField(
+                        controller: websiteURLController,
+                        hintText: "Enter Website URL",
+                        titleText: "Website URL",
+                      ),
+                      SizedBox(
                         height: 54.h,
                       ),
                       CustomButton(
@@ -185,7 +211,44 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             if (nameController.text.isEmpty) {
                               context.showSnackBar(
                                   message: 'Please Enter Title.');
-                            } else {}
+                            } else if (facebookController.text.isNotEmpty &&
+                                Validators.checkValidateUrl(
+                                        facebookController.text) ==
+                                    false) {
+                              context.showSnackBar(
+                                  message: "Please Enter Valid Facebook Link.");
+                            }
+                            else if (pinterestController.text.isNotEmpty &&
+                                Validators.checkValidateUrl(
+                                    pinterestController.text) ==
+                                    false) {
+                              context.showSnackBar(
+                                  message: "Please Enter Valid Pinterest Link.");
+                            } else if (twitterController.text.isNotEmpty &&
+                                Validators.checkValidateUrl(
+                                    twitterController.text) ==
+                                    false) {
+                              context.showSnackBar(
+                                  message: "Please Enter Valid Twitter Link.");
+                            }else if (instagramController.text.isNotEmpty &&
+                                Validators.checkValidateUrl(
+                                    instagramController.text) ==
+                                    false) {
+                              context.showSnackBar(
+                                  message: "Please Enter Valid Instagram Link.");
+                            }else if (youtubeController.text.isNotEmpty &&
+                                Validators.checkValidateUrl(
+                                    youtubeController.text) ==
+                                    false) {
+                              context.showSnackBar(
+                                  message: "Please Enter Valid Youtube Link.");
+                            }else if (websiteURLController.text.isNotEmpty &&
+                                Validators.checkValidateUrl(
+                                    websiteURLController.text) ==
+                                    false) {
+                              context.showSnackBar(
+                                  message: "Please Enter Valid Website URL.");
+                            }else {}
                           }),
                       SizedBox(
                         height: 47.h,

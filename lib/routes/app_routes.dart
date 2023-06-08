@@ -248,8 +248,9 @@ class AppRoute {
                 ));
 
       case RouteName.editProfileScreen:
+        var arg = settings.arguments as Map;
         return MaterialPageRoute(
-            builder: (context) => const EditProfileScreen());
+            builder: (context) =>  EditProfileScreen(userProfile: arg["userProfile"],));
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());

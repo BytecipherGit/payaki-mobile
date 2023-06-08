@@ -8,6 +8,7 @@ class Endpoints {
   static LocationEndPoints location = LocationEndPoints();
   static SearchEndPoints search = SearchEndPoints();
   static ReviewEndPoints reviewEndPoints = ReviewEndPoints();
+  static UserProfileEndPoints userProfileEndPoints = UserProfileEndPoints();
 }
 
 // TODO API flavours UAT/Production
@@ -44,6 +45,11 @@ class SearchEndPoints {
 class ReviewEndPoints {
   String get addReview => "reviewAndRating";
   String get replyByEmail => "replyByEmail";
+}
+
+class UserProfileEndPoints {
+  String get viewProfile => "viewProfile";
+  String get resendConfirmationEmail => "resendConfirmationEmail";
 }
 
 
