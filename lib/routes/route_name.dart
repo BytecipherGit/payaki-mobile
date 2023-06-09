@@ -25,4 +25,5 @@ class RouteName {
   static const String postDetailsScreen = "/postDetailsScreen";
   static const String replyEmailScreen = "/replyEmailScreen";
   static const String editProfileScreen = "/editProfileScreen";
+  static const String reportAddScreen = "/reportAddScreen";
 }

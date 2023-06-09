@@ -31,8 +31,7 @@ class DropDownWidget extends StatelessWidget {
         ),
         DropdownButtonHideUnderline(
           child: DropdownButtonFormField(
-            isExpanded: false,
-
+            isExpanded: true,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(
                   top: 15.sp, bottom: 15.sp, left: 20.w, right: 5.w),

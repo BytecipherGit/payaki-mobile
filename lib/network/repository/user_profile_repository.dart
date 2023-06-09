@@ -3,6 +3,7 @@ import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/basic_request.dart';
 import 'package:payaki/network/model/request/userProfile/resend_email_request.dart';
 import 'package:payaki/network/model/response/basic_response.dart';
+import 'package:payaki/network/model/response/profile/country_list_response.dart';
 import 'package:payaki/network/model/response/profile/user_profile_response.dart';
 
 class UserProfileRepository {
@@ -14,10 +15,17 @@ class UserProfileRepository {
         .then((value) => UserProfileResponse.fromJson(value));
   }
 
+
+
   Future<BasicResponse> resendEmail(ResendEmailRequest request) {
     return dioHttpService
         .post(Endpoints.baseUrl, data: request.toJson())
         .then((value) => BasicResponse.fromJson(value));
+  }
+  Future<CountryListResponse> getCountryList(BasicRequest request) {
+    return dioHttpService
+        .post(Endpoints.baseUrl, data: request.toJson())
+        .then((value) => CountryListResponse.fromJson(value));
   }
 
 }

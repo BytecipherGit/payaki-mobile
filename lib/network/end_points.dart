@@ -45,11 +45,13 @@ class SearchEndPoints {
 class ReviewEndPoints {
   String get addReview => "reviewAndRating";
   String get replyByEmail => "replyByEmail";
+  String get reportViolation => "reportViolation";
 }
 
 class UserProfileEndPoints {
   String get viewProfile => "viewProfile";
   String get resendConfirmationEmail => "resendConfirmationEmail";
+  String get getCountries => "getCountries";
 }
 
 

@@ -7,7 +7,7 @@ import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
-import 'package:payaki/modules/reviewAndMail/replyEmail/screen/reply_email_screen.dart';
+import 'package:payaki/modules/reviewAndMail/report/screen/report_add_screen.dart';
 import 'package:payaki/network/model/response/post/post_detail_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -458,154 +458,140 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             SizedBox(
                               height: 25.h,
                             ),
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, RouteName.reportAddScreen);
+                                },
+                                child: Text(
+                                  "Report this AD".toUpperCase(),
+                                  style: StyleUtility.urlTextStyle,
+                                )),
+                            SizedBox(
+                              height: 25.h,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: SizedBox(
+                                  height: TextSizeUtility.buttonHeight,
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, RouteName.replyEmailScreen,
+                                            arguments: {
+                                              "postId": widget.postId,
+                                              "productName": postDetailScreenVm
+                                                      .postDetailResponse
+                                                      ?.data
+                                                      ?.productName ??
+                                                  "",
+                                              "receiverName": postDetailScreenVm
+                                                      .postDetailResponse
+                                                      ?.data
+                                                      ?.postUserDetails
+                                                      ?.name ??
+                                                  "",
+                                              "receiverEmail":
+                                                  postDetailScreenVm
+                                                          .postDetailResponse
+                                                          ?.data
+                                                          ?.postUserDetails
+                                                          ?.email ??
+                                                      "",
+                                            });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            ColorUtility.color4285F4,
+                                        shadowColor: Colors.transparent,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.r)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            ImageUtility.emailIcon,
+                                            width: 14.w,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(
+                                            width: 10.w,
+                                          ),
+                                          Text("Reply on Email",
+                                              maxLines: 1,
+                                              style:
+                                                  StyleUtility.buttonTextStyle),
+                                        ],
+                                      )),
+                                )),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                Expanded(
+                                    child: SizedBox(
+                                  height: TextSizeUtility.buttonHeight,
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        if (Preference().getUserLogin()){
+                                          CommonDialog.showLoadingDialog(
+                                              context);
+                                          postDetailScreenVm.postLikeDislike(
+                                              onSuccess: (message) {
+                                                Navigator.pop(context);
+                                                context.showSnackBar(
+                                                    message: message);
+                                              },
+                                              onFailure: (message) {
+                                                Navigator.pop(context);
+                                                context.showSnackBar(
+                                                    message: message);
+                                              },
+                                              postId: widget.postId);
+                                        }else{
+                                          showLoginDialog(context,"Log In to Save This Ad");
+                                        }
+
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            ColorUtility.color4285F4,
+                                        shadowColor: Colors.transparent,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.r)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            ImageUtility.saveAddIcon,
+                                            width: 12.w,
+                                          ),
+                                          SizedBox(
+                                            width: 10.w,
+                                          ),
+                                          Text("Save this Ad",
+                                              maxLines: 1,
+                                              style:
+                                                  StyleUtility.buttonTextStyle),
+                                        ],
+                                      )),
+                                ))
+                              ],
+                            ),
+                            SizedBox(
+                              height: 26.h,
+                            ),
                             if (Preference().getUserLogin())
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          child: SizedBox(
-                                        height: TextSizeUtility.buttonHeight,
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.pushNamed(context,
-                                                  RouteName.replyEmailScreen,
-                                                  arguments: {
-                                                    "postId": widget.postId,
-                                                    "productName":
-                                                        postDetailScreenVm
-                                                                .postDetailResponse
-                                                                ?.data
-                                                                ?.productName ??
-                                                            "",
-                                                    "receiverName":
-                                                        postDetailScreenVm
-                                                                .postDetailResponse
-                                                                ?.data
-                                                                ?.postUserDetails
-                                                                ?.name ??
-                                                            "",
-                                                    "receiverEmail":
-                                                        postDetailScreenVm
-                                                                .postDetailResponse
-                                                                ?.data
-                                                                ?.postUserDetails
-                                                                ?.email ??
-                                                            "",
-                                                  });
 
-                                              // Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //         builder:
-                                              //             (context) =>
-                                              //                 ReplyEmailScreen(
-                                              //                   postId: widget
-                                              //                       .postId,
-                                              //                   productName: postDetailScreenVm
-                                              //                           .postDetailResponse
-                                              //                           ?.data
-                                              //                           ?.productName ??
-                                              //                       "",
-                                              //                   receiverName: postDetailScreenVm
-                                              //                           .postDetailResponse
-                                              //                           ?.data
-                                              //                           ?.postUserDetails
-                                              //                           ?.name ??
-                                              //                       "",
-                                              //                   receiverEmail: postDetailScreenVm
-                                              //                           .postDetailResponse
-                                              //                           ?.data
-                                              //                           ?.postUserDetails
-                                              //                           ?.email ??
-                                              //                       "",
-                                              //                 )));
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  ColorUtility.color4285F4,
-                                              shadowColor: Colors.transparent,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.r)),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                  ImageUtility.emailIcon,
-                                                  width: 14.w,
-                                                  color: Colors.white,
-                                                ),
-                                                SizedBox(
-                                                  width: 10.w,
-                                                ),
-                                                Text("Reply on Email",
-                                                    maxLines: 1,
-                                                    style: StyleUtility
-                                                        .buttonTextStyle),
-                                              ],
-                                            )),
-                                      )),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      Expanded(
-                                          child: SizedBox(
-                                        height: TextSizeUtility.buttonHeight,
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              CommonDialog.showLoadingDialog(
-                                                  context);
-                                              postDetailScreenVm
-                                                  .postLikeDislike(
-                                                      onSuccess: (message) {
-                                                        Navigator.pop(context);
-                                                        context.showSnackBar(
-                                                            message: message);
-                                                      },
-                                                      onFailure: (message) {
-                                                        Navigator.pop(context);
-                                                        context.showSnackBar(
-                                                            message: message);
-                                                      },
-                                                      postId: widget.postId);
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  ColorUtility.color4285F4,
-                                              shadowColor: Colors.transparent,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.r)),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                  ImageUtility.saveAddIcon,
-                                                  width: 12.w,
-                                                ),
-                                                SizedBox(
-                                                  width: 10.w,
-                                                ),
-                                                Text("Save this Ad",
-                                                    maxLines: 1,
-                                                    style: StyleUtility
-                                                        .buttonTextStyle),
-                                              ],
-                                            )),
-                                      ))
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 26.h,
-                                  ),
                                   Text(
                                     "Add your review",
                                     style: StyleUtility.headingTextStyle,
@@ -694,7 +680,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                             context.showSnackBar(
                                                 message: "Comming Soon.");
                                           } else {
-                                            showLoginDialog(context);
+                                            showLoginDialog(context,"Log In to chat or send quote");
                                           }
                                         }))
                               ],
@@ -774,6 +760,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
   Future<dynamic> showLoginDialog(
     BuildContext context,
+    String title,
   ) {
     return showDialog(
         context: context,
@@ -810,7 +797,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                           height: 13.h,
                         ),
                         Text(
-                          "Log In to chat or send quote",
+                          title,
                           style: StyleUtility.headingTextStyle,
                         ),
                         SizedBox(

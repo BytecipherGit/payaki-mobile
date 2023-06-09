@@ -28,10 +28,13 @@ import 'package:payaki/modules/postAdd/screens/user_detail_screen.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
 import 'package:payaki/modules/postDetails/screens/post_details_screen.dart';
 import 'package:payaki/modules/profile/screens/edit_profile_screen.dart';
+import 'package:payaki/modules/profile/viewModel/edit_profile_screen_vm.dart';
 import 'package:payaki/modules/reviewAndMail/addReview/screens/add_review_screen.dart';
 import 'package:payaki/modules/reviewAndMail/addReview/viewModel/add_review_screen_vm.dart';
 import 'package:payaki/modules/reviewAndMail/replyEmail/screen/reply_email_screen.dart';
 import 'package:payaki/modules/reviewAndMail/replyEmail/viewModel/reply_email_screen_vm.dart';
+import 'package:payaki/modules/reviewAndMail/report/screen/report_add_screen.dart';
+import 'package:payaki/modules/reviewAndMail/report/viewModel/report_add_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/modules/search/screens/search_result_screen.dart';
@@ -250,7 +253,17 @@ class AppRoute {
       case RouteName.editProfileScreen:
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
-            builder: (context) =>  EditProfileScreen(userProfile: arg["userProfile"],));
+            builder: (context) => ChangeNotifierProvider(
+              create: (_) => EditProfileScreenVm(),
+              child: EditProfileScreen(
+                    userProfile: arg["userProfile"],
+                  ),
+            ));
+      case RouteName.reportAddScreen:
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                create: (_) => ReportAddScreenVm(),
+                child: const ReportAddScreen()));
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
