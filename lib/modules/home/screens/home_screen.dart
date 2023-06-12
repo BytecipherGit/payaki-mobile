@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
-import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
-import 'package:payaki/modules/search/screens/search_result_screen.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/search/search_request.dart';
 import 'package:payaki/network/model/response/category/category_list_response.dart'
@@ -139,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                   onFailure: (value) {
                                     Navigator.pop(context);
-                                    context.flushBarBottomMessage(
+                                    context.showSnackBar(
                                         message: value);
                                   });
                             },
@@ -172,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                   onFailure: (value) {
                                     Navigator.pop(context);
-                                    context.flushBarBottomMessage(
+                                    context.showSnackBar(
                                         message: value);
                                   });
                             },
@@ -242,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               onFailure: (value) {
                                 Navigator.pop(context);
-                                context.flushBarBottomMessage(message: value);
+                                context.showSnackBar(message: value);
                               });
                         },
                         child: SizedBox(

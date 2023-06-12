@@ -20,6 +20,9 @@ class SignUpVm extends ChangeNotifier {
 
         Preference.setUserLogin(true);
 
+        Preference.setUserName(value.data?.username ?? "");
+        Preference.setName(value.data?.name ?? "");
+        Preference.setUserEmail(value.data?.email ?? "");
         onSuccess.call(value.message ?? "");
       } else {
         onFailure.call(value.message ?? "");
@@ -38,11 +41,12 @@ class SignUpVm extends ChangeNotifier {
   }) {
     authRepository.socialLogIn(request).then((value) {
       if (value.code == 200) {
-
         Preference.setUserId(value.data?.id);
         Preference.setAccessToken(value.token ?? "");
-
         Preference.setUserLogin(true);
+        Preference.setUserName(value.data?.username ?? "");
+        Preference.setName(value.data?.name ?? "");
+        Preference.setUserEmail(value.data?.email ?? "");
 
         onSuccess.call(value.message ?? "");
       } else {
@@ -54,6 +58,4 @@ class SignUpVm extends ChangeNotifier {
       onFailure.call("Server Error");
     });
   }
-
-
 }

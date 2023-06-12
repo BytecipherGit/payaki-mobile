@@ -145,7 +145,7 @@ extension ContextExtensions on BuildContext {
   }
 
 
-  void flushBarBottomMessage(
+  void flushBarBottomMessagee(
       {required String message}) {
     showFlushbar(
       context: this,

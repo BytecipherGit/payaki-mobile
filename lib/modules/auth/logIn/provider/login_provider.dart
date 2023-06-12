@@ -18,6 +18,9 @@ class LogInProvider extends ChangeNotifier {
         Preference.setUserId(value.data?.id);
         Preference.setAccessToken(value.token ?? "");
         Preference.setUserLogin(true);
+        Preference.setUserName(value.data?.username ?? "");
+        Preference.setName(value.data?.name ?? "");
+        Preference.setUserEmail(value.data?.email ?? "");
         onSuccess.call(value.message ?? "");
       } else {
         onFailure.call(value.message ?? "");
@@ -40,6 +43,10 @@ class LogInProvider extends ChangeNotifier {
         Preference.setUserId(value.data?.id);
         Preference.setAccessToken(value.token ?? "");
         Preference.setUserLogin(true);
+        Preference.setUserName(value.data?.username ?? "");
+        Preference.setName(value.data?.name ?? "");
+        Preference.setUserEmail(value.data?.email ?? "");
+
         onSuccess.call(value.message ?? "");
       } else {
         onFailure.call(value.message ?? "");

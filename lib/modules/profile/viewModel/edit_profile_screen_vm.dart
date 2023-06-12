@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/basic_request.dart';
 import 'package:payaki/network/model/request/userProfile/resend_email_request.dart' as resend_email;
+import 'package:payaki/network/model/request/userProfile/update_profile_request.dart';
 import 'package:payaki/network/model/response/profile/country_list_response.dart';
 import 'package:payaki/network/repository/user_profile_repository.dart';
 
@@ -38,18 +40,15 @@ class EditProfileScreenVm extends ChangeNotifier {
 
 
 
-  resendEmail({
+  updateProfile({
     ValueChanged<String>? onSuccess,
     ValueChanged<String>? onFailure,
-    String? email,
-  }) {
-    userProfileRepository
-        .resendEmail(
-        resend_email.ResendEmailRequest(name: Endpoints.userProfileEndPoints.resendConfirmationEmail,
-            param: resend_email.Param(
-                email: email
-            )))
-        .then((value) {
+    required UpdateProfileRequest request,
+    XFile? photo
+  }) async {
+
+
+    userProfileRepository.updateProfile(request,photo).then((value) {
       notifyListeners();
 
       if (value.code == 200) {
@@ -58,9 +57,10 @@ class EditProfileScreenVm extends ChangeNotifier {
         onFailure?.call(value.message ?? "");
       }
     }).onError((error, stackTrace) {
-      logE("Error $error");
+      logE("error $error");
       notifyListeners();
-      onFailure?.call(error.toString());
+
+      onFailure?.call("Server Error");
     });
   }
 

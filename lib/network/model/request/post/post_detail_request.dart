@@ -21,16 +21,19 @@ class PostDetailRequest {
 
 class Param {
   String? postId;
+  String? userId;
 
-  Param({required this.postId});
+  Param({required this.postId,this.userId});
 
   Param.fromJson(Map<String, dynamic> json) {
     postId = json['postId'];
+    userId = json['userId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['postId'] = this.postId;
+    data['userId'] = this.userId;
     return data;
   }
 }

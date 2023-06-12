@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loggy/loggy.dart';
 import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/modules/splash/splash_screen.dart';
 import 'package:payaki/modules/welcome/welcome_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 
@@ -42,9 +43,10 @@ class MyApp extends StatelessWidget {
             ),
             // home: const LogInScreen(),
             onGenerateRoute: AppRoute.generateRoute,
-            home: Preference().getUserLogin() == false
-                ? const WelcomeScreen()
-                : const BottomNavigationBarScreen(),
+            // home: Preference().getUserLogin() == false
+            //     ? const WelcomeScreen()
+            //     : const BottomNavigationBarScreen(),
+            home: SplashScreen(),
             //  home: PostDetailsScreen(),
           );
         });

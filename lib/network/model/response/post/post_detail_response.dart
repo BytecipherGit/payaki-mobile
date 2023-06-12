@@ -66,6 +66,8 @@ class Data {
   String? stateName;
   String? countryName;
   String? fullAddress;
+  String? postUrl;
+  bool? isFavourite;
   String? expireDays;
   String? expiredDate;
   List<String>? image;
@@ -112,6 +114,8 @@ class Data {
         this.stateName,
         this.countryName,
         this.fullAddress,
+        this.postUrl,
+        this.isFavourite,
         this.expireDays,
         this.expiredDate,
         this.image,
@@ -158,6 +162,8 @@ class Data {
     stateName = json['state_name'];
     countryName = json['country_name'];
     fullAddress = json['full_address'];
+    postUrl = json['post_url'];
+    isFavourite = json['is_favourite'];
     expireDays = json['expire_days'];
     expiredDate = json['expired_date'];
     image = json["image"] == null ? [] : List<String>.from(json["image"]!.map((x) => x));
@@ -219,6 +225,8 @@ class Data {
     data['state_name'] = this.stateName;
     data['country_name'] = this.countryName;
     data['full_address'] = this.fullAddress;
+    data['post_url'] = this.postUrl;
+    data['is_favourite'] = this.isFavourite;
     data['expire_days'] = this.expireDays;
     data['expired_date'] = this.expiredDate;
     data['image'] = this.image;

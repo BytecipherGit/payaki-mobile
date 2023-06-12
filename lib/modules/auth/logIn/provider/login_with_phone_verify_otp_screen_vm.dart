@@ -21,6 +21,11 @@ class LoginWithPhoneVerifyOtpVm extends ChangeNotifier {
 
         Preference.setUserLogin(true);
 
+        Preference.setUserName(value.data?.username ?? "");
+        Preference.setName(value.data?.name ?? "");
+        Preference.setUserEmail(value.data?.email ?? "");
+
+
         onSuccess.call(value.message ?? "");
       } else {
         onFailure.call(value.message ?? "");

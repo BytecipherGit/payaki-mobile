@@ -23,10 +23,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   int _selectIndex = 0;
 
   final List<Widget> _children = [
-
-
-   // const HomeScreen(),
-
+    // const HomeScreen(),
 
     ChangeNotifierProvider(
       create: (_) => HomeScreenVm(),
@@ -35,15 +32,16 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
     const Screen2(),
     Screen3(),
-   // Screen4(),
+    // Screen4(),
 
-    ChangeNotifierProvider(create:  (_) =>ProfileScreenVm(),
-    child: const ProfileScreen(),)
-
+    ChangeNotifierProvider(
+      create: (_) => ProfileScreenVm(),
+      child: const ProfileScreen(),
+    )
   ];
 
   void onTabTapped(int index) {
-   // if (Preference().getUserId() == "" && index != _selectIndex) {
+    // if (Preference().getUserId() == "" && index != _selectIndex) {
     if (Preference().getUserLogin() == false && index != _selectIndex) {
       goToLogIn();
     } else {
@@ -59,101 +57,177 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _children[_selectIndex],
-      //  floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    return
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-      floatingActionButton: Container(
-          margin: const EdgeInsets.only(bottom: 30),
-          child: GestureDetector(
-            onTap: () {
-            //  if (Preference().getUserId() != "") {
-              if (Preference().getUserLogin() == true) {
-                Navigator.pushNamed(context, RouteName.chooseCategoryScreen);
-              } else {
-                goToLogIn();
-              }
-            },
-            child: Image.asset(
-              ImageUtility.addPostIcon,
-              width: 60,
-              height: 60,
-            ),
-          )),
-      bottomNavigationBar: Container(
-        color: Colors.white,
-        child: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(blurRadius: 15.0, color: Colors.black12),
-                ],
-              ),
+      Scaffold(body: Builder(builder: (BuildContext context) {
+      return Scaffold(
+        body: _children[_selectIndex],
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Container(
+            margin: const EdgeInsets.only(bottom: 30),
+            child: GestureDetector(
+              onTap: () {
+                if (Preference().getUserLogin() == true) {
+                  Navigator.pushNamed(context, RouteName.chooseCategoryScreen);
+                } else {
+                  goToLogIn();
+                }
+              },
               child: Image.asset(
-                ImageUtility.bottomBarBg,
+                ImageUtility.addPostIcon,
+                width: 60,
+                height: 60,
+              ),
+            )),
+        bottomNavigationBar: Container(
+          color: Colors.white,
+          child: Stack(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(blurRadius: 15.0, color: Colors.black12),
+                  ],
+                ),
+                child: Image.asset(
+                  ImageUtility.bottomBarBg,
+                  height: 80,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              SizedBox(
                 height: 80,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.fill,
-              ),
-            ),
-            SizedBox(
-              height: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                      child: BottomBarWidget(
-                    onTap: () {
-                      onTabTapped(0);
-                    },
-                    title: "Home",
-                    image: ImageUtility.homeIcon,
-                    currentIndex: 0,
-                    selectIndex: _selectIndex,
-                  )),
-                  Expanded(
-                      child: BottomBarWidget(
-                    onTap: () {
-                      onTabTapped(1);
-                    },
-                    title: "Chat",
-                    image: ImageUtility.chatIcon,
-                    currentIndex: 1,
-                    selectIndex: _selectIndex,
-                  )),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
-                  Expanded(
-                      child: BottomBarWidget(
-                    onTap: () {
-                      onTabTapped(2);
-                    },
-                    title: "My Add",
-                    image: ImageUtility.myAddIcon,
-                    currentIndex: 2,
-                    selectIndex: _selectIndex,
-                  )),
-                  Expanded(
-                      child: BottomBarWidget(
-                    onTap: () {
-                      onTabTapped(3);
-                    },
-                    title: "Profile",
-                    image: ImageUtility.profileIcon,
-                    currentIndex: 3,
-                    selectIndex: _selectIndex,
-                  )),
-                ],
-              ),
-            )
-          ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                        child: BottomBarWidget(
+                      onTap: () {
+                        onTabTapped(0);
+                      },
+                      title: "Home",
+                      image: ImageUtility.homeIcon,
+                      currentIndex: 0,
+                      selectIndex: _selectIndex,
+                    )),
+                    Expanded(
+                        child: BottomBarWidget(
+                      onTap: () {
+                        onTabTapped(1);
+                      },
+                      title: "Chat",
+                      image: ImageUtility.chatIcon,
+                      currentIndex: 1,
+                      selectIndex: _selectIndex,
+                    )),
+                    const Expanded(
+                      child: SizedBox(),
+                    ),
+                    Expanded(
+                        child: BottomBarWidget(
+                      onTap: () {
+                        onTabTapped(2);
+                      },
+                      title: "My Add",
+                      image: ImageUtility.myAddIcon,
+                      currentIndex: 2,
+                      selectIndex: _selectIndex,
+                    )),
+                    Expanded(
+                        child: BottomBarWidget(
+                      onTap: () {
+                        onTabTapped(3);
+                      },
+                      title: "Profile",
+                      image: ImageUtility.profileIcon,
+                      currentIndex: 3,
+                      selectIndex: _selectIndex,
+                    )),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }));
+
+
+
+
+    //   bottomNavigationBar: Container(
+    //     color: Colors.white,
+    //     child: Stack(
+    //       children: [
+    //         Container(
+    //           decoration: const BoxDecoration(
+    //             boxShadow: [
+    //               BoxShadow(blurRadius: 15.0, color: Colors.black12),
+    //             ],
+    //           ),
+    //           child: Image.asset(
+    //             ImageUtility.bottomBarBg,
+    //             height: 80,
+    //             width: MediaQuery.of(context).size.width,
+    //             fit: BoxFit.fill,
+    //           ),
+    //         ),
+    //         SizedBox(
+    //           height: 80,
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //             children: [
+    //               Expanded(
+    //                   child: BottomBarWidget(
+    //                 onTap: () {
+    //                   onTabTapped(0);
+    //                 },
+    //                 title: "Home",
+    //                 image: ImageUtility.homeIcon,
+    //                 currentIndex: 0,
+    //                 selectIndex: _selectIndex,
+    //               )),
+    //               Expanded(
+    //                   child: BottomBarWidget(
+    //                 onTap: () {
+    //                   onTabTapped(1);
+    //                 },
+    //                 title: "Chat",
+    //                 image: ImageUtility.chatIcon,
+    //                 currentIndex: 1,
+    //                 selectIndex: _selectIndex,
+    //               )),
+    //               const Expanded(
+    //                 child: SizedBox(),
+    //               ),
+    //               Expanded(
+    //                   child: BottomBarWidget(
+    //                 onTap: () {
+    //                   onTabTapped(2);
+    //                 },
+    //                 title: "My Add",
+    //                 image: ImageUtility.myAddIcon,
+    //                 currentIndex: 2,
+    //                 selectIndex: _selectIndex,
+    //               )),
+    //               Expanded(
+    //                   child: BottomBarWidget(
+    //                 onTap: () {
+    //                   onTabTapped(3);
+    //                 },
+    //                 title: "Profile",
+    //                 image: ImageUtility.profileIcon,
+    //                 currentIndex: 3,
+    //                 selectIndex: _selectIndex,
+    //               )),
+    //             ],
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
 

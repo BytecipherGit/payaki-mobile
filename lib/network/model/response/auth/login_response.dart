@@ -33,6 +33,7 @@ class Data {
   String? passwordHash;
   String? email;
   String? name;
+  String? username;
   dynamic tagline;
   String? phone;
   String? image;
@@ -44,6 +45,7 @@ class Data {
         this.passwordHash,
         this.email,
         this.name,
+        this.username,
         this.tagline,
         this.phone,
         this.image,
@@ -55,6 +57,7 @@ class Data {
     passwordHash = json['password_hash'];
     email = json['email'];
     name = json['name'];
+    username = json['username'];
     tagline = json['tagline'];
     phone = json['phone'];
     image = json['image'];
@@ -68,6 +71,7 @@ class Data {
     data['password_hash'] = this.passwordHash;
     data['email'] = this.email;
     data['name'] = this.name;
+    data['username'] = this.username;
     data['tagline'] = this.tagline;
     data['phone'] = this.phone;
     data['image'] = this.image;

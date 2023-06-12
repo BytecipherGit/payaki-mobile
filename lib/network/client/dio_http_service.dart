@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:flutter/material.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/base/basic_error_response.dart';
@@ -21,9 +21,10 @@ class DioHttpService implements HttpService {
   final String _baseUrl = "";
 
   final Dio dio = Dio();
+
   /// The Dio base options
   BaseOptions get baseOptions => BaseOptions(
-      //  baseUrl: "http://themindcrm.com/payaki-web/jwt-api/",
+        //  baseUrl: "http://themindcrm.com/payaki-web/jwt-api/",
         headers: headers,
       );
 
@@ -41,8 +42,6 @@ class DioHttpService implements HttpService {
     'accept': 'application/json',
     'content-type': 'application/json'
   };
-
-
 
   @override
   Future<dynamic> get(
@@ -141,7 +140,7 @@ class DioHttpService implements HttpService {
     logD(
         "Parse Error => message =>${error.message}\n error =>${error.error} \n type=>${error.type}\n socket exception = ${error.error is SocketException}");
     switch (error.type) {
-         case DioErrorType.connectionTimeout:
+      case DioErrorType.connectionTimeout:
         return AppException.error("Connection Time out");
       case DioErrorType.sendTimeout:
         return AppException.error("Send Time out");
@@ -161,8 +160,6 @@ class DioHttpService implements HttpService {
     }
   }
 
-
-
   dynamic parseHttpException(Response? response) {
     logD("parseHttpException $response");
     if (response == null) {
@@ -173,6 +170,7 @@ class DioHttpService implements HttpService {
         return AppException.error(response.data.toString());
       case 401:
       case 403:
+        logD("message Navigate to login screen ");
         return AppException.error(response.data.toString());
       case 422:
         return response.data;

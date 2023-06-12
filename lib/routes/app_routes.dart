@@ -39,6 +39,7 @@ import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/modules/search/screens/search_result_screen.dart';
 import 'package:payaki/modules/search/screens/search_screen.dart';
+import 'package:payaki/modules/welcome/welcome_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:provider/provider.dart';
 
@@ -260,10 +261,14 @@ class AppRoute {
                   ),
             ));
       case RouteName.reportAddScreen:
+        var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                 create: (_) => ReportAddScreenVm(),
-                child: const ReportAddScreen()));
+                child:  ReportAddScreen(postUrl: arg["postUrl"])));
+      case RouteName.welcomeScreen:
+        return MaterialPageRoute(
+            builder: (context) => const WelcomeScreen());
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());

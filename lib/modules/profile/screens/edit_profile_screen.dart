@@ -1,12 +1,15 @@
+import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/profile/viewModel/edit_profile_screen_vm.dart';
+import 'package:payaki/network/end_points.dart';
+import 'package:payaki/network/model/request/userProfile/update_profile_request.dart';
 import 'package:payaki/network/model/response/profile/user_profile_response.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/validators.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -14,8 +17,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
-import 'package:payaki/network/model/response/profile/country_list_response.dart' as country;
-
+import 'package:payaki/network/model/response/profile/country_list_response.dart'
+    as country;
 
 class EditProfileScreen extends StatefulWidget {
   final Data userProfile;
@@ -36,6 +39,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController pinterestController = TextEditingController();
   TextEditingController twitterController = TextEditingController();
   TextEditingController instagramController = TextEditingController();
+  TextEditingController linkedinController = TextEditingController();
   TextEditingController youtubeController = TextEditingController();
   TextEditingController websiteURLController = TextEditingController();
   XFile? image;
@@ -44,16 +48,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   country.Data? selectedCountry;
 
-
   @override
   void initState() {
     super.initState();
     setAutoFillData();
 
     editProfileScreenVm = Provider.of(context, listen: false);
-    editProfileScreenVm.getCountryList(onFailure: (message) {
-      context.flushBarBottomMessage(message: message);
-    });
+    editProfileScreenVm.getCountryList(
+        onFailure: (message) {
+          context.showSnackBar(message: message);
+        },
+        onSuccess: (m) {
+        });
   }
 
   void setAutoFillData() {
@@ -64,8 +70,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     pinterestController.text = widget.userProfile.googleplus ?? "";
     twitterController.text = widget.userProfile.twitter ?? "";
     instagramController.text = widget.userProfile.instagram ?? "";
+    linkedinController.text = widget.userProfile.linkedin ?? "";
     youtubeController.text = widget.userProfile.youtube ?? "";
     websiteURLController.text = widget.userProfile.website ?? "";
+
+    //  selectedCountry?.asciiname = widget.userProfile.country ?? "";
   }
 
   Future selectImageFromGallery() async {
@@ -116,8 +125,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   child: NetworkImageWidget(
                                       width: 25.w,
                                       height: 25.w,
-                                      url:
-                                          widget.userProfile.image ?? ""),
+                                      url: widget.userProfile.image ?? ""),
                                 )
                               : Image.asset(
                                   ImageUtility.userDummyIcon,
@@ -167,97 +175,89 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 Consumer<EditProfileScreenVm>(
-                  builder: (context, editProfileScreenVm,child) {
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButtonFormField<country.Data>(
-                        isExpanded: false,
+                    builder: (context, editProfileScreenVm, child) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButtonFormField<country.Data>(
+                      isExpanded: false,
 
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(
-                              top: 15.sp,
-                              bottom: 15.sp,
-                              left: 20.w,
-                              right: 5.w),
-                          filled: true,
-                          fillColor: ColorUtility.colorF8FAFB,
-                          hintStyle: StyleUtility.hintTextStyle,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            borderSide: const BorderSide(
-                              color: ColorUtility.colorE2E5EF,
-                            ),
-                          ),
-                          disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            borderSide: const BorderSide(
-                              color: ColorUtility.colorE2E5EF,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            borderSide: const BorderSide(
-                              color: ColorUtility.colorE2E5EF,
-                            ),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            borderSide: const BorderSide(
-                              color: ColorUtility.colorE2E5EF,
-                            ),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            borderSide: const BorderSide(
-                              color: ColorUtility.colorE2E5EF,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            borderSide: const BorderSide(
-                              color: ColorUtility.colorE2E5EF,
-                            ),
-                          ),
-                          focusColor: ColorUtility.whiteColor,
-                        ),
-                        borderRadius: BorderRadius.circular(10.r),
-                        hint: Text(
-                          "Select Country",
-                          style: StyleUtility.hintTextStyle,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        items: editProfileScreenVm.countryList?.map((item) =>
-                            DropdownMenuItem<country.Data>(
-                          value: item,
-                          child: Text(
-                            item.asciiname!,
-                            style: StyleUtility.inputTextStyle,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ))
-                            .toList(),
-                        value: selectedCountry,
-                        onChanged: (value) {
-                          selectedCountry = value;
-                        //  searchScreenVm.notifyListeners();
-                        },
-                        icon: Padding(
-                          padding: EdgeInsets.only(right: 10.w),
-                          child: Image.asset(
-                            ImageUtility.dropDownIcon,
-                            width: 14.w,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(
+                            top: 15.sp, bottom: 15.sp, left: 20.w, right: 5.w),
+                        filled: true,
+                        fillColor: ColorUtility.colorF8FAFB,
+                        hintStyle: StyleUtility.hintTextStyle,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          borderSide: const BorderSide(
+                            color: ColorUtility.colorE2E5EF,
                           ),
                         ),
-
-                        //  offset: const Offset(-20, 0),
+                        disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          borderSide: const BorderSide(
+                            color: ColorUtility.colorE2E5EF,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          borderSide: const BorderSide(
+                            color: ColorUtility.colorE2E5EF,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          borderSide: const BorderSide(
+                            color: ColorUtility.colorE2E5EF,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          borderSide: const BorderSide(
+                            color: ColorUtility.colorE2E5EF,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          borderSide: const BorderSide(
+                            color: ColorUtility.colorE2E5EF,
+                          ),
+                        ),
+                        focusColor: ColorUtility.whiteColor,
                       ),
-                    );
-                  }
-                ),
+                      borderRadius: BorderRadius.circular(10.r),
+                      hint: Text(
+                        "Select Country",
+                        style: StyleUtility.hintTextStyle,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      items: editProfileScreenVm.countryList
+                          ?.map((item) => DropdownMenuItem<country.Data>(
+                                value: item,
+                                child: Text(
+                                  item.asciiname!,
+                                  // item.code!,
+                                  style: StyleUtility.inputTextStyle,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ))
+                          .toList(),
+                      value: selectedCountry,
+                      onChanged: (value) {
+                        selectedCountry = value;
+                        //  searchScreenVm.notifyListeners();
+                      },
+                      icon: Padding(
+                        padding: EdgeInsets.only(right: 10.w),
+                        child: Image.asset(
+                          ImageUtility.dropDownIcon,
+                          width: 14.w,
+                        ),
+                      ),
 
-
-
-
-
+                      //  offset: const Offset(-20, 0),
+                    ),
+                  );
+                }),
                 SizedBox(
                   height: 15.h,
                 ),
@@ -303,6 +303,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   height: 15.h,
                 ),
                 SimpleTextField(
+                  controller: linkedinController,
+                  hintText: "Enter Linkedin Profile Link",
+                  titleText: "Linkedin",
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                SimpleTextField(
                   controller: youtubeController,
                   hintText: "Enter Youtube Profile Link",
                   titleText: "Youtube",
@@ -318,52 +326,88 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 SizedBox(
                   height: 54.h,
                 ),
-                CustomButton(
-                    buttonText: "Update",
-                    onTab: () {
-                      if (nameController.text.isEmpty) {
-                        context.showSnackBar(
-                            message: 'Please Enter Title.');
-                      } else if (facebookController.text.isNotEmpty &&
-                          Validators.checkValidateUrl(
-                                  facebookController.text) ==
-                              false) {
-                        context.showSnackBar(
-                            message: "Please Enter Valid Facebook Link.");
-                      } else if (pinterestController.text.isNotEmpty &&
-                          Validators.checkValidateUrl(
-                                  pinterestController.text) ==
-                              false) {
-                        context.showSnackBar(
-                            message:
-                                "Please Enter Valid Pinterest Link.");
-                      } else if (twitterController.text.isNotEmpty &&
-                          Validators.checkValidateUrl(
-                                  twitterController.text) ==
-                              false) {
-                        context.showSnackBar(
-                            message: "Please Enter Valid Twitter Link.");
-                      } else if (instagramController.text.isNotEmpty &&
-                          Validators.checkValidateUrl(
-                                  instagramController.text) ==
-                              false) {
-                        context.showSnackBar(
-                            message:
-                                "Please Enter Valid Instagram Link.");
-                      } else if (youtubeController.text.isNotEmpty &&
-                          Validators.checkValidateUrl(
-                                  youtubeController.text) ==
-                              false) {
-                        context.showSnackBar(
-                            message: "Please Enter Valid Youtube Link.");
-                      } else if (websiteURLController.text.isNotEmpty &&
-                          Validators.checkValidateUrl(
-                                  websiteURLController.text) ==
-                              false) {
-                        context.showSnackBar(
-                            message: "Please Enter Valid Website URL.");
-                      } else {}
-                    }),
+                Consumer<EditProfileScreenVm>(
+                    builder: (context, editProfileScreenVm, child) {
+                  return CustomButton(
+                      buttonText: "Update",
+                      onTab: () {
+                        if (nameController.text.isEmpty) {
+                          context.showSnackBar(message: 'Please Enter Title.');
+                        } else if (facebookController.text.isNotEmpty &&
+                            Validators.checkValidateUrl(
+                                    facebookController.text) ==
+                                false) {
+                          context.showSnackBar(
+                              message: "Please Enter Valid Facebook Link.");
+                        } else if (pinterestController.text.isNotEmpty &&
+                            Validators.checkValidateUrl(
+                                    pinterestController.text) ==
+                                false) {
+                          context.showSnackBar(
+                              message:
+                                  "Please Enter Valid Pinterest Profile Link.");
+                        } else if (twitterController.text.isNotEmpty &&
+                            Validators.checkValidateUrl(
+                                    twitterController.text) ==
+                                false) {
+                          context.showSnackBar(
+                              message:
+                                  "Please Enter Valid Twitter Profile Link.");
+                        } else if (instagramController.text.isNotEmpty &&
+                            Validators.checkValidateUrl(
+                                    instagramController.text) ==
+                                false) {
+                          context.showSnackBar(
+                              message: "Please Enter Valid Instagram Link.");
+                        } else if (linkedinController.text.isNotEmpty &&
+                            Validators.checkValidateUrl(
+                                    linkedinController.text) ==
+                                false) {
+                          context.showSnackBar(
+                              message:
+                                  "Please Enter Valid Linkedin Profile Link.");
+                        } else if (youtubeController.text.isNotEmpty &&
+                            Validators.checkValidateUrl(
+                                    youtubeController.text) ==
+                                false) {
+                          context.showSnackBar(
+                              message: "Please Enter Valid Youtube Link.");
+                        } else if (websiteURLController.text.isNotEmpty &&
+                            Validators.checkValidateUrl(
+                                    websiteURLController.text) ==
+                                false) {
+                          context.showSnackBar(
+                              message: "Please Enter Valid Website URL.");
+                        } else {
+                          CommonDialog.showLoadingDialog(context);
+                          editProfileScreenVm.updateProfile(
+                              request: UpdateProfileRequest(
+                                name: Endpoints
+                                    .userProfileEndPoints.updateProfile,
+                                username: nameController.text,
+                                address: addressController.text,
+                                country: selectedCountry?.asciiname,
+                                website: websiteURLController.text,
+                                facebook: facebookController.text,
+                                twitter: twitterController.text,
+                                googleplus: pinterestController.text,
+                                instagram: instagramController.text,
+                                linkedin: linkedinController.text,
+                                youtube: youtubeController.text,
+                              ),
+                              photo: image,
+                              onSuccess: (message) {
+                                Navigator.pop(context);
+                                Navigator.pop(context, true);
+                                context.showSnackBar(message: message);
+                              },
+                              onFailure: (message) {
+                                Navigator.pop(context);
+                                context.showSnackBar(message: message);
+                              });
+                        }
+                      });
+                }),
                 SizedBox(
                   height: 47.h,
                 ),

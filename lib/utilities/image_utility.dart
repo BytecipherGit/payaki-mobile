@@ -49,6 +49,8 @@ class ImageUtility {
   static const String instagramIcon = 'assets/images/instagram_icon.png';
   static const String youTubeIcon = 'assets/images/you_tube_icon.png';
   static const String webSiteUrlIcon = 'assets/images/web_site_url_icon.png';
+  static const String linkedinIcon = 'assets/images/linkedin_icon.png';
+  static const String splashOnboardIcon = 'assets/images/splash_onboard.png';
 
 
 

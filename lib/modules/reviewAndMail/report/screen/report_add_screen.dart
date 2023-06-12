@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/reviewAndMail/report/viewModel/report_add_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/reviewAndMail/report_ad_request.dart';
@@ -15,9 +15,9 @@ import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
 class ReportAddScreen extends StatefulWidget {
-//  final String postId;
+  final String postUrl;
 
-  const ReportAddScreen({Key? key}) : super(key: key);
+  const ReportAddScreen({Key? key, required this.postUrl}) : super(key: key);
 
   @override
   State<ReportAddScreen> createState() => _ReportAddScreenState();
@@ -44,9 +44,14 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // logD("PostId ${widget.postId}");
+
+    violationUrlController.text = widget.postUrl;
+    if (Preference().getUserLogin()) {
+      nameController.text = Preference().getName();
+      userNameController.text = Preference().getUserName();
+      emailController.text = Preference().getUserEmail();
+    }
   }
 
   @override
@@ -77,7 +82,7 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
                 SimpleTextField(
                   controller: nameController,
                   hintText: "Enter Your Name",
-                  titleText: "Your Name",
+                  titleText: "Your Name*",
                 ),
                 SizedBox(
                   height: 15.h,
@@ -107,7 +112,7 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
                   height: 15.h,
                 ),
                 DropDownWidget(
-                  titleText: "Violation Type",
+                  titleText: "Violation Type*",
                   hintText: "Select Violation Type",
                   itemList: violationTypeList,
                   selectedValue: selectedViolationType,
@@ -140,11 +145,17 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
                   return CustomButton(
                       buttonText: "Report Violation",
                       onTab: () {
-                        if (Validators.checkValidateEmail(
+                        if (nameController.text.isEmpty) {
+                          context.showSnackBar(
+                              message: 'Please Enter Your Name.');
+                        } else if (Validators.checkValidateEmail(
                                 emailController.text) ==
                             false) {
                           context.showSnackBar(
                               message: 'Please Enter Valid Email Address.');
+                        } else if (selectedViolationType == null) {
+                          context.showSnackBar(
+                              message: 'Please Select Violation Type.');
                         } else if (violationUrlController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     violationUrlController.text) ==

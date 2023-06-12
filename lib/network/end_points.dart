@@ -52,6 +52,7 @@ class UserProfileEndPoints {
   String get viewProfile => "viewProfile";
   String get resendConfirmationEmail => "resendConfirmationEmail";
   String get getCountries => "getCountries";
+  String get updateProfile => "updateProfile";
 }
 
 

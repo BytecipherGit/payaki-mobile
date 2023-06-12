@@ -461,7 +461,13 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             InkWell(
                                 onTap: () {
                                   Navigator.pushNamed(
-                                      context, RouteName.reportAddScreen);
+                                      context, RouteName.reportAddScreen,arguments: {
+                                        "postUrl":postDetailScreenVm
+                                            .postDetailResponse
+                                            ?.data
+                                            ?.postUrl ??
+                                            "",
+                                  });
                                 },
                                 child: Text(
                                   "Report this AD".toUpperCase(),
@@ -531,6 +537,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                 SizedBox(
                                   width: 10.w,
                                 ),
+
+
+
                                 Expanded(
                                     child: SizedBox(
                                   height: TextSizeUtility.buttonHeight,
@@ -542,6 +551,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                           postDetailScreenVm.postLikeDislike(
                                               onSuccess: (message) {
                                                 Navigator.pop(context);
+
+                                                postDetailScreenVm.updateStatus();
                                                 context.showSnackBar(
                                                     message: message);
                                               },
@@ -557,8 +568,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            ColorUtility.color4285F4,
+                                        backgroundColor: (postDetailScreenVm.postDetailResponse?.data?.isFavourite ?? false) == false ?
+                                        ColorUtility.color4285F4:ColorUtility.colorD7443E,
                                         shadowColor: Colors.transparent,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -575,7 +586,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                           SizedBox(
                                             width: 10.w,
                                           ),
-                                          Text("Save this Ad",
+                                          Text(
+                                              (postDetailScreenVm.postDetailResponse?.data?.isFavourite ?? false) == false ?
+                                              "Save this Ad":"Ad Saved",
                                               maxLines: 1,
                                               style:
                                                   StyleUtility.buttonTextStyle),
