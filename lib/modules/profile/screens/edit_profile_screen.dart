@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/profile/viewModel/edit_profile_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/userProfile/update_profile_request.dart';
@@ -58,8 +59,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         onFailure: (message) {
           context.showSnackBar(message: message);
         },
-        onSuccess: (m) {
-        });
+        onSuccess: (m) {});
   }
 
   void setAutoFillData() {
@@ -74,6 +74,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     youtubeController.text = widget.userProfile.youtube ?? "";
     websiteURLController.text = widget.userProfile.website ?? "";
 
+    //   controller.setText(widget.userProfile.description ?? "");
     //  selectedCountry?.asciiname = widget.userProfile.country ?? "";
   }
 
@@ -267,6 +268,50 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   titleText: "About Me",
                   maxLine: 5,
                 ),
+                // SizedBox(
+                //   height: 15.h,
+                // ),
+                // HtmlEditor(
+                //   controller: controller,
+                //   //required
+                //   htmlToolbarOptions:
+                //       const HtmlToolbarOptions(defaultToolbarButtons: [
+                //     //  StyleButtons(),
+                //     //  FontSettingButtons(fontSizeUnit: true),
+                //     FontButtons(
+                //         clearAll: false,
+                //         strikethrough: false,
+                //         subscript: false,
+                //         superscript: false),
+                //     ColorButtons(highlightColor: false),
+                //     ListButtons(listStyles: false),
+                //     ParagraphButtons(
+                //       textDirection: false,
+                //       lineHeight: false,
+                //       caseConverter: false,
+                //       alignRight: false,
+                //       alignCenter: false,
+                //       alignJustify: false,
+                //       increaseIndent: false,
+                //       decreaseIndent: false,
+                //     ),
+                //
+                //     InsertButtons(
+                //         video: false,
+                //         audio: false,
+                //         table: false,
+                //         hr: false,
+                //         picture: false,
+                //         otherFile: false),
+                //   ]),
+                //   htmlEditorOptions: HtmlEditorOptions(
+                //       hint: "About Me",
+                //       initialText: widget.userProfile.description
+                //       ),
+                //   otherOptions: OtherOptions(
+                //     height: 200.sp,
+                //   ),
+                // ),
                 SizedBox(
                   height: 15.h,
                 ),
@@ -330,7 +375,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     builder: (context, editProfileScreenVm, child) {
                   return CustomButton(
                       buttonText: "Update",
-                      onTab: () {
+                      onTab: () async {
+
                         if (nameController.text.isEmpty) {
                           context.showSnackBar(message: 'Please Enter Title.');
                         } else if (facebookController.text.isNotEmpty &&
@@ -387,6 +433,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 username: nameController.text,
                                 address: addressController.text,
                                 country: selectedCountry?.asciiname,
+                                description: aboutMeController.text,
                                 website: websiteURLController.text,
                                 facebook: facebookController.text,
                                 twitter: twitterController.text,

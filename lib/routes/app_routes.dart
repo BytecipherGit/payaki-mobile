@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:payaki/modules/auth/forgotPassword/provider/forgot_new_pass_vm.dart';
-import 'package:payaki/modules/auth/forgotPassword/provider/forgot_pass_send_opt_vm.dart';
-import 'package:payaki/modules/auth/forgotPassword/provider/forgot_pass_verify_otp_vm.dart';
+import 'package:payaki/modules/auth/changePassword/screen/change_password_screen.dart';
+import 'package:payaki/modules/auth/changePassword/viewModel/change_password_screen_vm.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_new_password_screen.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_pass_send_otp_screen.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_pass_success_screen.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_pass_verify_otp_screen.dart';
+import 'package:payaki/modules/auth/forgotPassword/viewModel/forgot_new_pass_vm.dart';
+import 'package:payaki/modules/auth/forgotPassword/viewModel/forgot_pass_send_opt_vm.dart';
+import 'package:payaki/modules/auth/forgotPassword/viewModel/forgot_pass_verify_otp_vm.dart';
 import 'package:payaki/modules/auth/logIn/provider/log_in_with_phone_send_otp_screen_vm.dart';
 import 'package:payaki/modules/auth/logIn/provider/login_with_phone_verify_otp_screen_vm.dart';
 import 'package:payaki/modules/auth/logIn/screens/log_in_screen.dart';
@@ -46,6 +48,10 @@ import 'package:provider/provider.dart';
 class AppRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RouteName.welcomeScreen:
+        return MaterialPageRoute(
+            builder: (context) => const WelcomeScreen());
+
       case RouteName.logInScreen:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
 
@@ -266,9 +272,12 @@ class AppRoute {
             builder: (context) => ChangeNotifierProvider(
                 create: (_) => ReportAddScreenVm(),
                 child:  ReportAddScreen(postUrl: arg["postUrl"])));
-      case RouteName.welcomeScreen:
+
+      case RouteName.changePasswordScreen:
         return MaterialPageRoute(
-            builder: (context) => const WelcomeScreen());
+            builder: (context) => ChangeNotifierProvider(
+                create: (_) => ChangePasswordScreenVm(),
+                child:  const ChangePasswordScreen()));
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());

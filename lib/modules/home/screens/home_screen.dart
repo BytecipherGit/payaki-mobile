@@ -326,7 +326,7 @@ class HomePostWidget extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(left: 20.w, right: 20.w),
-          child: GridView.builder(
+          child: (post?.length ?? 0) >0 ?GridView.builder(
             shrinkWrap: true,
             primary: false,
             padding: EdgeInsets.only(
@@ -367,7 +367,9 @@ class HomePostWidget extends StatelessWidget {
                 },
               );
             },
-          ),
+          ):SizedBox(
+              height:100.sp,
+    child: Center(child: Text("No Post Found",style: StyleUtility.inputTextStyle,),)),
         ),
       ],
     );

@@ -1,5 +1,6 @@
 class RouteName {
   static const String splashScreen = "/";
+  static const String welcomeScreen = "/welcomeScreen";
   static const String logInScreen = "/logInScreen";
   static const String loginWithPhoneSendOtpScreen =
       "/loginWithPhoneSendOtpScreen";
@@ -26,5 +27,5 @@ class RouteName {
   static const String replyEmailScreen = "/replyEmailScreen";
   static const String editProfileScreen = "/editProfileScreen";
   static const String reportAddScreen = "/reportAddScreen";
-  static const String welcomeScreen = "/WelcomeScreen";
+  static const String changePasswordScreen = "/changePasswordScreen";
 }

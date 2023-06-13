@@ -37,6 +37,8 @@ class LogInProvider extends ChangeNotifier {
     required ValueChanged<String> onFailure,
     required SocialLoginRequest request,
   }) {
+
+    logD("request is ${request.toJson()}");
     authRepository.socialLogIn(request).then((value) {
       if (value.code == 200) {
 

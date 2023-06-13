@@ -1,10 +1,10 @@
-class SocialLoginRequest {
+class ChangePasswordRequest {
   String? name;
   Param? param;
 
-  SocialLoginRequest({this.name, this.param});
+  ChangePasswordRequest({this.name, this.param});
 
-  SocialLoginRequest.fromJson(Map<String, dynamic> json) {
+  ChangePasswordRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     param = json['param'] != null ? new Param.fromJson(json['param']) : null;
   }
@@ -20,23 +20,20 @@ class SocialLoginRequest {
 }
 
 class Param {
-  String? oauthProvider;
-  String? oauthUid;
-  String? email;
+  String? newPassword;
+  String? confirmPassword;
 
-  Param({this.oauthProvider, this.oauthUid,this.email});
+  Param({this.newPassword, this.confirmPassword});
 
   Param.fromJson(Map<String, dynamic> json) {
-    oauthProvider = json['oauth_provider'];
-    oauthUid = json['oauth_uid'];
-    email = json['email'];
+    newPassword = json['new_password'];
+    confirmPassword = json['confirm_password'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['oauth_provider'] = this.oauthProvider;
-    data['oauth_uid'] = this.oauthUid;
-    data['email'] = this.email;
+    data['new_password'] = this.newPassword;
+    data['confirm_password'] = this.confirmPassword;
     return data;
   }
 }

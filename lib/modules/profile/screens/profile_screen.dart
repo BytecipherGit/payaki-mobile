@@ -4,6 +4,7 @@ import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/profile/viewModel/profile_screen_vm.dart';
 import 'package:payaki/modules/profile/widget/setting_tile_widget.dart';
+import 'package:payaki/network/model/response/profile/user_profile_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
@@ -228,159 +229,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 userProfile?.email ?? "",
                                 style: StyleUtility.headingTextStyle.copyWith(
                                     fontSize: TextSizeUtility.textSize22),
+                                textAlign: TextAlign.center,
                               ),
                               Text(userProfile?.name ?? "",
                                   textAlign: TextAlign.center,
                                   style: StyleUtility.titleTextStyle),
-                              Padding(
-                                padding: EdgeInsets.only(top: 14.h),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    userProfile?.facebook != null &&
-                                            userProfile!.facebook!.isNotEmpty
-                                        ? Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              onTap: () {
-                                                _launchUrl(
-                                                    userProfile.facebook ?? "");
-                                              },
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 9.w,
-                                                    horizontal: 11.w),
-                                                child: Image.asset(
-                                                  ImageUtility.faceBookIcon,
-                                                  width: 20.w,
-                                                  height: 20.w,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                    userProfile?.googleplus != null &&
-                                            userProfile!.googleplus!.isNotEmpty
-                                        ? Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              onTap: () {
-                                                _launchUrl(
-                                                    userProfile.googleplus ??
-                                                        "");
-                                              },
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 9.w,
-                                                    horizontal: 11.w),
-                                                child: Image.asset(
-                                                  ImageUtility.pinterestIcon,
-                                                  width: 20.w,
-                                                  height: 20.w,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                    userProfile?.twitter != null &&
-                                            userProfile!.twitter!.isNotEmpty
-                                        ? Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              onTap: () {
-                                                _launchUrl(
-                                                    userProfile.twitter ?? "");
-                                              },
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 9.w,
-                                                    horizontal: 11.w),
-                                                child: Image.asset(
-                                                  ImageUtility.twitterIcon,
-                                                  width: 20.w,
-                                                  height: 17.w,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                    userProfile?.instagram != null &&
-                                            userProfile!.instagram!.isNotEmpty
-                                        ? Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              onTap: () {
-                                                _launchUrl(
-                                                    userProfile.instagram ??
-                                                        "");
-                                              },
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 9.w,
-                                                    horizontal: 11.w),
-                                                child: Image.asset(
-                                                  ImageUtility.instagramIcon,
-                                                  width: 20.w,
-                                                  height: 20.w,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                    userProfile?.youtube != null &&
-                                            userProfile!.youtube!.isNotEmpty
-                                        ? Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              onTap: () {
-                                                _launchUrl(
-                                                    userProfile.youtube ?? "");
-                                              },
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 9.w,
-                                                    horizontal: 11.w),
-                                                child: Image.asset(
-                                                  ImageUtility.youTubeIcon,
-                                                  width: 20.w,
-                                                  height: 14.w,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : const SizedBox(),
-
-
-                                    userProfile?.linkedin != null &&
-                                        userProfile!.linkedin!.isNotEmpty
-                                        ? Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        onTap: () {
-                                          _launchUrl(
-                                              userProfile.linkedin ?? "");
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 9.w,
-                                              horizontal: 11.w),
-                                          child: Image.asset(
-                                            ImageUtility.linkedinIcon,
-                                            width: 20.w,
-                                            height: 20.w,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                        : const SizedBox(),
-
-
-
-
-                                  ],
-                                ),
-                              ),
+                              socialUrlView(userProfile),
                               SizedBox(
                                 height: 20.h,
                               ),
@@ -402,12 +256,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         context, RouteName.editProfileScreen,
                                         arguments: {
                                           "userProfile": userProfile
-                                        })
-                                        .then((value) {
-
-                                          if(value == true){
-                                            profileScreenVm.getUserDetail();
-                                          }
+                                        }).then((value) {
+                                      if (value == true) {
+                                        profileScreenVm.getUserDetail();
+                                      }
                                     });
                                   },
                                   child: Text(
@@ -500,7 +352,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 title: "Change Password",
                                 image: ImageUtility.passwordIcon,
                                 imageWidth: 14.w,
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, RouteName.changePasswordScreen);
+                                },
                               ),
                               SettingTileWidget(
                                 title: "Change Phone Number",
@@ -529,6 +384,132 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 )
               : const CircularProgressWidget();
         }),
+      ),
+    );
+  }
+
+  Widget socialUrlView(Data? userProfile) {
+    return Padding(
+      padding: EdgeInsets.only(top: 14.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          userProfile?.facebook != null && userProfile!.facebook!.isNotEmpty
+              ? Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      _launchUrl(userProfile.facebook ?? "");
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 9.w, horizontal: 11.w),
+                      child: Image.asset(
+                        ImageUtility.faceBookIcon,
+                        width: 20.w,
+                        height: 20.w,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+          userProfile?.googleplus != null && userProfile!.googleplus!.isNotEmpty
+              ? Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      _launchUrl(userProfile.googleplus ?? "");
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 9.w, horizontal: 11.w),
+                      child: Image.asset(
+                        ImageUtility.pinterestIcon,
+                        width: 20.w,
+                        height: 20.w,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+          userProfile?.twitter != null && userProfile!.twitter!.isNotEmpty
+              ? Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      _launchUrl(userProfile.twitter ?? "");
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 9.w, horizontal: 11.w),
+                      child: Image.asset(
+                        ImageUtility.twitterIcon,
+                        width: 20.w,
+                        height: 17.w,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+          userProfile?.instagram != null && userProfile!.instagram!.isNotEmpty
+              ? Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      _launchUrl(userProfile.instagram ?? "");
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 9.w, horizontal: 11.w),
+                      child: Image.asset(
+                        ImageUtility.instagramIcon,
+                        width: 20.w,
+                        height: 20.w,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+          userProfile?.youtube != null && userProfile!.youtube!.isNotEmpty
+              ? Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      _launchUrl(userProfile.youtube ?? "");
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 9.w, horizontal: 11.w),
+                      child: Image.asset(
+                        ImageUtility.youTubeIcon,
+                        width: 20.w,
+                        height: 14.w,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+          userProfile?.linkedin != null && userProfile!.linkedin!.isNotEmpty
+              ? Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      _launchUrl(userProfile.linkedin ?? "");
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 9.w, horizontal: 11.w),
+                      child: Image.asset(
+                        ImageUtility.linkedinIcon,
+                        width: 20.w,
+                        height: 20.w,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+        ],
       ),
     );
   }

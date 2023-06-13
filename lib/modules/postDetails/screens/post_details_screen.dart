@@ -461,13 +461,14 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             InkWell(
                                 onTap: () {
                                   Navigator.pushNamed(
-                                      context, RouteName.reportAddScreen,arguments: {
-                                        "postUrl":postDetailScreenVm
-                                            .postDetailResponse
-                                            ?.data
-                                            ?.postUrl ??
+                                      context, RouteName.reportAddScreen,
+                                      arguments: {
+                                        "postUrl": postDetailScreenVm
+                                                .postDetailResponse
+                                                ?.data
+                                                ?.postUrl ??
                                             "",
-                                  });
+                                      });
                                 },
                                 child: Text(
                                   "Report this AD".toUpperCase(),
@@ -537,22 +538,20 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                 SizedBox(
                                   width: 10.w,
                                 ),
-
-
-
                                 Expanded(
                                     child: SizedBox(
                                   height: TextSizeUtility.buttonHeight,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        if (Preference().getUserLogin()){
+                                        if (Preference().getUserLogin()) {
                                           CommonDialog.showLoadingDialog(
                                               context);
                                           postDetailScreenVm.postLikeDislike(
                                               onSuccess: (message) {
                                                 Navigator.pop(context);
 
-                                                postDetailScreenVm.updateStatus();
+                                                postDetailScreenVm
+                                                    .updateStatus();
                                                 context.showSnackBar(
                                                     message: message);
                                               },
@@ -562,14 +561,20 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                     message: message);
                                               },
                                               postId: widget.postId);
-                                        }else{
-                                          showLoginDialog(context,"Log In to Save This Ad");
+                                        } else {
+                                          showLoginDialog(context,
+                                              "Log In to Save This Ad");
                                         }
-
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: (postDetailScreenVm.postDetailResponse?.data?.isFavourite ?? false) == false ?
-                                        ColorUtility.color4285F4:ColorUtility.colorD7443E,
+                                        backgroundColor: (postDetailScreenVm
+                                                        .postDetailResponse
+                                                        ?.data
+                                                        ?.isFavourite ??
+                                                    false) ==
+                                                false
+                                            ? ColorUtility.color4285F4
+                                            : ColorUtility.colorD7443E,
                                         shadowColor: Colors.transparent,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -587,8 +592,14 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                             width: 10.w,
                                           ),
                                           Text(
-                                              (postDetailScreenVm.postDetailResponse?.data?.isFavourite ?? false) == false ?
-                                              "Save this Ad":"Ad Saved",
+                                              (postDetailScreenVm
+                                                              .postDetailResponse
+                                                              ?.data
+                                                              ?.isFavourite ??
+                                                          false) ==
+                                                      false
+                                                  ? "Save this Ad"
+                                                  : "Ad Saved",
                                               maxLines: 1,
                                               style:
                                                   StyleUtility.buttonTextStyle),
@@ -604,7 +615,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-
                                   Text(
                                     "Add your review",
                                     style: StyleUtility.headingTextStyle,
@@ -693,7 +703,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                             context.showSnackBar(
                                                 message: "Comming Soon.");
                                           } else {
-                                            showLoginDialog(context,"Log In to chat or send quote");
+                                            showLoginDialog(context,
+                                                "Log In to chat or send quote");
                                           }
                                         }))
                               ],

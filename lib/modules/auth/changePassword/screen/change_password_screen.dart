@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/modules/auth/forgotPassword/viewModel/forgot_new_pass_vm.dart';
+import 'package:payaki/modules/auth/changePassword/viewModel/change_password_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
-import 'package:payaki/network/model/request/auth/forgotPassword/generate_new_pass_request.dart';
-import 'package:payaki/routes/route_name.dart';
+import 'package:payaki/network/model/request/auth/changePassword/change_password_request.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -13,18 +12,14 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
-class ForgotNewPasswordScreen extends StatefulWidget {
-  final String userId;
-
-  const ForgotNewPasswordScreen({Key? key, required this.userId})
-      : super(key: key);
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<ForgotNewPasswordScreen> createState() =>
-      _ForgotNewPasswordScreenState();
+  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
 }
 
-class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
@@ -59,7 +54,7 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                         height: 25.h,
                       ),
                       Text(
-                        "Enter your New Password",
+                        "Enter Your New Password",
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(
@@ -89,8 +84,8 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                   ),
                 ),
               ),
-              Consumer<ForgotNewPassVm>(
-                  builder: (context, forgotNewPassVm, child) {
+              Consumer<ChangePasswordScreenVm>(
+                  builder: (context, changePasswordScreenVm, child) {
                 return Container(
                     alignment: Alignment.bottomCenter,
                     child: CustomButton(
@@ -108,21 +103,22 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                                 message: "Confirm Password Not Matched.");
                           } else {
                             CommonDialog.showLoadingDialog(context);
-                            forgotNewPassVm.generateNewPass(
-                                onSuccess: (value) {
+                            changePasswordScreenVm.changePassword(
+                                onSuccess: (message) {
                                   Navigator.pop(context);
-                                  Navigator.pushReplacementNamed(context,
-                                      RouteName.forgotPassSuccessScreen);
-                                },
-                                onFailure: (value) {
                                   Navigator.pop(context);
-                                  context.showSnackBar(message: value);
+                                  context.showSnackBar(message: message);
                                 },
-                                request: GenerateNewPassRequest(
-                                    name: Endpoints.auth.generateNewPassword,
+                                onFailure: (message) {
+                                  Navigator.pop(context);
+                                  context.showSnackBar(message: message);
+                                },
+                                request: ChangePasswordRequest(
+                                    name: Endpoints.auth.changePassword,
                                     param: Param(
-                                        userId: widget.userId,
-                                        password: newPasswordController.text)));
+                                        newPassword: newPasswordController.text,
+                                        confirmPassword:
+                                            confirmPasswordController.text)));
                           }
                         }));
               }),

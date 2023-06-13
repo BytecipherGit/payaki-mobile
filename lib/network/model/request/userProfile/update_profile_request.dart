@@ -5,6 +5,7 @@ class UpdateProfileRequest {
   String? username;
   String? address;
   String? country;
+  String? description;
   String? website;
   String? facebook;
   String? twitter;
@@ -19,6 +20,7 @@ class UpdateProfileRequest {
         this.username,
         this.address,
         this.country,
+        this.description,
         this.website,
         this.facebook,
         this.twitter,
@@ -33,6 +35,7 @@ class UpdateProfileRequest {
     username = json['username'];
     address = json['address'];
     country = json['country'];
+    description = json['description'];
     website = json['website'];
     facebook = json['facebook'];
     twitter = json['twitter'];
@@ -48,6 +51,7 @@ class UpdateProfileRequest {
     data['username'] = this.username;
     data['address'] = this.address;
     data['country'] = this.country;
+    data['description'] = this.description;
     data['website'] = this.website;
     data['facebook'] = this.facebook;
     data['twitter'] = this.twitter;

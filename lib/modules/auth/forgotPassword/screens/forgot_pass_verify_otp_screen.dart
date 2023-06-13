@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/modules/auth/forgotPassword/provider/forgot_pass_verify_otp_vm.dart';
+import 'package:payaki/modules/auth/forgotPassword/viewModel/forgot_pass_verify_otp_vm.dart';
 import 'package:payaki/network/end_points.dart';
-import 'package:payaki/network/model/request/forgotPassword/forgot_pass_send_otp_request.dart'
-    as send_otp_req;
-import 'package:payaki/network/model/request/forgotPassword/forgot_pass_verify_otp_request.dart';
+import 'package:payaki/network/model/request/auth/forgotPassword/forgot_pass_send_otp_request.dart' as send_otp_req;
+import 'package:payaki/network/model/request/auth/forgotPassword/forgot_pass_verify_otp_request.dart';
+
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
@@ -141,8 +141,7 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                                               context);
                                           forgotPassVerifyOtpVm
                                               .forgotPassSendOtp(
-                                            request: send_otp_req
-                                                .ForgotPassSendOtpRequest(
+                                            request: send_otp_req.ForgotPassSendOtpRequest(
                                                     name: Endpoints.auth
                                                         .forgetPasswordSendOtp,
                                                     param: send_otp_req.Param(

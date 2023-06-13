@@ -22,6 +22,7 @@ class AuthEndPoints {
   String get forgetPasswordSendOtp => "forgetPassword";
   String get forgetPasswordVerifyOtp => "verifyForgetPassword";
   String get generateNewPassword => "generateNewPassword";
+  String get changePassword => "changePassword";
 }
 class CategoryEndPoints {
   String get getCategories => "getCategories";

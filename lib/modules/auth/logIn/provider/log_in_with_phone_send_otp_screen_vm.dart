@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/network/model/request/forgotPassword/forgot_pass_send_otp_request.dart';
 import 'package:payaki/network/model/request/loginSignup/login_with_phone_send_otp_request.dart';
 import 'package:payaki/network/model/response/forgotPassword/forgot_pass_send_otp_response.dart';
 import 'package:payaki/network/repository/auth_repository.dart';

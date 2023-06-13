@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/network/model/request/forgotPassword/generate_new_pass_request.dart';
+import 'package:payaki/network/model/request/auth/changePassword/change_password_request.dart';
 import 'package:payaki/network/repository/auth_repository.dart';
 
-class ForgotNewPassVm extends ChangeNotifier {
+class ChangePasswordScreenVm extends ChangeNotifier {
   final AuthRepository authRepository = AuthRepository();
 
-  generateNewPass({
+  changePassword({
     required ValueChanged<String> onSuccess,
     required ValueChanged<String> onFailure,
-    required GenerateNewPassRequest request,
+    required ChangePasswordRequest request,
   }) {
-    authRepository.generateNewPass(request).then((value) {
+    authRepository.changePass(request).then((value) {
       if (value.code == 200) {
         onSuccess.call(value.message ?? "");
       } else {

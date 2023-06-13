@@ -543,19 +543,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
         logD("id${user.id}");
         logD(user.email);
         logD(user.photoUrl);
-        googleLogIn(signUpVm, user.id);
+        googleLogIn(signUpVm, user.id,user.email);
       }
     } catch (error) {
       logE(error);
     }
   }
 
-  googleLogIn(SignUpVm signUpVm, String id) {
+  googleLogIn(SignUpVm signUpVm, String id,email) {
     CommonDialog.showLoadingDialog(context);
     signUpVm.socialLoginApi(
         request: sr.SocialLoginRequest(
             name: Endpoints.auth.socialLogin,
-            param: sr.Param(oauthProvider: "google", oauthUid: id)),
+            param: sr.Param(oauthProvider: "google", oauthUid: id,
+            email: email)),
         onSuccess: (value) {
           Navigator.pop(context);
           Navigator.pushReplacementNamed(
