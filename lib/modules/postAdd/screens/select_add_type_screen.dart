@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/postAdd/provider/add_post_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -45,8 +46,7 @@ class SelectAddTypeScreen extends StatefulWidget {
       required this.latlong,
       required this.state,
       required this.phone,
-      required this.availableDays
-      })
+      required this.availableDays})
       : super(key: key);
 
   @override
@@ -61,9 +61,9 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
   String freeAd = "Free Ad";
   String premium = "Premium";
 
-  String featured = "Featured";
-  String urgent = "Urgent";
-  String highlight = "Highlight";
+  bool featuredValue = false;
+  bool urgentValue = false;
+  bool highlightValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -84,224 +84,235 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
       body: SafeArea(
         child: ChangeNotifierProvider(
           create: (context) => AddPostVm(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 23.h),
-                      Text(
+          child: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 23.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Text(
                         "Make your Ad Premium",
                         style: StyleUtility.headingTextStyle,
                       ),
-                      SizedBox(height: 25.h),
-                      Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(top: 2.h, bottom: 2.h),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.r),
-                                color: ColorUtility.colorF8FAFB,
-                                border: Border.all(
-                                    color: ColorUtility.colorE2E5EF)),
-                            child: Row(
+                    ),
+                    SizedBox(height: 25.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Container(
+                        padding: EdgeInsets.only(top: 2.h, bottom: 2.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            color: ColorUtility.colorF8FAFB,
+                            border:
+                                Border.all(color: ColorUtility.colorE2E5EF)),
+                        child: Row(
+                          children: [
+                            Radio(
+                              activeColor: ColorUtility.color06C972,
+                              value: freeAd,
+                              groupValue: selectAddTypeValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectAddTypeValue = value;
+                                  selectPremiumValue = null;
+                                });
+                              },
+                            ),
+                            Text(
+                              freeAd,
+                              style: StyleUtility.radioTitleTextStyle,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Container(
+                        padding: EdgeInsets.only(top: 2.h, bottom: 2.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            color: ColorUtility.whiteColor,
+                            border:
+                                Border.all(color: ColorUtility.colorA3803F)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
                               children: [
                                 Radio(
                                   activeColor: ColorUtility.color06C972,
-                                  value: freeAd,
+                                  value: premium,
                                   groupValue: selectAddTypeValue,
                                   onChanged: (value) {
                                     setState(() {
                                       selectAddTypeValue = value;
-                                      selectPremiumValue = null;
                                     });
                                   },
                                 ),
                                 Text(
-                                  freeAd,
-                                  style: StyleUtility.radioTitleTextStyle,
+                                  premium,
+                                  style: StyleUtility.radioTitleTextStyle
+                                      .copyWith(
+                                          color: ColorUtility.colorD19830),
                                 )
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 20.h,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(top: 2.h, bottom: 2.h),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.r),
-                                color: ColorUtility.whiteColor,
-                                border: Border.all(
-                                    color: ColorUtility.colorA3803F)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Radio(
-                                      activeColor: ColorUtility.color06C972,
-                                      value: premium,
-                                      groupValue: selectAddTypeValue,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          selectAddTypeValue = value;
-                                        });
-                                      },
-                                    ),
-                                    Text(
-                                      premium,
-                                      style: StyleUtility.radioTitleTextStyle
-                                          .copyWith(
-                                              color: ColorUtility.colorD19830),
-                                    )
-                                  ],
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 19.w),
-                                  padding: EdgeInsets.only(
-                                      right: 5.w,
-                                      left: 5,
-                                      top: 2.w,
-                                      bottom: 2.w),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3.r),
-                                    color: ColorUtility.color06C972,
-                                  ),
-                                  child: Text(
-                                    "RECOMMENDED",
-                                    style: StyleUtility.axiforma400.copyWith(
-                                        color: ColorUtility.whiteColor,
-                                        fontSize: TextSizeUtility.textSize10),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30.h,
-                          ),
-
-                          selectAddTypeValue == premium ?
-                          SizedBox(
-                            height: 310.h,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: <Widget>[
-                                //your widget items here
-
-                                PremiumWidget(
-                                  title: featured,
-                                  description:
-                                      "Featured ads attract higher-quality viewer and are displayed prominently in the Featured ads section home page.",
-                                  price: "200",
-                                  month: "3 Months",
-                                  selectValue: selectPremiumValue,
-                                  onSelect: (vale) {
-                                    selectPremiumValue = vale;
-
-                                    setState(() {});
-                                  },
-                                ),
-
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-
-                                PremiumWidget(
-                                  title: urgent,
-                                  description:
-                                      "Make your ad stand out and let viewer know that your advertise is time sensitive.",
-                                  price: "500",
-                                  month: "6 Months",
-                                  selectValue: selectPremiumValue,
-                                  onSelect: (vale) {
-                                    selectPremiumValue = vale;
-
-                                    setState(() {});
-                                  },
-                                ),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                PremiumWidget(
-                                  title: highlight,
-                                  description:
-                                      "Make your ad highlighted with border in listing search result page. Easy to focus.",
-                                  price: "900",
-                                  month: "1 Year",
-                                  selectValue: selectPremiumValue,
-                                  onSelect: (vale) {
-                                    selectPremiumValue = vale;
-
-                                    setState(() {});
-                                  },
-                                )
-                              ],
-                            ),
-                          ):const SizedBox(),
-                        ],
+                            Container(
+                              margin: EdgeInsets.only(right: 19.w),
+                              padding: EdgeInsets.only(
+                                  right: 5.w, left: 5, top: 2.w, bottom: 2.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3.r),
+                                color: ColorUtility.color06C972,
+                              ),
+                              child: Text(
+                                "RECOMMENDED",
+                                style: StyleUtility.axiforma400.copyWith(
+                                    color: ColorUtility.whiteColor,
+                                    fontSize: TextSizeUtility.textSize10),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    selectAddTypeValue == premium
+                        ? Consumer<AddPostVm>(
+                            builder: (context, addPostVm, child) {
+                            return SizedBox(
+                              height: 310.h,
+                              child: ListView(
+                                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                scrollDirection: Axis.horizontal,
+                                children: <Widget>[
+                                  //your widget items here
+
+                                  PremiumWidget(
+                                    title: "Featured",
+                                    description:
+                                        "Featured ads attract higher-quality viewer and are displayed prominently in the Featured ads section home page.",
+                                    price: "200",
+                                    month: "3 Months",
+                                    checkBoxValue: featuredValue,
+                                    onSelect: (vale) {
+                                      featuredValue = vale;
+                                      addPostVm.updateUi();
+                                    },
+                                  ),
+
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+
+                                  PremiumWidget(
+                                    title: "Urgent",
+                                    description:
+                                        "Make your ad stand out and let viewer know that your advertise is time sensitive.",
+                                    price: "500",
+                                    month: "6 Months",
+                                    checkBoxValue: urgentValue,
+                                    onSelect: (vale) {
+                                      urgentValue = vale;
+                                      addPostVm.updateUi();
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  PremiumWidget(
+                                    title: "Highlight",
+                                    description:
+                                        "Make your ad highlighted with border in listing search result page. Easy to focus.",
+                                    price: "900",
+                                    month: "1 Year",
+                                    checkBoxValue: highlightValue,
+                                    onSelect: (vale) {
+                                      highlightValue = vale;
+                                      addPostVm.updateUi();
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          })
+                        : const SizedBox(),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                  ],
                 ),
-                Consumer<AddPostVm>(builder: (context, addPostVm, child) {
-                  return CustomButton(
-                      buttonText: "Post Add",
-                      onTab: () {
-                        if (selectAddTypeValue == null) {
-                          context.showSnackBar(message: "Please Select Add Type.");
-                        } else if (selectAddTypeValue == premium &&
-                            selectPremiumValue == null) {
-                          context.showSnackBar(
-                              message: "Please Select Premium Type.");
-                        } else {
-                          CommonDialog.showLoadingDialog(context);
-                          addPostVm.addPostApi(
-                              images: widget.selectedImages,
-                              productName: widget.title,
-                              tag: widget.tag,
-                              description: widget.description,
-                              categoryId: widget.catId,
-                              subCategoryId: widget.subCatId,
-                              price: widget.price,
-                              negotiable: widget.negotiate,
-                              location: widget.location,
-                              city: widget.city,
-                              country: widget.country,
-                              latlong: widget.latlong,
-                              state: widget.state,
-                              phone: widget.phone,
-                              availableDays: widget.availableDays.toString(),
-                              featured: selectPremiumValue == featured ? "1":"0",
-                              urgent:  selectPremiumValue == urgent ? "1":"0",
-                              highlight:  selectPremiumValue == highlight ? "1":"0",
-                              onSuccess: (value) {
-                                Navigator.pop(context);
-                                context.showToast(message: value);
-                                Navigator.pushNamedAndRemoveUntil(context, RouteName.bottomNavigationBarScreen, (route) => false);
+              ),
+              Consumer<AddPostVm>(builder: (context, addPostVm, child) {
+                return CustomButton(
+                    buttonText: "Post Add",
+                    onTab: () {
+                      if (selectAddTypeValue == null) {
+                        context.showSnackBar(
+                            message: "Please Select Add Type.");
+                      }
 
-                              },
-                              onFailure: (value) {
-                                Navigator.pop(context);
-                                context.showSnackBar(message: value);
-                              });
+                      // else if (selectAddTypeValue == premium &&
+                      //     selectPremiumValue == null) {
+                      //   context.showSnackBar(
+                      //       message: "Please Select Premium Type.");
+                      // }
 
+                      else {
+                        var featured = featuredValue == true ? "1" : "0";
+                        var urgent = urgentValue == true ? "1" : "0";
+                        var highlight = highlightValue == true ? "1" : "0";
 
-                        }
-                      });
-                }),
-                SizedBox(
-                  height: 20.h,
-                ),
-              ],
-            ),
+                        logD("featured $featured");
+                        logD("urgent $urgent");
+                        logD("highlight $highlight");
+
+                        CommonDialog.showLoadingDialog(context);
+                        addPostVm.addPostApi(
+                            images: widget.selectedImages,
+                            productName: widget.title,
+                            tag: widget.tag,
+                            description: widget.description,
+                            categoryId: widget.catId,
+                            subCategoryId: widget.subCatId,
+                            price: widget.price,
+                            negotiable: widget.negotiate,
+                            location: widget.location,
+                            city: widget.city,
+                            country: widget.country,
+                            latlong: widget.latlong,
+                            state: widget.state,
+                            phone: widget.phone,
+                            availableDays: widget.availableDays.toString(),
+                            featured: featured,
+                            urgent:  urgent,
+                            highlight:  highlight,
+                            onSuccess: (value) {
+                              Navigator.pop(context);
+                              context.showToast(message: value);
+                              Navigator.pushNamedAndRemoveUntil(context, RouteName.bottomNavigationBarScreen, (route) => false);
+
+                            },
+                            onFailure: (value) {
+                              Navigator.pop(context);
+                              context.showSnackBar(message: value);
+                            });
+                      }
+                    });
+              }),
+              SizedBox(
+                height: 20.h,
+              ),
+            ],
           ),
         ),
       ),
@@ -314,8 +325,8 @@ class PremiumWidget extends StatelessWidget {
   final String description;
   final String price;
   final String month;
-  final String? selectValue;
   final ValueChanged onSelect;
+  final bool checkBoxValue;
 
   const PremiumWidget({
     super.key,
@@ -324,7 +335,7 @@ class PremiumWidget extends StatelessWidget {
     required this.price,
     required this.month,
     required this.onSelect,
-    required this.selectValue,
+    required this.checkBoxValue,
   });
 
   @override
@@ -341,20 +352,43 @@ class PremiumWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // SizedBox(
+          //   width: 20,
+          //   child: Radio(
+          //     activeColor: ColorUtility.color06C972,
+          //     value: title,
+          //     groupValue: selectValue,
+          //     onChanged: (value) {
+          //       onSelect.call(value);
+          //       // setState(() {
+          //       //   title = value;
+          //       // });
+          //     },
+          //   ),
+          // ),
           SizedBox(
-            width: 20,
-            child: Radio(
-              activeColor: ColorUtility.color06C972,
-              value: title,
-              groupValue: selectValue,
-              onChanged: (value) {
+            width: 20.sp,
+            height: 20.sp,
+            child: Checkbox(
+              checkColor: ColorUtility.color06C972,
+              activeColor: ColorUtility.whiteColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3)),
+              side: MaterialStateBorderSide.resolveWith(
+                (states) => const BorderSide(
+                    width: 2.0, color: ColorUtility.color06C972),
+              ),
+              value: checkBoxValue,
+              onChanged: (bool? value) {
                 onSelect.call(value);
+
                 // setState(() {
-                //   title = value;
+                //   checkBoxValue = value!;
                 // });
               },
             ),
           ),
+
           Text(
             title,
             style: StyleUtility.headerTextStyle

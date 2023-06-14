@@ -9,24 +9,31 @@ import 'package:payaki/widgets/network_image_widget.dart';
 
 class GridItemWidget extends StatelessWidget {
   final String price;
-  final String? type;
   final String title;
   final String address;
   final String imageUrl;
   final String? expiredDate;
   final String? isVerified;
+  final String? urgent;
+  final String? featured;
+  final String? highlight;
+  final bool? isFavouriteList;
+
   final VoidCallback? onTap;
 
   const GridItemWidget({
     super.key,
     required this.price,
-    required this.type,
     required this.title,
     required this.address,
     required this.imageUrl,
     required this.expiredDate,
     required this.isVerified,
-     this.onTap,
+    required this.onTap,
+    required this.urgent,
+    required this.featured,
+    required this.highlight,
+    this.isFavouriteList = false,
   });
 
   @override
@@ -41,36 +48,72 @@ class GridItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(10.r),
                     topLeft: Radius.circular(10.r)),
-                child:
-                    NetworkImageWidget(
+                child: NetworkImageWidget(
                   height: 110.sp,
                   url: imageUrl,
                   width: double.infinity,
                   errorIconSize: 40.sp,
                 ),
               ),
-
               Padding(
                 padding: EdgeInsets.all(10.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    type != null ?
-                      Container(
-                          padding: EdgeInsets.only(
-                              left: 10.w, right: 10.w, top: 4.w, bottom: 4.w),
-                          decoration: BoxDecoration(
-                              color: ColorUtility.colorA3803F.withOpacity(0.7),
-                              borderRadius: BorderRadius.circular(3.r)),
-                          child: Text((type ?? "").toUpperCase(),
-                              style: StyleUtility.typeStyle)):const SizedBox(),
-                    isVerified == "1" ?
-                    Image.asset(ImageUtility.verifiedPostIcon,width: 26.w,):const SizedBox(),
-
+                    Column(
+                      children: [
+                        urgent == "1"
+                            ? Container(
+                                width: 80.sp,
+                                padding: EdgeInsets.only(top: 4.w, bottom: 4.w),
+                                margin: EdgeInsets.only(bottom: 3.sp),
+                                decoration: BoxDecoration(
+                                    color: ColorUtility.colorEDA830
+                                        .withOpacity(0.6),
+                                    borderRadius: BorderRadius.circular(3.r)),
+                                child: Center(
+                                  child: Text(("Urgent").toUpperCase(),
+                                      style: StyleUtility.typeStyle),
+                                ))
+                            : const SizedBox(),
+                        featured == "1"
+                            ? Container(
+                                width: 80.sp,
+                                padding: EdgeInsets.only(top: 4.w, bottom: 4.w),
+                                margin: EdgeInsets.only(bottom: 3.sp),
+                                decoration: BoxDecoration(
+                                    color: ColorUtility.color43A047
+                                        .withOpacity(0.6),
+                                    borderRadius: BorderRadius.circular(3.r)),
+                                child: Center(
+                                  child: Text(("featured").toUpperCase(),
+                                      style: StyleUtility.typeStyle),
+                                ))
+                            : const SizedBox(),
+                        highlight == "1"
+                            ? Container(
+                                width: 80.sp,
+                                padding: EdgeInsets.only(top: 4.w, bottom: 4.w),
+                                decoration: BoxDecoration(
+                                    color: ColorUtility.color4285F4
+                                        .withOpacity(0.6),
+                                    borderRadius: BorderRadius.circular(3.r)),
+                                child: Center(
+                                  child: Text(("HIGHLIGHT").toUpperCase(),
+                                      style: StyleUtility.typeStyle),
+                                ))
+                            : const SizedBox(),
+                      ],
+                    ),
+                    isVerified == "1"
+                        ? Image.asset(
+                            ImageUtility.verifiedPostIcon,
+                            width: 26.w,
+                          )
+                        : const SizedBox(),
                   ],
                 ),
               )
-
             ],
           ),
           Expanded(
@@ -120,34 +163,29 @@ class GridItemWidget extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-
                     Padding(
-                      padding:  EdgeInsets.only(right: 10.w),
+                      padding: EdgeInsets.only(right: 10.w),
                       child: Row(
                         children: [
-                          expiredDate != null ?
-                          Expanded(
-                            child: Text(
-                              "Exp. ${Moment(DateTime.parse(expiredDate!)).fromNow()}",
-                              style: StyleUtility.titleTextStyle.copyWith(
-                                  color: ColorUtility.color323436),
-                              maxLines: 1,
-                            ),
-                          ):const SizedBox(),
-
-                          // isVerified == "1" ?
-                          // Text(
-                          //   "Verified".toUpperCase(),
-                          //   style: StyleUtility.headingTextStyle.copyWith(
-                          //       fontSize: TextSizeUtility.textSize10,
-                          //       color: ColorUtility.color06C972),
-                          //   maxLines: 1,
-                          // ):const SizedBox(),
+                          expiredDate != null
+                              ? Expanded(
+                                  child: Text(
+                                    "Exp. ${Moment(DateTime.parse(expiredDate!)).fromNow()}",
+                                    style: StyleUtility.titleTextStyle.copyWith(
+                                        color: ColorUtility.color323436),
+                                    maxLines: 1,
+                                  ),
+                                )
+                              : const SizedBox(),
+                          isFavouriteList == true
+                              ? Image.asset(
+                                  ImageUtility.favIcon,
+                                  height: 18.sp,
+                                )
+                              : const SizedBox(),
                         ],
                       ),
                     )
-
-
                   ],
                 ),
               ),

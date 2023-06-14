@@ -49,7 +49,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     searchScreenVm = Provider.of<SearchScreenVm>(context, listen: false);
     searchScreenVm.cityListApi(onSuccess: (value) {}, onFailure: (value) {});

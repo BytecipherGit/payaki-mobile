@@ -88,7 +88,7 @@ class StyleUtility {
   static TextStyle typeStyle = TextStyle(
     fontFamily: "Axiforma_Regular",
     color: ColorUtility.whiteColor,
-    fontSize: TextSizeUtility.textSize12,
+    fontSize: TextSizeUtility.textSize10,
   );
 
   static TextStyle postDescTextStyle = TextStyle(

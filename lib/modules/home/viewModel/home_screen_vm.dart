@@ -8,7 +8,7 @@ import 'package:payaki/network/repository/category_repository.dart';
 import 'package:payaki/network/repository/post_repository.dart';
 
 import 'package:payaki/network/model/request/search/search_request.dart' as s_request;
-import 'package:payaki/network/model/response/search/search_result_response.dart' as s_result;
+import 'package:payaki/network/model/response/post/post_list_response.dart' as s_result;
 import 'package:payaki/network/repository/search_repository.dart';
 
 class HomeScreenVm extends ChangeNotifier {

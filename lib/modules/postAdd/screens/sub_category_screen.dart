@@ -23,7 +23,6 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     subCategoryScreenVm =

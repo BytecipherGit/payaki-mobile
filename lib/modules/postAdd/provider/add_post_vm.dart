@@ -79,4 +79,8 @@ class AddPostVm extends ChangeNotifier {
       onFailure?.call("Server Error");
     });
   }
+
+  updateUi(){
+   notifyListeners();
+  }
 }

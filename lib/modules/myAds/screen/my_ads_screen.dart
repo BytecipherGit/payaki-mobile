@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/modules/myAds/viewModel/my_ads_screen_vm.dart';
+import 'package:payaki/network/model/response/post/post_list_response.dart';
+import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
+import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/grid_item_widget.dart';
+import 'package:provider/provider.dart';
 
 class MyAdsScreen extends StatefulWidget {
   const MyAdsScreen({Key? key}) : super(key: key);
@@ -12,6 +17,16 @@ class MyAdsScreen extends StatefulWidget {
 }
 
 class _MyAdsScreenState extends State<MyAdsScreen> {
+  MyAdsScreenVm myAdsScreenVm = MyAdsScreenVm();
+
+  @override
+  void initState() {
+    super.initState();
+    myAdsScreenVm = Provider.of(context, listen: false);
+    myAdsScreenVm.getMyAds();
+    myAdsScreenVm.getFavouriteAds();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -93,21 +108,29 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                 ],
               ),
               Expanded(
-                child: Container(
-                  color: ColorUtility.colorF6F6F6,
-                  child: TabBarView(
-                    children: [
-                      MyAddList(),
-                      Container(
-                        child: Text("2"),
-                      ),
-                      Container(child: Text("3")),
-                      Container(
-                        child: Text("4"),
-                      ),
-                    ],
-                  ),
-                ),
+                child: Consumer<MyAdsScreenVm>(
+                    builder: (context, myAdsScreenVm, child) {
+                  return Container(
+                    color: ColorUtility.colorF6F6F6,
+                    child: TabBarView(
+                      children: [
+                        myAdsScreenVm.myAdsListLoading == true
+                            ? const CircularProgressWidget()
+                            : AddListWidget(
+                                myAdsList: myAdsScreenVm.myAdsList,
+                              ),
+                        AddListWidget(
+                          myAdsList: myAdsScreenVm.favouriteAdsList,
+                          isFavouriteList: true,
+                        ),
+                        Container(child: Text("3")),
+                        Container(
+                          child: Text("4"),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
               ),
             ],
           ),
@@ -117,50 +140,52 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
   }
 }
 
-class MyAddList extends StatelessWidget {
-  const MyAddList({
+class AddListWidget extends StatelessWidget {
+  final bool? isFavouriteList;
+  final List<Data>? myAdsList;
+
+  const AddListWidget({
     super.key,
+    this.myAdsList,
+    this.isFavouriteList,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 20.w, right: 20.w),
-      child: (4 ?? 0) > 0
+      child: (myAdsList?.length ?? 0) > 0
           ? GridView.builder(
               shrinkWrap: true,
               primary: false,
               padding: EdgeInsets.only(top: 20.h, bottom: 60.h),
-              // itemCount: 4,
-              itemCount: 14,
+              itemCount: myAdsList?.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.w,
                   mainAxisSpacing: 15.w,
-                  // childAspectRatio: 0.90
                   childAspectRatio: 0.82),
               itemBuilder: (context, index) {
                 String? image;
-                // if ((post?[index].image?.length ?? 0) > 0) {
-                //   image = post?[index].image?[0];
-                // }
-                String? type;
-                // if (post?[index].featured == "1") {
-                //   type = "Featured";
-                // } else if (post?[index].urgent == "1") {
-                //   type = "Urgent";
-                // } else if (post?[index].highlight == "1") {
-                //   type = "Highlight";
-                // }
+                if ((myAdsList?[index].image?.length ?? 0) > 0) {
+                  image = myAdsList?[index].image?[0];
+                }
+
                 return GridItemWidget(
-                  price: "1200",
-                  type: type,
-                  title: "samsung camera f...",
-                  address: "dsd",
-                  imageUrl: "",
-                  expiredDate: DateTime.now().toString(),
-                  isVerified: "1",
-                  onTap: () {},
+                  price: myAdsList?[index].price ?? "",
+                  title: myAdsList?[index].productName ?? "",
+                  address: myAdsList?[index].fullAddress ?? "",
+                  imageUrl: image ?? "",
+                  expiredDate: myAdsList?[index].expiredDate,
+                  isVerified: myAdsList?[index].isVerified,
+                  urgent: myAdsList?[index].urgent,
+                  featured: myAdsList?[index].featured,
+                  highlight: myAdsList?[index].highlight,
+                  isFavouriteList: isFavouriteList,
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteName.postDetailsScreen,
+                        arguments: {"postId": myAdsList?[index].id});
+                  },
                 );
               },
             )

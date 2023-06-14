@@ -3,6 +3,7 @@ import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/home/screens/home_screen.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
 import 'package:payaki/modules/myAds/screen/my_ads_screen.dart';
+import 'package:payaki/modules/myAds/viewModel/my_ads_screen_vm.dart';
 import 'package:payaki/modules/profile/screens/profile_screen.dart';
 import 'package:payaki/modules/profile/viewModel/profile_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
@@ -32,7 +33,11 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     ),
 
     const Screen2(),
-    const MyAdsScreen(),
+
+
+    ChangeNotifierProvider(
+      create: (_) => MyAdsScreenVm(),
+        child: const MyAdsScreen()),
     // Screen4(),
 
     ChangeNotifierProvider(

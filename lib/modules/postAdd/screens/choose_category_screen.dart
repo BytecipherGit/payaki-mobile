@@ -21,7 +21,6 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
 

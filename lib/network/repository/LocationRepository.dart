@@ -4,9 +4,12 @@ import 'package:payaki/network/model/request/basic_request.dart';
 import 'package:payaki/network/model/response/location/city_list_response.dart';
 
 class LocationRepository {
+
+  DioHttpService dioHttpService = DioHttpService();
+
+
   Future<CityListResponse> cityList(BasicRequest request) {
-    return DioHttpService.apiServicesInstance
-        .post(Endpoints.baseUrl, data: request.toJson())
+    return dioHttpService.post(Endpoints.baseUrl, data: request.toJson())
         .then((value) => CityListResponse.fromJson(value));
   }
 }

@@ -42,7 +42,6 @@ class _ReplyEmailScreenState extends State<ReplyEmailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     logD("Email ${widget.receiverEmail}");
     logD("ReceiverName ${widget.receiverName}");

@@ -6,16 +6,18 @@ import 'package:payaki/network/model/response/category/category_list_response.da
 import 'package:payaki/network/model/response/category/sub_category_list_response.dart';
 
 class CategoryRepository {
+
+  DioHttpService dioHttpService = DioHttpService();
+
+
   Future<CategoryListResponse> categoryList(BasicRequest request) {
-    return DioHttpService.apiServicesInstance
-        .post(Endpoints.baseUrl, data: request.toJson())
+    return dioHttpService.post(Endpoints.baseUrl, data: request.toJson())
         .then((value) => CategoryListResponse.fromJson(value));
   }
 
   Future<SubCategoryListResponse> subCategoryList(
       SubCategoryListRequest request) {
-    return DioHttpService.apiServicesInstance
-        .post(Endpoints.baseUrl, data: request.toJson())
+    return dioHttpService.post(Endpoints.baseUrl, data: request.toJson())
         .then((value) => SubCategoryListResponse.fromJson(value));
   }
 }

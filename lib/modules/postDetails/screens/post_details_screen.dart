@@ -741,23 +741,16 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                   image = similarAdd?[index].image?[0];
                                 }
 
-                                String? type;
-                                if (similarAdd?[index].featured == "1") {
-                                  type = "Featured";
-                                } else if (similarAdd?[index].urgent == "1") {
-                                  type = "Urgent";
-                                } else if (similarAdd?[index].highlight ==
-                                    "1") {
-                                  type = "Highlight";
-                                }
                                 return GridItemWidget(
                                   imageUrl: image ?? "",
                                   price: similarAdd?[index].price ?? "",
-                                  type: type,
                                   title: similarAdd?[index].productName ?? "",
                                   address: similarAdd?[index].fullAddress ?? "",
                                   expiredDate: similarAdd?[index].expiredDate,
                                   isVerified: similarAdd?[index].isVerified,
+                                  urgent: similarAdd?[index].urgent,
+                                  featured: similarAdd?[index].featured,
+                                  highlight: similarAdd?[index].highlight,
                                   onTap: () {
                                     Navigator.pushNamed(
                                         context, RouteName.postDetailsScreen,

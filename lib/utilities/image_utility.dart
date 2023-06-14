@@ -51,6 +51,7 @@ class ImageUtility {
   static const String webSiteUrlIcon = 'assets/images/web_site_url_icon.png';
   static const String linkedinIcon = 'assets/images/linkedin_icon.png';
   static const String splashOnboardIcon = 'assets/images/splash_onboard.png';
+  static const String favIcon = 'assets/images/fav_icon.png';
 
 
 

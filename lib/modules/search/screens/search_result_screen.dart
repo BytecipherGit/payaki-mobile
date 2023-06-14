@@ -12,7 +12,7 @@ import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/widgets/grid_item_widget.dart';
-import 'package:payaki/network/model/response/search/search_result_response.dart';
+import 'package:payaki/network/model/response/post/post_list_response.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -200,25 +200,21 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                               type = "Highlight";
 
                             }
-                            return GestureDetector(
-                              onTap: (){
-                                Navigator.pushNamed(context, RouteName.postDetailsScreen,arguments: {
-                                  "postId":filterPostList?[index].id
-                                });
-                              },
-                              child:
+                            return GridItemWidget(
+                              imageUrl: image ?? "",
+                              price: filterPostList?[index].price ?? "",
+                              title: filterPostList?[index].productName ?? "",
+                              address: filterPostList?[index].fullAddress ?? "",
+                              expiredDate: filterPostList?[index].expiredDate,
+                              isVerified: filterPostList?[index].isVerified,
+                              urgent: filterPostList?[index].urgent,
+                              featured: filterPostList?[index].featured,
+                              highlight: filterPostList?[index].highlight, onTap: () {
+                              Navigator.pushNamed(context, RouteName.postDetailsScreen,arguments: {
+                                "postId":filterPostList?[index].id
+                              });
+                            },
 
-
-                              GridItemWidget(
-                                imageUrl: image ?? "",
-                                price: filterPostList?[index].price ?? "",
-                               // type: "Urgent",
-                                type: type,
-                                title: filterPostList?[index].productName ?? "",
-                                address: filterPostList?[index].fullAddress ?? "",
-                                expiredDate: filterPostList?[index].expiredDate,
-                                isVerified: filterPostList?[index].isVerified,
-                              ),
                             );
                           },
                         )

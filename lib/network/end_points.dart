@@ -33,6 +33,13 @@ class PostEndPoints {
   String get getPostDetails => "getPostDetails";
   String get likeDislikePost => "likeDislikePost";
   String get premiumAndLatestPost => "getPremiumAndLatestPost";
+  String get getUserPost => "getUserPost";
+
+  String get allParam => "all";
+  String get favouriteParam => "favourite";
+
+  String get expireParam => "expire";
+  String get pendingParam => "pending";
 }
 
 class LocationEndPoints {

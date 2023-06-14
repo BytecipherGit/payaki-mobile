@@ -1,12 +1,12 @@
-class SearchResultResponse {
+class PostListResponse {
   bool? status;
   int? code;
   String? message;
   List<Data>? data;
 
-  SearchResultResponse({this.status, this.code, this.message, this.data});
+  PostListResponse({this.status, this.code, this.message, this.data});
 
-  SearchResultResponse.fromJson(Map<String, dynamic> json) {
+  PostListResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     code = json['code'];
     message = json['Message'];

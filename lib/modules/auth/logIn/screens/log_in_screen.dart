@@ -37,7 +37,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     prefCall();
   }

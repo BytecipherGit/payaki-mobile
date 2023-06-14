@@ -29,7 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     profileScreenVm = Provider.of(context, listen: false);
     profileScreenVm.getUserDetail(onFailure: (message) {

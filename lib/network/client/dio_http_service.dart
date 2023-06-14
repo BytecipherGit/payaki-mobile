@@ -12,9 +12,9 @@ import 'package:payaki/network/interceptors/loggy_dio_interceptor.dart';
 import 'package:payaki/network/interceptors/retry_on_connection_change_interceptor.dart';
 
 class DioHttpService implements HttpService {
-  static final DioHttpService _apiServiceInstance = DioHttpService();
+  // static final DioHttpService _apiServiceInstance = DioHttpService();
 
-  static DioHttpService get apiServicesInstance => _apiServiceInstance;
+  // static DioHttpService get apiServicesInstance => _apiServiceInstance;
 
 //  String tokenBox = "dff";
   String tokenBox = Preference().getAccessToken();

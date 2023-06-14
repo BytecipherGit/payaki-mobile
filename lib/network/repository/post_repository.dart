@@ -3,9 +3,11 @@ import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/basic_request.dart';
 import 'package:payaki/network/model/request/post/like_dislike_post_request.dart';
 import 'package:payaki/network/model/request/post/post_detail_request.dart';
+import 'package:payaki/network/model/request/post/post_list_request.dart';
 import 'package:payaki/network/model/response/basic_response.dart';
 import 'package:payaki/network/model/response/post/post_detail_response.dart';
 import 'package:payaki/network/model/response/post/premium_and_latest_post_response.dart';
+import 'package:payaki/network/model/response/post/post_list_response.dart';
 
 class PostRepository {
 
@@ -35,6 +37,13 @@ class PostRepository {
         .post(Endpoints.baseUrl, data: request.toJson())
         .then((value) => PremiumAndLatestPostResponse.fromJson(value));
   }
+
+  Future<PostListResponse> getPostList(PostListRequest data) {
+    return dioHttpService.post(Endpoints.baseUrl, data:  data.toJson())
+        .then((value) => PostListResponse.fromJson(value));
+  }
+
+
 
 
 }
