@@ -52,6 +52,9 @@ class ImageUtility {
   static const String linkedinIcon = 'assets/images/linkedin_icon.png';
   static const String splashOnboardIcon = 'assets/images/splash_onboard.png';
   static const String favIcon = 'assets/images/fav_icon.png';
+  static const String cameraIcon = 'assets/images/camera_icon.png';
+  static const String galleryIcon = 'assets/images/gallery_icon.png';
+  static const String transactionIcon = 'assets/images/transaction_icon.png';
 
 
 

@@ -1,18 +1,27 @@
 import 'package:flutter/cupertino.dart';
+import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/post/post_list_request.dart';
 import 'package:payaki/network/model/response/post/post_list_response.dart';
 import 'package:payaki/network/repository/post_repository.dart';
 
+import 'package:payaki/network/model/request/post/like_dislike_post_request.dart'
+as post_like_dislike_r;
+
+
 class MyAdsScreenVm extends ChangeNotifier {
   final PostRepository postRepository = PostRepository();
 
   List<Data>? myAdsList;
   List<Data>? favouriteAdsList;
+  List<Data>? pendingAdsList;
+  List<Data>? expiredAdsList;
 
   bool myAdsListLoading = true;
   bool favouriteAdsListLoading = true;
+  bool pendingAdsListLoading = true;
+  bool expiredAdsListLoading = true;
 
   getMyAds({
     ValueChanged<String>? onSuccess,
@@ -28,7 +37,6 @@ class MyAdsScreenVm extends ChangeNotifier {
       myAdsListLoading = false;
       myAdsList = value.data;
       notifyListeners();
-      logD("Length ${myAdsList?.length}");
       if (value.code == 200) {
         onSuccess?.call(value.message ?? "");
       } else {
@@ -42,22 +50,20 @@ class MyAdsScreenVm extends ChangeNotifier {
     });
   }
 
-
   getFavouriteAds({
     ValueChanged<String>? onSuccess,
     ValueChanged<String>? onFailure,
   }) {
     postRepository
         .getPostList(PostListRequest(
-        name: Endpoints.post.getUserPost,
-        param: Param(
-          listingType: Endpoints.post.favouriteParam,
-        )))
+            name: Endpoints.post.getUserPost,
+            param: Param(
+              listingType: Endpoints.post.favouriteParam,
+            )))
         .then((value) {
       favouriteAdsListLoading = false;
       favouriteAdsList = value.data;
       notifyListeners();
-      logD("Length ${myAdsList?.length}");
       if (value.code == 200) {
         onSuccess?.call(value.message ?? "");
       } else {
@@ -71,6 +77,87 @@ class MyAdsScreenVm extends ChangeNotifier {
     });
   }
 
+  getPendingAds({
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+  }) {
+    postRepository
+        .getPostList(PostListRequest(
+            name: Endpoints.post.getUserPost,
+            param: Param(
+              listingType: Endpoints.post.pendingParam,
+            )))
+        .then((value) {
+      pendingAdsListLoading = false;
+      pendingAdsList = value.data;
+      notifyListeners();
+      if (value.code == 200) {
+        onSuccess?.call(value.message ?? "");
+      } else {
+        onFailure?.call(value.message ?? "");
+      }
+    }).onError((error, stackTrace) {
+      pendingAdsListLoading = false;
+      logE("Error $error");
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
+
+  getExpiredAds({
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+  }) {
+    postRepository
+        .getPostList(PostListRequest(
+            name: Endpoints.post.getUserPost,
+            param: Param(
+              listingType: Endpoints.post.expireParam,
+            )))
+        .then((value) {
+      expiredAdsListLoading = false;
+      expiredAdsList = value.data;
+      notifyListeners();
+      if (value.code == 200) {
+        onSuccess?.call(value.message ?? "");
+      } else {
+        onFailure?.call(value.message ?? "");
+      }
+    }).onError((error, stackTrace) {
+      expiredAdsListLoading = false;
+      logE("Error $error");
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
+
+  postLikeDislike({
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+    required String postId,
+    required int index,
+  }) {
+    postRepository
+        .postLikeDislike(post_like_dislike_r.LikeDislikePostRequest(
+        name: Endpoints.post.likeDislikePost,
+        param: post_like_dislike_r.Param(
+            userId: Preference().getUserId(),
+            productId: postId)))
+        .then((value) {
+      if (value.code == 200) {
+        favouriteAdsList?.removeAt(index);
+        notifyListeners();
+        onSuccess?.call(value.message ?? "");
+      } else {
+        onFailure?.call(value.message ?? "");
+      }
+      notifyListeners();
+    }).onError((error, stackTrace) {
+      logE("error $error");
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
 
 
 }

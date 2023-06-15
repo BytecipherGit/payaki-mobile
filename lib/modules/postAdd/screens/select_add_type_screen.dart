@@ -253,61 +253,64 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                 ),
               ),
               Consumer<AddPostVm>(builder: (context, addPostVm, child) {
-                return CustomButton(
-                    buttonText: "Post Add",
-                    onTab: () {
-                      if (selectAddTypeValue == null) {
-                        context.showSnackBar(
-                            message: "Please Select Add Type.");
-                      }
+                return Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: 20.w),
+                  child: CustomButton(
+                      buttonText: "Post Add",
+                      onTab: () {
+                        if (selectAddTypeValue == null) {
+                          context.showSnackBar(
+                              message: "Please Select Add Type.");
+                        }
 
-                      // else if (selectAddTypeValue == premium &&
-                      //     selectPremiumValue == null) {
-                      //   context.showSnackBar(
-                      //       message: "Please Select Premium Type.");
-                      // }
+                        // else if (selectAddTypeValue == premium &&
+                        //     selectPremiumValue == null) {
+                        //   context.showSnackBar(
+                        //       message: "Please Select Premium Type.");
+                        // }
 
-                      else {
-                        var featured = featuredValue == true ? "1" : "0";
-                        var urgent = urgentValue == true ? "1" : "0";
-                        var highlight = highlightValue == true ? "1" : "0";
+                        else {
+                          var featured = featuredValue == true ? "1" : "0";
+                          var urgent = urgentValue == true ? "1" : "0";
+                          var highlight = highlightValue == true ? "1" : "0";
 
-                        logD("featured $featured");
-                        logD("urgent $urgent");
-                        logD("highlight $highlight");
+                          logD("featured $featured");
+                          logD("urgent $urgent");
+                          logD("highlight $highlight");
 
-                        CommonDialog.showLoadingDialog(context);
-                        addPostVm.addPostApi(
-                            images: widget.selectedImages,
-                            productName: widget.title,
-                            tag: widget.tag,
-                            description: widget.description,
-                            categoryId: widget.catId,
-                            subCategoryId: widget.subCatId,
-                            price: widget.price,
-                            negotiable: widget.negotiate,
-                            location: widget.location,
-                            city: widget.city,
-                            country: widget.country,
-                            latlong: widget.latlong,
-                            state: widget.state,
-                            phone: widget.phone,
-                            availableDays: widget.availableDays.toString(),
-                            featured: featured,
-                            urgent:  urgent,
-                            highlight:  highlight,
-                            onSuccess: (value) {
-                              Navigator.pop(context);
-                              context.showToast(message: value);
-                              Navigator.pushNamedAndRemoveUntil(context, RouteName.bottomNavigationBarScreen, (route) => false);
+                          CommonDialog.showLoadingDialog(context);
+                          addPostVm.addPostApi(
+                              images: widget.selectedImages,
+                              productName: widget.title,
+                              tag: widget.tag,
+                              description: widget.description,
+                              categoryId: widget.catId,
+                              subCategoryId: widget.subCatId,
+                              price: widget.price,
+                              negotiable: widget.negotiate,
+                              location: widget.location,
+                              city: widget.city,
+                              country: widget.country,
+                              latlong: widget.latlong,
+                              state: widget.state,
+                              phone: widget.phone,
+                              availableDays: widget.availableDays.toString(),
+                              featured: featured,
+                              urgent:  urgent,
+                              highlight:  highlight,
+                              onSuccess: (value) {
+                                Navigator.pop(context);
+                                context.showToast(message: value);
+                                Navigator.pushNamedAndRemoveUntil(context, RouteName.bottomNavigationBarScreen, (route) => false);
 
-                            },
-                            onFailure: (value) {
-                              Navigator.pop(context);
-                              context.showSnackBar(message: value);
-                            });
-                      }
-                    });
+                              },
+                              onFailure: (value) {
+                                Navigator.pop(context);
+                                context.showSnackBar(message: value);
+                              });
+                        }
+                      }),
+                );
               }),
               SizedBox(
                 height: 20.h,

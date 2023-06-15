@@ -13,6 +13,7 @@ import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
+import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/grid_item_widget.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
@@ -49,18 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: ColorUtility.whiteColor,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30.r),
-                      bottomRight: Radius.circular(30.r))),
+              color: ColorUtility.whiteColor,
               child: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h),
+                      padding: EdgeInsets.only(
+                          left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -90,95 +87,146 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    categoryListView(homeScreenVm.categoryList,
-                        homeScreenVm.isCategoryLoading),
                   ],
                 ),
               ),
             ),
             Expanded(
-              child: homeScreenVm.isPremiumAndLatestPostLoading == true
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : SingleChildScrollView(
-                      physics: const ClampingScrollPhysics(),
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: ColorUtility.whiteColor,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30.r),
+                              bottomRight: Radius.circular(30.r))),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Padding(
+                          //   padding:
+                          //       EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.end,
+                          //     children: [
+                          //       InkWell(
+                          //         onTap: () {
+                          //           Navigator.pushNamed(
+                          //               context, RouteName.searchScreen);
+                          //         },
+                          //         child: Padding(
+                          //           padding: EdgeInsets.all(5.sp),
+                          //           child: Image.asset(
+                          //             ImageUtility.searchIcon,
+                          //             width: 18.sp,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       SizedBox(
+                          //         width: 10.sp,
+                          //       ),
+                          //       Padding(
+                          //         padding: EdgeInsets.all(5.sp),
+                          //         child: Image.asset(
+                          //           ImageUtility.notificationIcon,
+                          //           width: 16.sp,
+                          //         ),
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
                           SizedBox(
-                            height: 37.h,
-                          ),
-                          HomePostWidget(
-                            title: "Premium Ad",
-                            post: homeScreenVm
-                                .premiumAndLatestPost?.data?.premium,
-                            onSeeAllTap: () {
-                              CommonDialog.showLoadingDialog(context);
-                              homeScreenVm.searchPostApi(
-                                  searchRequest: SearchRequest(
-                                      name: Endpoints.search.getAllPost,
-                                      param: Param(
-                                        listingType: Constant.premium,
-                                      )),
-                                  onSuccess: (searchPostList) {
-                                    Navigator.pop(context);
-
-                                    Navigator.pushNamed(
-                                        context, RouteName.searchResultScreen,
-                                        arguments: {
-                                          "initialPostList": searchPostList,
-                                          "headerTitle": "Premium Ad",
-                                          "listingType": Constant.premium,
-                                        });
-                                  },
-                                  onFailure: (value) {
-                                    Navigator.pop(context);
-                                    context.showSnackBar(message: value);
-                                  });
-                            },
-                          ),
-                          SizedBox(
+                            //   height: 30.h,
                             height: 20.h,
                           ),
-                          HomePostWidget(
-                            title: "Latest Ad",
-                            post:
-                                homeScreenVm.premiumAndLatestPost?.data?.latest,
-                            onSeeAllTap: () {
-                              CommonDialog.showLoadingDialog(context);
-                              homeScreenVm.searchPostApi(
-                                  searchRequest: SearchRequest(
-                                      name: Endpoints.search.getAllPost,
-                                      param: Param(
-                                        listingType: Constant.latest,
-                                      )),
-                                  onSuccess: (searchPostList) {
-                                    Navigator.pop(context);
-
-                                    Navigator.pushNamed(
-                                        context, RouteName.searchResultScreen,
-                                        arguments: {
-                                          "initialPostList": searchPostList,
-                                          "headerTitle": "Latest Ad",
-                                          "listingType": Constant.latest,
-                                        });
-                                  },
-                                  onFailure: (value) {
-                                    Navigator.pop(context);
-                                    context.showSnackBar(message: value);
-                                  });
-                            },
-                          ),
-                          SizedBox(
-                            height: 60.h,
-                          ),
+                          categoryListView(homeScreenVm.categoryList,
+                              homeScreenVm.isCategoryLoading),
                         ],
                       ),
                     ),
-            )
+                    homeScreenVm.isPremiumAndLatestPostLoading == true
+                        ? SizedBox(
+                            height: 350.h,
+                            child: const CircularProgressWidget(),
+                          )
+                        : Column(
+                            children: [
+                              SizedBox(
+                                height: 37.h,
+                              ),
+                              HomePostWidget(
+                                title: "Premium Ad",
+                                post: homeScreenVm
+                                    .premiumAndLatestPost?.data?.premium,
+                                onSeeAllTap: () {
+                                  CommonDialog.showLoadingDialog(context);
+                                  homeScreenVm.searchPostApi(
+                                      searchRequest: SearchRequest(
+                                          name: Endpoints.search.getAllPost,
+                                          param: Param(
+                                            listingType: Constant.premium,
+                                          )),
+                                      onSuccess: (searchPostList) {
+                                        Navigator.pop(context);
+
+                                        Navigator.pushNamed(context,
+                                            RouteName.searchResultScreen,
+                                            arguments: {
+                                              "initialPostList": searchPostList,
+                                              "headerTitle": "Premium Ad",
+                                              "listingType": Constant.premium,
+                                            });
+                                      },
+                                      onFailure: (value) {
+                                        Navigator.pop(context);
+                                        context.showSnackBar(message: value);
+                                      });
+                                },
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              HomePostWidget(
+                                title: "Latest Ad",
+                                post: homeScreenVm
+                                    .premiumAndLatestPost?.data?.latest,
+                                onSeeAllTap: () {
+                                  CommonDialog.showLoadingDialog(context);
+                                  homeScreenVm.searchPostApi(
+                                      searchRequest: SearchRequest(
+                                          name: Endpoints.search.getAllPost,
+                                          param: Param(
+                                            listingType: Constant.latest,
+                                          )),
+                                      onSuccess: (searchPostList) {
+                                        Navigator.pop(context);
+
+                                        Navigator.pushNamed(context,
+                                            RouteName.searchResultScreen,
+                                            arguments: {
+                                              "initialPostList": searchPostList,
+                                              "headerTitle": "Latest Ad",
+                                              "listingType": Constant.latest,
+                                            });
+                                      },
+                                      onFailure: (value) {
+                                        Navigator.pop(context);
+                                        context.showSnackBar(message: value);
+                                      });
+                                },
+                              ),
+                              SizedBox(
+                                height: 60.h,
+                              ),
+                            ],
+                          )
+                  ],
+                ),
+              ),
+            ),
           ],
         );
       }),

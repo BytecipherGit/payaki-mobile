@@ -14,6 +14,7 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -35,6 +36,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context.showSnackBar(message: message);
     });
   }
+
+  double _scale = 1.0;
+  double _previousScale = 1.0;
 
   @override
   Widget build(BuildContext context) {
@@ -357,9 +361,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 },
                               ),
                               SettingTileWidget(
-                                title: "Change Phone Number",
-                                image: ImageUtility.phoneIcon,
-                                imageWidth: 12.w,
+                                title: "Transaction",
+                                image: ImageUtility.transactionIcon,
+                                imageWidth: 14.w,
                                 onTap: () {},
                               ),
                               SettingTileWidget(

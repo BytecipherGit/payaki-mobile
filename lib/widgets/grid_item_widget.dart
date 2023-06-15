@@ -18,8 +18,10 @@ class GridItemWidget extends StatelessWidget {
   final String? featured;
   final String? highlight;
   final bool? isFavouriteList;
+  final bool? isExpiredList;
 
   final VoidCallback? onTap;
+  final VoidCallback? onFavouriteIconTap;
 
   const GridItemWidget({
     super.key,
@@ -30,168 +32,184 @@ class GridItemWidget extends StatelessWidget {
     required this.expiredDate,
     required this.isVerified,
     required this.onTap,
+     this.onFavouriteIconTap,
     required this.urgent,
     required this.featured,
     required this.highlight,
     this.isFavouriteList = false,
+    this.isExpiredList = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10.r),
-                    topLeft: Radius.circular(10.r)),
-                child: NetworkImageWidget(
-                  height: 110.sp,
-                  url: imageUrl,
-                  width: double.infinity,
-                  errorIconSize: 40.sp,
+      child: Container(
+        decoration: isExpiredList == true
+            ? BoxDecoration(
+                border: Border.all(color: ColorUtility.colorE9380A, width: 1.5),
+                borderRadius: BorderRadius.circular(10.r))
+            : null,
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10.r),
+                      topLeft: Radius.circular(10.r)),
+                  child: NetworkImageWidget(
+                    height: 110.sp,
+                    url: imageUrl,
+                    width: double.infinity,
+                    errorIconSize: 40.sp,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        urgent == "1"
-                            ? Container(
-                                width: 80.sp,
-                                padding: EdgeInsets.only(top: 4.w, bottom: 4.w),
-                                margin: EdgeInsets.only(bottom: 3.sp),
-                                decoration: BoxDecoration(
-                                    color: ColorUtility.colorEDA830
-                                        .withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(3.r)),
-                                child: Center(
-                                  child: Text(("Urgent").toUpperCase(),
-                                      style: StyleUtility.typeStyle),
-                                ))
-                            : const SizedBox(),
-                        featured == "1"
-                            ? Container(
-                                width: 80.sp,
-                                padding: EdgeInsets.only(top: 4.w, bottom: 4.w),
-                                margin: EdgeInsets.only(bottom: 3.sp),
-                                decoration: BoxDecoration(
-                                    color: ColorUtility.color43A047
-                                        .withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(3.r)),
-                                child: Center(
-                                  child: Text(("featured").toUpperCase(),
-                                      style: StyleUtility.typeStyle),
-                                ))
-                            : const SizedBox(),
-                        highlight == "1"
-                            ? Container(
-                                width: 80.sp,
-                                padding: EdgeInsets.only(top: 4.w, bottom: 4.w),
-                                decoration: BoxDecoration(
-                                    color: ColorUtility.color4285F4
-                                        .withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(3.r)),
-                                child: Center(
-                                  child: Text(("HIGHLIGHT").toUpperCase(),
-                                      style: StyleUtility.typeStyle),
-                                ))
-                            : const SizedBox(),
-                      ],
-                    ),
-                    isVerified == "1"
-                        ? Image.asset(
-                            ImageUtility.verifiedPostIcon,
-                            width: 26.w,
-                          )
-                        : const SizedBox(),
-                  ],
-                ),
-              )
-            ],
-          ),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: ColorUtility.whiteColor,
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(10.r),
-                    bottomLeft: Radius.circular(10.r)),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(left: 7.w, top: 7.w),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "₹ $price",
-                      style: StyleUtility.headingTextStyle,
-                      maxLines: 1,
-                    ),
-                    Text(
-                      title,
-                      style: StyleUtility.titleTextStyle
-                          .copyWith(color: ColorUtility.color8B97A4),
-                      maxLines: 1,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          size: 13.sp,
-                          color: ColorUtility.colorC0C0C0,
-                        ),
-                        Expanded(
-                          child: Text(
-                            address,
-                            style: StyleUtility.titleTextStyle.copyWith(
-                                fontSize: TextSizeUtility.textSize10,
-                                color: ColorUtility.colorC0C0C0),
-                            maxLines: 1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10.w),
-                      child: Row(
+                Padding(
+                  padding: EdgeInsets.all(10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
                         children: [
-                          expiredDate != null
-                              ? Expanded(
-                                  child: Text(
-                                    "Exp. ${Moment(DateTime.parse(expiredDate!)).fromNow()}",
-                                    style: StyleUtility.titleTextStyle.copyWith(
-                                        color: ColorUtility.color323436),
-                                    maxLines: 1,
-                                  ),
-                                )
+                          urgent == "1"
+                              ? Container(
+                                  width: 80.sp,
+                                  padding:
+                                      EdgeInsets.only(top: 4.w, bottom: 4.w),
+                                  margin: EdgeInsets.only(bottom: 3.sp),
+                                  decoration: BoxDecoration(
+                                      color: ColorUtility.colorEDA830
+                                          .withOpacity(0.6),
+                                      borderRadius: BorderRadius.circular(3.r)),
+                                  child: Center(
+                                    child: Text(("Urgent").toUpperCase(),
+                                        style: StyleUtility.typeStyle),
+                                  ))
                               : const SizedBox(),
-                          isFavouriteList == true
-                              ? Image.asset(
-                                  ImageUtility.favIcon,
-                                  height: 18.sp,
-                                )
+                          featured == "1"
+                              ? Container(
+                                  width: 80.sp,
+                                  padding:
+                                      EdgeInsets.only(top: 4.w, bottom: 4.w),
+                                  margin: EdgeInsets.only(bottom: 3.sp),
+                                  decoration: BoxDecoration(
+                                      color: ColorUtility.color43A047
+                                          .withOpacity(0.6),
+                                      borderRadius: BorderRadius.circular(3.r)),
+                                  child: Center(
+                                    child: Text(("featured").toUpperCase(),
+                                        style: StyleUtility.typeStyle),
+                                  ))
+                              : const SizedBox(),
+                          highlight == "1"
+                              ? Container(
+                                  width: 80.sp,
+                                  padding:
+                                      EdgeInsets.only(top: 4.w, bottom: 4.w),
+                                  decoration: BoxDecoration(
+                                      color: ColorUtility.color4285F4
+                                          .withOpacity(0.6),
+                                      borderRadius: BorderRadius.circular(3.r)),
+                                  child: Center(
+                                    child: Text(("HIGHLIGHT").toUpperCase(),
+                                        style: StyleUtility.typeStyle),
+                                  ))
                               : const SizedBox(),
                         ],
                       ),
-                    )
-                  ],
+                      isVerified == "1"
+                          ? Image.asset(
+                              ImageUtility.verifiedPostIcon,
+                              width: 26.w,
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: ColorUtility.whiteColor,
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(10.r),
+                      bottomLeft: Radius.circular(10.r)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 7.w, top: 7.w),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "₹ $price",
+                        style: StyleUtility.headingTextStyle,
+                        maxLines: 1,
+                      ),
+                      Text(
+                        title,
+                        style: StyleUtility.titleTextStyle
+                            .copyWith(color: ColorUtility.color8B97A4),
+                        maxLines: 1,
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            size: 13.sp,
+                            color: ColorUtility.colorC0C0C0,
+                          ),
+                          Expanded(
+                            child: Text(
+                              address,
+                              style: StyleUtility.titleTextStyle.copyWith(
+                                  fontSize: TextSizeUtility.textSize10,
+                                  color: ColorUtility.colorC0C0C0),
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.w),
+                        child: Row(
+                          children: [
+                            expiredDate != null
+                                ? Expanded(
+                                    child: Text(
+                                      "Exp. ${Moment(DateTime.parse(expiredDate!)).fromNow()}",
+                                      style: StyleUtility.titleTextStyle
+                                          .copyWith(
+                                              color: ColorUtility.color323436),
+                                      maxLines: 1,
+                                    ),
+                                  )
+                                : const SizedBox(),
+                            isFavouriteList == true
+                                ? InkWell(
+                              onTap: onFavouriteIconTap,
+                                  child: Image.asset(
+                                      ImageUtility.favIcon,
+                                      height: 18.sp,
+                                    ),
+                                )
+                                : const SizedBox(),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

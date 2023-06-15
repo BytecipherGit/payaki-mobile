@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/myAds/viewModel/my_ads_screen_vm.dart';
 import 'package:payaki/network/model/response/post/post_list_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/grid_item_widget.dart';
@@ -23,8 +25,14 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
   void initState() {
     super.initState();
     myAdsScreenVm = Provider.of(context, listen: false);
-    myAdsScreenVm.getMyAds();
-    myAdsScreenVm.getFavouriteAds();
+    myAdsScreenVm.getMyAds(onFailure: _onFailure);
+    myAdsScreenVm.getFavouriteAds(onFailure: _onFailure);
+    myAdsScreenVm.getPendingAds(onFailure: _onFailure);
+    myAdsScreenVm.getExpiredAds(onFailure: _onFailure);
+  }
+
+  void _onFailure(String message) {
+    context.showSnackBar(message: message);
   }
 
   @override
@@ -114,19 +122,35 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                     color: ColorUtility.colorF6F6F6,
                     child: TabBarView(
                       children: [
+                        // My Ads
                         myAdsScreenVm.myAdsListLoading == true
                             ? const CircularProgressWidget()
                             : AddListWidget(
                                 myAdsList: myAdsScreenVm.myAdsList,
                               ),
-                        AddListWidget(
-                          myAdsList: myAdsScreenVm.favouriteAdsList,
-                          isFavouriteList: true,
-                        ),
-                        Container(child: Text("3")),
-                        Container(
-                          child: Text("4"),
-                        ),
+
+                        // Favourite Ads
+                        myAdsScreenVm.favouriteAdsListLoading == true
+                            ? const CircularProgressWidget()
+                            : AddListWidget(
+                                myAdsList: myAdsScreenVm.favouriteAdsList,
+                                isFavouriteList: true,
+                              ),
+
+                        // Pending Ads
+                        myAdsScreenVm.pendingAdsListLoading == true
+                            ? const CircularProgressWidget()
+                            : AddListWidget(
+                                myAdsList: myAdsScreenVm.pendingAdsList,
+                              ),
+
+                        //Expired Ads
+                        myAdsScreenVm.expiredAdsListLoading == true
+                            ? const CircularProgressWidget()
+                            : AddListWidget(
+                                myAdsList: myAdsScreenVm.expiredAdsList,
+                                isExpiredList: true,
+                              ),
                       ],
                     ),
                   );
@@ -142,12 +166,14 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
 
 class AddListWidget extends StatelessWidget {
   final bool? isFavouriteList;
+  final bool? isExpiredList;
   final List<Data>? myAdsList;
 
   const AddListWidget({
     super.key,
     this.myAdsList,
     this.isFavouriteList,
+    this.isExpiredList,
   });
 
   @override
@@ -182,9 +208,27 @@ class AddListWidget extends StatelessWidget {
                   featured: myAdsList?[index].featured,
                   highlight: myAdsList?[index].highlight,
                   isFavouriteList: isFavouriteList,
+                  isExpiredList: isExpiredList,
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.postDetailsScreen,
-                        arguments: {"postId": myAdsList?[index].id});
+                            arguments: {"postId": myAdsList?[index].id})
+                        .then((value) {
+                      Provider.of<MyAdsScreenVm>(context, listen: false)
+                          .getFavouriteAds();
+                    });
+                  },
+                  onFavouriteIconTap: () {
+                    CommonDialog.showLoadingDialog(context);
+                    Provider.of<MyAdsScreenVm>(context, listen: false)
+                        .postLikeDislike(
+                            postId: myAdsList?[index].id ?? "",
+                            index: index,
+                            onSuccess: (message) {
+                              Navigator.pop(context);
+                            },
+                            onFailure: (message) {
+                              Navigator.pop(context);
+                            });
                   },
                 );
               },

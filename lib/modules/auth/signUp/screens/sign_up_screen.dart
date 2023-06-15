@@ -41,42 +41,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController idProofNumberController = TextEditingController();
-  TextEditingController addressProofNumberController = TextEditingController();
 
   String? countryCode;
-
   XFile? idProofImage;
-  XFile? addressProofImage;
-
   final picker = ImagePicker();
-
   String? selectedIdProofType;
-  String? selectedAddressProofType;
-
-  List<String> idItemList = [
-    "State identification (ID) card",
-    "Driver license",
-    "US passport or passport card",
-    "US military card",
-    "Military dependents ID card",
-    "Permanent Resident Card",
-    "Certificate of Citizenship",
-    "Certificate of Naturalization",
-    "Employment Authorization Document",
-    "Foreign passport"
-  ];
-
-
-  List<String> addressItemList = [
-    "Utility bill",
-    "Cable TV or internet bill",
-    "Telephone bill",
-    "Bank statement",
-    "Property tax bill",
-    "Mortgage statement"
-  ];
-
-
+  List<String> idItemList = ["Bilhete de Identidade (BI)", "Passaporte"];
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           selectedValue: selectedIdProofType,
                           onValueChange: (value) {
                             selectedIdProofType = value;
-                            signUpVm.notifyListeners();
+                            signUpVm.updateUi();
                           },
                         ),
                         SizedBox(
@@ -210,7 +180,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           controller: idProofNumberController,
                           hintText: "Enter Id Proof Number",
                           titleText: "Id Proof Number*",
-                          //  image: ImageUtility.passwordIcon,
                           textInputType: TextInputType.visiblePassword,
                         ),
                         SizedBox(
@@ -218,7 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         UploadImageWidget(
                             onTap: () {
-                              getIdImage(signUpVm);
+                              showBottomSheetForSelectImage(signUpVm);
                             },
                             title: "ID Proof*"),
                         idProofImage != null
@@ -238,72 +207,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     InkWell(
                                       onTap: () {
                                         idProofImage = null;
-                                        signUpVm.notifyListeners();
-                                      },
-                                      child: Container(
-                                        height: 85.w,
-                                        width: 85.w,
-                                        alignment: Alignment.topRight,
-                                        padding: EdgeInsets.all(3.sp),
-                                        child: Image.asset(
-                                          ImageUtility.removeImage,
-                                          width: 15.w,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            : const SizedBox(),
-                        SizedBox(
-                          height: 15.h,
-                        ),
-                        DropDownWidget(
-                          titleText: "Address Proof  Type*",
-                          hintText: "Select Address Proof Type",
-                          itemList: addressItemList,
-                          selectedValue: selectedAddressProofType,
-                          onValueChange: (value) {
-                            selectedAddressProofType = value;
-                            signUpVm.notifyListeners();
-                          },
-                        ),
-                        SizedBox(
-                          height: 15.h,
-                        ),
-                        SimpleTextField(
-                          controller: addressProofNumberController,
-                          hintText: "Enter Address Proof Number",
-                          titleText: "Address Proof Number*",
-                          //  image: ImageUtility.passwordIcon,
-                          textInputType: TextInputType.visiblePassword,
-                        ),
-                        SizedBox(
-                          height: 15.h,
-                        ),
-                        UploadImageWidget(
-                            onTap: () {
-                              getAddressImage(signUpVm);
-                            },
-                            title: "Address Proof*"),
-                        addressProofImage != null
-                            ? Padding(
-                                padding: EdgeInsets.only(top: 15.h),
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(5.r),
-                                      child: Image.file(
-                                        File(addressProofImage!.path),
-                                        fit: BoxFit.cover,
-                                        height: 85.w,
-                                        width: 85.w,
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        addressProofImage = null;
-                                        signUpVm.notifyListeners();
+                                        signUpVm.updateUi();
                                       },
                                       child: Container(
                                         height: 85.w,
@@ -379,51 +283,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 } else if (idProofImage == null) {
                                   context.showSnackBar(
                                       message: "Please Upload ID Proof Image.");
-                                } else if (selectedAddressProofType == null) {
-                                  context.showSnackBar(
-                                      message:
-                                          "Please Select Address Proof Type.");
-                                } else if (addressProofNumberController
-                                    .text.isEmpty) {
-                                  context.showSnackBar(
-                                      message:
-                                          "Please Enter Address Proof Number.");
-                                } else if (addressProofImage == null) {
-                                  context.showSnackBar(
-                                      message:
-                                          "Please Upload Address Proof Image.");
                                 } else {
                                   MultipartFile idImageFile =
                                       await MultipartFile.fromFile(
                                     idProofImage!.path,
                                     filename: idProofImage!.name,
                                   );
-                                  MultipartFile addressImageFile =
-                                      await MultipartFile.fromFile(
-                                    addressProofImage!.path,
-                                    filename: addressProofImage!.name,
-                                  );
-
                                   CommonDialog.showLoadingDialog(context);
                                   model.signUp(
                                     request: SignUpRequest(
-                                      name: Endpoints.auth.signup,
-                                      fullName: fullNameController.text,
-                                      userName: userNameController.text,
-                                      email: emailController.text,
-                                      phone: phoneNumberController.text,
-                                      countryCode: countryCode,
-                                      pass: passwordController.text,
-                                      idProofType: selectedIdProofType,
-                                      idProofNumber:
-                                          idProofNumberController.text,
-                                      idProof: idImageFile,
-                                      addressProofType:
-                                          selectedAddressProofType,
-                                      addressProofNumber:
-                                          addressProofNumberController.text,
-                                      addressProof: addressImageFile,
-                                    ),
+                                        name: Endpoints.auth.signup,
+                                        fullName: fullNameController.text,
+                                        userName: userNameController.text,
+                                        email: emailController.text,
+                                        phone: phoneNumberController.text,
+                                        countryCode: countryCode,
+                                        pass: passwordController.text,
+                                        idProofType: selectedIdProofType,
+                                        idProofNumber:
+                                            idProofNumberController.text,
+                                        idProof: idImageFile),
                                     onSuccess: (value) {
                                       Navigator.pop(context);
                                       context.showToast(message: value);
@@ -490,18 +369,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                             ),
-                            // SizedBox(
-                            //   width: 20.w,
-                            // ),
-                            // Container(
-                            //   height: 55.w,
-                            //   width: 55.w,
-                            //   padding: EdgeInsets.all(15.sp),
-                            //   decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(10.r),
-                            //       color: ColorUtility.colorEFEFEF),
-                            //   child: Image.asset(ImageUtility.faceBookIcon),
-                            // ),
                           ],
                         ),
                         SizedBox(
@@ -519,20 +386,104 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Future getIdImage(SignUpVm signUpVm) async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      idProofImage = pickedFile;
-      signUpVm.notifyListeners();
-    } else {}
+  showBottomSheetForSelectImage(SignUpVm signUpVm) {
+    showModalBottomSheet<void>(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20.r), topLeft: Radius.circular(20.r)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 300.sp,
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    getIdImage(signUpVm, "Camera");
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipOval(
+                        child: Container(
+                          width: 100.w,
+                          height: 100.w,
+                          color: ColorUtility.colorF5F6FA,
+                          child: Center(
+                            child: Image.asset(
+                              ImageUtility.cameraIcon,
+                              width: 45.w,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 9.h,
+                      ),
+                      Text(
+                        "Camera",
+                        style: StyleUtility.titleTextStyle
+                            .copyWith(fontSize: TextSizeUtility.textSize20),
+                      )
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    getIdImage(signUpVm, "Gallery");
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipOval(
+                        child: Container(
+                          width: 100.w,
+                          height: 100.w,
+                          color: ColorUtility.colorF5F6FA,
+                          child: Center(
+                            child: Image.asset(
+                              ImageUtility.galleryIcon,
+                              width: 45.w,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 9.h,
+                      ),
+                      Text(
+                        "Gallery",
+                        style: StyleUtility.titleTextStyle
+                            .copyWith(fontSize: TextSizeUtility.textSize20),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
-  Future getAddressImage(SignUpVm signUpVm) async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future getIdImage(SignUpVm signUpVm, String from) async {
+    XFile? pickedFile;
+
+    if (from == "Gallery") {
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    } else {
+      pickedFile = await picker.pickImage(source: ImageSource.camera);
+    }
     if (pickedFile != null) {
-      addressProofImage = pickedFile;
-      signUpVm.notifyListeners();
-    } else {}
+      idProofImage = pickedFile;
+      signUpVm.updateUi();
+    }
   }
 
   Future<void> googleAuth(SignUpVm signUpVm) async {
@@ -543,20 +494,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
         logD("id${user.id}");
         logD(user.email);
         logD(user.photoUrl);
-        googleLogIn(signUpVm, user.id,user.email);
+        googleLogIn(signUpVm, user.id, user.email);
       }
     } catch (error) {
       logE(error);
     }
   }
 
-  googleLogIn(SignUpVm signUpVm, String id,email) {
+  googleLogIn(SignUpVm signUpVm, String id, email) {
     CommonDialog.showLoadingDialog(context);
     signUpVm.socialLoginApi(
         request: sr.SocialLoginRequest(
             name: Endpoints.auth.socialLogin,
-            param: sr.Param(oauthProvider: "google", oauthUid: id,
-            email: email)),
+            param:
+                sr.Param(oauthProvider: "google", oauthUid: id, email: email)),
         onSuccess: (value) {
           Navigator.pop(context);
           Navigator.pushReplacementNamed(

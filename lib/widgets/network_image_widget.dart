@@ -44,7 +44,7 @@ class NetworkImageWidget extends StatelessWidget {
               return errorWidget!;
             } else {
               return Container(
-                color: ColorUtility.colorAEB1B9,
+                color: ColorUtility.colorEFEFEF,
                 child:  Center(
                   child: Icon(
                     Icons.image_not_supported_rounded,

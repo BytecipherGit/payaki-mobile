@@ -78,7 +78,7 @@ class MobileNumberTextField extends StatelessWidget {
               hintStyle: StyleUtility.hintTextStyle,
               hintText: "Mobile Number",
             ),
-            initialCountryCode: 'US',
+            initialCountryCode: 'AO',
             onChanged: (phone) {
               onChanged.call(phone);
               phoneNumber = phone;

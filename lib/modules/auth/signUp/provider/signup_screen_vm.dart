@@ -58,4 +58,8 @@ class SignUpVm extends ChangeNotifier {
       onFailure.call("Server Error");
     });
   }
+
+  updateUi(){
+    notifyListeners();
+  }
 }
