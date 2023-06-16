@@ -41,6 +41,9 @@ import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/modules/search/screens/search_result_screen.dart';
 import 'package:payaki/modules/search/screens/search_screen.dart';
+import 'package:payaki/modules/transaction/screens/transaction_detail_screen.dart';
+import 'package:payaki/modules/transaction/screens/transaction_screen.dart';
+import 'package:payaki/modules/transaction/viewModel/transaction_screen_vm.dart';
 import 'package:payaki/modules/welcome/welcome_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:provider/provider.dart';
@@ -278,6 +281,16 @@ class AppRoute {
             builder: (context) => ChangeNotifierProvider(
                 create: (_) => ChangePasswordScreenVm(),
                 child:  const ChangePasswordScreen()));
+      case RouteName.transactionScreen:
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                create: (_) => TransactionScreenVm(),
+                child:  const TransactionScreen()));
+      case RouteName.transactionDetailScreen:
+        var arg = settings.arguments as Map;
+
+        return MaterialPageRoute(
+            builder: (context) =>  TransactionDetailScreen(transaction: arg["transaction"],));
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());

@@ -7,7 +7,7 @@ import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
-import 'package:payaki/modules/reviewAndMail/report/screen/report_add_screen.dart';
+import 'package:payaki/modules/postDetails/screens/image_view_screen.dart';
 import 'package:payaki/network/model/response/post/post_detail_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -62,100 +62,123 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                   children: [
                     Stack(
                       children: [
-                        (postDetailScreenVm.postDetailResponse?.data?.image
-                                        ?.length ??
-                                    0) >
-                                0
-                            ? postDetailScreenVm.postDetailResponse!.data!
-                                        .image!.length ==
-                                    1
-                                ? NetworkImageWidget(
-                                    width: double.infinity,
-                                    height: imageHeight,
-                                    errorIconSize: 70.sp,
-                                    url: postDetailScreenVm.postDetailResponse
-                                        ?.data?.image?[_current])
-                                : Stack(
-                                    children: [
-                                      CarouselSlider.builder(
-                                        itemCount: postDetailScreenVm
-                                                .postDetailResponse
-                                                ?.data
-                                                ?.image
-                                                ?.length ??
-                                            0,
-                                        itemBuilder: (BuildContext context,
-                                                int itemIndex,
-                                                int pageViewIndex) =>
-                                            Stack(
-                                          children: [
-                                            NetworkImageWidget(
-                                                width: double.infinity,
-                                                height: imageHeight,
-                                                errorIconSize: 70.sp,
-                                                url: postDetailScreenVm
-                                                    .postDetailResponse
-                                                    ?.data
-                                                    ?.image?[_current])
-                                          ],
-                                        ),
-                                        options: CarouselOptions(
-                                            height: imageHeight,
-                                            viewportFraction: 1,
-                                            autoPlay: true,
-                                            enlargeCenterPage: false,
-                                            //  aspectRatio: 16 / 9,
-                                            onPageChanged: (index, reason) {
-                                              setState(() {
-                                                _current = index;
-                                              });
-                                            }),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 300.h),
-                                        alignment: Alignment.center,
-                                        child: DotsIndicator(
-                                          dotsCount: postDetailScreenVm
+
+
+
+                        GestureDetector(
+                          onTap: (){
+
+
+                            if((postDetailScreenVm.postDetailResponse?.data?.image?.length ??
+                                0)>0){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                  ImageViewScreen(images: postDetailScreenVm.postDetailResponse?.data?.image ?? [])));
+                            }
+
+
+                          },
+                          child: Container(
+                            child:
+
+                          (postDetailScreenVm.postDetailResponse?.data?.image
+                                          ?.length ??
+                                      0) >
+                                  0
+                              ? postDetailScreenVm.postDetailResponse!.data!
+                                          .image!.length ==
+                                      1
+                                  ? NetworkImageWidget(
+                                      width: double.infinity,
+                                      height: imageHeight,
+                                      errorIconSize: 70.sp,
+                                      url: postDetailScreenVm.postDetailResponse
+                                          ?.data?.image?[_current])
+                                  : Stack(
+                                      children: [
+                                        CarouselSlider.builder(
+                                          itemCount: postDetailScreenVm
                                                   .postDetailResponse
                                                   ?.data
                                                   ?.image
                                                   ?.length ??
                                               0,
-                                          position: _current,
-                                          decorator: DotsDecorator(
-                                            spacing: EdgeInsets.only(
-                                                left: 2.5, right: 2.5),
-                                            color: ColorUtility.color7A7A7A,
-                                            activeColor:
-                                                ColorUtility.color06C972,
-                                            size: const Size(7.0, 7.0),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(7.0),
-                                            ),
-                                            activeSize: const Size(40.0, 7.0),
-                                            activeShape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(7.0),
+                                          itemBuilder: (BuildContext context,
+                                                  int itemIndex,
+                                                  int pageViewIndex) =>
+                                              Stack(
+                                            children: [
+                                              NetworkImageWidget(
+                                                  width: double.infinity,
+                                                  height: imageHeight,
+                                                  errorIconSize: 70.sp,
+                                                  url: postDetailScreenVm
+                                                      .postDetailResponse
+                                                      ?.data
+                                                      ?.image?[_current])
+                                            ],
+                                          ),
+                                          options: CarouselOptions(
+                                              height: imageHeight,
+                                              viewportFraction: 1,
+                                              autoPlay: true,
+                                              enlargeCenterPage: false,
+                                              //  aspectRatio: 16 / 9,
+                                              onPageChanged: (index, reason) {
+                                                setState(() {
+                                                  _current = index;
+                                                });
+                                              }),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 300.h),
+                                          alignment: Alignment.center,
+                                          child: DotsIndicator(
+                                            dotsCount: postDetailScreenVm
+                                                    .postDetailResponse
+                                                    ?.data
+                                                    ?.image
+                                                    ?.length ??
+                                                0,
+                                            position: _current,
+                                            decorator: DotsDecorator(
+                                              spacing: const EdgeInsets.only(
+                                                  left: 2.5, right: 2.5),
+                                              color: ColorUtility.color7A7A7A,
+                                              activeColor:
+                                                  ColorUtility.color06C972,
+                                              size: const Size(7.0, 7.0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(7.0),
+                                              ),
+                                              activeSize: const Size(40.0, 7.0),
+                                              activeShape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(7.0),
+                                              ),
                                             ),
                                           ),
                                         ),
+                                      ],
+                                    )
+                              : SizedBox(
+                                  height: imageHeight,
+                                  child: Container(
+                                    color: ColorUtility.colorEFEFEF,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.image_not_supported_rounded,
+                                        color: ColorUtility.color43576F,
+                                        size: 70.sp,
                                       ),
-                                    ],
-                                  )
-                            : SizedBox(
-                                height: imageHeight,
-                                child: Container(
-                                  color: ColorUtility.colorEFEFEF,
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.image_not_supported_rounded,
-                                      color: ColorUtility.color43576F,
-                                      size: 70.sp,
                                     ),
                                   ),
                                 ),
-                              ),
+
+                          ),
+                        ),
+
+
                         AppBar(
                           backgroundColor: Colors.transparent,
                           elevation: 0,
@@ -283,34 +306,34 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 25.h,
-                            ),
-                            Text(
-                              "Phone Number",
-                              style: StyleUtility.headingTextStyle,
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  ImageUtility.phoneIcon,
-                                  width: 12.5.w,
-                                ),
-                                SizedBox(
-                                  width: 9.w,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                      postDetailScreenVm.postDetailResponse
-                                              ?.data?.phone ??
-                                          "",
-                                      style: StyleUtility.postDescTextStyle),
-                                ),
-                              ],
-                            ),
+                            // SizedBox(
+                            //   height: 25.h,
+                            // ),
+                            // Text(
+                            //   "Phone Number",
+                            //   style: StyleUtility.headingTextStyle,
+                            // ),
+                            // SizedBox(
+                            //   height: 5.h,
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     Image.asset(
+                            //       ImageUtility.phoneIcon,
+                            //       width: 12.5.w,
+                            //     ),
+                            //     SizedBox(
+                            //       width: 9.w,
+                            //     ),
+                            //     Expanded(
+                            //       child: Text(
+                            //           postDetailScreenVm.postDetailResponse
+                            //                   ?.data?.phone ??
+                            //               "",
+                            //           style: StyleUtility.postDescTextStyle),
+                            //     ),
+                            //   ],
+                            // ),
                             SizedBox(
                               height: 25.h,
                             ),
@@ -391,7 +414,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              //  "User@gmail.com",
                                               postDetailScreenVm
                                                       .postDetailResponse
                                                       ?.data
@@ -404,9 +426,14 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                       color: ColorUtility
                                                           .color43576F),
                                             ),
-                                            Text("+91 1234567890",
-                                                style: StyleUtility
-                                                    .reviewTitleTextStyle),
+                                            // Text(postDetailScreenVm
+                                            //     .postDetailResponse
+                                            //     ?.data
+                                            //     ?.postUserDetails
+                                            //     ?.phone ??
+                                            //     "",
+                                            //     style: StyleUtility
+                                            //         .reviewTitleTextStyle),
                                           ],
                                         ),
                                       ),

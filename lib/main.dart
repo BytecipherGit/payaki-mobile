@@ -3,10 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loggy/loggy.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/splash/splash_screen.dart';
-import 'package:payaki/modules/welcome/welcome_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 
-import 'modules/bottomBar/BottomNavigationBarScreen.dart';
+import 'modules/postDetails/screens/image_view_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

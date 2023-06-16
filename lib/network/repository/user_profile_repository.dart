@@ -7,6 +7,7 @@ import 'package:payaki/network/model/request/userProfile/resend_email_request.da
 import 'package:payaki/network/model/request/userProfile/update_profile_request.dart';
 import 'package:payaki/network/model/response/basic_response.dart';
 import 'package:payaki/network/model/response/profile/country_list_response.dart';
+import 'package:payaki/network/model/response/profile/transaction_list_response.dart';
 import 'package:payaki/network/model/response/profile/user_profile_response.dart';
 
 class UserProfileRepository {
@@ -44,4 +45,12 @@ class UserProfileRepository {
         .post(Endpoints.baseUrl, data: formData)
         .then((value) => BasicResponse.fromJson(value));
   }
+
+  Future<TransactionListResponse> getTransactionList(BasicRequest request) {
+    return dioHttpService
+        .post(Endpoints.baseUrl, data: request.toJson())
+        .then((value) => TransactionListResponse.fromJson(value));
+  }
+
+
 }

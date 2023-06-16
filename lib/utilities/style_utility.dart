@@ -82,6 +82,12 @@ class StyleUtility {
     color: ColorUtility.color43576F,
   );
 
+  static TextStyle detailTitleTextStyle = TextStyle(
+    fontFamily: "Axiforma_Regular",
+    fontSize: TextSizeUtility.textSize14,
+    color: ColorUtility.colorA5A5A5,
+  );
+
 
 
 

@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/basic_request.dart';
-import 'package:payaki/network/model/request/userProfile/resend_email_request.dart' as resend_email;
+import 'package:payaki/network/model/request/userProfile/resend_email_request.dart'
+    as resend_email;
 import 'package:payaki/network/model/response/profile/user_profile_response.dart';
 import 'package:payaki/network/repository/user_profile_repository.dart';
 
@@ -17,8 +18,8 @@ class ProfileScreenVm extends ChangeNotifier {
     ValueChanged<String>? onFailure,
   }) {
     userProfileRepository
-        .getUserDetail(
-            BasicRequest(name: Endpoints.userProfileEndPoints.viewProfile, param: Param()))
+        .getUserDetail(BasicRequest(
+            name: Endpoints.userProfileEndPoints.viewProfile, param: Param()))
         .then((value) {
       userProfileResponse = value;
       isLoading = false;
@@ -37,19 +38,15 @@ class ProfileScreenVm extends ChangeNotifier {
     });
   }
 
-
-
   resendEmail({
     ValueChanged<String>? onSuccess,
     ValueChanged<String>? onFailure,
     String? email,
   }) {
     userProfileRepository
-        .resendEmail(
-        resend_email.ResendEmailRequest(name: Endpoints.userProfileEndPoints.resendConfirmationEmail,
-            param: resend_email.Param(
-              email: email
-            )))
+        .resendEmail(resend_email.ResendEmailRequest(
+            name: Endpoints.userProfileEndPoints.resendConfirmationEmail,
+            param: resend_email.Param(email: email)))
         .then((value) {
       notifyListeners();
 
@@ -64,7 +61,4 @@ class ProfileScreenVm extends ChangeNotifier {
       onFailure?.call(error.toString());
     });
   }
-
-
-
 }

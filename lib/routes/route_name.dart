@@ -28,4 +28,6 @@ class RouteName {
   static const String editProfileScreen = "/editProfileScreen";
   static const String reportAddScreen = "/reportAddScreen";
   static const String changePasswordScreen = "/changePasswordScreen";
+  static const String transactionScreen = "/transactionScreen";
+  static const String transactionDetailScreen = "/transactionDetailScreen";
 }

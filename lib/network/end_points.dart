@@ -61,6 +61,7 @@ class UserProfileEndPoints {
   String get resendConfirmationEmail => "resendConfirmationEmail";
   String get getCountries => "getCountries";
   String get updateProfile => "updateProfile";
+  String get getTransactionListing => "getTransactionListing";
 }
 
 
