@@ -147,7 +147,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                     width: 20.sp,
                                     height: 20.sp,
                                     child: Checkbox(
-                                      checkColor: ColorUtility.color06C972,
+                                      checkColor: ColorUtility.color9C5FA3,
                                       activeColor: ColorUtility.whiteColor,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -155,7 +155,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       side: MaterialStateBorderSide.resolveWith(
                                         (states) => const BorderSide(
                                             width: 2.0,
-                                            color: ColorUtility.color06C972),
+                                            color: ColorUtility.color9C5FA3),
                                       ),
                                       value: checkBoxValue,
                                       onChanged: (bool? value) {

@@ -4,6 +4,7 @@ import 'package:payaki/modules/postAdd/provider/sub_category_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
+import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:provider/provider.dart';
 
 class SubCategoryScreen extends StatefulWidget {
@@ -64,7 +65,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                   builder: (context, subCategoryScreenVm, child) {
                 return subCategoryScreenVm.isLoading == true
                     ? const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressWidget()
                       )
                     : ListView.builder(
                   padding: EdgeInsets.only(top: 18.h),

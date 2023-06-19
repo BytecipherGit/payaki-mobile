@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -14,7 +15,6 @@ class ImageViewScreen extends StatefulWidget {
 
 class _ImageViewScreenState extends State<ImageViewScreen> {
   TextEditingController descriptionController = TextEditingController();
-
   int _current = 0;
 
   @override
@@ -24,12 +24,10 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
         body: Stack(
           children: [
             PageView.builder(
-              onPageChanged: (index){
-                _current = index;
-setState(() {
-  
-});
-              },
+                onPageChanged: (index) {
+                  _current = index;
+                  setState(() {});
+                },
                 itemCount: widget.images.length,
                 itemBuilder: (context, position) {
                   return Center(
@@ -39,45 +37,36 @@ setState(() {
                     ),
                   );
                 }),
-
-          if( widget.images.length >1)
-            SafeArea(
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                child: DotsIndicator(
-                  dotsCount: widget.images.length,
-                  position: _current,
-                  decorator: DotsDecorator(
-                    spacing: const EdgeInsets.only(left: 2.5, right: 2.5),
-                    color: ColorUtility.color7A7A7A,
-                    activeColor: ColorUtility.color06C972,
-                    size: const Size(7.0, 7.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                    ),
-                    activeSize: const Size(40.0, 7.0),
-                    activeShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.0),
+            if (widget.images.length > 1)
+              SafeArea(
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.only(bottom: 20.h),
+                  child: DotsIndicator(
+                    dotsCount: widget.images.length,
+                    position: _current,
+                    decorator: DotsDecorator(
+                      spacing: const EdgeInsets.only(left: 2.5, right: 2.5),
+                      color: ColorUtility.color7A7A7A,
+                      activeColor: ColorUtility.color9C5FA3,
+                      size: const Size(7.0, 7.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0),
+                      ),
+                      activeSize: const Size(40.0, 7.0),
+                      activeShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-
-            // Center(
-            //   child:
-            //   PhotoView(
-            //    // imageProvider: NetworkImage("https://picsum.photos/250?image=9"),
-            //     imageProvider: NetworkImage(widget.image),
-            //   ),
-            // ),
-
             SizedBox(
               height: 100,
               child: AppBar(
                   backgroundColor: Colors.black,
                   leading: const BackButton(
-                    color: Colors.white, // <-- SEE HERE
+                    color: Colors.white,
                   ),
                   elevation: 0,
                   shadowColor: ColorUtility.colorE2E5EF),

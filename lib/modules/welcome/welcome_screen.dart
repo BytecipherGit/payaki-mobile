@@ -18,7 +18,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: ColorUtility.colorEFF6EE,
+      backgroundColor: ColorUtility.color844193,
       body: Column(
         children: [
           SizedBox(
@@ -26,10 +26,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             child: SafeArea(
               bottom: false,
               child: Container(
-                margin: EdgeInsets.only(left: 36.w,right: 36.w),
+               // margin: EdgeInsets.only(left: 36.w,right: 36.w),
                 alignment: Alignment.center,
                 child: Image.asset(
-                  ImageUtility.welcomeBoardImage,
+                  ImageUtility.pIcon,
+                  width: 145.w,
                 ),
               ),
             ),

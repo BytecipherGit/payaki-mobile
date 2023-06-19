@@ -72,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     top: 10.w,
                                     bottom: 18.w),
                                 decoration: BoxDecoration(
-                                  color: ColorUtility.colorEAF2EB,
+                                  color: ColorUtility.colorDACADD,
                                   borderRadius: BorderRadius.circular(20.r),
                                 ),
                                 child: Row(

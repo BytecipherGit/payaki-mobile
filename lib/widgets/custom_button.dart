@@ -55,14 +55,14 @@ class CustomButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.r),
             ),
-            side: const BorderSide(color: ColorUtility.color06C972, width: 2),
+            side: const BorderSide(color: ColorUtility.color9C5FA3, width: 2),
           ),
           onPressed: onTab,
           child: Text(
             buttonText,
             maxLines: 1,
             style: StyleUtility.buttonTextStyle.copyWith(
-                color: ColorUtility.color06C972
+                color: ColorUtility.color9C5FA3
             ),
           ),
         ),
@@ -70,7 +70,9 @@ class CustomButton extends StatelessWidget {
     }
 
     Gradient gradient = const LinearGradient(
-        colors: [ColorUtility.color06C972, ColorUtility.color09AA62]);
+        colors: [ColorUtility.color9C5FA3,
+          ColorUtility.color844193
+        ]);
 
     final borderRadius = BorderRadius.circular(10.r);
 

@@ -21,7 +21,7 @@ class CommonDialog{
                     children: <Widget>[
                       const CircularProgressIndicator(
                         valueColor:
-                        AlwaysStoppedAnimation<Color>(ColorUtility.color06C972),
+                        AlwaysStoppedAnimation<Color>(ColorUtility.color9C5FA3),
                         strokeWidth: 2.0,
                       ),
                       /*Platform.isAndroid

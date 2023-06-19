@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/local_store/shared_preference.dart';
-import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/modules/reviewAndMail/quote/viewModel/quote_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
-import 'package:payaki/network/model/request/reviewAndMail/add_review_request.dart';
+import 'package:payaki/network/model/request/reviewAndMail/quote_request.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -13,21 +12,25 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
-import '../viewModel/add_review_screen_vm.dart';
-
-class AddReviewScreen extends StatefulWidget {
+class QuoteScreen extends StatefulWidget {
   final String postId;
+  final String postUserId;
+  final String productName;
 
-  const AddReviewScreen({Key? key, required this.postId}) : super(key: key);
+  const QuoteScreen(
+      {Key? key,
+      required this.postId,
+      required this.postUserId,
+      required this.productName})
+      : super(key: key);
 
   @override
-  State<AddReviewScreen> createState() => _AddReviewScreenState();
+  State<QuoteScreen> createState() => _QuoteScreenState();
 }
 
-class _AddReviewScreenState extends State<AddReviewScreen> {
-  TextEditingController descriptionController = TextEditingController();
-
-  int? selectRating = 1;
+class _QuoteScreenState extends State<QuoteScreen> {
+  TextEditingController amountController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
       appBar: AppBar(
           backgroundColor: ColorUtility.whiteColor,
           title: Text(
-            "Review",
+            widget.productName,
             style: StyleUtility.headerTextStyle,
           ),
           centerTitle: true,
@@ -58,34 +61,26 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                     children: [
                       SizedBox(height: 23.h),
                       Text(
-                        "Add your Review",
+                        "Place your Quote",
                         style: StyleUtility.headingTextStyle,
-                      ),
-                      SizedBox(height: 15.h),
-                      Text("How would you rate this product?",
-                          style: StyleUtility.reviewTitleTextStyle),
-                      SizedBox(height: 15.h),
-                      RatingBar.builder(
-                        initialRating: 1,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        itemCount: 5,
-                        itemSize: 25,
-                        itemPadding:
-                            const EdgeInsets.symmetric(horizontal: 0.0),
-                        itemBuilder: (context, _) => const Icon(Icons.star,
-                            color: ColorUtility.colorFFA500),
-                        onRatingUpdate: (rating) {
-                          selectRating = rating.toInt();
-                          logD(rating);
-                        },
                       ),
                       SizedBox(height: 25.h),
                       SimpleTextField(
-                        controller: descriptionController,
-                        hintText: "Your Reviews",
-                        titleText: "Reviews *",
+                        controller: amountController,
+                        hintText: "Enter your Amount",
+                        titleText: "Amount*",
+                        textInputType: TextInputType.number,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      SimpleTextField(
+                        controller: messageController,
+                        hintText: "Your message",
+                        titleText: "Message *",
                         maxLine: 5,
                       ),
                       SizedBox(
@@ -95,25 +90,27 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                   ),
                 ),
               ),
-              Consumer<AddReviewScreenVm>(
-                  builder: (context, addReviewScreenVm, child) {
+              Consumer<QuoteScreenVm>(builder: (context, quoteScreenVm, child) {
                 return CustomButton(
-                    buttonText: "Submit Review",
+                    buttonText: "Send",
                     onTab: () {
-                      if (descriptionController.text.isEmpty) {
-                        context.showSnackBar(
-                            message: 'Please Enter Your Reviews.');
+                      if (amountController.text.isEmpty) {
+                        context.showSnackBar(message: 'Please Enter Amount.');
+                      } else if (messageController.text.isEmpty) {
+                        context.showSnackBar(message: 'Please Enter Message.');
                       } else {
                         CommonDialog.showLoadingDialog(context);
-                        addReviewScreenVm.addReview(
-                          request: AddReviewRequest(
-                              name: Endpoints.reviewEndPoints.addReview,
+                        quoteScreenVm.sendQuote(
+                          request: QuoteRequest(
+                              name: Endpoints.reviewEndPoints.placeQuote,
                               param: Param(
-                                  userId: Preference().getUserId(),
-                                  productId: widget.postId,
-                                  rating: selectRating.toString(),
-                                  comment: descriptionController.text)),
+                                postId: widget.postId,
+                                  postUserId: widget.postUserId,
+                                  amount: amountController.text,
+                                  message: messageController.text,
+                                 )),
                           onSuccess: (message) {
+                            Navigator.pop(context);
                             Navigator.pop(context);
                             context.showSnackBar(message: message);
                           },

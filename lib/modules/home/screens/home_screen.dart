@@ -35,62 +35,105 @@ class _HomeScreenState extends State<HomeScreen> {
 
     homeScreenVm = Provider.of<HomeScreenVm>(context, listen: false);
     homeScreenVm.fetchCategoryList(
-        onSuccess: (value) {}, onFailure: (value) {});
+        onSuccess: (value) {},
+        onFailure: (message) {
+          context.showSnackBar(message: message);
+        });
 
     homeScreenVm.fetchPremiumAndLatestPost(
-        onSuccess: (value) {}, onFailure: (value) {});
+        onSuccess: (value) {},
+        onFailure: (message) {
+          context.showSnackBar(message: message);
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: ColorUtility.whiteColor,
+        elevation: 0,
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(left: 20.w, right: 20.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteName.searchScreen);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(5.sp),
+                    child: Image.asset(
+                      ImageUtility.searchIcon,
+                      width: 18.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10.sp,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5.sp),
+                  child: Image.asset(
+                    ImageUtility.notificationIcon,
+                    width: 16.sp,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
       backgroundColor: ColorUtility.colorF6F6F6,
       body: Consumer<HomeScreenVm>(builder: (context, homeScreenVm, child) {
         return Column(
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              color: ColorUtility.whiteColor,
-              child: SafeArea(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, RouteName.searchScreen);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(5.sp),
-                              child: Image.asset(
-                                ImageUtility.searchIcon,
-                                width: 18.sp,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10.sp,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(5.sp),
-                            child: Image.asset(
-                              ImageUtility.notificationIcon,
-                              width: 16.sp,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Container(
+            //   width: MediaQuery.of(context).size.width,
+            //   color: ColorUtility.whiteColor,
+            //   child: SafeArea(
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Padding(
+            //           padding: EdgeInsets.only(
+            //               left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.end,
+            //             children: [
+            //               InkWell(
+            //                 onTap: () {
+            //                   Navigator.pushNamed(
+            //                       context, RouteName.searchScreen);
+            //                 },
+            //                 child: Padding(
+            //                   padding: EdgeInsets.all(5.sp),
+            //                   child: Image.asset(
+            //                     ImageUtility.searchIcon,
+            //                     width: 18.sp,
+            //                   ),
+            //                 ),
+            //               ),
+            //               SizedBox(
+            //                 width: 10.sp,
+            //               ),
+            //               Padding(
+            //                 padding: EdgeInsets.all(5.sp),
+            //                 child: Image.asset(
+            //                   ImageUtility.notificationIcon,
+            //                   width: 16.sp,
+            //                 ),
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Expanded(
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
@@ -147,82 +190,83 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    homeScreenVm.isPremiumAndLatestPostLoading == true
-                        ? SizedBox(
-                            height: 350.h,
-                            child: const CircularProgressWidget(),
-                          )
-                        : Column(
-                            children: [
-                              SizedBox(
-                                height: 37.h,
-                              ),
-                              HomePostWidget(
-                                title: "Premium Ad",
-                                post: homeScreenVm
-                                    .premiumAndLatestPost?.data?.premium,
-                                onSeeAllTap: () {
-                                  CommonDialog.showLoadingDialog(context);
-                                  homeScreenVm.searchPostApi(
-                                      searchRequest: SearchRequest(
-                                          name: Endpoints.search.getAllPost,
-                                          param: Param(
-                                            listingType: Constant.premium,
-                                          )),
-                                      onSuccess: (searchPostList) {
-                                        Navigator.pop(context);
+                    if (homeScreenVm.isPremiumAndLatestPostLoading == true)
+                      SizedBox(
+                        height: 350.h,
+                        child: const CircularProgressWidget(),
+                      )
+                    else
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 37.h,
+                          ),
+                          HomePostWidget(
+                            title: "Premium Ad",
+                            post: homeScreenVm
+                                .premiumAndLatestPost?.data?.premium,
+                            onSeeAllTap: () {
+                              CommonDialog.showLoadingDialog(context);
+                              homeScreenVm.searchPostApi(
+                                  searchRequest: SearchRequest(
+                                      name: Endpoints.search.getAllPost,
+                                      param: Param(
+                                        listingType: Constant.premium,
+                                      )),
+                                  onSuccess: (searchPostList) {
+                                    Navigator.pop(context);
 
-                                        Navigator.pushNamed(context,
-                                            RouteName.searchResultScreen,
-                                            arguments: {
-                                              "initialPostList": searchPostList,
-                                              "headerTitle": "Premium Ad",
-                                              "listingType": Constant.premium,
-                                            });
-                                      },
-                                      onFailure: (value) {
-                                        Navigator.pop(context);
-                                        context.showSnackBar(message: value);
-                                      });
-                                },
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              HomePostWidget(
-                                title: "Latest Ad",
-                                post: homeScreenVm
-                                    .premiumAndLatestPost?.data?.latest,
-                                onSeeAllTap: () {
-                                  CommonDialog.showLoadingDialog(context);
-                                  homeScreenVm.searchPostApi(
-                                      searchRequest: SearchRequest(
-                                          name: Endpoints.search.getAllPost,
-                                          param: Param(
-                                            listingType: Constant.latest,
-                                          )),
-                                      onSuccess: (searchPostList) {
-                                        Navigator.pop(context);
+                                    Navigator.pushNamed(
+                                        context, RouteName.searchResultScreen,
+                                        arguments: {
+                                          "initialPostList": searchPostList,
+                                          "headerTitle": "Premium Ad",
+                                          "listingType": Constant.premium,
+                                        });
+                                  },
+                                  onFailure: (value) {
+                                    Navigator.pop(context);
+                                    context.showSnackBar(message: value);
+                                  });
+                            },
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          HomePostWidget(
+                            title: "Latest Ad",
+                            post:
+                                homeScreenVm.premiumAndLatestPost?.data?.latest,
+                            onSeeAllTap: () {
+                              CommonDialog.showLoadingDialog(context);
+                              homeScreenVm.searchPostApi(
+                                  searchRequest: SearchRequest(
+                                      name: Endpoints.search.getAllPost,
+                                      param: Param(
+                                        listingType: Constant.latest,
+                                      )),
+                                  onSuccess: (searchPostList) {
+                                    Navigator.pop(context);
 
-                                        Navigator.pushNamed(context,
-                                            RouteName.searchResultScreen,
-                                            arguments: {
-                                              "initialPostList": searchPostList,
-                                              "headerTitle": "Latest Ad",
-                                              "listingType": Constant.latest,
-                                            });
-                                      },
-                                      onFailure: (value) {
-                                        Navigator.pop(context);
-                                        context.showSnackBar(message: value);
-                                      });
-                                },
-                              ),
-                              SizedBox(
-                                height: 60.h,
-                              ),
-                            ],
-                          )
+                                    Navigator.pushNamed(
+                                        context, RouteName.searchResultScreen,
+                                        arguments: {
+                                          "initialPostList": searchPostList,
+                                          "headerTitle": "Latest Ad",
+                                          "listingType": Constant.latest,
+                                        });
+                                  },
+                                  onFailure: (value) {
+                                    Navigator.pop(context);
+                                    context.showSnackBar(message: value);
+                                  });
+                            },
+                          ),
+                          SizedBox(
+                            height: 60.h,
+                          ),
+                        ],
+                      )
                   ],
                 ),
               ),
@@ -251,9 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           height: 150.sp,
           child: isCategoryLoading == true
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
+              ? const Center(child: CircularProgressWidget())
               : ListView.builder(
                   padding: EdgeInsets.only(left: 20.w),
                   scrollDirection: Axis.horizontal,

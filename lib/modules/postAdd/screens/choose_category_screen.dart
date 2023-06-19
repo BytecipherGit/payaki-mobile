@@ -6,6 +6,7 @@ import 'package:payaki/modules/postAdd/provider/choose_category_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
+import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -64,7 +65,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                   builder: (context, chooseCategoryScreenVm, child) {
                 return chooseCategoryScreenVm.isLoading == true
                     ? const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressWidget()
                       )
                     : ListView.builder(
                         itemCount: chooseCategoryScreenVm.categoryList?.length,

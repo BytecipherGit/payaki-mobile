@@ -395,7 +395,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   width: 30.sp,
                                   height: 30.sp,
                                   child: Radio(
-                                    activeColor: ColorUtility.color06C972,
+                                    activeColor: ColorUtility.color9C5FA3,
                                     value: name,
                                     groupValue: selectedShortByValue,
                                     onChanged: (value) {
@@ -422,7 +422,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   width: 30.sp,
                                   height: 30.sp,
                                   child: Radio(
-                                    activeColor: ColorUtility.color06C972,
+                                    activeColor: ColorUtility.color9C5FA3,
                                     value: date,
                                     groupValue: selectedShortByValue,
                                     onChanged: (value) {
@@ -451,7 +451,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   width: 30.sp,
                                   height: 30.sp,
                                   child: Radio(
-                                    activeColor: ColorUtility.color06C972,
+                                    activeColor: ColorUtility.color9C5FA3,
                                     value: priceLowToHeigh,
                                     groupValue: selectedShortByValue,
                                     onChanged: (value) {
@@ -480,7 +480,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   width: 30.sp,
                                   height: 30.sp,
                                   child: Radio(
-                                    activeColor: ColorUtility.color06C972,
+                                    activeColor: ColorUtility.color9C5FA3,
                                     value: priceHeighToLow,
                                     groupValue: selectedShortByValue,
                                     onChanged: (value) {

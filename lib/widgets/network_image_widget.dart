@@ -31,7 +31,9 @@ class NetworkImageWidget extends StatelessWidget {
           imageUrl: url!,
           placeholder: (context, url) {
             return placeholder ?? const Center(
-                child: CircularProgressIndicator()
+                child: CircularProgressIndicator(
+                  color: ColorUtility.color9C5FA3,
+                )
             );
           },
           fit: fit ?? BoxFit.cover,

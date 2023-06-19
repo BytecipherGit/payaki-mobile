@@ -33,6 +33,8 @@ import 'package:payaki/modules/profile/screens/edit_profile_screen.dart';
 import 'package:payaki/modules/profile/viewModel/edit_profile_screen_vm.dart';
 import 'package:payaki/modules/reviewAndMail/addReview/screens/add_review_screen.dart';
 import 'package:payaki/modules/reviewAndMail/addReview/viewModel/add_review_screen_vm.dart';
+import 'package:payaki/modules/reviewAndMail/quote/screen/quote_screen.dart';
+import 'package:payaki/modules/reviewAndMail/quote/viewModel/quote_screen_vm.dart';
 import 'package:payaki/modules/reviewAndMail/replyEmail/screen/reply_email_screen.dart';
 import 'package:payaki/modules/reviewAndMail/replyEmail/viewModel/reply_email_screen_vm.dart';
 import 'package:payaki/modules/reviewAndMail/report/screen/report_add_screen.dart';
@@ -52,8 +54,7 @@ class AppRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteName.welcomeScreen:
-        return MaterialPageRoute(
-            builder: (context) => const WelcomeScreen());
+        return MaterialPageRoute(builder: (context) => const WelcomeScreen());
 
       case RouteName.logInScreen:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
@@ -264,34 +265,46 @@ class AppRoute {
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-              create: (_) => EditProfileScreenVm(),
-              child: EditProfileScreen(
+                  create: (_) => EditProfileScreenVm(),
+                  child: EditProfileScreen(
                     userProfile: arg["userProfile"],
                   ),
-            ));
+                ));
       case RouteName.reportAddScreen:
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                 create: (_) => ReportAddScreenVm(),
-                child:  ReportAddScreen(postUrl: arg["postUrl"])));
+                child: ReportAddScreen(postUrl: arg["postUrl"])));
 
       case RouteName.changePasswordScreen:
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                 create: (_) => ChangePasswordScreenVm(),
-                child:  const ChangePasswordScreen()));
+                child: const ChangePasswordScreen()));
       case RouteName.transactionScreen:
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                 create: (_) => TransactionScreenVm(),
-                child:  const TransactionScreen()));
+                child: const TransactionScreen()));
       case RouteName.transactionDetailScreen:
         var arg = settings.arguments as Map;
 
         return MaterialPageRoute(
-            builder: (context) =>  TransactionDetailScreen(transaction: arg["transaction"],));
+            builder: (context) => TransactionDetailScreen(
+                  transaction: arg["transaction"],
+                ));
 
+      case RouteName.quoteScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                create: (_) => QuoteScreenVm(),
+                child: QuoteScreen(
+                  postId: arg["postId"],
+                  postUserId: arg["postUserId"],
+                  productName: arg["productName"],
+                )));
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
     }

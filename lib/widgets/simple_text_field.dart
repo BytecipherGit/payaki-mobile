@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -11,10 +12,11 @@ class SimpleTextField extends StatelessWidget {
     required this.hintText,
     this.textInputType,
     this.image,
-     this.titleText,
+    this.titleText,
     this.passwordVisible,
     this.onPrefixIconTap,
     this.maxLine,
+    this.inputFormatter,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -24,6 +26,7 @@ class SimpleTextField extends StatelessWidget {
   final TextInputType? textInputType;
   final bool? passwordVisible;
   final int? maxLine;
+  final List<TextInputFormatter>? inputFormatter;
   final VoidCallback? onPrefixIconTap;
 
   @override
@@ -31,27 +34,28 @@ class SimpleTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
-        if(titleText != null)
-        Text(
-          titleText ?? "",
-          style: StyleUtility.inputTextStyle,
-        ),
+        if (titleText != null)
+          Text(
+            titleText ?? "",
+            style: StyleUtility.inputTextStyle,
+          ),
         Container(
-         // height: 55.sp,
+          // height: 55.sp,
           child: TextFormField(
             obscureText: passwordVisible ?? false,
             controller: controller,
             textAlign: TextAlign.start,
             keyboardType: textInputType ?? TextInputType.text,
-            maxLines:  maxLine ?? 1,
+            maxLines: maxLine ?? 1,
             style: StyleUtility.inputTextStyle,
             textAlignVertical: TextAlignVertical.center,
+            inputFormatters: inputFormatter,
             decoration: InputDecoration(
               // contentPadding: EdgeInsets.only(
               //   //  top: 12.sp, bottom: 12.sp,
               //     left: 20.w, right: 5.w),
-              contentPadding: EdgeInsets.only(left: 20.w,top: 16,bottom: 16,right: 5.w),
+              contentPadding:
+                  EdgeInsets.only(left: 20.w, top: 16, bottom: 16, right: 5.w),
 
               filled: true,
               fillColor: ColorUtility.colorF8FAFB,
@@ -93,26 +97,28 @@ class SimpleTextField extends StatelessWidget {
                   color: ColorUtility.colorE2E5EF,
                 ),
               ),
-              prefixIcon: image != null ? SizedBox(
-                height: 55.sp,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.sp),
-                  child: Image.asset(image!),
-                ),
-              ):null,
+              prefixIcon: image != null
+                  ? SizedBox(
+                      height: 55.sp,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.sp),
+                        child: Image.asset(image!),
+                      ),
+                    )
+                  : null,
               suffixIcon: onPrefixIconTap != null
                   ? SizedBox(
-                height: 55.sp,
-                    child: Padding(
-                      padding:  EdgeInsets.symmetric(vertical: 20.sp),
-                      child: InkWell(
+                      height: 55.sp,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.sp),
+                        child: InkWell(
                           onTap: onPrefixIconTap,
                           child: Image.asset(passwordVisible == true
                               ? ImageUtility.eyeShowIcon
                               : ImageUtility.eyeHideIcon),
                         ),
-                    ),
-                  )
+                      ),
+                    )
                   : null,
               focusColor: Colors.white,
             ),

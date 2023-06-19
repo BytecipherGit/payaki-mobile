@@ -54,6 +54,7 @@ class ReviewEndPoints {
   String get addReview => "reviewAndRating";
   String get replyByEmail => "replyByEmail";
   String get reportViolation => "reportViolation";
+  String get placeQuote => "placeQuote";
 }
 
 class UserProfileEndPoints {

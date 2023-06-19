@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/routes/route_name.dart';
@@ -64,6 +65,9 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
                         hintText: "Enter Price",
                         titleText: "Price *",
                         textInputType: TextInputType.number,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                       ),
                       SizedBox(
                         height: 20.h,
@@ -74,14 +78,14 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
                             width: 20.sp,
                             height: 20.sp,
                             child: Checkbox(
-                              checkColor: ColorUtility.color06C972,
+                              checkColor: ColorUtility.color9C5FA3,
                               activeColor: ColorUtility.whiteColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(3)),
                               side: MaterialStateBorderSide.resolveWith(
                                 (states) => const BorderSide(
                                     width: 2.0,
-                                    color: ColorUtility.color06C972),
+                                    color: ColorUtility.color9C5FA3),
                               ),
                               value: negotiatePrice,
                               onChanged: (bool? value) {

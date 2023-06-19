@@ -111,7 +111,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                         child: Row(
                           children: [
                             Radio(
-                              activeColor: ColorUtility.color06C972,
+                              activeColor: ColorUtility.color9C5FA3,
                               value: freeAd,
                               groupValue: selectAddTypeValue,
                               onChanged: (value) {
@@ -147,7 +147,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                             Row(
                               children: [
                                 Radio(
-                                  activeColor: ColorUtility.color06C972,
+                                  activeColor: ColorUtility.color9C5FA3,
                                   value: premium,
                                   groupValue: selectAddTypeValue,
                                   onChanged: (value) {
@@ -170,7 +170,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                   right: 5.w, left: 5, top: 2.w, bottom: 2.w),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(3.r),
-                                color: ColorUtility.color06C972,
+                                color: ColorUtility.color9C5FA3,
                               ),
                               child: Text(
                                 "RECOMMENDED",
@@ -373,13 +373,13 @@ class PremiumWidget extends StatelessWidget {
             width: 20.sp,
             height: 20.sp,
             child: Checkbox(
-              checkColor: ColorUtility.color06C972,
+              checkColor: ColorUtility.color9C5FA3,
               activeColor: ColorUtility.whiteColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(3)),
               side: MaterialStateBorderSide.resolveWith(
                 (states) => const BorderSide(
-                    width: 2.0, color: ColorUtility.color06C972),
+                    width: 2.0, color: ColorUtility.color9C5FA3),
               ),
               value: checkBoxValue,
               onChanged: (bool? value) {

@@ -38,7 +38,7 @@ class StyleUtility {
   static TextStyle urlTextStyle = TextStyle(
     fontFamily: "Axiforma_SemiBold",
     fontSize: TextSizeUtility.textSize16,
-    color: ColorUtility.color06C972,
+    color: ColorUtility.color9C5FA3,
     decoration: TextDecoration.underline
   );
 
