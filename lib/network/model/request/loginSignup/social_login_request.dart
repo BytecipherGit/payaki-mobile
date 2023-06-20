@@ -23,13 +23,22 @@ class Param {
   String? oauthProvider;
   String? oauthUid;
   String? email;
+  String? deviceToken;
+  String? deviceType;
 
-  Param({this.oauthProvider, this.oauthUid,this.email});
+  Param(
+      {this.oauthProvider,
+        this.oauthUid,
+        this.email,
+        this.deviceToken,
+        this.deviceType});
 
   Param.fromJson(Map<String, dynamic> json) {
     oauthProvider = json['oauth_provider'];
     oauthUid = json['oauth_uid'];
     email = json['email'];
+    deviceToken = json['device_token'];
+    deviceType = json['device_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -37,6 +46,8 @@ class Param {
     data['oauth_provider'] = this.oauthProvider;
     data['oauth_uid'] = this.oauthUid;
     data['email'] = this.email;
+    data['device_token'] = this.deviceToken;
+    data['device_type'] = this.deviceType;
     return data;
   }
 }

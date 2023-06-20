@@ -20,20 +20,26 @@ class LoginWithPhoneSendOtpRequest {
 }
 
 class Param {
-  String? phone;
   String? countryCode;
+  String? phone;
+  String? deviceToken;
+  String? deviceType;
 
-  Param({this.phone, this.countryCode});
+  Param({this.countryCode, this.phone, this.deviceToken, this.deviceType});
 
   Param.fromJson(Map<String, dynamic> json) {
-    phone = json['mobile'];
     countryCode = json['country_code'];
+    phone = json['phone'];
+    deviceToken = json['device_token'];
+    deviceType = json['device_type'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['phone'] = this.phone;
     data['country_code'] = this.countryCode;
+    data['phone'] = this.phone;
+    data['device_token'] = this.deviceToken;
+    data['device_type'] = this.deviceType;
     return data;
   }
 }

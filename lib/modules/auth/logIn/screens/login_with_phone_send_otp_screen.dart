@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
@@ -8,6 +10,7 @@ import 'package:payaki/network/model/request/loginSignup/login_with_phone_send_o
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/mobile_number_text_field.dart';
@@ -88,7 +91,10 @@ class _LoginWithPhoneSendOtpScreenState extends State<LoginWithPhoneSendOtpScree
                                           Endpoints.auth.loginWithPhone,
                                           param: Param(
                                               phone: mobileController.text,
-                                              countryCode: countryCode)),
+                                              countryCode: countryCode,
+                                              deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
+                                              deviceToken: "dummyToken"
+                                          )),
                                       onSuccess: (value) {
                                         Navigator.pop(context);
 

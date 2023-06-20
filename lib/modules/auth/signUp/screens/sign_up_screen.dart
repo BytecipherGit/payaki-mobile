@@ -302,7 +302,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         idProofType: selectedIdProofType,
                                         idProofNumber:
                                             idProofNumberController.text,
-                                        idProof: idImageFile),
+                                        idProof: idImageFile,
+                                        deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
+                                        deviceToken: "dummyToken"),
                                     onSuccess: (value) {
                                       Navigator.pop(context);
                                       context.showToast(message: value);
@@ -507,7 +509,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         request: sr.SocialLoginRequest(
             name: Endpoints.auth.socialLogin,
             param:
-                sr.Param(oauthProvider: "google", oauthUid: id, email: email)),
+            sr.Param(oauthProvider: "google", oauthUid: id,
+                email: email,
+                deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
+                deviceToken: "dummyToken"
+            )),
         onSuccess: (value) {
           Navigator.pop(context);
           Navigator.pushReplacementNamed(

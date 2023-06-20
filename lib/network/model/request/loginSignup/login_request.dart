@@ -22,18 +22,24 @@ class LogInRequest {
 class Param {
   String? email;
   String? pass;
+  String? deviceToken;
+  String? deviceType;
 
-  Param({this.email, this.pass});
+  Param({this.email, this.pass, this.deviceToken, this.deviceType});
 
   Param.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     pass = json['pass'];
+    deviceToken = json['device_token'];
+    deviceType = json['device_type'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['email'] = this.email;
     data['pass'] = this.pass;
+    data['device_token'] = this.deviceToken;
+    data['device_type'] = this.deviceType;
     return data;
   }
 }

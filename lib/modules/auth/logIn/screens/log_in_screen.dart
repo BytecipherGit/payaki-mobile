@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -210,12 +212,17 @@ class _LogInScreenState extends State<LogInScreen> {
                                       message: 'Please Enter Password.');
                                 } else {
                                   CommonDialog.showLoadingDialog(context);
+
+
                                   logInProvider.loginApi(
                                       request: LogInRequest(
                                           name: Endpoints.auth.login,
                                           param: Param(
                                               email: emailController.text,
-                                              pass: passwordController.text)),
+                                              pass: passwordController.text,
+                                              deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
+                                              deviceToken: "dummyToken"
+                                          )),
                                       onSuccess: (value) {
                                         Navigator.pop(context);
                                         Navigator.pushReplacementNamed(
@@ -366,7 +373,9 @@ class _LogInScreenState extends State<LogInScreen> {
     logInProvider.socialLoginApi(
         request: sr.SocialLoginRequest(
             name: Endpoints.auth.socialLogin,
-            param: sr.Param(oauthProvider: "google", oauthUid: id,email: email)),
+            param: sr.Param(oauthProvider: "google", oauthUid: id,email: email,
+                deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
+                deviceToken: "dummyToken")),
         onSuccess: (value) {
           Navigator.pop(context);
           Navigator.pushReplacementNamed(

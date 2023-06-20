@@ -32,12 +32,15 @@ class SignUpRequest {
   String? idProofType;
   String? idProofNumber;
   MultipartFile? idProof;
+  String? deviceToken;
+  String? deviceType;
 
   SignUpRequest({this.name,this.fullName, this.userName, this.email, this.phone,this.countryCode,
     this.pass,
     this.idProofType,
     this.idProofNumber,
-    this.idProof});
+    this.idProof,
+    this.deviceToken, this.deviceType});
 
   SignUpRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -50,6 +53,8 @@ class SignUpRequest {
     idProofType = json['id_proof_type'];
     idProofNumber = json['id_proof_number'];
     idProof = json['id_proof'];
+    deviceToken = json['device_token'];
+    deviceType = json['device_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +69,8 @@ class SignUpRequest {
     data['id_proof_type'] = this.idProofType;
     data['id_proof_number'] = this.idProofNumber;
     data['id_proof'] = this.idProof;
+    data['device_token'] = this.deviceToken;
+    data['device_type'] = this.deviceType;
     return data;
   }
 }
