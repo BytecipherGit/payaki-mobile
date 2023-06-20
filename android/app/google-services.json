@@ -37,6 +37,13 @@
             {
               "client_id": "489007257025-77g3tj3cb3fv6sgkj8ebubo788lt430m.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "489007257025-a58psehi6jfe9p5bbb7v89vhn2u8p55m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.payaki.payaki"
+              }
             }
           ]
         }

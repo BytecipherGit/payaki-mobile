@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/integration/firebase_integration.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/auth/logIn/provider/log_in_with_phone_send_otp_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
@@ -24,10 +25,23 @@ class LoginWithPhoneSendOtpScreen extends StatefulWidget {
       _LoginWithPhoneSendOtpScreenState();
 }
 
-class _LoginWithPhoneSendOtpScreenState extends State<LoginWithPhoneSendOtpScreen> {
+class _LoginWithPhoneSendOtpScreenState
+    extends State<LoginWithPhoneSendOtpScreen> {
   TextEditingController mobileController = TextEditingController();
 
   String? countryCode;
+  String? deviceToken;
+
+  @override
+  void initState() {
+    super.initState();
+    getToken();
+  }
+
+  getToken() async {
+    deviceToken = await FirebaseIntegration().getFirebaseToken();
+    logD("Token $deviceToken");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,43 +91,44 @@ class _LoginWithPhoneSendOtpScreenState extends State<LoginWithPhoneSendOtpScree
                       alignment: Alignment.bottomCenter,
                       child: Consumer<LoginWithPhoneSendOtpVm>(
                           builder: (context, loginWithPhoneSendOtpVm, child) {
-                            return CustomButton(
-                                buttonText: "Send OTP",
-                                onTab: () {
-                                  if (mobileController.text.isEmpty) {
+                        return CustomButton(
+                            buttonText: "Send OTP",
+                            onTab: () {
+                              if (mobileController.text.isEmpty) {
+                                context.showSnackBar(
+                                    message: "Please Enter Mobile Number");
+                              } else {
+                                CommonDialog.showLoadingDialog(context);
+                                loginWithPhoneSendOtpVm.sendOtp(
+                                  request: LoginWithPhoneSendOtpRequest(
+                                      name: Endpoints.auth.loginWithPhone,
+                                      param: Param(
+                                          phone: mobileController.text,
+                                          countryCode: countryCode,
+                                          deviceType: Platform.isAndroid
+                                              ? Constant.android
+                                              : Constant.ios,
+                                          deviceToken: deviceToken)),
+                                  onSuccess: (value) {
+                                    Navigator.pop(context);
                                     context.showSnackBar(
-                                        message: "Please Enter Mobile Number");
-                                  } else {
-                                    CommonDialog.showLoadingDialog(context);
-                                    loginWithPhoneSendOtpVm.sendOtp(
-                                      request: LoginWithPhoneSendOtpRequest(
-                                          name:
-                                          Endpoints.auth.loginWithPhone,
-                                          param: Param(
-                                              phone: mobileController.text,
-                                              countryCode: countryCode,
-                                              deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
-                                              deviceToken: "dummyToken"
-                                          )),
-                                      onSuccess: (value) {
-                                        Navigator.pop(context);
-
-                                        context.showSnackBar(message: "${value.message} ${value.data!.otp}");
-                                        Navigator.pushNamed(context,
-                                            RouteName.loginWithPhoneVerifyOtpScreen,
-                                            arguments: {
-                                              "countryCode":countryCode,
-                                              "mobile":mobileController.text,
-                                            });
-                                      },
-                                      onFailure: (value) {
-                                        Navigator.pop(context);
-                                        context.showSnackBar(message: value);
-                                      },
-                                    );
-                                  }
-                                });
-                          }))),
+                                        message:
+                                            "${value.message} ${value.data!.otp}");
+                                    Navigator.pushNamed(context,
+                                        RouteName.loginWithPhoneVerifyOtpScreen,
+                                        arguments: {
+                                          "countryCode": countryCode,
+                                          "mobile": mobileController.text,
+                                        });
+                                  },
+                                  onFailure: (value) {
+                                    Navigator.pop(context);
+                                    context.showSnackBar(message: value);
+                                  },
+                                );
+                              }
+                            });
+                      }))),
               SizedBox(
                 height: 35.h,
               ),

@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/integration/firebase_integration.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/auth/logIn/provider/login_provider.dart';
@@ -33,6 +34,8 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   bool checkBoxValue = false;
 
+  String? deviceToken;
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool passwordVisible = true;
@@ -41,6 +44,12 @@ class _LogInScreenState extends State<LogInScreen> {
   void initState() {
     super.initState();
     prefCall();
+    getToken();
+  }
+
+  getToken() async {
+    deviceToken = await FirebaseIntegration().getFirebaseToken();
+    logD("Token $deviceToken");
   }
 
   prefCall() async {
@@ -66,22 +75,20 @@ class _LogInScreenState extends State<LogInScreen> {
                     children: [
                       Container(
                         height: height * 0.35,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 44.w, vertical: 30.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 44.w, vertical: 30.h),
                         child: Center(
                           child: Image.asset(
                             ImageUtility.loginBoardImage,
                           ),
                         ),
                       ),
-
                       AppBar(
                         backgroundColor: Colors.transparent,
                         elevation: 0,
                       )
                     ],
                   ),
-
                   Container(
                     constraints: BoxConstraints(
                       minHeight: height * 0.65,
@@ -201,18 +208,16 @@ class _LogInScreenState extends State<LogInScreen> {
                                 if (emailController.text.isEmpty) {
                                   context.showSnackBar(
                                       message: 'Please Enter Email.');
-                                }
-                                else if (Validators.checkValidateEmail(
-                                    emailController.text) ==
+                                } else if (Validators.checkValidateEmail(
+                                        emailController.text) ==
                                     false) {
                                   context.showSnackBar(
                                       message: "Please Enter Valid Email.");
-                                }else if (passwordController.text.isEmpty) {
+                                } else if (passwordController.text.isEmpty) {
                                   context.showSnackBar(
                                       message: 'Please Enter Password.');
                                 } else {
                                   CommonDialog.showLoadingDialog(context);
-
 
                                   logInProvider.loginApi(
                                       request: LogInRequest(
@@ -220,9 +225,10 @@ class _LogInScreenState extends State<LogInScreen> {
                                           param: Param(
                                               email: emailController.text,
                                               pass: passwordController.text,
-                                              deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
-                                              deviceToken: "dummyToken"
-                                          )),
+                                              deviceType: Platform.isAndroid
+                                                  ? Constant.android
+                                                  : Constant.ios,
+                                              deviceToken: deviceToken)),
                                       onSuccess: (value) {
                                         Navigator.pop(context);
                                         Navigator.pushReplacementNamed(
@@ -361,21 +367,25 @@ class _LogInScreenState extends State<LogInScreen> {
         logD("id${user.id}");
         logD(user.email);
         logD(user.photoUrl);
-        googleLogIn(logInProvider, user.id,user.email);
+        googleLogIn(logInProvider, user.id, user.email);
       }
     } catch (error) {
       logE(error);
     }
   }
 
-  googleLogIn(LogInProvider logInProvider, String id,email) {
+  googleLogIn(LogInProvider logInProvider, String id, email) {
     CommonDialog.showLoadingDialog(context);
     logInProvider.socialLoginApi(
         request: sr.SocialLoginRequest(
             name: Endpoints.auth.socialLogin,
-            param: sr.Param(oauthProvider: "google", oauthUid: id,email: email,
-                deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
-                deviceToken: "dummyToken")),
+            param: sr.Param(
+                oauthProvider: "google",
+                oauthUid: id,
+                email: email,
+                deviceType:
+                    Platform.isAndroid ? Constant.android : Constant.ios,
+                deviceToken: deviceToken)),
         onSuccess: (value) {
           Navigator.pop(context);
           Navigator.pushReplacementNamed(

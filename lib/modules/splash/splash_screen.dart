@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/integration/firebase_integration.dart';
 import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -36,15 +38,11 @@ class _SplashScreenState extends State<SplashScreen> {
         width: double.infinity,
         height: double.infinity,
         child: Center(
-
-
-           child:  Image.asset(
-             ImageUtility.splashOnboardIcon,
-             //  width: 70.w,
-             height: 60.sp,
-           ),
-
-
+          child: Image.asset(
+            ImageUtility.splashOnboardIcon,
+            //  width: 70.w,
+            height: 60.sp,
+          ),
         ),
       ),
     );

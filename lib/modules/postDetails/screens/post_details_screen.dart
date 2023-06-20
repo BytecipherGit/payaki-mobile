@@ -946,7 +946,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                       ],
                     ),
                     padding: EdgeInsets.only(
-                        left: 20.w, right: 20.w, top: 20.w, bottom: 10.w),
+                        left: 20.w, right: 20.w, top: 14.w, bottom: 16.w),
                     child: SafeArea(
                       top: false,
                       child: Row(

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/integration/firebase_integration.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/auth/signUp/provider/signup_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
@@ -47,6 +48,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final picker = ImagePicker();
   String? selectedIdProofType;
   List<String> idItemList = ["Bilhete de Identidade (BI)", "Passaporte"];
+  String? deviceToken;
+
+  @override
+  void initState() {
+    super.initState();
+    getToken();
+  }
+
+  getToken() async {
+    deviceToken = await FirebaseIntegration().getFirebaseToken();
+    logD("Token $deviceToken");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -303,8 +316,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         idProofNumber:
                                             idProofNumberController.text,
                                         idProof: idImageFile,
-                                        deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
-                                        deviceToken: "dummyToken"),
+                                        deviceType: Platform.isAndroid
+                                            ? Constant.android
+                                            : Constant.ios,
+                                        deviceToken: deviceToken),
                                     onSuccess: (value) {
                                       Navigator.pop(context);
                                       context.showToast(message: value);
@@ -508,12 +523,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     signUpVm.socialLoginApi(
         request: sr.SocialLoginRequest(
             name: Endpoints.auth.socialLogin,
-            param:
-            sr.Param(oauthProvider: "google", oauthUid: id,
+            param: sr.Param(
+                oauthProvider: "google",
+                oauthUid: id,
                 email: email,
-                deviceType: Platform.isAndroid ? Constant.android:Constant.ios,
-                deviceToken: "dummyToken"
-            )),
+                deviceType:
+                    Platform.isAndroid ? Constant.android : Constant.ios,
+                deviceToken: deviceToken)),
         onSuccess: (value) {
           Navigator.pop(context);
           Navigator.pushReplacementNamed(
