@@ -31,7 +31,6 @@ class FirebaseIntegration {
 
         LocalNotificationIntegration().sendNotification(
             "${message.notification?.title}", "${message.notification?.body}");
-
       });
 
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -50,7 +49,7 @@ class FirebaseIntegration {
     await _messaging.getToken().then((value) {
       if (value != null) {
         token = value!;
-        logD("$token");
+        logD(token);
       }
     });
     return token;

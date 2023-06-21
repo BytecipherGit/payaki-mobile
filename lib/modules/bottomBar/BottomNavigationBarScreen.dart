@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/modules/chat/screens/chat_list_screen.dart';
 import 'package:payaki/modules/home/screens/home_screen.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
 import 'package:payaki/modules/myAds/screen/my_ads_screen.dart';
@@ -32,12 +33,12 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
       child: const HomeScreen(),
     ),
 
-    const Screen2(),
+    // const Screen2(),
 
+    const ChatListScreen(),
 
     ChangeNotifierProvider(
-      create: (_) => MyAdsScreenVm(),
-        child: const MyAdsScreen()),
+        create: (_) => MyAdsScreenVm(), child: const MyAdsScreen()),
     // Screen4(),
 
     ChangeNotifierProvider(
@@ -63,9 +64,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return
-
-      Scaffold(body: Builder(builder: (BuildContext context) {
+    return Scaffold(body: Builder(builder: (BuildContext context) {
       return Scaffold(
         body: _children[_selectIndex],
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -158,9 +157,6 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
         ),
       );
     }));
-
-
-
 
     //   bottomNavigationBar: Container(
     //     color: Colors.white,

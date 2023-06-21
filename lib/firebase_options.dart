@@ -67,8 +67,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '489007257025',
     projectId: 'fir-333d8',
     storageBucket: 'fir-333d8.appspot.com',
-    androidClientId: '489007257025-13ea851h8al5fefvebldiqun6q08hrli.apps.googleusercontent.com',
-    iosClientId: '489007257025-a58psehi6jfe9p5bbb7v89vhn2u8p55m.apps.googleusercontent.com',
+    androidClientId:
+        '489007257025-13ea851h8al5fefvebldiqun6q08hrli.apps.googleusercontent.com',
+    iosClientId:
+        '489007257025-a58psehi6jfe9p5bbb7v89vhn2u8p55m.apps.googleusercontent.com',
     iosBundleId: 'com.payaki.payaki',
   );
 
@@ -78,8 +80,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '489007257025',
     projectId: 'fir-333d8',
     storageBucket: 'fir-333d8.appspot.com',
-    androidClientId: '489007257025-13ea851h8al5fefvebldiqun6q08hrli.apps.googleusercontent.com',
-    iosClientId: '489007257025-a58psehi6jfe9p5bbb7v89vhn2u8p55m.apps.googleusercontent.com',
+    androidClientId:
+        '489007257025-13ea851h8al5fefvebldiqun6q08hrli.apps.googleusercontent.com',
+    iosClientId:
+        '489007257025-a58psehi6jfe9p5bbb7v89vhn2u8p55m.apps.googleusercontent.com',
     iosBundleId: 'com.payaki.payaki',
   );
 }
