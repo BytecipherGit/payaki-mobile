@@ -32,7 +32,7 @@ class StyleUtility {
   static TextStyle welcomeDetailTextStyle = TextStyle(
     fontFamily: "Axiforma_Medium",
     fontSize: TextSizeUtility.textSize16,
-    color: ColorUtility.color60605F,
+    color: ColorUtility.colorF0F0F0,
   );
 
   static TextStyle urlTextStyle = TextStyle(

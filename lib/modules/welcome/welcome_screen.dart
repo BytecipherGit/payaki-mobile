@@ -26,7 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             child: SafeArea(
               bottom: false,
               child: Container(
-               // margin: EdgeInsets.only(left: 36.w,right: 36.w),
+                // margin: EdgeInsets.only(left: 36.w,right: 36.w),
                 alignment: Alignment.center,
                 child: Image.asset(
                   ImageUtility.pIcon,
@@ -43,12 +43,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               left: 20.w,
               right: 20.w,
             ),
-            decoration: BoxDecoration(
-                color: ColorUtility.whiteColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.r),
-                  topRight: Radius.circular(30.r),
-                )),
+            // decoration: BoxDecoration(
+            //     color: ColorUtility.whiteColor,
+            //     borderRadius: BorderRadius.only(
+            //       topLeft: Radius.circular(30.r),
+            //       topRight: Radius.circular(30.r),
+            //     )),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +56,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 Center(
                   child: Text(
                     "Welcome!",
-                    style: StyleUtility.headingTextStyle,
+                    style: StyleUtility.headingTextStyle.copyWith(
+                        color: ColorUtility.whiteColor,
+                        fontSize: TextSizeUtility.textSize24),
                   ),
                 ),
                 SizedBox(height: 10.h),
@@ -69,17 +71,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   height: 45.h,
                 ),
 
-
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-
                     GestureDetector(
-                      onTap: (){
-                            Navigator.pushReplacementNamed(
-                                context, RouteName.bottomNavigationBarScreen);
-
+                      onTap: () {
+                        Navigator.pushReplacementNamed(
+                            context, RouteName.bottomNavigationBarScreen);
                       },
                       child: Column(
                         children: [
@@ -88,22 +86,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               width: 100.w,
                               height: 100.w,
                               color: ColorUtility.colorF5F6FA,
-                              child: Center(child: Image.asset(ImageUtility.buyIcon,width: 45.w,),),
+                              child: Center(
+                                child: Image.asset(
+                                  ImageUtility.buyIcon,
+                                  width: 45.w,
+                                ),
+                              ),
                             ),
                           ),
                           SizedBox(
                             height: 9.h,
                           ),
-                          Text("BUY",style: StyleUtility.titleTextStyle.copyWith(fontSize: TextSizeUtility.textSize20),)
-
+                          Text(
+                            "BUY",
+                            style: StyleUtility.titleTextStyle.copyWith(
+                                fontSize: TextSizeUtility.textSize20,
+                                color: ColorUtility.whiteColor),
+                          )
                         ],
                       ),
                     ),
-
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pushReplacementNamed(
-                                      context, RouteName.logInScreen);
+                            context, RouteName.logInScreen);
                       },
                       child: Column(
                         children: [
@@ -112,23 +118,28 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               width: 100.w,
                               height: 100.w,
                               color: ColorUtility.colorF5F6FA,
-                              child: Center(child: Image.asset(ImageUtility.sellIcon,width: 45.w,),),
+                              child: Center(
+                                child: Image.asset(
+                                  ImageUtility.sellIcon,
+                                  width: 45.w,
+                                ),
+                              ),
                             ),
                           ),
                           SizedBox(
                             height: 9.h,
                           ),
-                          Text("SELL",style: StyleUtility.titleTextStyle.copyWith(fontSize: TextSizeUtility.textSize20),)
-
+                          Text(
+                            "SELL",
+                            style: StyleUtility.titleTextStyle.copyWith(
+                                fontSize: TextSizeUtility.textSize20,
+                                color: ColorUtility.whiteColor),
+                          )
                         ],
                       ),
                     )
                   ],
                 ),
-
-
-
-
 
                 // CustomButton(
                 //     buttonText: "Log In",

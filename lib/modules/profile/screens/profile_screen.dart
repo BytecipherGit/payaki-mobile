@@ -323,7 +323,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             (route) => false);
                                       },
                                     )
-                                  : SizedBox()
+                                  : const SizedBox()
                             ],
                           ),
                         ),
@@ -361,7 +361,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 image: ImageUtility.transactionIcon,
                                 imageWidth: 14.w,
                                 onTap: () {
-                                  Navigator.pushNamed(context, RouteName.transactionScreen);
+                                  Navigator.pushNamed(
+                                      context, RouteName.transactionScreen);
                                 },
                               ),
                               SettingTileWidget(
