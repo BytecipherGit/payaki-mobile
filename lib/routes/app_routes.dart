@@ -50,6 +50,8 @@ import 'package:payaki/modules/welcome/welcome_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:provider/provider.dart';
 
+import '../modules/postDetails/screens/image_view_screen.dart';
+
 class AppRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -305,6 +307,13 @@ class AppRoute {
                   postUserId: arg["postUserId"],
                   productName: arg["productName"],
                 )));
+      case RouteName.imageViewScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => ImageViewScreen(
+              images: arg["images"],
+            ));
+
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
     }

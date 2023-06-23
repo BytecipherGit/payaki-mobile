@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/profile/viewModel/edit_profile_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/userProfile/update_profile_request.dart';
@@ -55,11 +54,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setAutoFillData();
 
     editProfileScreenVm = Provider.of(context, listen: false);
-    editProfileScreenVm.getCountryList(
-        onFailure: (message) {
-          context.showSnackBar(message: message);
-        },
-        onSuccess: (m) {});
+    editProfileScreenVm.getCountryList(onFailure: (message) {
+      context.showSnackBar(message: message);
+    }, onSuccess: (m) {
+      //  selectedCountry = country.Data(asciiname: "Andorra");
+
+      //   selectedCountry = editProfileScreenVm.countryList?[0];
+
+      selectedCountry = editProfileScreenVm.countryList?.firstWhere(
+          (country) => country.asciiname == widget.userProfile.country);
+
+      //   selectedCountry = country.Data(asciiname: widget.userProfile.country);
+    });
   }
 
   void setAutoFillData() {
@@ -73,9 +79,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     linkedinController.text = widget.userProfile.linkedin ?? "";
     youtubeController.text = widget.userProfile.youtube ?? "";
     websiteURLController.text = widget.userProfile.website ?? "";
-
-    //   controller.setText(widget.userProfile.description ?? "");
-    //  selectedCountry?.asciiname = widget.userProfile.country ?? "";
   }
 
   Future selectImageFromGallery() async {
@@ -236,7 +239,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 value: item,
                                 child: Text(
                                   item.asciiname!,
-                                  // item.code!,
                                   style: StyleUtility.inputTextStyle,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -376,7 +378,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   return CustomButton(
                       buttonText: "Update",
                       onTab: () async {
-
                         if (nameController.text.isEmpty) {
                           context.showSnackBar(message: 'Please Enter Title.');
                         } else if (facebookController.text.isNotEmpty &&

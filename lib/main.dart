@@ -7,6 +7,8 @@ import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/splash/splash_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 
+import 'modules/bottomBar/BottomNavigationBarScreen.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,8 +53,7 @@ class MyApp extends StatelessWidget {
             // home: Preference().getUserLogin() == false
             //     ? const WelcomeScreen()
             //     : const BottomNavigationBarScreen(),
-            home: SplashScreen(),
-            //  home: PostDetailsScreen(),
+            home: const SplashScreen(),
           );
         });
   }

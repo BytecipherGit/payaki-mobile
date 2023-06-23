@@ -30,8 +30,12 @@ class PostDetailScreenVm extends ChangeNotifier {
       notifyListeners();
 
       if (value.code == 200) {
-        String tags = postDetailResponse?.data?.tag ?? "";
-        tagArray = tags.split(',');
+
+        if(postDetailResponse?.data?.tag != null && postDetailResponse!.data!.tag!.isNotEmpty) {
+          String tags = postDetailResponse!.data!.tag! ;
+          tagArray = tags.split(',');
+
+        }
 
         onSuccess?.call(value.message ?? "");
       } else {

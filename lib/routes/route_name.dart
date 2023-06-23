@@ -31,4 +31,5 @@ class RouteName {
   static const String transactionScreen = "/transactionScreen";
   static const String transactionDetailScreen = "/transactionDetailScreen";
   static const String quoteScreen = "/quoteScreen";
+  static const String imageViewScreen = "/imageViewScreen";
 }

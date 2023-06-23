@@ -75,16 +75,14 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                   ?.data?.image?.length ??
                                               0) >
                                           0) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ImageViewScreen(
-                                                        images: postDetailScreenVm
-                                                                .postDetailResponse
-                                                                ?.data
-                                                                ?.image ??
-                                                            [])));
+                                        Navigator.pushNamed(
+                                            context, RouteName.imageViewScreen,
+                                            arguments: {
+                                              "images": postDetailScreenVm
+                                                  .postDetailResponse
+                                                  ?.data
+                                                  ?.image
+                                            });
                                       }
                                     },
                                     child: Container(
@@ -219,28 +217,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                             ),
                                     ),
                                   ),
-                                  /*  AppBar(
-                                    backgroundColor: Colors.transparent,
-                                    elevation: 0,
-                                    actions: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 22.w),
-                                        child: InkWell(
-                                          onTap: () {
-                                            Share.share(postDetailScreenVm
-                                                    .postDetailResponse
-                                                    ?.data
-                                                    ?.productName ??
-                                                "");
-                                          },
-                                          child: Image.asset(
-                                            ImageUtility.shareIcon,
-                                            width: 17.w,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )*/
                                 ],
                               ),
                               SizedBox(
@@ -294,7 +270,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              // "Samsung camera for sale",
                                               postDetailScreenVm
                                                       .postDetailResponse
                                                       ?.data
@@ -324,9 +299,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                           .data!
                                                           .createdAt!))
                                                   .fromNow(),
-
-                                              // Moment(DateTime.parse("2023-06-01 20:47:40"))
-                                              //     .fromNow(form: UnitStringForm.full).replaceAll('in','')+" left",
                                               style: StyleUtility
                                                   .postDescTextStyle
                                                   .copyWith(
@@ -356,7 +328,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                           ),
                                           Expanded(
                                             child: Text(
-                                                //  "Bangalore airport area, Jodhpur, Rajasthan",
                                                 postDetailScreenVm
                                                         .postDetailResponse
                                                         ?.data
@@ -403,56 +374,71 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         style: StyleUtility.headingTextStyle,
                                       ),
                                       Text(
-                                          //  "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex eaolo.",
                                           postDetailScreenVm.postDetailResponse
                                                   ?.data?.description ??
                                               "",
                                           style:
                                               StyleUtility.postDescTextStyle),
+
+                                      if ((postDetailScreenVm
+                                                  .tagArray?.length ??
+                                              0) >
+                                          0)
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: 25.h,
+                                            ),
+                                            Text(
+                                              "Tags",
+                                              style:
+                                                  StyleUtility.headingTextStyle,
+                                            ),
+                                            SizedBox(
+                                              height: 8.h,
+                                            ),
+                                            Wrap(
+                                              children: List<Widget>.generate(
+                                                postDetailScreenVm
+                                                        .tagArray?.length ??
+                                                    0,
+                                                (index) {
+                                                  return Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 6.w,
+                                                            vertical: 3.w),
+                                                    margin: EdgeInsets.only(
+                                                        right: 10.w,
+                                                        bottom: 10.w),
+                                                    decoration: BoxDecoration(
+                                                        color: ColorUtility
+                                                            .color3D7E5,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(3.r)),
+                                                    child: Text(
+                                                        postDetailScreenVm
+                                                                    .tagArray?[
+                                                                index] ??
+                                                            "",
+                                                        style: StyleUtility.axiforma400.copyWith(
+                                                            fontSize:
+                                                                TextSizeUtility
+                                                                    .textSize14,
+                                                            color: ColorUtility
+                                                                .color9C5FA3)),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+
                                       SizedBox(
                                         height: 25.h,
-                                      ),
-                                      Text(
-                                        "Tags",
-                                        style: StyleUtility.headingTextStyle,
-                                      ),
-                                      SizedBox(
-                                        height: 8.h,
-                                      ),
-                                      Wrap(
-                                        children: List<Widget>.generate(
-                                          postDetailScreenVm.tagArray?.length ??
-                                              0,
-                                          (index) {
-                                            return Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 6.w,
-                                                  vertical: 3.w),
-                                              margin: EdgeInsets.only(
-                                                  right: 10.w, bottom: 10.w),
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      ColorUtility.color3D7E5,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          3.r)),
-                                              child: Text(
-                                                  postDetailScreenVm
-                                                          .tagArray?[index] ??
-                                                      "",
-                                                  style: StyleUtility.axiforma400
-                                                      .copyWith(
-                                                          fontSize:
-                                                              TextSizeUtility
-                                                                  .textSize14,
-                                                          color: ColorUtility
-                                                              .color9C5FA3)),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 15.h,
                                       ),
                                       Text(
                                         "Posted By",
@@ -494,6 +480,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                             .copyWith(
                                                                 color: ColorUtility
                                                                     .color43576F),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                       ),
                                                       // Text(postDetailScreenVm
                                                       //     .postDetailResponse
@@ -917,15 +906,12 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                 ),
                               )
                             ],
-
                             flexibleSpace: Container(
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
                                     ColorUtility.color844193,
                                     ColorUtility.color844193.withOpacity(0.5),
-
-                                    // Colors.white.withOpacity(0),
                                     Colors.transparent
                                   ],
                                   begin: Alignment.topCenter,
@@ -1201,7 +1187,7 @@ class UserReviews extends StatelessWidget {
               );
             })
         : Text(
-            "No User reviews",
+            "No User Reviews",
             style: StyleUtility.headingTextStyle,
           );
   }

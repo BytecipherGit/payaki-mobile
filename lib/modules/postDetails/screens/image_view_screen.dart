@@ -32,7 +32,6 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
                 itemBuilder: (context, position) {
                   return Center(
                     child: PhotoView(
-                      // imageProvider: NetworkImage("https://picsum.photos/250?image=9"),
                       imageProvider: NetworkImage(widget.images[_current]),
                     ),
                   );
