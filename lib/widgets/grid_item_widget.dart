@@ -32,7 +32,7 @@ class GridItemWidget extends StatelessWidget {
     required this.expiredDate,
     required this.isVerified,
     required this.onTap,
-     this.onFavouriteIconTap,
+    this.onFavouriteIconTap,
     required this.urgent,
     required this.featured,
     required this.highlight,
@@ -139,7 +139,7 @@ class GridItemWidget extends StatelessWidget {
                       bottomLeft: Radius.circular(10.r)),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(left: 7.w, top: 7.w),
+                  padding: EdgeInsets.only(left: 7.w, top: 7.w, right: 4.w),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,12 +148,14 @@ class GridItemWidget extends StatelessWidget {
                         "₹ $price",
                         style: StyleUtility.headingTextStyle,
                         maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         title,
                         style: StyleUtility.titleTextStyle
                             .copyWith(color: ColorUtility.color8B97A4),
                         maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Row(
                         children: [
@@ -169,6 +171,7 @@ class GridItemWidget extends StatelessWidget {
                                   fontSize: TextSizeUtility.textSize10,
                                   color: ColorUtility.colorC0C0C0),
                               maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
@@ -193,12 +196,12 @@ class GridItemWidget extends StatelessWidget {
                                 : const SizedBox(),
                             isFavouriteList == true
                                 ? InkWell(
-                              onTap: onFavouriteIconTap,
-                                  child: Image.asset(
+                                    onTap: onFavouriteIconTap,
+                                    child: Image.asset(
                                       ImageUtility.favIcon,
                                       height: 18.sp,
                                     ),
-                                )
+                                  )
                                 : const SizedBox(),
                           ],
                         ),

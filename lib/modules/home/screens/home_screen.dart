@@ -60,15 +60,20 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteName.searchScreen);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(5.sp),
-                    child: Image.asset(
-                      ImageUtility.searchIcon,
-                      width: 18.sp,
+                ClipOval(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RouteName.searchScreen);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(15.sp),
+                        child: Image.asset(
+                          ImageUtility.searchIcon,
+                          width: 18.sp,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -103,40 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Padding(
-                    //   padding:
-                    //       EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.end,
-                    //     children: [
-                    //       InkWell(
-                    //         onTap: () {
-                    //           Navigator.pushNamed(
-                    //               context, RouteName.searchScreen);
-                    //         },
-                    //         child: Padding(
-                    //           padding: EdgeInsets.all(5.sp),
-                    //           child: Image.asset(
-                    //             ImageUtility.searchIcon,
-                    //             width: 18.sp,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       SizedBox(
-                    //         width: 10.sp,
-                    //       ),
-                    //       Padding(
-                    //         padding: EdgeInsets.all(5.sp),
-                    //         child: Image.asset(
-                    //           ImageUtility.notificationIcon,
-                    //           width: 16.sp,
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
                     SizedBox(
-                      //   height: 30.h,
                       height: 20.h,
                     ),
                     categoryListView(homeScreenVm.categoryList,
@@ -252,69 +224,78 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: categoryList?.length ?? 0,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.only(right: 34.w),
-                      child: InkWell(
-                        onTap: () {
-                          CommonDialog.showLoadingDialog(context);
-                          homeScreenVm.searchPostApi(
-                              searchRequest: SearchRequest(
-                                  name: Endpoints.search.getAllPost,
-                                  param: Param(
-                                    category: categoryList?[index].catId,
-                                  )),
-                              onSuccess: (searchPostList) {
-                                Navigator.pop(context);
-
-                                Navigator.pushNamed(
-                                    context, RouteName.searchResultScreen,
-                                    arguments: {
-                                      "initialPostList": searchPostList,
-                                      "headerTitle":
-                                          categoryList?[index].catName,
-                                      "category": categoryList?[index].catId,
-                                    });
-                              },
-                              onFailure: (value) {
-                                Navigator.pop(context);
-                                context.showSnackBar(message: value);
-                              });
-                        },
-                        child: SizedBox(
-                          width: 70.sp,
-                          height: 70.sp,
-                          child: Column(
-                            children: [
-                              Container(
+                        padding: EdgeInsets.only(right: 34.w),
+                        child: Wrap(
+                          children: [
+                            Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  CommonDialog.showLoadingDialog(context);
+                                  homeScreenVm.searchPostApi(
+                                      searchRequest: SearchRequest(
+                                          name: Endpoints.search.getAllPost,
+                                          param: Param(
+                                            category:
+                                                categoryList?[index].catId,
+                                          )),
+                                      onSuccess: (searchPostList) {
+                                        Navigator.pop(context);
+                                        Navigator.pushNamed(context,
+                                            RouteName.searchResultScreen,
+                                            arguments: {
+                                              "initialPostList": searchPostList,
+                                              "headerTitle":
+                                                  categoryList?[index].catName,
+                                              "category":
+                                                  categoryList?[index].catId,
+                                            });
+                                      },
+                                      onFailure: (value) {
+                                        Navigator.pop(context);
+                                        context.showSnackBar(message: value);
+                                      });
+                                },
+                                child: SizedBox(
                                   width: 70.sp,
-                                  height: 70.sp,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: ColorUtility.colorF5F6FA),
-                                  child: Center(
-                                      child: Padding(
-                                    padding: EdgeInsets.all(20.sp),
-                                    child: NetworkImageWidget(
-                                        width: 25.w,
-                                        height: 25.w,
-                                        url:
-                                            categoryList?[index].picture ?? ""),
-                                  ))),
-                              SizedBox(
-                                height: 5.sp,
+                                  //  height: 70.sp,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: 70.sp,
+                                          height: 70.sp,
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: ColorUtility.colorF5F6FA),
+                                          child: Center(
+                                              child: Padding(
+                                            padding: EdgeInsets.all(20.sp),
+                                            child: NetworkImageWidget(
+                                                width: 25.w,
+                                                height: 25.w,
+                                                url: categoryList?[index]
+                                                        .picture ??
+                                                    ""),
+                                          ))),
+                                      SizedBox(
+                                        height: 5.sp,
+                                      ),
+                                      Text(
+                                        categoryList?[index].catName ?? "",
+                                        style: StyleUtility.titleTextStyle
+                                            .copyWith(
+                                                fontSize:
+                                                    TextSizeUtility.textSize12),
+                                        maxLines: 2,
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
-                              Text(
-                                // "Cars & Bike",
-                                categoryList?[index].catName ?? "",
-                                style: StyleUtility.titleTextStyle.copyWith(
-                                    fontSize: TextSizeUtility.textSize12),
-                                maxLines: 2,
-                                textAlign: TextAlign.center,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                            ),
+                          ],
+                        ));
                   }),
         ),
       ],
