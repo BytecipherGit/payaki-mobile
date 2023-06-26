@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "489007257025-ldq7l76cvh0n1dm6bpc216renr41dl3b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payaki.payaki",
+            "certificate_hash": "2a9046a41c79f84ee7ebf4f7bf5d8491db2955b4"
+          }
+        },
+        {
           "client_id": "489007257025-q5ami99oji5gju8ei85jiot3beq01oiu.apps.googleusercontent.com",
           "client_type": 3
         }
