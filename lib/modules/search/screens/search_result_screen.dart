@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
+import 'package:payaki/modules/search/widget/short_by_list_tile.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/search/search_request.dart';
 import 'package:payaki/routes/route_name.dart';
@@ -31,15 +32,14 @@ class SearchResultScreen extends StatefulWidget {
   const SearchResultScreen(
       {Key? key,
       required this.initialPostList,
-        required this.headerTitle,
-        this.title,
-       this.category,
-       this.location,
-       this.city,
-       this.country,
-       this.state,
-       this.listingType
-      })
+      required this.headerTitle,
+      this.title,
+      this.category,
+      this.location,
+      this.city,
+      this.country,
+      this.state,
+      this.listingType})
       : super(key: key);
 
   @override
@@ -59,7 +59,6 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   String priceLowToHeigh = "price_asc";
   String priceHeighToLow = "price_desc";
 
-
   @override
   void initState() {
     super.initState();
@@ -73,7 +72,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
       appBar: AppBar(
           backgroundColor: ColorUtility.whiteColor,
           title: Text(
-           // "Search Result",
+            // "Search Result",
             widget.headerTitle,
             style: StyleUtility.headerTextStyle,
           ),
@@ -96,9 +95,8 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: (){
-                        showShortByDialog(context,searchResultScreenVm);
-
+                      onTap: () {
+                        showShortByDialog(context, searchResultScreenVm);
                       },
                       child: Container(
                         height: 45.sp,
@@ -180,25 +178,24 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 10.w,
                                   mainAxisSpacing: 15.w,
-                                 // childAspectRatio: 0.90
-                                  childAspectRatio: 0.82
-                              ),
+                                  // childAspectRatio: 0.90
+                                  childAspectRatio: 0.82),
                           itemBuilder: (context, index) {
                             String? image;
 
-                            if((filterPostList?[index].image?.length ?? 0) > 0 ){
+                            if ((filterPostList?[index].image?.length ?? 0) >
+                                0) {
                               image = filterPostList?[index].image?[0];
                             }
 
                             String? type;
-                            if(filterPostList?[index].featured == "1"){
+                            if (filterPostList?[index].featured == "1") {
                               type = "Featured";
-                            }else if(filterPostList?[index].urgent == "1"){
+                            } else if (filterPostList?[index].urgent == "1") {
                               type = "Urgent";
-
-                            }else if(filterPostList?[index].highlight == "1"){
+                            } else if (filterPostList?[index].highlight ==
+                                "1") {
                               type = "Highlight";
-
                             }
                             return GridItemWidget(
                               imageUrl: image ?? "",
@@ -209,12 +206,14 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                               isVerified: filterPostList?[index].isVerified,
                               urgent: filterPostList?[index].urgent,
                               featured: filterPostList?[index].featured,
-                              highlight: filterPostList?[index].highlight, onTap: () {
-                              Navigator.pushNamed(context, RouteName.postDetailsScreen,arguments: {
-                                "postId":filterPostList?[index].id
-                              });
-                            },
-
+                              highlight: filterPostList?[index].highlight,
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteName.postDetailsScreen,
+                                    arguments: {
+                                      "postId": filterPostList?[index].id
+                                    });
+                              },
                             );
                           },
                         )
@@ -340,206 +339,119 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
     );
   }
 
-
   Future<dynamic> showShortByDialog(
-      BuildContext context,
-      SearchResultScreenVm searchResultScreenVm,
-      ) {
+    BuildContext context,
+    SearchResultScreenVm searchResultScreenVm,
+  ) {
     return showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
-          return StatefulBuilder(
-              builder: (context, setState) {
-                return Dialog(
-                  insetPadding: EdgeInsets.only(left: 20.w, right: 20.w),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  elevation: 0,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.r))),
-                  child: SingleChildScrollView(
-                    child: Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 17.w, right: 17.w, top: 25.w, bottom: 25.w),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Sort by",
-                              style: StyleUtility.headingTextStyle,
-                            ),
-                            SizedBox(
-                              height: 30.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Name",
-                                  style: StyleUtility.inputTextStyle,
-                                ),
-
-                                SizedBox(
-                                  width: 30.sp,
-                                  height: 30.sp,
-                                  child: Radio(
-                                    activeColor: ColorUtility.color9C5FA3,
-                                    value: name,
-                                    groupValue: selectedShortByValue,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedShortByValue = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Date",
-                                  style: StyleUtility.inputTextStyle,
-                                ),
-
-                                SizedBox(
-                                  width: 30.sp,
-                                  height: 30.sp,
-                                  child: Radio(
-                                    activeColor: ColorUtility.color9C5FA3,
-                                    value: date,
-                                    groupValue: selectedShortByValue,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedShortByValue = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-
-
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Price : Low to High",
-                                  style: StyleUtility.inputTextStyle,
-                                ),
-
-                                SizedBox(
-                                  width: 30.sp,
-                                  height: 30.sp,
-                                  child: Radio(
-                                    activeColor: ColorUtility.color9C5FA3,
-                                    value: priceLowToHeigh,
-                                    groupValue: selectedShortByValue,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedShortByValue = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-
-
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Price : High to low",
-                                  style: StyleUtility.inputTextStyle,
-                                ),
-
-                                SizedBox(
-                                  width: 30.sp,
-                                  height: 30.sp,
-                                  child: Radio(
-                                    activeColor: ColorUtility.color9C5FA3,
-                                    value: priceHeighToLow,
-                                    groupValue: selectedShortByValue,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedShortByValue = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-
-
-                            SizedBox(
-                              height: 40.h,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: CustomButton.outline(
-                                        buttonText: "Reset",
-                                        onTab: () {
-                                          Navigator.pop(context);
-                                          resetFilter(searchResultScreenVm);
-                                        })),
-                                SizedBox(
-                                  width: 16.w,
-                                ),
-                                Expanded(
-                                    child: CustomButton(
-                                        buttonText: "Done",
-                                        onTab: () {
-                                          if (selectedShortByValue == null) {
-                                            context.showToast(
-                                                message:
-                                                "Please Select Short By");
-                                          }  else {
-                                            Navigator.pop(context);
-
-                                            onFilterApply(searchResultScreenVm);
-                                          }
-                                        })),
-                              ],
-                            )
-                          ],
+          return StatefulBuilder(builder: (context, setState) {
+            return Dialog(
+              insetPadding: EdgeInsets.only(left: 20.w, right: 20.w),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              elevation: 0,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.r))),
+              child: SingleChildScrollView(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: 17.w, right: 17.w, top: 25.w, bottom: 25.w),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Sort by",
+                          style: StyleUtility.headingTextStyle,
                         ),
-                      ),
+                        SizedBox(
+                          height: 30.h,
+                        ),
+                        ShortByListTile(
+                            title: "Name",
+                            value: name,
+                            selectedShortByValue: selectedShortByValue ?? "",
+                            onChanged: (value) {
+                              setState(() {
+                                selectedShortByValue = name;
+                              });
+                            }),
+                        ShortByListTile(
+                            title: "Date",
+                            value: date,
+                            selectedShortByValue: selectedShortByValue ?? "",
+                            onChanged: (value) {
+                              setState(() {
+                                selectedShortByValue = date;
+                              });
+                            }),
+                        ShortByListTile(
+                            title: "Price : Low to High",
+                            value: priceLowToHeigh,
+                            selectedShortByValue: selectedShortByValue ?? "",
+                            onChanged: (value) {
+                              setState(() {
+                                selectedShortByValue = priceLowToHeigh;
+                              });
+                            }),
+                        ShortByListTile(
+                            title: "Price : High to low",
+                            value: priceHeighToLow,
+                            selectedShortByValue: selectedShortByValue ?? "",
+                            onChanged: (value) {
+                              setState(() {
+                                selectedShortByValue = priceHeighToLow;
+                              });
+                            }),
+                        SizedBox(
+                          height: 40.h,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: CustomButton.outline(
+                                    buttonText: "Reset",
+                                    onTab: () {
+                                      Navigator.pop(context);
+                                      resetFilter(searchResultScreenVm);
+                                    })),
+                            SizedBox(
+                              width: 16.w,
+                            ),
+                            Expanded(
+                                child: CustomButton(
+                                    buttonText: "Done",
+                                    onTab: () {
+                                      if (selectedShortByValue == null) {
+                                        context.showToast(
+                                            message: "Please Select Short By");
+                                      } else {
+                                        Navigator.pop(context);
+
+                                        onFilterApply(searchResultScreenVm);
+                                      }
+                                    })),
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                );
-              }
-
-          );
-        }
-    );
+                ),
+              ),
+            );
+          });
+        });
   }
-
-
-
 
   void resetFilter(SearchResultScreenVm searchResultScreenVm) {
     priceFromController.clear();
@@ -560,16 +472,6 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         searchRequest: SearchRequest(
             name: Endpoints.search.getAllPost,
             param: Param(
-              // title: widget.title,
-              // category: widget.category,
-              // location: widget.location,
-              // city: widget.city,
-              // country: widget.country,
-              // state: widget.state,
-              // pricefrom: priceFromController.text,
-              // priceto: priceToController.text,
-              // sortbyfieldname: selectedShortByValue,
-              // listingType: widget.listingType,
               title: widget.title,
               category: widget.category,
               location: widget.location,
