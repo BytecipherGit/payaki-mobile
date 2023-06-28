@@ -3,8 +3,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/basic_request.dart';
-import 'package:payaki/network/model/request/userProfile/resend_email_request.dart'
-    as resend_email;
 import 'package:payaki/network/model/request/userProfile/update_profile_request.dart';
 import 'package:payaki/network/model/response/profile/country_list_response.dart';
 import 'package:payaki/network/repository/user_profile_repository.dart';

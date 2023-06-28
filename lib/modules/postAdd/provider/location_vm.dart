@@ -3,7 +3,6 @@ import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/basic_request.dart';
 import 'package:payaki/network/repository/LocationRepository.dart';
-
 import '../../../network/model/response/location/city_list_response.dart';
 
 class LocationVm extends ChangeNotifier {

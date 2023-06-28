@@ -16,7 +16,6 @@ class ImageViewScreen extends StatefulWidget {
 class _ImageViewScreenState extends State<ImageViewScreen> {
   TextEditingController descriptionController = TextEditingController();
   int _current = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +39,7 @@ class _ImageViewScreenState extends State<ImageViewScreen> {
               SafeArea(
                 child: Container(
                   alignment: Alignment.bottomCenter,
-                  margin: EdgeInsets.only(bottom: 20.h),
+                  margin: EdgeInsets.only(bottom: 25.h),
                   child: DotsIndicator(
                     dotsCount: widget.images.length,
                     position: _current,

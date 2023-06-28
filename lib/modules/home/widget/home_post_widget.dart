@@ -35,7 +35,7 @@ class HomePostWidget extends StatelessWidget {
               InkWell(
                 onTap: onSeeAllTap,
                 child: Padding(
-                  padding:  EdgeInsets.all(5.w),
+                  padding: EdgeInsets.all(5.w),
                   child: Text(
                     "See All",
                     style: StyleUtility.titleTextStyle.copyWith(
@@ -51,50 +51,50 @@ class HomePostWidget extends StatelessWidget {
           padding: EdgeInsets.only(left: 20.w, right: 20.w),
           child: (post?.length ?? 0) > 0
               ? GridView.builder(
-            shrinkWrap: true,
-            primary: false,
-            padding: EdgeInsets.only(
-              top: 20.h,
-            ),
-            itemCount: post?.length ?? 0,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10.w,
-                mainAxisSpacing: 15.w,
-                // childAspectRatio: 0.90
-                childAspectRatio: 0.82),
-            itemBuilder: (context, index) {
-              String? image;
-              if ((post?[index].image?.length ?? 0) > 0) {
-                image = post?[index].image?[0];
-              }
+                  shrinkWrap: true,
+                  primary: false,
+                  padding: EdgeInsets.only(
+                    top: 20.h,
+                  ),
+                  itemCount: post?.length ?? 0,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.w,
+                      mainAxisSpacing: 15.w,
+                      // childAspectRatio: 0.90
+                      childAspectRatio: 0.82),
+                  itemBuilder: (context, index) {
+                    String? image;
+                    if ((post?[index].image?.length ?? 0) > 0) {
+                      image = post?[index].image?[0];
+                    }
 
-              return GridItemWidget(
-                price: post?[index].price ?? "",
-                title: post?[index].productName ?? "",
-                address: post?[index].fullAddress ?? "",
-                imageUrl: image ?? "",
-                expiredDate: post?[index].expiredDate,
-                isVerified: post?[index].isVerified,
-                urgent: post?[index].urgent,
-                featured: post?[index].featured,
-                highlight: post?[index].highlight,
-                onTap: () {
-                  Navigator.pushNamed(
-                      context, RouteName.postDetailsScreen,
-                      arguments: {"postId": post?[index].id});
-                },
-              );
-            },
-          )
+                    return GridItemWidget(
+                      price: post?[index].price ?? "",
+                      title: post?[index].productName ?? "",
+                      address: post?[index].fullAddress ?? "",
+                      imageUrl: image ?? "",
+                      expiredDate: post?[index].expiredDate,
+                      isVerified: post?[index].isVerified,
+                      urgent: post?[index].urgent,
+                      featured: post?[index].featured,
+                      highlight: post?[index].highlight,
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, RouteName.postDetailsScreen,
+                            arguments: {"postId": post?[index].id});
+                      },
+                    );
+                  },
+                )
               : SizedBox(
-              height: 100.sp,
-              child: Center(
-                child: Text(
-                  "No Post Found",
-                  style: StyleUtility.inputTextStyle,
-                ),
-              )),
+                  height: 100.sp,
+                  child: Center(
+                    child: Text(
+                      "No Post Found",
+                      style: StyleUtility.inputTextStyle,
+                    ),
+                  )),
         ),
       ],
     );
