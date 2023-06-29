@@ -12,6 +12,7 @@ import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/constants.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/mobile_number_text_field.dart';
@@ -47,18 +48,9 @@ class _LoginWithPhoneSendOtpScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            "Log In with Phone",
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          elevation: 1,
-          leading: const BackButton(
-            color: Colors.black, // <-- SEE HERE
-          ),
-          shadowColor: ColorUtility.colorE2E5EF),
+      appBar: const CustomAppBar(
+        title: "Log In with Phone",
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),

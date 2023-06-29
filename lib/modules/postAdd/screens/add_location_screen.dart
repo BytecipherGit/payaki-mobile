@@ -11,6 +11,7 @@ import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/mobile_number_text_field.dart';
@@ -74,18 +75,9 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            "Post Ad",
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          leading: const BackButton(
-            color: Colors.black, // <-- SEE HERE
-          ),
-          elevation: 1,
-          shadowColor: ColorUtility.colorE2E5EF),
+      appBar: const CustomAppBar(
+        title: "Post Ad",
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),

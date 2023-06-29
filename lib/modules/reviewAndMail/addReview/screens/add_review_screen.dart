@@ -8,6 +8,7 @@ import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/reviewAndMail/add_review_request.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
@@ -33,18 +34,9 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            "Review",
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          leading: const BackButton(
-            color: Colors.black, // <-- SEE HERE
-          ),
-          elevation: 1,
-          shadowColor: ColorUtility.colorE2E5EF),
+      appBar: const CustomAppBar(
+        title: "Review",
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),

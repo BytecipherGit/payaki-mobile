@@ -5,6 +5,7 @@ import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({Key? key}) : super(key: key);
@@ -20,15 +21,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorUtility.whiteColor,
-        appBar: AppBar(
-            backgroundColor: ColorUtility.whiteColor,
-            title: Text(
-              "Chat",
-              style: StyleUtility.headerTextStyle,
-            ),
-            centerTitle: true,
-            elevation: 1,
-            shadowColor: ColorUtility.colorE2E5EF),
+        appBar: const CustomAppBar(
+          title: "Chat",
+        ),
         body: ListView.builder(
             padding: EdgeInsets.only(top: 25.h, bottom: 50.h),
             itemCount: 7,

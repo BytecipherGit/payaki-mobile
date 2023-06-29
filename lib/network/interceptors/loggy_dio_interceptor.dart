@@ -6,7 +6,8 @@ import 'package:payaki/logger/app_logger.dart';
 class LoggyDioInterceptor extends Interceptor {
   LoggyDioInterceptor({
     this.requestHeader = false,
-    this.requestBody = false,
+  //  this.requestBody = false,
+    this.requestBody = true,
     this.responseHeader = false,
     this.responseBody = true,
     this.error = true,

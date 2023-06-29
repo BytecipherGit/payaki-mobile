@@ -7,18 +7,14 @@ import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/splash/splash_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 
-import 'modules/bottomBar/BottomNavigationBarScreen.dart';
 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preference().instance();
   Loggy.initLoggy();
-
   await FirebaseIntegration().setFCM();
   await LocalNotificationIntegration().initialiseLocalNotification();
-
-  // await LocalNotificationIntegration().initialiseLocalNotification();
   runApp(const MyApp());
 }
 

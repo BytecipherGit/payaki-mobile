@@ -7,6 +7,7 @@ import 'package:payaki/network/model/request/auth/forgotPassword/generate_new_pa
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -32,18 +33,9 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            "Change Password",
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          leading: const BackButton(
-            color: Colors.black, // <-- SEE HERE
-          ),
-          elevation: 1,
-          shadowColor: ColorUtility.colorE2E5EF),
+      appBar: const CustomAppBar(
+        title: "Change Password",
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),

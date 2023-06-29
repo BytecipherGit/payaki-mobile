@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/modules/myAds/viewModel/my_ads_screen_vm.dart';
 import 'package:payaki/modules/transaction/viewModel/transaction_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
-
-import 'transaction_detail_screen.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({Key? key}) : super(key: key);
@@ -39,18 +35,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            "Transaction",
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          leading: const BackButton(
-            color: Colors.black, // <-- SEE HERE
-          ),
-          elevation: 0,
-          shadowColor: ColorUtility.colorE2E5EF),
+      appBar: const CustomAppBar(title: "Transaction"),
       body: Consumer<TransactionScreenVm>(builder: (context, model, child) {
         var transactionList = model.transactionListResponse?.data;
         return model.isLoading == true

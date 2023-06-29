@@ -5,19 +5,26 @@ import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 
 class SetPriceScreen extends StatefulWidget {
-
   final int catId;
   final int subCatId;
   final String title;
   final String tag;
   final String description;
 
-  const SetPriceScreen({Key? key, required this.catId, required this.subCatId, required this.title,required this.tag, required this.description}) : super(key: key);
+  const SetPriceScreen(
+      {Key? key,
+      required this.catId,
+      required this.subCatId,
+      required this.title,
+      required this.tag,
+      required this.description})
+      : super(key: key);
 
   @override
   State<SetPriceScreen> createState() => _SetPriceScreenState();
@@ -31,18 +38,9 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            "Post Ad",
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          leading: const BackButton(
-            color: Colors.black, // <-- SEE HERE
-          ),
-          elevation: 1,
-          shadowColor: ColorUtility.colorE2E5EF),
+      appBar: const CustomAppBar(
+        title: "Post Ad",
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -127,7 +125,7 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
                             "tag": widget.tag,
                             "description": widget.description,
                             "price": priceController.text,
-                            "negotiate": negotiatePrice == true ? 1:0,
+                            "negotiate": negotiatePrice == true ? 1 : 0,
                           });
                     }
                   }),

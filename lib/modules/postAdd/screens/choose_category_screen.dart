@@ -7,6 +7,7 @@ import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +25,6 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
   void initState() {
     super.initState();
 
-
     logD("User Id is ${Preference().getUserId()}");
     chooseCategoryScreenVm =
         Provider.of<ChooseCategoryScreenVm>(context, listen: false);
@@ -36,18 +36,9 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            "Post Ad",
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          leading: const BackButton(
-            color: Colors.black, // <-- SEE HERE
-          ),
-          elevation: 1,
-          shadowColor: ColorUtility.colorE2E5EF),
+      appBar: const CustomAppBar(
+        title: "Post Ad",
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -64,9 +55,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
               Expanded(child: Consumer<ChooseCategoryScreenVm>(
                   builder: (context, chooseCategoryScreenVm, child) {
                 return chooseCategoryScreenVm.isLoading == true
-                    ? const Center(
-                        child: CircularProgressWidget()
-                      )
+                    ? const Center(child: CircularProgressWidget())
                     : ListView.builder(
                         itemCount: chooseCategoryScreenVm.categoryList?.length,
                         itemBuilder: (context, index) {
@@ -79,8 +68,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                                         .categoryList![index].catId!),
                                     "catName": chooseCategoryScreenVm
                                         .categoryList?[index].catName
-                                  }
-                                  );
+                                  });
                             },
                             child: ListTile(
                               contentPadding: EdgeInsets.symmetric(

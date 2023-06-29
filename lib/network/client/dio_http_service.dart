@@ -160,6 +160,7 @@ class DioHttpService implements HttpService {
     }
   }
 
+
   dynamic parseHttpException(Response? response) {
     logD("parseHttpException $response");
     if (response == null) {

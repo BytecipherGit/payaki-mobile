@@ -8,6 +8,7 @@ import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/grid_item_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -41,15 +42,9 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
       length: 4,
       child: Scaffold(
         backgroundColor: ColorUtility.whiteColor,
-        appBar: AppBar(
-            backgroundColor: ColorUtility.whiteColor,
-            title: Text(
-              "My Ads",
-              style: StyleUtility.headerTextStyle,
-            ),
-            centerTitle: true,
-            elevation: 1,
-            shadowColor: ColorUtility.colorE2E5EF),
+        appBar: const CustomAppBar(
+          title: "My Ads",
+        ),
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -4,12 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/auth/forgotPassword/viewModel/forgot_pass_verify_otp_vm.dart';
 import 'package:payaki/network/end_points.dart';
-import 'package:payaki/network/model/request/auth/forgotPassword/forgot_pass_send_otp_request.dart' as send_otp_req;
+import 'package:payaki/network/model/request/auth/forgotPassword/forgot_pass_send_otp_request.dart'
+    as send_otp_req;
 import 'package:payaki/network/model/request/auth/forgotPassword/forgot_pass_verify_otp_request.dart';
 
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/otp_text_field.dart';
@@ -55,18 +57,9 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            "Forgot  Password",
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          leading: const BackButton(
-            color: Colors.black, // <-- SEE HERE
-          ),
-          elevation: 1,
-          shadowColor: ColorUtility.colorE2E5EF),
+      appBar: const CustomAppBar(
+        title: "Forgot  Password",
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -141,7 +134,8 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                                               context);
                                           forgotPassVerifyOtpVm
                                               .forgotPassSendOtp(
-                                            request: send_otp_req.ForgotPassSendOtpRequest(
+                                            request: send_otp_req
+                                                .ForgotPassSendOtpRequest(
                                                     name: Endpoints.auth
                                                         .forgetPasswordSendOtp,
                                                     param: send_otp_req.Param(

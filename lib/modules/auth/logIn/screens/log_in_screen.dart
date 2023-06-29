@@ -205,6 +205,8 @@ class _LogInScreenState extends State<LogInScreen> {
                           CustomButton(
                               buttonText: "Log In",
                               onTab: () {
+
+                                logD("message");
                                 if (emailController.text.isEmpty) {
                                   context.showSnackBar(
                                       message: 'Please Enter Email.');

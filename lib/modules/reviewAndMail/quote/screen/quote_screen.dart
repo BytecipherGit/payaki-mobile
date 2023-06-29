@@ -7,6 +7,7 @@ import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/reviewAndMail/quote_request.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
@@ -36,18 +37,9 @@ class _QuoteScreenState extends State<QuoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            widget.productName,
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          leading: const BackButton(
-            color: Colors.black, // <-- SEE HERE
-          ),
-          elevation: 1,
-          shadowColor: ColorUtility.colorE2E5EF),
+      appBar: CustomAppBar(
+        title: widget.productName,
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -105,10 +97,10 @@ class _QuoteScreenState extends State<QuoteScreen> {
                               name: Endpoints.reviewEndPoints.placeQuote,
                               param: Param(
                                 postId: widget.postId,
-                                  postUserId: widget.postUserId,
-                                  amount: amountController.text,
-                                  message: messageController.text,
-                                 )),
+                                postUserId: widget.postUserId,
+                                amount: amountController.text,
+                                message: messageController.text,
+                              )),
                           onSuccess: (message) {
                             Navigator.pop(context);
                             Navigator.pop(context);

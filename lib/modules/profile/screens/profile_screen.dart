@@ -13,6 +13,7 @@ import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
+import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,15 +41,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-      appBar: AppBar(
-          backgroundColor: ColorUtility.whiteColor,
-          title: Text(
-            "Profile",
-            style: StyleUtility.headerTextStyle,
-          ),
-          centerTitle: true,
-          elevation: 0,
-          shadowColor: ColorUtility.colorE2E5EF),
+
+      appBar: const CustomAppBar(
+        title: "Profile",
+      ),
       body: SafeArea(
         child: Consumer<ProfileScreenVm>(
             builder: (context, profileScreenVm, child) {
