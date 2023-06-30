@@ -108,7 +108,6 @@ class _QuoteScreenState extends State<QuoteScreen> {
                           },
                           onFailure: (message) {
                             Navigator.pop(context);
-
                             context.showSnackBar(message: message);
                           },
                         );

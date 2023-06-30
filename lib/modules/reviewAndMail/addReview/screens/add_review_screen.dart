@@ -13,7 +13,6 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
-
 import '../viewModel/add_review_screen_vm.dart';
 
 class AddReviewScreen extends StatefulWidget {
@@ -107,11 +106,11 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                                   comment: descriptionController.text)),
                           onSuccess: (message) {
                             Navigator.pop(context);
+                            Navigator.pop(context);
                             context.showSnackBar(message: message);
                           },
                           onFailure: (message) {
                             Navigator.pop(context);
-
                             context.showSnackBar(message: message);
                           },
                         );
