@@ -6,9 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/modules/chat/screens/web_view_chat_screen.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
-import 'package:payaki/modules/postDetails/screens/image_view_screen.dart';
-import 'package:payaki/modules/reviewAndMail/quote/screen/quote_screen.dart';
 import 'package:payaki/network/model/response/post/post_detail_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -811,71 +810,95 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         "Similar Ads ",
                                         style: StyleUtility.headingTextStyle,
                                       ),
-                                      GridView.builder(
-                                        primary: false,
-                                        shrinkWrap: true,
-                                        padding: EdgeInsets.only(
-                                            top: 20.h, bottom: 20.h),
-                                        itemCount: postDetailScreenVm
-                                                .postDetailResponse
-                                                ?.data
-                                                ?.similarPost
-                                                ?.length ??
-                                            0,
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                crossAxisSpacing: 10.w,
-                                                mainAxisSpacing: 15.w,
-                                                // childAspectRatio: 0.90
-                                                childAspectRatio: 0.82),
-                                        itemBuilder: (context, index) {
-                                          var similarAdd = postDetailScreenVm
-                                              .postDetailResponse
-                                              ?.data
-                                              ?.similarPost;
 
-                                          String? image;
-
-                                          if ((similarAdd?[index]
-                                                      .image
+                                      (postDetailScreenVm
+                                                      .postDetailResponse
+                                                      ?.data
+                                                      ?.similarPost
                                                       ?.length ??
                                                   0) >
-                                              0) {
-                                            image =
-                                                similarAdd?[index].image?[0];
-                                          }
+                                              0
+                                          ? GridView.builder(
+                                              primary: false,
+                                              shrinkWrap: true,
+                                              padding: EdgeInsets.only(
+                                                  top: 20.h, bottom: 20.h),
+                                              itemCount: postDetailScreenVm
+                                                      .postDetailResponse
+                                                      ?.data
+                                                      ?.similarPost
+                                                      ?.length ??
+                                                  0,
+                                              gridDelegate:
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 2,
+                                                      crossAxisSpacing: 10.w,
+                                                      mainAxisSpacing: 15.w,
+                                                      // childAspectRatio: 0.90
+                                                      childAspectRatio: 0.82),
+                                              itemBuilder: (context, index) {
+                                                var similarAdd =
+                                                    postDetailScreenVm
+                                                        .postDetailResponse
+                                                        ?.data
+                                                        ?.similarPost;
 
-                                          return GridItemWidget(
-                                            imageUrl: image ?? "",
-                                            price:
-                                                similarAdd?[index].price ?? "",
-                                            title: similarAdd?[index]
-                                                    .productName ??
-                                                "",
-                                            address: similarAdd?[index]
-                                                    .fullAddress ??
-                                                "",
-                                            expiredDate:
-                                                similarAdd?[index].expiredDate,
-                                            isVerified:
-                                                similarAdd?[index].isVerified,
-                                            urgent: similarAdd?[index].urgent,
-                                            featured:
-                                                similarAdd?[index].featured,
-                                            highlight:
-                                                similarAdd?[index].highlight,
-                                            onTap: () {
-                                              Navigator.pushNamed(context,
-                                                  RouteName.postDetailsScreen,
-                                                  arguments: {
-                                                    "postId":
-                                                        similarAdd?[index].id
-                                                  });
-                                            },
-                                          );
-                                        },
-                                      ),
+                                                String? image;
+
+                                                if ((similarAdd?[index]
+                                                            .image
+                                                            ?.length ??
+                                                        0) >
+                                                    0) {
+                                                  image = similarAdd?[index]
+                                                      .image?[0];
+                                                }
+
+                                                return GridItemWidget(
+                                                  imageUrl: image ?? "",
+                                                  price: similarAdd?[index]
+                                                          .price ??
+                                                      "",
+                                                  title: similarAdd?[index]
+                                                          .productName ??
+                                                      "",
+                                                  address: similarAdd?[index]
+                                                          .fullAddress ??
+                                                      "",
+                                                  expiredDate:
+                                                      similarAdd?[index]
+                                                          .expiredDate,
+                                                  isVerified: similarAdd?[index]
+                                                      .isVerified,
+                                                  urgent:
+                                                      similarAdd?[index].urgent,
+                                                  featured: similarAdd?[index]
+                                                      .featured,
+                                                  highlight: similarAdd?[index]
+                                                      .highlight,
+                                                  onTap: () {
+                                                    Navigator.pushNamed(
+                                                        context,
+                                                        RouteName
+                                                            .postDetailsScreen,
+                                                        arguments: {
+                                                          "postId":
+                                                              similarAdd?[index]
+                                                                  .id
+                                                        });
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          : Padding(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 20.h),
+                                              child: Text(
+                                                "No Similar Ads.",
+                                                style: StyleUtility
+                                                    .headingTextStyle,
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),
@@ -924,71 +947,100 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                       ],
                     ),
                   ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(blurRadius: 15.0, color: Colors.black12),
-                      ],
-                    ),
-                    padding: EdgeInsets.only(
-                        left: 20.w, right: 20.w, top: 14.w, bottom: 16.w),
-                    child: SafeArea(
-                      top: false,
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: CustomButton.outline(
-                                  buttonText: "Quote",
-                                  onTab: () {
-                                    if (Preference().getUserId() ==
-                                        postDetailScreenVm.postDetailResponse
-                                            ?.data?.postUserDetails?.id) {
-                                      context.showSnackBar(
-                                          message:
-                                              "You cannot Quote On Your Own Post.");
-                                    } else {
+                  if (Preference().getUserId() !=
+                      postDetailScreenVm
+                          .postDetailResponse?.data?.postUserDetails?.id)
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(blurRadius: 15.0, color: Colors.black12),
+                        ],
+                      ),
+                      padding: EdgeInsets.only(
+                          left: 20.w, right: 20.w, top: 14.w, bottom: 16.w),
+                      child: SafeArea(
+                        top: false,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: CustomButton.outline(
+                                    buttonText: "Quote",
+                                    onTab: () {
+                                      if (Preference().getUserId() ==
+                                          postDetailScreenVm.postDetailResponse
+                                              ?.data?.postUserDetails?.id) {
+                                        context.showSnackBar(
+                                            message:
+                                                "You cannot Quote On Your Own Post.");
+                                      } else {
+                                        if (Preference().getUserLogin()) {
+                                          Navigator.pushNamed(
+                                              context, RouteName.quoteScreen,
+                                              arguments: {
+                                                "postId": postDetailScreenVm
+                                                    .postDetailResponse
+                                                    ?.data
+                                                    ?.id,
+                                                "postUserId": postDetailScreenVm
+                                                    .postDetailResponse
+                                                    ?.data
+                                                    ?.postUserDetails
+                                                    ?.id,
+                                                "productName":
+                                                    postDetailScreenVm
+                                                        .postDetailResponse
+                                                        ?.data
+                                                        ?.productName,
+                                              });
+                                        } else {
+                                          showLoginDialog(context,
+                                              "Log In to chat or send quote");
+                                        }
+                                      }
+                                    })),
+                            SizedBox(
+                              width: 11.w,
+                            ),
+                            Expanded(
+                                child: CustomButton(
+                                    buttonText: "Chat",
+                                    onTab: () {
                                       if (Preference().getUserLogin()) {
-                                        Navigator.pushNamed(
-                                            context, RouteName.quoteScreen,
-                                            arguments: {
-                                              "postId": postDetailScreenVm
-                                                  .postDetailResponse?.data?.id,
-                                              "postUserId": postDetailScreenVm
+                                        if (Preference().getUserId() ==
+                                            postDetailScreenVm
+                                                .postDetailResponse
+                                                ?.data
+                                                ?.postUserDetails
+                                                ?.id) {
+                                          context.showSnackBar(
+                                              message:
+                                                  "You cannot Chat On Your Own Post.");
+                                        } else {
+                                          if (postDetailScreenVm
                                                   .postDetailResponse
                                                   ?.data
-                                                  ?.postUserDetails
-                                                  ?.id,
-                                              "productName": postDetailScreenVm
-                                                  .postDetailResponse
-                                                  ?.data
-                                                  ?.productName,
-                                            });
+                                                  ?.chatUrl !=
+                                              null) {
+                                            Navigator.pushNamed(context,
+                                                RouteName.webViewChatScreen,
+                                                arguments: {
+                                                  "url": postDetailScreenVm
+                                                      .postDetailResponse
+                                                      ?.data
+                                                      ?.chatUrl,
+                                                });
+                                          }
+                                        }
                                       } else {
                                         showLoginDialog(context,
                                             "Log In to chat or send quote");
                                       }
-                                    }
-                                  })),
-                          SizedBox(
-                            width: 11.w,
-                          ),
-                          Expanded(
-                              child: CustomButton(
-                                  buttonText: "Chat",
-                                  onTab: () {
-                                    if (Preference().getUserLogin()) {
-                                      context.showSnackBar(
-                                          message: "Comming Soon.");
-                                    } else {
-                                      showLoginDialog(context,
-                                          "Log In to chat or send quote");
-                                    }
-                                  }))
-                        ],
+                                    }))
+                          ],
+                        ),
                       ),
-                    ),
-                  )
+                    )
                 ],
               )
             : const Center(child: CircularProgressWidget());

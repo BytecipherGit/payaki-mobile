@@ -42,9 +42,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
       length: 4,
       child: Scaffold(
         backgroundColor: ColorUtility.whiteColor,
-        appBar: const CustomAppBar(
-          title: "My Ads",
-        ),
+        appBar: const CustomAppBar(title: "My Ads", isShowBackButton: false),
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

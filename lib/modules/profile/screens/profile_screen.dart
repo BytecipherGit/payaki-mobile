@@ -43,8 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: ColorUtility.colorF6F6F6,
 
       appBar: const CustomAppBar(
-        title: "Profile",
-      ),
+        title: "Profile", isShowBackButton: false),
       body: SafeArea(
         child: Consumer<ProfileScreenVm>(
             builder: (context, profileScreenVm, child) {

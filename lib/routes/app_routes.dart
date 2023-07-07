@@ -16,6 +16,7 @@ import 'package:payaki/modules/auth/logIn/screens/login_with_phone_verify_otp_sc
 import 'package:payaki/modules/auth/signUp/provider/signup_screen_vm.dart';
 import 'package:payaki/modules/auth/signUp/screens/sign_up_screen.dart';
 import 'package:payaki/modules/bottomBar/BottomNavigationBarScreen.dart';
+import 'package:payaki/modules/chat/screens/web_view_chat_screen.dart';
 import 'package:payaki/modules/postAdd/provider/choose_category_screen_vm.dart';
 import 'package:payaki/modules/postAdd/provider/location_vm.dart';
 import 'package:payaki/modules/postAdd/provider/sub_category_screen_vm.dart';
@@ -311,8 +312,15 @@ class AppRoute {
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ImageViewScreen(
-              images: arg["images"],
-            ));
+                  images: arg["images"],
+                ));
+
+      case RouteName.webViewChatScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => WebViewChatScreen(
+                  url: arg["url"],
+                ));
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());

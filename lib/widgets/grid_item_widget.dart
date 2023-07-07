@@ -45,7 +45,6 @@ class GridItemWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       splashColor: Colors.brown.withOpacity(0.5),
-
       child: Container(
         decoration: isExpiredList == true
             ? BoxDecoration(
@@ -216,7 +215,6 @@ class GridItemWidget extends StatelessWidget {
           ],
         ),
       ),
-
     );
   }
 }

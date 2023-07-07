@@ -69,6 +69,7 @@ class Data {
   String? countryName;
   String? fullAddress;
   String? postUrl;
+  String? chatUrl;
   bool? isFavourite;
   String? expireDays;
   String? expiredDate;
@@ -118,6 +119,7 @@ class Data {
         this.countryName,
         this.fullAddress,
         this.postUrl,
+        this.chatUrl,
         this.isFavourite,
         this.expireDays,
         this.expiredDate,
@@ -166,6 +168,7 @@ class Data {
     countryName = json['country_name'];
     fullAddress = json['full_address'];
     postUrl = json['post_url'];
+    chatUrl = json['chat_url'];
     isFavourite = json['is_favourite'];
     expireDays = json['expire_days'];
     expiredDate = json['expired_date'];
@@ -230,6 +233,7 @@ class Data {
     data['country_name'] = this.countryName;
     data['full_address'] = this.fullAddress;
     data['post_url'] = this.postUrl;
+    data['chat_url'] = this.chatUrl;
     data['is_favourite'] = this.isFavourite;
     data['expire_days'] = this.expireDays;
     data['expired_date'] = this.expiredDate;

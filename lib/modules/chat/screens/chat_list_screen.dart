@@ -21,9 +21,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorUtility.whiteColor,
-        appBar: const CustomAppBar(
-          title: "Chat",
-        ),
+        appBar: const CustomAppBar(title: "Chat", isShowBackButton: false),
         body: ListView.builder(
             padding: EdgeInsets.only(top: 25.h, bottom: 50.h),
             itemCount: 7,
