@@ -4,15 +4,11 @@ import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 
-
-
 import 'package:webview_flutter/webview_flutter.dart';
 
-
-
 class WebViewChatScreen extends StatefulWidget {
-
   final String? url;
+
   const WebViewChatScreen({Key? key, required this.url}) : super(key: key);
 
   @override
@@ -20,12 +16,9 @@ class WebViewChatScreen extends StatefulWidget {
 }
 
 class _WebViewChatScreenState extends State<WebViewChatScreen> {
-
-
   late final WebViewController controller;
 
   bool isLoading = true;
-
 
   @override
   void initState() {
@@ -66,7 +59,6 @@ class _WebViewChatScreenState extends State<WebViewChatScreen> {
       ..loadRequest(Uri.parse(widget.url ?? ""));
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +66,7 @@ class _WebViewChatScreenState extends State<WebViewChatScreen> {
       appBar: const CustomAppBar(
         title: "Chat",
       ),
-      body:  SafeArea(
+      body: SafeArea(
         bottom: false,
         child: Column(
           children: [
@@ -85,9 +77,9 @@ class _WebViewChatScreenState extends State<WebViewChatScreen> {
                     controller: controller,
                   ),
                   isLoading
-                      ? Center(
-                    child: CircularProgressIndicator(),
-                  )
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
                       : Stack(),
                 ],
               ),

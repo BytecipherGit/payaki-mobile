@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/chat/screens/chat_list_screen.dart';
+import 'package:payaki/modules/chat/viewModel/chat_list_screen_vm.dart';
 import 'package:payaki/modules/home/screens/home_screen.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
 import 'package:payaki/modules/myAds/screen/my_ads_screen.dart';
@@ -35,7 +36,10 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
     // const Screen2(),
 
-    const ChatListScreen(),
+    ChangeNotifierProvider(
+      create: (_) => ChatListScreenVm(),
+      child: const ChatListScreen(),
+    ),
 
     ChangeNotifierProvider(
         create: (_) => MyAdsScreenVm(), child: const MyAdsScreen()),

@@ -41,9 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-
-      appBar: const CustomAppBar(
-        title: "Profile", isShowBackButton: false),
+      appBar: const CustomAppBar(title: "Profile", isShowBackButton: false),
       body: SafeArea(
         child: Consumer<ProfileScreenVm>(
             builder: (context, profileScreenVm, child) {

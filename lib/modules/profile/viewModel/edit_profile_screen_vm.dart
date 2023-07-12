@@ -19,7 +19,8 @@ class EditProfileScreenVm extends ChangeNotifier {
   }) {
     userProfileRepository
         .getCountryList(BasicRequest(
-            name: Endpoints.userProfileEndPoints.getCountries, param: Param()))
+            name: Endpoints.userProfileEndPoints.getCountries,
+        param: Param()))
         .then((value) {
       countryList = value.data;
       isLoading = false;

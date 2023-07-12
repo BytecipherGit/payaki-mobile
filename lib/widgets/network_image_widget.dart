@@ -21,7 +21,8 @@ class NetworkImageWidget extends StatelessWidget {
     this.width,
     this.height,
     this.errorWidget,
-    this.alternate, this.errorIconSize})
+    this.alternate,
+    this.errorIconSize = 20})
       : super(key: key);
 
   @override
@@ -51,7 +52,7 @@ class NetworkImageWidget extends StatelessWidget {
                   child: Icon(
                     Icons.image_not_supported_rounded,
                     color: ColorUtility.color43576F,
-                    size: errorIconSize ?? 10,
+                    size: errorIconSize,
                   ),
                 ),
               );

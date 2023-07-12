@@ -9,6 +9,7 @@ class Endpoints {
   static SearchEndPoints search = SearchEndPoints();
   static ReviewEndPoints reviewEndPoints = ReviewEndPoints();
   static UserProfileEndPoints userProfileEndPoints = UserProfileEndPoints();
+  static ChatEndPoints chatEndPoints = ChatEndPoints();
 }
 
 // TODO API flavours UAT/Production
@@ -63,6 +64,9 @@ class UserProfileEndPoints {
   String get getCountries => "getCountries";
   String get updateProfile => "updateProfile";
   String get getTransactionListing => "getTransactionListing";
+}
+class ChatEndPoints {
+  String get chatUserListing => "chatUserListing";
 }
 
 
