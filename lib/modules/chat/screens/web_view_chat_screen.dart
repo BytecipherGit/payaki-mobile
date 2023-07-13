@@ -72,7 +72,7 @@ class _WebViewChatScreenState extends State<WebViewChatScreen> {
         title: "Chat",
       ),
       body: SafeArea(
-        bottom: false,
+       // bottom: false,
         child: Column(
           children: [
             Expanded(

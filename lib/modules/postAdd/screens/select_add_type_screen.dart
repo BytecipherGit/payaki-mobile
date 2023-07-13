@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_paypal/flutter_paypal.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
@@ -74,7 +77,6 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
       appBar: const CustomAppBar(
         title: "Post Ad",
       ),
-
       body: SafeArea(
         child: ChangeNotifierProvider(
           create: (context) => AddPostVm(),
@@ -103,9 +105,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                               borderRadius: BorderRadius.circular(10.r),
                             ),
                             onTap: () {
-                              selectAddTypeValue = freeAd;
-                              selectPremiumValue = null;
-                              addPostVm.updateUi();
+                              onFreeAddSelect(addPostVm);
                             },
                             child: Container(
                               padding: EdgeInsets.only(top: 2.h, bottom: 2.h),
@@ -123,9 +123,10 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     value: freeAd,
                                     groupValue: selectAddTypeValue,
                                     onChanged: (value) {
-                                      selectAddTypeValue = value;
-                                      selectPremiumValue = null;
-                                      addPostVm.updateUi();
+                                      // selectAddTypeValue = value;
+                                      // selectPremiumValue = null;
+                                      // addPostVm.updateUi();
+                                      onFreeAddSelect(addPostVm);
                                     },
                                   ),
                                   Text(
@@ -222,8 +223,8 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     title: "Featured",
                                     description:
                                         "Featured ads attract higher-quality viewer and are displayed prominently in the Featured ads section home page.",
-                                    price: "200",
-                                    month: "3 Months",
+                                    price: "100",
+                                    month: "300 Days",
                                     checkBoxValue: featuredValue,
                                     onSelect: (vale) {
                                       featuredValue = vale;
@@ -237,8 +238,8 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     title: "Urgent",
                                     description:
                                         "Make your ad stand out and let viewer know that your advertise is time sensitive.",
-                                    price: "500",
-                                    month: "6 Months",
+                                    price: "100",
+                                    month: "300 Days",
                                     checkBoxValue: urgentValue,
                                     onSelect: (vale) {
                                       urgentValue = vale;
@@ -252,8 +253,8 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     title: "Highlight",
                                     description:
                                         "Make your ad highlighted with border in listing search result page. Easy to focus.",
-                                    price: "900",
-                                    month: "1 Year",
+                                    price: "100",
+                                    month: "300 Days",
                                     checkBoxValue: highlightValue,
                                     onSelect: (vale) {
                                       highlightValue = vale;
@@ -278,47 +279,28 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                         if (selectAddTypeValue == null) {
                           context.showSnackBar(
                               message: "Please Select Add Type.");
+                        } else if (selectAddTypeValue == freeAd) {
+                          addPost(addPostVm: addPostVm);
+                        } else if (selectAddTypeValue == premium &&
+                            featuredValue == false &&
+                            urgentValue == false &&
+                            highlightValue == false) {
+                          context.showSnackBar(
+                              message: "Please Select Premium Type.");
                         } else {
-                          var featured = featuredValue == true ? "1" : "0";
-                          var urgent = urgentValue == true ? "1" : "0";
-                          var highlight = highlightValue == true ? "1" : "0";
+                          int amount = 0;
+                          if (featuredValue == true) {
+                            amount = amount + 100;
+                          }
+                          if (urgentValue == true) {
+                            amount = amount + 100;
+                          }
+                          if (highlightValue == true) {
+                            amount = amount + 100;
+                          }
 
-                          logD("featured $featured");
-                          logD("urgent $urgent");
-                          logD("highlight $highlight");
-
-                          CommonDialog.showLoadingDialog(context);
-                          addPostVm.addPostApi(
-                              images: widget.selectedImages,
-                              productName: widget.title,
-                              tag: widget.tag,
-                              description: widget.description,
-                              categoryId: widget.catId,
-                              subCategoryId: widget.subCatId,
-                              price: widget.price,
-                              negotiable: widget.negotiate,
-                              location: widget.location,
-                              city: widget.city,
-                              country: widget.country,
-                              latlong: widget.latlong,
-                              state: widget.state,
-                              phone: widget.phone,
-                              availableDays: widget.availableDays.toString(),
-                              featured: featured,
-                              urgent: urgent,
-                              highlight: highlight,
-                              onSuccess: (value) {
-                                Navigator.pop(context);
-                                context.showToast(message: value);
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    RouteName.bottomNavigationBarScreen,
-                                    (route) => false);
-                              },
-                              onFailure: (value) {
-                                Navigator.pop(context);
-                                context.showSnackBar(message: value);
-                              });
+                          payPalPayment(
+                              addPostVm: addPostVm, amount: amount.toString());
                         }
                       }),
                 ),
@@ -329,6 +311,133 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
             );
           }),
         ),
+      ),
+    );
+  }
+
+  onFreeAddSelect(AddPostVm addPostVm) {
+    selectAddTypeValue = freeAd;
+    selectPremiumValue = null;
+    featuredValue = false;
+    urgentValue = false;
+    highlightValue = false;
+    addPostVm.updateUi();
+  }
+
+  addPost({required AddPostVm addPostVm, String? amount}) {
+    // context.showSnackBar(message: "Post Added ${amount ?? ""}");
+
+    var featured = featuredValue == true ? "1" : "0";
+    var urgent = urgentValue == true ? "1" : "0";
+    var highlight = highlightValue == true ? "1" : "0";
+
+    logD("featured $featured");
+    logD("urgent $urgent");
+    logD("highlight $highlight");
+
+
+
+
+    CommonDialog.showLoadingDialog(context);
+    addPostVm.addPostApi(
+        images: widget.selectedImages,
+        productName: widget.title,
+        tag: widget.tag,
+        description: widget.description,
+        categoryId: widget.catId,
+        subCategoryId: widget.subCatId,
+        price: widget.price,
+        negotiable: widget.negotiate,
+        location: widget.location,
+        city: widget.city,
+        country: widget.country,
+        latlong: widget.latlong,
+        state: widget.state,
+        phone: widget.phone,
+        availableDays: widget.availableDays.toString(),
+        featured: featured,
+        urgent: urgent,
+        highlight: highlight,
+        onSuccess: (value) {
+          Navigator.pop(context);
+          context.showToast(message: value);
+          Navigator.pushNamedAndRemoveUntil(
+              context, RouteName.bottomNavigationBarScreen, (route) => false);
+        },
+        onFailure: (value) {
+          Navigator.pop(context);
+          context.showSnackBar(message: value);
+        });
+  }
+
+  payPalPayment({required AddPostVm addPostVm, required String amount}) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => UsePaypal(
+            sandboxMode: true,
+            clientId:
+                "AVpFDyu8miaS4QtS2pzBa0l-KGmCOy9cGCIZavQOs5ev7YSeSMd-WExl_jTNUtGhRqGdSuEh73dJ90Yi",
+            secretKey:
+                "EMpw5WwZ__n2YemFw2fo82VriBb753vwR7FgXUhoNp7u34w6oMLGZlJOklXdwjNoxeT8AxlZph2irRG8",
+            returnURL: "https://samplesite.com/return",
+            cancelURL: "https://samplesite.com/cancel",
+            transactions: [
+              {
+                "amount": {
+                  "total": amount,
+                  "currency": "USD",
+                  "details": {
+                    "subtotal": amount,
+                    "shipping": '0',
+                    "shipping_discount": 0
+                  }
+                },
+                "description": "The payment transaction description.",
+
+                // "item_list": {
+                //   "items": [
+                //     {
+                //       "name": "A demo product",
+                //       "quantity": 1,
+                //       "price": '9',
+                //       "currency": "USD"
+                //     }
+                //   ],
+
+                //   shipping address is not required though
+
+                // "shipping_address": const {
+                //   "recipient_name": "Jane Foster",
+                //   "line1": "Travis County",
+                //   "line2": "",
+                //   "city": "Austin",
+                //   "country_code": "US",
+                //   "postal_code": "73301",
+                //   "phone": "+00000000",
+                //   "state": "Texas"
+                // },
+              }
+            ],
+            note: "Contact us for any questions on your order.",
+            onSuccess: (Map params) async {
+              logD("onSuccess: $params");
+
+
+
+              Timer(const Duration(seconds: 1), () {
+
+                addPost(addPostVm: addPostVm, amount: amount);
+
+              }
+              );
+            },
+            onError: (error) {
+              logD("onError: $error");
+              context.showSnackBar(message: error.toString());
+            },
+            onCancel: (params) {
+              logD('cancelled: $params');
+            }),
       ),
     );
   }

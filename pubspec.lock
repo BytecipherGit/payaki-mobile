@@ -113,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
+  convert:
+    dependency: transitive
+    description:
+      name: convert
+      sha256: "0f08b14755d163f6e2134cb58222dd25ea2a2ee8a195e53983d57c075324d592"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
   cross_file:
     dependency: transitive
     description:
@@ -374,6 +382,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0+1"
+  flutter_paypal:
+    dependency: "direct main"
+    description:
+      name: flutter_paypal
+      sha256: e6173182e9dcc6c2f052e7b66217b8dd804af2714b3db7477084d9b654fbd133
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.7"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -398,6 +414,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.7.0"
+  flutter_spinkit:
+    dependency: transitive
+    description:
+      name: flutter_spinkit
+      sha256: b39c753e909d4796906c5696a14daf33639a76e017136c8d82bf3e620ce5bb8e
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -488,6 +512,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.6"
+  http_auth:
+    dependency: transitive
+    description:
+      name: http_auth
+      sha256: "0b38601cdf3407cacbddddcd166d157fe21021a98e0debbae1cd8593c80bfaf0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   http_parser:
     dependency: transitive
     description:
@@ -1101,6 +1133,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.2"
+  webview_flutter_x5:
+    dependency: transitive
+    description:
+      name: webview_flutter_x5
+      sha256: b5d06611326b000951e080c70f1bd69f9b502f6e12f7deb63e993cde1e790787
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.8+9"
   win32:
     dependency: transitive
     description:
