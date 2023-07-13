@@ -23,6 +23,8 @@ class SignUpVm extends ChangeNotifier {
         Preference.setUserName(value.data?.username ?? "");
         Preference.setName(value.data?.name ?? "");
         Preference.setUserEmail(value.data?.email ?? "");
+        Preference.setUserChatUrl(value.data?.chatUrl ?? "");
+
         onSuccess.call(value.message ?? "");
       } else {
         onFailure.call(value.message ?? "");
@@ -47,6 +49,7 @@ class SignUpVm extends ChangeNotifier {
         Preference.setUserName(value.data?.username ?? "");
         Preference.setName(value.data?.name ?? "");
         Preference.setUserEmail(value.data?.email ?? "");
+        Preference.setUserChatUrl(value.data?.chatUrl ?? "");
 
         onSuccess.call(value.message ?? "");
       } else {

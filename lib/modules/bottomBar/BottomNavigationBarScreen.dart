@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/chat/screens/chat_list_screen.dart';
+import 'package:payaki/modules/chat/screens/web_view_chat_screen.dart';
 import 'package:payaki/modules/chat/viewModel/chat_list_screen_vm.dart';
 import 'package:payaki/modules/home/screens/home_screen.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
@@ -34,12 +35,14 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
       child: const HomeScreen(),
     ),
 
-    // const Screen2(),
+    // ChangeNotifierProvider(
+    //   create: (_) => ChatListScreenVm(),
+    //   child: const ChatListScreen(),
+    // ),
 
-    ChangeNotifierProvider(
-      create: (_) => ChatListScreenVm(),
-      child: const ChatListScreen(),
-    ),
+    // WebViewChatScreen(url: Preference().getUserChatUrl(),),
+
+    const SizedBox(),
 
     ChangeNotifierProvider(
         create: (_) => MyAdsScreenVm(), child: const MyAdsScreen()),
@@ -52,13 +55,17 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   ];
 
   void onTabTapped(int index) {
-    // if (Preference().getUserId() == "" && index != _selectIndex) {
     if (Preference().getUserLogin() == false && index != _selectIndex) {
       goToLogIn();
     } else {
-      setState(() {
-        _selectIndex = index;
-      });
+      if (index == 1) {
+        Navigator.pushNamed(context, RouteName.webViewChatScreen,
+            arguments: {"url": Preference().getUserChatUrl()});
+      } else {
+        setState(() {
+          _selectIndex = index;
+        });
+      }
     }
   }
 

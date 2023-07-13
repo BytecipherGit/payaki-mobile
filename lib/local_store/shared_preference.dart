@@ -21,6 +21,7 @@ class Preference {
   static const String _userEmail = "userEmail";
   static const String _accessToken = "accessToken";
   static const String _userId = "userId";
+  static const String _userChatUrl = "userChatUrl";
 
   static setUserName(String value) async {
     _pref?.setString(_userName, value);
@@ -44,6 +45,14 @@ class Preference {
 
   String getUserEmail() {
     return _pref?.getString(_userEmail) ?? "";
+  }
+
+  static setUserChatUrl(String value) async {
+    _pref?.setString(_userChatUrl, value);
+  }
+
+  String getUserChatUrl() {
+    return _pref?.getString(_userChatUrl) ?? "";
   }
 
 

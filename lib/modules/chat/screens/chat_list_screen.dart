@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/chat/viewModel/chat_list_screen_vm.dart';
 import 'package:payaki/modules/transaction/viewModel/transaction_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
@@ -29,6 +30,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
   @override
   void initState() {
     super.initState();
+
+    logD("Chat url :- ${Preference().getUserChatUrl()}");
     chatListScreenVm = Provider.of(context, listen: false);
     chatListScreenVm.fetchChatUserList(onFailure: (message) {
       context.showSnackBar(message: message);

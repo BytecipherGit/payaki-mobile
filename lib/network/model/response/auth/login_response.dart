@@ -39,6 +39,7 @@ class Data {
   String? image;
   String? isEmailVerified;
   String? isPhoneVerified;
+  String? chatUrl;
 
   Data(
       {this.id,
@@ -50,7 +51,9 @@ class Data {
         this.phone,
         this.image,
         this.isEmailVerified,
-        this.isPhoneVerified});
+        this.isPhoneVerified,
+        this.chatUrl
+      });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -63,6 +66,7 @@ class Data {
     image = json['image'];
     isEmailVerified = json['isEmailVerified'];
     isPhoneVerified = json['isPhoneVerified'];
+    chatUrl = json['chat_url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -77,6 +81,7 @@ class Data {
     data['image'] = this.image;
     data['isEmailVerified'] = this.isEmailVerified;
     data['isPhoneVerified'] = this.isPhoneVerified;
+    data['chat_url'] = this.chatUrl;
     return data;
   }
 }

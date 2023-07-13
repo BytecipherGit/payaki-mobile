@@ -18,7 +18,7 @@ class WebViewChatScreen extends StatefulWidget {
 class _WebViewChatScreenState extends State<WebViewChatScreen> {
   late final WebViewController controller;
 
-  bool isLoading = true;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -26,37 +26,42 @@ class _WebViewChatScreenState extends State<WebViewChatScreen> {
 
     logD("Url is ${widget.url}");
 
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            // Update loading bar.
-          },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {
-            setState(() {
-              isLoading = false;
-            });
-          },
-          onWebResourceError: (WebResourceError error) {
-            setState(() {
-              isLoading = false;
-            });
-            logD(error.toString());
-            context.showSnackBar(message: error.toString());
-            Navigator.pop(context);
-          },
-          // onNavigationRequest: (NavigationRequest request) {
-          //   if (request.url.startsWith('http://www.youtube.com/')) {
-          //     return NavigationDecision.prevent;
-          //   }
-          //   return NavigationDecision.navigate;
-          // },
-        ),
-      )
-      ..loadRequest(Uri.parse(widget.url ?? ""));
+
+    if( widget.url != null && widget.url != "") {
+       isLoading = true;
+
+      controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setBackgroundColor(const Color(0x00000000))
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (int progress) {
+              // Update loading bar.
+            },
+            onPageStarted: (String url) {},
+            onPageFinished: (String url) {
+              setState(() {
+                isLoading = false;
+              });
+            },
+            onWebResourceError: (WebResourceError error) {
+              setState(() {
+                isLoading = false;
+              });
+              logD(error.toString());
+              context.showSnackBar(message: error.toString());
+              Navigator.pop(context);
+            },
+            // onNavigationRequest: (NavigationRequest request) {
+            //   if (request.url.startsWith('http://www.youtube.com/')) {
+            //     return NavigationDecision.prevent;
+            //   }
+            //   return NavigationDecision.navigate;
+            // },
+          ),
+        )
+        ..loadRequest(Uri.parse(widget.url ?? ""));
+    }
   }
 
   @override
@@ -73,9 +78,10 @@ class _WebViewChatScreenState extends State<WebViewChatScreen> {
             Expanded(
               child: Stack(
                 children: [
+                  widget.url != null && widget.url != ""?
                   WebViewWidget(
                     controller: controller,
-                  ),
+                  ):Center(child: Text("Invalid Chat Url"),),
                   isLoading
                       ? const Center(
                           child: CircularProgressIndicator(),
