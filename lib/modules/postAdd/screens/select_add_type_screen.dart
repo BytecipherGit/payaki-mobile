@@ -1,13 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_paypal/flutter_paypal.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/postAdd/provider/add_post_vm.dart';
 import 'package:payaki/modules/postAdd/widget/premium_widget.dart';
+import 'package:payaki/network/payment/paypal_payment.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
@@ -26,7 +25,6 @@ class SelectAddTypeScreen extends StatefulWidget {
   final String price;
   final int negotiate;
   final List<XFile> selectedImages;
-
   final String location;
   final String city;
   final String country;
@@ -69,6 +67,11 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
   bool featuredValue = false;
   bool urgentValue = false;
   bool highlightValue = false;
+
+  String? amount;
+  String? currency;
+  String? status;
+  String? paymentId;
 
   @override
   Widget build(BuildContext context) {
@@ -288,19 +291,43 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                           context.showSnackBar(
                               message: "Please Select Premium Type.");
                         } else {
-                          int amount = 0;
+                          int calculateAmount = 0;
                           if (featuredValue == true) {
-                            amount = amount + 100;
+                            calculateAmount = calculateAmount + 100;
                           }
                           if (urgentValue == true) {
-                            amount = amount + 100;
+                            calculateAmount = calculateAmount + 100;
                           }
                           if (highlightValue == true) {
-                            amount = amount + 100;
+                            calculateAmount = calculateAmount + 100;
                           }
 
-                          payPalPayment(
-                              addPostVm: addPostVm, amount: amount.toString());
+                          PayPalPayment().pay(
+                              context: context,
+                              amount: calculateAmount.toString(),
+                              onSuccess: (dynamic params) {
+                                logD("onSuccess: $params");
+
+                                // amount = calculateAmount.toString();
+                                // currency = params["data"]["transactions"]
+                                //     ["amount"]["currency"].toString();
+                                // status = params["status"].toString();
+                                // paymentId = params["paymentId"].toString();
+
+
+                                amount = calculateAmount.toString();
+                                currency = "USD";
+                                status = "success";
+                                paymentId = "PAYID-MSXZ5UI22K91976DD726932E";
+
+                                Timer(const Duration(seconds: 1), () {
+                                  addPost(addPostVm: addPostVm);
+                                });
+                              },
+                              onFailure: (String message) {
+                                context.showSnackBar(
+                                    message: message.toString());
+                              });
                         }
                       }),
                 ),
@@ -324,7 +351,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
     addPostVm.updateUi();
   }
 
-  addPost({required AddPostVm addPostVm, String? amount}) {
+  addPost({required AddPostVm addPostVm}) {
     // context.showSnackBar(message: "Post Added ${amount ?? ""}");
 
     var featured = featuredValue == true ? "1" : "0";
@@ -334,9 +361,6 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
     logD("featured $featured");
     logD("urgent $urgent");
     logD("highlight $highlight");
-
-
-
 
     CommonDialog.showLoadingDialog(context);
     addPostVm.addPostApi(
@@ -358,6 +382,26 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
         featured: featured,
         urgent: urgent,
         highlight: highlight,
+
+    amount: amount,
+        currency: currency,
+        status: status,
+        paymentId: paymentId,
+
+
+
+
+
+    //     amount = calculateAmount.toString();
+    //     currency = params["data"]["transactions"][0]
+    // ["amount"]["currency"];
+    // status = params["status"];
+    // paymentId = params["paymentId"];
+
+
+
+
+
         onSuccess: (value) {
           Navigator.pop(context);
           context.showToast(message: value);
@@ -368,77 +412,5 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
           Navigator.pop(context);
           context.showSnackBar(message: value);
         });
-  }
-
-  payPalPayment({required AddPostVm addPostVm, required String amount}) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => UsePaypal(
-            sandboxMode: true,
-            clientId:
-                "AVpFDyu8miaS4QtS2pzBa0l-KGmCOy9cGCIZavQOs5ev7YSeSMd-WExl_jTNUtGhRqGdSuEh73dJ90Yi",
-            secretKey:
-                "EMpw5WwZ__n2YemFw2fo82VriBb753vwR7FgXUhoNp7u34w6oMLGZlJOklXdwjNoxeT8AxlZph2irRG8",
-            returnURL: "https://samplesite.com/return",
-            cancelURL: "https://samplesite.com/cancel",
-            transactions: [
-              {
-                "amount": {
-                  "total": amount,
-                  "currency": "USD",
-                  "details": {
-                    "subtotal": amount,
-                    "shipping": '0',
-                    "shipping_discount": 0
-                  }
-                },
-                "description": "The payment transaction description.",
-
-                // "item_list": {
-                //   "items": [
-                //     {
-                //       "name": "A demo product",
-                //       "quantity": 1,
-                //       "price": '9',
-                //       "currency": "USD"
-                //     }
-                //   ],
-
-                //   shipping address is not required though
-
-                // "shipping_address": const {
-                //   "recipient_name": "Jane Foster",
-                //   "line1": "Travis County",
-                //   "line2": "",
-                //   "city": "Austin",
-                //   "country_code": "US",
-                //   "postal_code": "73301",
-                //   "phone": "+00000000",
-                //   "state": "Texas"
-                // },
-              }
-            ],
-            note: "Contact us for any questions on your order.",
-            onSuccess: (Map params) async {
-              logD("onSuccess: $params");
-
-
-
-              Timer(const Duration(seconds: 1), () {
-
-                addPost(addPostVm: addPostVm, amount: amount);
-
-              }
-              );
-            },
-            onError: (error) {
-              logD("onError: $error");
-              context.showSnackBar(message: error.toString());
-            },
-            onCancel: (params) {
-              logD('cancelled: $params');
-            }),
-      ),
-    );
   }
 }

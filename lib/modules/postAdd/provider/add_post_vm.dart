@@ -30,6 +30,10 @@ class AddPostVm extends ChangeNotifier {
     required String featured,
     required String urgent,
     required String highlight,
+    required String? amount,
+    required String? currency,
+    required String? status,
+    required String? paymentId,
   }) async {
     logD("User Id is ${Preference().getUserId()}");
 
@@ -62,7 +66,14 @@ class AddPostVm extends ChangeNotifier {
       'product_images[]': multiPartList,
       'featured': featured,
       'urgent': urgent,
-      'highlight': highlight
+      'highlight': highlight,
+
+      'amount': amount,
+      'currency': currency,
+      'status': status,
+      'paymentId': paymentId,
+      'payment_method': "paypal",
+
     });
     postRepository.addPost(formData).then((value) {
       notifyListeners();
@@ -80,7 +91,7 @@ class AddPostVm extends ChangeNotifier {
     });
   }
 
-  updateUi(){
-   notifyListeners();
+  updateUi() {
+    notifyListeners();
   }
 }
