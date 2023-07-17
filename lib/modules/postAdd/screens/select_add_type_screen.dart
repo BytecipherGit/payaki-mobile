@@ -305,20 +305,20 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                           PayPalPayment().pay(
                               context: context,
                               amount: calculateAmount.toString(),
-                              onSuccess: (dynamic params) {
+                              onSuccess: (Map params) {
                                 logD("onSuccess: $params");
 
-                                // amount = calculateAmount.toString();
-                                // currency = params["data"]["transactions"]
-                                //     ["amount"]["currency"].toString();
-                                // status = params["status"].toString();
-                                // paymentId = params["paymentId"].toString();
-
-
                                 amount = calculateAmount.toString();
-                                currency = "USD";
-                                status = "success";
-                                paymentId = "PAYID-MSXZ5UI22K91976DD726932E";
+                                status = params["status"].toString();
+                                paymentId = params["paymentId"].toString();
+                                currency = params["data"]["transactions"][0]
+                                        ["amount"]["currency"]
+                                    .toString();
+
+                                logD("amount: $amount");
+                                logD("currency: $currency");
+                                logD("status: $status");
+                                logD("paymentId: $paymentId");
 
                                 Timer(const Duration(seconds: 1), () {
                                   addPost(addPostVm: addPostVm);
@@ -382,25 +382,16 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
         featured: featured,
         urgent: urgent,
         highlight: highlight,
-
-    amount: amount,
+        amount: amount,
         currency: currency,
         status: status,
         paymentId: paymentId,
 
-
-
-
-
-    //     amount = calculateAmount.toString();
-    //     currency = params["data"]["transactions"][0]
-    // ["amount"]["currency"];
-    // status = params["status"];
-    // paymentId = params["paymentId"];
-
-
-
-
+        //     amount = calculateAmount.toString();
+        //     currency = params["data"]["transactions"][0]
+        // ["amount"]["currency"];
+        // status = params["status"];
+        // paymentId = params["paymentId"];
 
         onSuccess: (value) {
           Navigator.pop(context);

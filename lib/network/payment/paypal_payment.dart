@@ -17,7 +17,7 @@ class PayPalPayment {
 
   pay({required BuildContext context,
     required String amount,
-    required ValueChanged<String> onSuccess,
+    required ValueChanged<Map> onSuccess,
     required ValueChanged<String> onFailure,
   }) {
     Navigator.of(context).push(
@@ -74,7 +74,7 @@ class PayPalPayment {
             note: "Contact us for any questions on your order.",
             onSuccess: (Map params) async {
              // logD("onSuccess: $params");
-              onSuccess.call("$params");
+              onSuccess.call(params);
 
             },
             onError: (error) {
