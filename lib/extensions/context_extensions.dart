@@ -53,7 +53,6 @@ extension ContextExtensions on BuildContext {
     );
   }
 
-
   void showToast({
     required String message,
   }) {
@@ -65,13 +64,10 @@ extension ContextExtensions on BuildContext {
         timeInSecForIosWeb: 2,
         backgroundColor: Colors.black,
         textColor: Colors.white,
-        fontSize: 16.0
-    );
+        fontSize: 16.0);
   }
 
-
-  void flushBarTopMessage(
-      {required String message}) {
+  void flushBarTopMessage({required String message}) {
     showFlushbar(
       context: this,
       flushbar: Flushbar(
@@ -82,7 +78,7 @@ extension ContextExtensions on BuildContext {
         duration: const Duration(seconds: 3),
         borderRadius: BorderRadius.circular(8),
         flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.green,
         reverseAnimationCurve: Curves.easeInOut,
         positionOffset: 20,
         icon: const Icon(
@@ -94,10 +90,7 @@ extension ContextExtensions on BuildContext {
     );
   }
 
-
-
-   void flushBarTopErrorMessage(
-      {required String message}) {
+  void flushBarTopErrorMessage({required String message}) {
     showFlushbar(
       context: this,
       flushbar: Flushbar(
@@ -120,8 +113,7 @@ extension ContextExtensions on BuildContext {
     );
   }
 
-   void flushBarBottomErrorMessage(
-      {required String message}) {
+  void flushBarBottomErrorMessage({required String message}) {
     showFlushbar(
       context: this,
       flushbar: Flushbar(
@@ -144,9 +136,7 @@ extension ContextExtensions on BuildContext {
     );
   }
 
-
-  void flushBarBottomMessagee(
-      {required String message}) {
+  void flushBarBottomMessagee({required String message}) {
     showFlushbar(
       context: this,
       flushbar: Flushbar(
@@ -168,11 +158,4 @@ extension ContextExtensions on BuildContext {
       )..show(this),
     );
   }
-
-
-
-
-
-
 }
-

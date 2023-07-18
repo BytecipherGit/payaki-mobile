@@ -78,11 +78,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: 10.sp,
                 ),
-                Padding(
-                  padding: EdgeInsets.all(5.sp),
-                  child: Image.asset(
-                    ImageUtility.notificationIcon,
-                    width: 16.sp,
+                InkWell(
+                  onTap: (){
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(5.sp),
+                    child: Image.asset(
+                      ImageUtility.notificationIcon,
+                      width: 16.sp,
+                    ),
                   ),
                 )
               ],

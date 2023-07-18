@@ -358,6 +358,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       context, RouteName.transactionScreen);
                                 },
                               ),
+
+                              SettingTileWidget(
+                                title: "My Cart",
+                                image: ImageUtility.addToCartIcon,
+                                imageWidth: 14.w,
+                                onTap: () {
+                                   },
+                              ),
                               SettingTileWidget(
                                 title: "Log Out",
                                 image: ImageUtility.logOutIcon,

@@ -1,35 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 
 class CustomButton extends StatelessWidget {
   final int buttonType; // 0 elevated, 1 outlined , 2 TextButton
 
-  const CustomButton({
+   CustomButton({
     Key? key,
     required this.buttonText,
     required this.onTab,
   })  : buttonType = 0,
         super(key: key);
 
-  const CustomButton.text({
+   CustomButton.text({
     Key? key,
     required this.buttonText,
     required this.onTab,
   })  : buttonType = 1,
         super(key: key);
 
-  const CustomButton.outline({
+   CustomButton.outline({
     Key? key,
     required this.buttonText,
     required this.onTab,
   })  : buttonType = 2,
         super(key: key);
 
+   CustomButton.outlineWithIcon({
+    Key? key,
+    required this.buttonText,
+    required this.onTab,
+    required this.icon,
+  })  : buttonType = 3,
+        super(key: key);
+
 
   final String buttonText;
+   String? icon;
+
+
   final VoidCallback onTab;
 
   @override
@@ -64,6 +76,35 @@ class CustomButton extends StatelessWidget {
             style: StyleUtility.buttonTextStyle.copyWith(
                 color: ColorUtility.color9C5FA3
             ),
+          ),
+        ),
+      );
+    }if (buttonType == 3) {
+      return SizedBox(
+        height: TextSizeUtility.buttonHeight,
+        width: MediaQuery.of(context).size.width,
+        child: OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            side: const BorderSide(color: ColorUtility.color9C5FA3, width: 2),
+          ),
+          onPressed: onTab,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(icon!,width: 20.sp,height: 20.sp,),
+              SizedBox(width: 10.h,),
+              Text(
+                buttonText,
+                maxLines: 1,
+                style: StyleUtility.buttonTextStyle.copyWith(
+                    color: ColorUtility.color9C5FA3
+                ),
+              ),
+            ],
           ),
         ),
       );

@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
-import 'package:payaki/modules/chat/screens/web_view_chat_screen.dart';
 import 'package:payaki/modules/postDetails/provider/post_detail_screen_vm.dart';
 import 'package:payaki/network/model/response/post/post_detail_response.dart';
 import 'package:payaki/routes/route_name.dart';
@@ -439,6 +438,19 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                       SizedBox(
                                         height: 25.h,
                                       ),
+
+                                      if (Preference().getUserId() !=
+                                          postDetailScreenVm.postDetailResponse
+                                              ?.data?.postUserDetails?.id)
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.only(bottom: 25.h),
+                                          child: CustomButton.outlineWithIcon(
+                                              buttonText: "Add to Cart",
+                                              icon: ImageUtility.addToCartIcon,
+                                              onTab: () {}),
+                                        ),
+
                                       Text(
                                         "Posted By",
                                         style: StyleUtility.headingTextStyle,
