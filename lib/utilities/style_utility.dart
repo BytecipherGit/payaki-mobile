@@ -70,6 +70,12 @@ class StyleUtility {
     color: ColorUtility.color152D4A,
   );
 
+  static TextStyle noDataTextStyle = TextStyle(
+    fontFamily: "Axiforma_Regular",
+    fontSize: TextSizeUtility.textSize16,
+    color: ColorUtility.color152D4A,
+  );
+
   static TextStyle hintTextStyle = TextStyle(
     fontFamily: "Axiforma_Regular",
     fontSize: TextSizeUtility.textSize14,
@@ -106,6 +112,12 @@ class StyleUtility {
   static TextStyle reviewTitleTextStyle = TextStyle(
     fontFamily: "Axiforma_Medium",
     color: ColorUtility.color8B97A4,
+      fontSize: TextSizeUtility.textSize16
+  );
+
+  static TextStyle totalTextStyle = TextStyle(
+      fontFamily: "Axiforma_SemiBold",
+      color: ColorUtility.color8B97A4,
       fontSize: TextSizeUtility.textSize16
   );
 

@@ -364,6 +364,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 image: ImageUtility.addToCartIcon,
                                 imageWidth: 14.w,
                                 onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteName.myCartScreen);
                                    },
                               ),
                               SettingTileWidget(

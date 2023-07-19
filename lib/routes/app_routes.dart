@@ -17,6 +17,7 @@ import 'package:payaki/modules/auth/signUp/provider/signup_screen_vm.dart';
 import 'package:payaki/modules/auth/signUp/screens/sign_up_screen.dart';
 import 'package:payaki/modules/bottomBar/BottomNavigationBarScreen.dart';
 import 'package:payaki/modules/chat/screens/web_view_chat_screen.dart';
+import 'package:payaki/modules/myCart/screen/my_cart_screen.dart';
 import 'package:payaki/modules/postAdd/provider/choose_category_screen_vm.dart';
 import 'package:payaki/modules/postAdd/provider/location_vm.dart';
 import 'package:payaki/modules/postAdd/provider/sub_category_screen_vm.dart';
@@ -321,6 +322,9 @@ class AppRoute {
             builder: (context) => WebViewChatScreen(
                   url: arg["url"],
                 ));
+
+      case RouteName.myCartScreen:
+        return MaterialPageRoute(builder: (context) => const MyCartScreen());
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
