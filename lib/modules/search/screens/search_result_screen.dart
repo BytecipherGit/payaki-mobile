@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
 import 'package:payaki/modules/search/widget/short_by_list_tile.dart';
@@ -272,6 +273,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                           controller: priceFromController,
                           textInputType: TextInputType.number,
                           hintText: "From",
+                          inputFormatter: [
+                            DecimalInputFormatter(),
+                          ],
                         )),
                         SizedBox(
                           width: 16.w,
@@ -281,6 +285,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                           controller: priceToController,
                           textInputType: TextInputType.number,
                           hintText: "To",
+                          inputFormatter: [
+                            DecimalInputFormatter(),
+                          ],
                         )),
                       ],
                     ),
@@ -304,12 +311,13 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                 buttonText: "Done",
                                 onTab: () {
                                   if (priceFromController.text.isEmpty) {
-                                    context.showToast(
+                                    context.flushBarTopErrorMessage(
                                         message:
                                             "Please Enter Price From Value");
                                   } else if (priceFromController.text.isEmpty) {
-                                    context.showToast(
-                                        message: "Please Enter Price To Value");
+                                    context.flushBarTopErrorMessage(
+                                        message:
+                                            "Please Enter Price From Value");
                                   } else {
                                     Navigator.pop(context);
 
@@ -422,7 +430,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                     buttonText: "Done",
                                     onTab: () {
                                       if (selectedShortByValue == null) {
-                                        context.showToast(
+                                        context.flushBarTopErrorMessage(
                                             message: "Please Select Short By");
                                       } else {
                                         Navigator.pop(context);
@@ -481,7 +489,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         },
         onFailure: (value) {
           Navigator.pop(context);
-          context.showSnackBar(message: value);
+          context.flushBarTopErrorMessage(message: value);
         });
   }
 }

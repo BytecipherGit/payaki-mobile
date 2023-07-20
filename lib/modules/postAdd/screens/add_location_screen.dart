@@ -68,7 +68,12 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
   void initState() {
     super.initState();
     locationVm = Provider.of<LocationVm>(context, listen: false);
-    locationVm.cityListApi(onSuccess: (value) {}, onFailure: (value) {});
+    locationVm.cityListApi(
+        onSuccess: (value) {},
+        onFailure: (String message) {
+          Navigator.pop(context);
+          context.flushBarTopErrorMessage(message: message);
+        });
   }
 
   @override
@@ -312,13 +317,13 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                             logD("Selected location $location");
                             // if (locationController.text.isEmpty) {
                             if (location == null) {
-                              context.showSnackBar(
+                              context.flushBarTopErrorMessage(
                                   message: "Please Select Location.");
                             } else if (selectDayValue?.value == null) {
-                              context.showSnackBar(
+                              context.flushBarTopErrorMessage(
                                   message: "Please Select Expire Days.");
                             } else if (phoneNumberController.text.isEmpty) {
-                              context.showSnackBar(
+                              context.flushBarTopErrorMessage(
                                   message: "Please Enter Mobile Number.");
                             } else {
                               Navigator.pushNamed(

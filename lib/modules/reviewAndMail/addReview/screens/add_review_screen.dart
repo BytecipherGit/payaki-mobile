@@ -92,7 +92,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                     buttonText: "Submit Review",
                     onTab: () {
                       if (descriptionController.text.isEmpty) {
-                        context.showSnackBar(
+                        context.flushBarTopErrorMessage(
                             message: 'Please Enter Your Reviews.');
                       } else {
                         CommonDialog.showLoadingDialog(context);
@@ -107,11 +107,11 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                           onSuccess: (message) {
                             Navigator.pop(context);
                             Navigator.pop(context);
-                            context.showSnackBar(message: message);
+                            context.flushBarTopSuccessMessage(message: message);
                           },
                           onFailure: (message) {
                             Navigator.pop(context);
-                            context.showSnackBar(message: message);
+                            context.flushBarTopErrorMessage(message: message);
                           },
                         );
                       }

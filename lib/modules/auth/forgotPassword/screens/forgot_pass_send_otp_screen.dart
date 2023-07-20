@@ -70,7 +70,7 @@ class _ForgotPassSendOtpScreenState extends State<ForgotPassSendOtpScreen> {
                             buttonText: "Send OTP",
                             onTab: () {
                               if (mobileController.text.isEmpty) {
-                                context.showSnackBar(
+                                context.flushBarTopErrorMessage(
                                     message: "Please Enter Mobile Number");
                               } else {
                                 CommonDialog.showLoadingDialog(context);
@@ -84,9 +84,6 @@ class _ForgotPassSendOtpScreenState extends State<ForgotPassSendOtpScreen> {
                                   onSuccess: (value) {
                                     Navigator.pop(context);
 
-                                    context.showSnackBar(
-                                        message:
-                                            "${value.message} ${value.data!.otp}");
                                     Navigator.pushNamed(context,
                                         RouteName.forgotPassVerifyOtpScreen,
                                         arguments: {
@@ -94,10 +91,14 @@ class _ForgotPassSendOtpScreenState extends State<ForgotPassSendOtpScreen> {
                                           "countryCode": countryCode,
                                           "mobile": mobileController.text
                                         });
+                                    context.showToast(
+                                        message:
+                                            "${value.message} ${value.data!.otp}");
                                   },
                                   onFailure: (value) {
                                     Navigator.pop(context);
-                                    context.showSnackBar(message: value);
+                                    context.flushBarTopErrorMessage(
+                                        message: value);
                                   },
                                 );
                               }

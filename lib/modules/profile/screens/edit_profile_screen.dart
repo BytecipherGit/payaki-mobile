@@ -56,7 +56,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     editProfileScreenVm = Provider.of(context, listen: false);
     editProfileScreenVm.getCountryList(onFailure: (message) {
-      context.showSnackBar(message: message);
+      context.flushBarTopErrorMessage(message: message);
     }, onSuccess: (m) {
       //  selectedCountry = country.Data(asciiname: "Andorra");
 
@@ -371,51 +371,51 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       buttonText: "Update",
                       onTab: () async {
                         if (nameController.text.isEmpty) {
-                          context.showSnackBar(message: 'Please Enter Title.');
+                          context.flushBarTopErrorMessage(message: 'Please Enter Title.');
                         } else if (facebookController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     facebookController.text) ==
                                 false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: "Please Enter Valid Facebook Link.");
                         } else if (pinterestController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     pinterestController.text) ==
                                 false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message:
                                   "Please Enter Valid Pinterest Profile Link.");
                         } else if (twitterController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     twitterController.text) ==
                                 false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message:
                                   "Please Enter Valid Twitter Profile Link.");
                         } else if (instagramController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     instagramController.text) ==
                                 false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: "Please Enter Valid Instagram Link.");
                         } else if (linkedinController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     linkedinController.text) ==
                                 false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message:
                                   "Please Enter Valid Linkedin Profile Link.");
                         } else if (youtubeController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     youtubeController.text) ==
                                 false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: "Please Enter Valid Youtube Link.");
                         } else if (websiteURLController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     websiteURLController.text) ==
                                 false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: "Please Enter Valid Website URL.");
                         } else {
                           CommonDialog.showLoadingDialog(context);
@@ -439,11 +439,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               onSuccess: (message) {
                                 Navigator.pop(context);
                                 Navigator.pop(context, true);
-                                context.showSnackBar(message: message);
+                                context.flushBarTopSuccessMessage(message: message);
                               },
                               onFailure: (message) {
                                 Navigator.pop(context);
-                                context.showSnackBar(message: message);
+                                context.flushBarTopErrorMessage(message: message);
                               });
                         }
                       });

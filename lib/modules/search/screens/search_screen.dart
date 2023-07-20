@@ -54,7 +54,10 @@ class _SearchScreenState extends State<SearchScreen> {
     searchScreenVm = Provider.of<SearchScreenVm>(context, listen: false);
     searchScreenVm.cityListApi(onSuccess: (value) {}, onFailure: (value) {});
     searchScreenVm.categoryListApi(
-        onSuccess: (value) {}, onFailure: (value) {});
+        onSuccess: (value) {},
+        onFailure: (String message) {
+          context.flushBarTopErrorMessage(message: message);
+        });
   }
 
   @override
@@ -306,7 +309,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     if (titleController.text.isEmpty &&
                         location == null &&
                         selectedCategory == null) {
-                      context.showSnackBar(
+                      context.flushBarTopErrorMessage(
                           message: "Please Fill Up At Least One Field.");
                     } else {
                       CommonDialog.showLoadingDialog(context);
@@ -339,7 +342,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           },
                           onFailure: (value) {
                             Navigator.pop(context);
-                            context.showSnackBar(message: value);
+                            context.flushBarTopErrorMessage(message: value);
                           });
                     }
                   }),

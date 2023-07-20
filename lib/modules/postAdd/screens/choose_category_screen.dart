@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/postAdd/provider/choose_category_screen_vm.dart';
@@ -29,7 +30,11 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
     chooseCategoryScreenVm =
         Provider.of<ChooseCategoryScreenVm>(context, listen: false);
     chooseCategoryScreenVm.categoryListApi(
-        onSuccess: (value) {}, onFailure: (value) {});
+        onSuccess: (value) {},
+        onFailure: (String message) {
+          Navigator.pop(context);
+          context.flushBarTopErrorMessage(message: message);
+        });
   }
 
   @override

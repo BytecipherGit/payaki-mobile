@@ -27,7 +27,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
         Provider.of<TransactionScreenVm>(context, listen: false);
     transactionScreenVm.getTransactionList(onFailure: (message) {
       Navigator.pop(context);
-      context.showSnackBar(message: message);
+      context.flushBarTopErrorMessage(message: message);
     });
   }
 

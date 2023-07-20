@@ -81,11 +81,11 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                   buttonText: "Next",
                   onTab: () {
                     if (titleController.text.isEmpty) {
-                      context.showSnackBar(message: 'Please Enter Title.');
+                      context.flushBarTopErrorMessage(message: 'Please Enter Title.');
                     } else if (tagController.text.isEmpty) {
-                      context.showSnackBar(message: 'Please Enter Tag.');
+                      context.flushBarTopErrorMessage(message: 'Please Enter Tag.');
                     } else if (descriptionController.text.isEmpty) {
-                      context.showSnackBar(
+                      context.flushBarTopErrorMessage(
                           message: 'Please Enter Description.');
                     } else {
                       Navigator.pushNamed(context, RouteName.setPriceScreen,

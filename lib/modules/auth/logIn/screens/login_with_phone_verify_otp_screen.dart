@@ -157,7 +157,7 @@ class _LoginWithPhoneVerifyOtpScreenState
                                             onSuccess: (value) {
                                               Navigator.pop(context);
 
-                                              context.showSnackBar(
+                                              context.flushBarTopErrorMessage(
                                                   message:
                                                       "${value.message} ${value.data!.otp}");
                                               _startTimer(
@@ -165,7 +165,7 @@ class _LoginWithPhoneVerifyOtpScreenState
                                             },
                                             onFailure: (value) {
                                               Navigator.pop(context);
-                                              context.showSnackBar(
+                                              context.flushBarTopErrorMessage(
                                                   message: value);
                                             },
                                           );
@@ -187,7 +187,7 @@ class _LoginWithPhoneVerifyOtpScreenState
                         onTab: () {
                           if (otpController.text.isEmpty ||
                               otpController.text.length < 6) {
-                            context.showSnackBar(
+                            context.flushBarTopErrorMessage(
                                 message: "Please Enter 6 Digit Otp");
                           } else {
                             CommonDialog.showLoadingDialog(context);
@@ -206,7 +206,7 @@ class _LoginWithPhoneVerifyOtpScreenState
                                 },
                                 onFailure: (value) {
                                   Navigator.pop(context);
-                                  context.showSnackBar(message: value);
+                                  context.flushBarTopErrorMessage(message: value);
                                 });
                           }
                         })),

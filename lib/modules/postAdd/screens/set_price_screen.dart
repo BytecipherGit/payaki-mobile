@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
@@ -64,7 +65,7 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
                         titleText: "Price *",
                         textInputType: TextInputType.number,
                         inputFormatter: [
-                          FilteringTextInputFormatter.digitsOnly
+                          DecimalInputFormatter(),
                         ],
                       ),
                       SizedBox(
@@ -115,7 +116,7 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
                   buttonText: "Next",
                   onTab: () {
                     if (priceController.text.isEmpty) {
-                      context.showSnackBar(message: 'Please Enter Price.');
+                      context.flushBarTopErrorMessage(message: 'Please Enter Price.');
                     } else {
                       Navigator.pushNamed(context, RouteName.galleryScreen,
                           arguments: {

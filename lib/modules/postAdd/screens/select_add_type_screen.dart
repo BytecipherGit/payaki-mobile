@@ -280,7 +280,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                       buttonText: "Post Add",
                       onTab: () {
                         if (selectAddTypeValue == null) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: "Please Select Add Type.");
                         } else if (selectAddTypeValue == freeAd) {
                           addPost(addPostVm: addPostVm);
@@ -288,7 +288,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                             featuredValue == false &&
                             urgentValue == false &&
                             highlightValue == false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: "Please Select Premium Type.");
                         } else {
                           int calculateAmount = 0;
@@ -325,7 +325,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                 });
                               },
                               onFailure: (String message) {
-                                context.showSnackBar(
+                                context.flushBarTopErrorMessage(
                                     message: message.toString());
                               });
                         }
@@ -386,22 +386,15 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
         currency: currency,
         status: status,
         paymentId: paymentId,
-
-        //     amount = calculateAmount.toString();
-        //     currency = params["data"]["transactions"][0]
-        // ["amount"]["currency"];
-        // status = params["status"];
-        // paymentId = params["paymentId"];
-
-        onSuccess: (value) {
+        onSuccess: (String message) {
           Navigator.pop(context);
-          context.showToast(message: value);
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.bottomNavigationBarScreen, (route) => false);
-        },
+          context.flushBarTopSuccessMessage(message: message);
+          },
         onFailure: (value) {
           Navigator.pop(context);
-          context.showSnackBar(message: value);
+          context.flushBarTopErrorMessage(message: value);
         });
   }
 }

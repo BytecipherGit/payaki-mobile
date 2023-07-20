@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     profileScreenVm = Provider.of(context, listen: false);
     profileScreenVm.getUserDetail(onFailure: (message) {
-      context.showSnackBar(message: message);
+      context.flushBarTopErrorMessage(message: message);
     });
   }
 
@@ -159,12 +159,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   email: userProfile?.email,
                                                   onSuccess: (message) {
                                                     Navigator.pop(context);
-                                                    context.showSnackBar(
+                                                    context.flushBarTopSuccessMessage(
                                                         message: message);
                                                   },
                                                   onFailure: (message) {
                                                     Navigator.pop(context);
-                                                    context.showSnackBar(
+                                                    context.flushBarTopErrorMessage(
                                                         message: message);
                                                   },
                                                 );

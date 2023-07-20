@@ -34,7 +34,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
     logD("Chat url :- ${Preference().getUserChatUrl()}");
     chatListScreenVm = Provider.of(context, listen: false);
     chatListScreenVm.fetchChatUserList(onFailure: (message) {
-      context.showSnackBar(message: message);
+      context.flushBarTopErrorMessage(message: message);
     });
   }
 

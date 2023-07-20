@@ -35,13 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
     homeScreenVm.fetchCategoryList(
         onSuccess: (value) {},
         onFailure: (message) {
-          context.showSnackBar(message: message);
+          context.flushBarTopErrorMessage(message: message);
         });
 
     homeScreenVm.fetchPremiumAndLatestPost(
         onSuccess: (value) {},
         onFailure: (message) {
-          context.showSnackBar(message: message);
+          context.flushBarTopErrorMessage(message: message);
         });
   }
 
@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             onFailure: (value) {
                               Navigator.pop(context);
-                              context.showSnackBar(message: value);
+                              context.flushBarTopErrorMessage(message: value);
                             });
                       },
                     ),
@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             onFailure: (value) {
                               Navigator.pop(context);
-                              context.showSnackBar(message: value);
+                              context.flushBarTopErrorMessage(message: value);
                             });
                       },
                     ),
@@ -255,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                       onFailure: (value) {
                                         Navigator.pop(context);
-                                        context.showSnackBar(message: value);
+                                        context.flushBarTopErrorMessage(message: value);
                                       });
                                 },
                                 child: SizedBox(

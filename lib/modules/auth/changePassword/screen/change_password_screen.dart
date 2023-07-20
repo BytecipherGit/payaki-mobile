@@ -84,14 +84,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         buttonText: "Done",
                         onTab: () {
                           if (newPasswordController.text.isEmpty) {
-                            context.showSnackBar(
+                            context.flushBarTopErrorMessage(
                                 message: "Please Enter New Password");
                           } else if (confirmPasswordController.text.isEmpty) {
-                            context.showSnackBar(
-                                message: "Please Confirm Password");
+                            context.flushBarTopErrorMessage(
+                                message: "Please Enter Confirm Password");
                           } else if (newPasswordController.text !=
                               confirmPasswordController.text) {
-                            context.showSnackBar(
+                            context.flushBarTopErrorMessage(
                                 message: "Confirm Password Not Matched.");
                           } else {
                             CommonDialog.showLoadingDialog(context);
@@ -99,11 +99,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 onSuccess: (message) {
                                   Navigator.pop(context);
                                   Navigator.pop(context);
-                                  context.showSnackBar(message: message);
+                                  context.flushBarTopSuccessMessage(
+                                      message: message);
                                 },
                                 onFailure: (message) {
                                   Navigator.pop(context);
-                                  context.showSnackBar(message: message);
+                                  context.flushBarTopErrorMessage(
+                                      message: message);
                                 },
                                 request: ChangePasswordRequest(
                                     name: Endpoints.auth.changePassword,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
@@ -33,6 +34,9 @@ class MobileNumberTextField extends StatelessWidget {
             textAlign: TextAlign.left,
             style: StyleUtility.inputTextStyle,
             dropdownIconPosition: IconPosition.trailing,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
             decoration: InputDecoration(
               // contentPadding: EdgeInsets.only(top: 12.sp, bottom: 12.sp, left: 10.sp, right: 10.sp),
               contentPadding: EdgeInsets.only(

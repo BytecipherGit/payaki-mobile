@@ -87,7 +87,7 @@ class _LoginWithPhoneSendOtpScreenState
                             buttonText: "Send OTP",
                             onTab: () {
                               if (mobileController.text.isEmpty) {
-                                context.showSnackBar(
+                                context.flushBarTopErrorMessage(
                                     message: "Please Enter Mobile Number");
                               } else {
                                 CommonDialog.showLoadingDialog(context);
@@ -103,7 +103,7 @@ class _LoginWithPhoneSendOtpScreenState
                                           deviceToken: deviceToken)),
                                   onSuccess: (value) {
                                     Navigator.pop(context);
-                                    context.showSnackBar(
+                                    context.flushBarTopErrorMessage(
                                         message:
                                             "${value.message} ${value.data!.otp}");
                                     Navigator.pushNamed(context,
@@ -115,7 +115,7 @@ class _LoginWithPhoneSendOtpScreenState
                                   },
                                   onFailure: (value) {
                                     Navigator.pop(context);
-                                    context.showSnackBar(message: value);
+                                    context.flushBarTopErrorMessage(message: value);
                                   },
                                 );
                               }

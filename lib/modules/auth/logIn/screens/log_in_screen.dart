@@ -208,15 +208,15 @@ class _LogInScreenState extends State<LogInScreen> {
 
                                 logD("message");
                                 if (emailController.text.isEmpty) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: 'Please Enter Email.');
                                 } else if (Validators.checkValidateEmail(
                                         emailController.text) ==
                                     false) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: "Please Enter Valid Email.");
                                 } else if (passwordController.text.isEmpty) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: 'Please Enter Password.');
                                 } else {
                                   CommonDialog.showLoadingDialog(context);
@@ -240,7 +240,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       },
                                       onFailure: (value) {
                                         Navigator.pop(context);
-                                        context.showSnackBar(message: value);
+                                        context.flushBarTopErrorMessage(message: value);
                                       });
                                 }
                               }),
@@ -395,7 +395,7 @@ class _LogInScreenState extends State<LogInScreen> {
         },
         onFailure: (value) {
           Navigator.pop(context);
-          context.showSnackBar(message: value);
+          context.flushBarTopErrorMessage(message: value);
         });
   }
 }

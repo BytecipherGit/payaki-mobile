@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 extension ContextExtensions on BuildContext {
-  void showSnackBar({
+  /*void showSnackBar({
     required String message,
     SnackBarAction? action,
     SnackBarBehavior? behavior,
@@ -51,23 +51,36 @@ extension ContextExtensions on BuildContext {
         action: action,
       ),
     );
-  }
+  }*/
 
-  void showToast({
+  void flushBarTopErrorMessage({
     required String message,
   }) {
-    Fluttertoast.cancel();
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 2,
-        backgroundColor: Colors.black,
-        textColor: Colors.white,
-        fontSize: 16.0);
+    showFlushbar(
+      context: this,
+      flushbar: Flushbar(
+        forwardAnimationCurve: Curves.decelerate,
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.all(15),
+        message: message,
+        duration: const Duration(seconds: 3),
+        borderRadius: BorderRadius.circular(8),
+        flushbarPosition: FlushbarPosition.TOP,
+        backgroundColor: Colors.red,
+        reverseAnimationCurve: Curves.easeInOut,
+        positionOffset: 20,
+        icon: const Icon(
+          Icons.error,
+          size: 28,
+          color: Colors.white,
+        ),
+      )..show(this),
+    );
   }
 
-  void flushBarTopMessage({required String message}) {
+  void flushBarTopSuccessMessage({
+    required String message,
+  }) {
     showFlushbar(
       context: this,
       flushbar: Flushbar(
@@ -82,7 +95,7 @@ extension ContextExtensions on BuildContext {
         reverseAnimationCurve: Curves.easeInOut,
         positionOffset: 20,
         icon: const Icon(
-          Icons.error,
+          Icons.verified,
           size: 28,
           color: Colors.white,
         ),
@@ -90,72 +103,17 @@ extension ContextExtensions on BuildContext {
     );
   }
 
-  void flushBarTopErrorMessage({required String message}) {
-    showFlushbar(
-      context: this,
-      flushbar: Flushbar(
-        forwardAnimationCurve: Curves.decelerate,
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        padding: const EdgeInsets.all(15),
-        message: message,
-        duration: const Duration(seconds: 3),
-        borderRadius: BorderRadius.circular(8),
-        flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: Colors.red,
-        reverseAnimationCurve: Curves.easeInOut,
-        positionOffset: 20,
-        icon: const Icon(
-          Icons.error,
-          size: 28,
-          color: Colors.white,
-        ),
-      )..show(this),
-    );
-  }
-
-  void flushBarBottomErrorMessage({required String message}) {
-    showFlushbar(
-      context: this,
-      flushbar: Flushbar(
-        forwardAnimationCurve: Curves.decelerate,
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        padding: const EdgeInsets.all(10),
-        message: message,
-        duration: const Duration(seconds: 3),
-        borderRadius: BorderRadius.circular(8),
-        flushbarPosition: FlushbarPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        reverseAnimationCurve: Curves.easeInOut,
-        positionOffset: 10,
-        icon: const Icon(
-          Icons.error,
-          size: 28,
-          color: Colors.white,
-        ),
-      )..show(this),
-    );
-  }
-
-  void flushBarBottomMessagee({required String message}) {
-    showFlushbar(
-      context: this,
-      flushbar: Flushbar(
-        forwardAnimationCurve: Curves.decelerate,
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        padding: const EdgeInsets.all(10),
-        message: message,
-        duration: const Duration(seconds: 3),
-        borderRadius: BorderRadius.circular(8),
-        flushbarPosition: FlushbarPosition.BOTTOM,
+  void showToast({
+    required String message,
+  }) {
+    Fluttertoast.cancel();
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
         backgroundColor: Colors.black,
-        reverseAnimationCurve: Curves.easeInOut,
-        positionOffset: 10,
-        icon: const Icon(
-          Icons.error,
-          size: 28,
-          color: Colors.white,
-        ),
-      )..show(this),
-    );
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

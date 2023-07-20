@@ -89,14 +89,14 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                         buttonText: "Done",
                         onTab: () {
                           if (newPasswordController.text.isEmpty) {
-                            context.showSnackBar(
+                            context.flushBarTopErrorMessage(
                                 message: "Please Enter New Password");
                           } else if (confirmPasswordController.text.isEmpty) {
-                            context.showSnackBar(
+                            context.flushBarTopErrorMessage(
                                 message: "Please Confirm Password");
                           } else if (newPasswordController.text !=
                               confirmPasswordController.text) {
-                            context.showSnackBar(
+                            context.flushBarTopErrorMessage(
                                 message: "Confirm Password Not Matched.");
                           } else {
                             CommonDialog.showLoadingDialog(context);
@@ -108,7 +108,7 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                                 },
                                 onFailure: (value) {
                                   Navigator.pop(context);
-                                  context.showSnackBar(message: value);
+                                  context.flushBarTopErrorMessage(message: value);
                                 },
                                 request: GenerateNewPassRequest(
                                     name: Endpoints.auth.generateNewPassword,

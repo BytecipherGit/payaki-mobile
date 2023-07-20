@@ -33,7 +33,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
   }
 
   void _onFailure(String message) {
-    context.showSnackBar(message: message);
+    context.flushBarTopErrorMessage(message: message);
   }
 
   @override
@@ -218,6 +218,7 @@ class AddListWidget extends StatelessWidget {
                             index: index,
                             onSuccess: (message) {
                               Navigator.pop(context);
+                              context.flushBarTopSuccessMessage(message: message);
                             },
                             onFailure: (message) {
                               Navigator.pop(context);

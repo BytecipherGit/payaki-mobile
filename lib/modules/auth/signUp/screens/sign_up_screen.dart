@@ -266,35 +266,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               buttonText: "Register",
                               onTab: () async {
                                 if (fullNameController.text.isEmpty) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: "Please Enter Your Full Name.");
                                 } else if (userNameController.text.isEmpty) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: "Please Enter Your Username.");
                                 } else if (emailController.text.isEmpty) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: "Please Enter Your Email.");
                                 } else if (Validators.checkValidateEmail(
                                         emailController.text) ==
                                     false) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: "Please Enter Valid Email.");
                                 } else if (phoneNumberController.text.isEmpty) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message:
                                           "Please Enter Your Phone Number.");
                                 } else if (passwordController.text.isEmpty) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: "Please Enter Your Password.");
                                 } else if (selectedIdProofType == null) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: "Please Select ID Proof Type.");
                                 } else if (idProofNumberController
                                     .text.isEmpty) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: "Please Enter ID Proof Number.");
                                 } else if (idProofImage == null) {
-                                  context.showSnackBar(
+                                  context.flushBarTopErrorMessage(
                                       message: "Please Upload ID Proof Image.");
                                 } else {
                                   MultipartFile idImageFile =
@@ -322,13 +322,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         deviceToken: deviceToken),
                                     onSuccess: (value) {
                                       Navigator.pop(context);
-                                      context.showToast(message: value);
                                       Navigator.pushReplacementNamed(context,
                                           RouteName.bottomNavigationBarScreen);
+
+                                      context.flushBarTopSuccessMessage(
+                                          message: value);
                                     },
                                     onFailure: (value) {
                                       Navigator.pop(context);
-                                      context.showSnackBar(message: value);
+                                      context.flushBarTopErrorMessage(
+                                          message: value);
                                     },
                                   );
                                 }
@@ -537,7 +540,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
         onFailure: (value) {
           Navigator.pop(context);
-          context.showSnackBar(message: value);
+          context.flushBarTopErrorMessage(message: value);
         });
   }
 }

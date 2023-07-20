@@ -51,12 +51,8 @@ class SimpleTextField extends StatelessWidget {
             textAlignVertical: TextAlignVertical.center,
             inputFormatters: inputFormatter,
             decoration: InputDecoration(
-              // contentPadding: EdgeInsets.only(
-              //   //  top: 12.sp, bottom: 12.sp,
-              //     left: 20.w, right: 5.w),
               contentPadding:
                   EdgeInsets.only(left: 20.w, top: 16, bottom: 16, right: 5.w),
-
               filled: true,
               fillColor: ColorUtility.colorF8FAFB,
               hintStyle: StyleUtility.hintTextStyle,

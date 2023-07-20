@@ -138,24 +138,24 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
                       buttonText: "Report Violation",
                       onTab: () {
                         if (nameController.text.isEmpty) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: 'Please Enter Your Name.');
                         } else if (Validators.checkValidateEmail(
                                 emailController.text) ==
                             false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: 'Please Enter Valid Email Address.');
                         } else if (selectedViolationType == null) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: 'Please Select Violation Type.');
                         } else if (violationUrlController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     violationUrlController.text) ==
                                 false) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: "Please Enter Valid Link.");
                         } else if (detailController.text.isEmpty) {
-                          context.showSnackBar(
+                          context.flushBarTopErrorMessage(
                               message: 'Please Enter Violation Details');
                         } else {
                           CommonDialog.showLoadingDialog(context);
@@ -175,11 +175,11 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
                             onSuccess: (message) {
                               Navigator.pop(context);
                               Navigator.pop(context);
-                              context.showSnackBar(message: message);
+                              context.flushBarTopSuccessMessage(message: message);
                             },
                             onFailure: (message) {
                               Navigator.pop(context);
-                              context.showSnackBar(message: message);
+                              context.flushBarTopErrorMessage(message: message);
                             },
                           );
                         }

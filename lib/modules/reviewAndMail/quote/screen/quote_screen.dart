@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
 import 'package:payaki/modules/reviewAndMail/quote/viewModel/quote_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/reviewAndMail/quote_request.dart';
@@ -63,7 +63,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
                         titleText: "Amount*",
                         textInputType: TextInputType.number,
                         inputFormatter: [
-                          FilteringTextInputFormatter.digitsOnly
+                          DecimalInputFormatter(),
                         ],
                       ),
                       SizedBox(
@@ -87,9 +87,11 @@ class _QuoteScreenState extends State<QuoteScreen> {
                     buttonText: "Send",
                     onTab: () {
                       if (amountController.text.isEmpty) {
-                        context.showSnackBar(message: 'Please Enter Amount.');
+                        context.flushBarTopErrorMessage(
+                            message: 'Please Enter Amount.');
                       } else if (messageController.text.isEmpty) {
-                        context.showSnackBar(message: 'Please Enter Message.');
+                        context.flushBarTopErrorMessage(
+                            message: 'Please Enter Message.');
                       } else {
                         CommonDialog.showLoadingDialog(context);
                         quoteScreenVm.sendQuote(
@@ -104,11 +106,11 @@ class _QuoteScreenState extends State<QuoteScreen> {
                           onSuccess: (message) {
                             Navigator.pop(context);
                             Navigator.pop(context);
-                            context.showSnackBar(message: message);
+                            context.flushBarTopSuccessMessage(message: message);
                           },
                           onFailure: (message) {
                             Navigator.pop(context);
-                            context.showSnackBar(message: message);
+                            context.flushBarTopErrorMessage(message: message);
                           },
                         );
                       }

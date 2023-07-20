@@ -112,18 +112,18 @@ class _ReplyEmailScreenState extends State<ReplyEmailScreen> {
                     buttonText: "Send Mail",
                     onTab: () {
                       if (fullNameController.text.isEmpty) {
-                        context.showSnackBar(
+                        context.flushBarTopErrorMessage(
                             message: 'Please Enter Full Name.');
                       } else if (Validators.checkValidateEmail(
                               emailController.text) ==
                           false) {
-                        context.showSnackBar(
+                        context.flushBarTopErrorMessage(
                             message: 'Please Enter Valid Email Address.');
                       } else if (phoneNumberController.text.isEmpty) {
-                        context.showSnackBar(
+                        context.flushBarTopErrorMessage(
                             message: 'Please Enter Mobile Number.');
                       } else if (messageController.text.isEmpty) {
-                        context.showSnackBar(
+                        context.flushBarTopErrorMessage(
                             message: 'Please Enter Message...');
                       } else {
                         CommonDialog.showLoadingDialog(context);
@@ -143,11 +143,11 @@ class _ReplyEmailScreenState extends State<ReplyEmailScreen> {
                           onSuccess: (message) {
                             Navigator.pop(context);
                             Navigator.pop(context);
-                            context.showSnackBar(message: message);
+                            context.flushBarTopSuccessMessage(message: message);
                           },
                           onFailure: (message) {
                             Navigator.pop(context);
-                            context.showSnackBar(message: message);
+                            context.flushBarTopErrorMessage(message: message);
                           },
                         );
                       }

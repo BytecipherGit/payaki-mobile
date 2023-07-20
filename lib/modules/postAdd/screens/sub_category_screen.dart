@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/postAdd/provider/sub_category_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -30,7 +31,12 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
     subCategoryScreenVm =
         Provider.of<SubCategoryScreenVm>(context, listen: false);
     subCategoryScreenVm.subCategoryListApi(
-        onSuccess: (value) {}, onFailure: (value) {}, catId: widget.catId);
+        onSuccess: (value) {},
+        onFailure: (String message) {
+          Navigator.pop(context);
+          context.flushBarTopErrorMessage(message: message);
+        },
+        catId: widget.catId);
   }
 
   @override
@@ -56,11 +62,9 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
               Expanded(child: Consumer<SubCategoryScreenVm>(
                   builder: (context, subCategoryScreenVm, child) {
                 return subCategoryScreenVm.isLoading == true
-                    ? const Center(
-                        child: CircularProgressWidget()
-                      )
+                    ? const Center(child: CircularProgressWidget())
                     : ListView.builder(
-                  padding: EdgeInsets.only(top: 18.h),
+                        padding: EdgeInsets.only(top: 18.h),
                         itemCount: subCategoryScreenVm.subCategoryList?.length,
                         itemBuilder: (context, index) {
                           return InkWell(
@@ -69,13 +73,17 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                   context, RouteName.addDetailScreen,
                                   arguments: {
                                     "catId": widget.catId,
-                                    "subCatId": int.parse(subCategoryScreenVm.subCategoryList![index].subCatId!)
+                                    "subCatId": int.parse(subCategoryScreenVm
+                                        .subCategoryList![index].subCatId!)
                                   });
                             },
                             child: Padding(
-                              padding:  EdgeInsets.only(top: 12.h,bottom: 12.h,left: 12.w),
+                              padding: EdgeInsets.only(
+                                  top: 12.h, bottom: 12.h, left: 12.w),
                               child: Text(
-                                subCategoryScreenVm.subCategoryList![index].subCatName ?? "",
+                                subCategoryScreenVm
+                                        .subCategoryList![index].subCatName ??
+                                    "",
                                 style: StyleUtility.titleTextStyle,
                               ),
                             ),

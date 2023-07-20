@@ -145,7 +145,7 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                                             onSuccess: (value) {
                                               Navigator.pop(context);
 
-                                              context.showSnackBar(
+                                              context.showToast(
                                                   message:
                                                       "${value.message} ${value.data!.otp}");
                                               _startTimer(
@@ -153,7 +153,7 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                                             },
                                             onFailure: (value) {
                                               Navigator.pop(context);
-                                              context.showSnackBar(
+                                              context.flushBarTopErrorMessage(
                                                   message: value);
                                             },
                                           );
@@ -175,7 +175,7 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                         onTab: () {
                           if (otpController.text.isEmpty ||
                               otpController.text.length < 6) {
-                            context.showSnackBar(
+                            context.flushBarTopErrorMessage(
                                 message: "Please Enter 6 Digit Otp");
                           } else {
                             CommonDialog.showLoadingDialog(context);
@@ -190,14 +190,16 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                                 onSuccess: (value) {
                                   Navigator.pop(context);
 
-                                  context.showSnackBar(message: value);
+                                  context.flushBarTopErrorMessage(
+                                      message: value);
                                   Navigator.pushReplacementNamed(context,
                                       RouteName.forgotNewPasswordScreen,
                                       arguments: {"userId": widget.userId});
                                 },
                                 onFailure: (value) {
                                   Navigator.pop(context);
-                                  context.showSnackBar(message: value);
+                                  context.flushBarTopErrorMessage(
+                                      message: value);
                                 });
                           }
                         })),

@@ -121,7 +121,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   buttonText: "Next",
                   onTab: () {
                     if (selectedImages.isEmpty) {
-                      context.showSnackBar(message: "Please Upload Images.");
+                      context.flushBarTopErrorMessage(message: "Please Upload Images.");
                     } else {
                       Navigator.pushNamed(context, RouteName.addLocationScreen,
                           arguments: {

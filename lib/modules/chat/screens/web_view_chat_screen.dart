@@ -49,7 +49,7 @@ class _WebViewChatScreenState extends State<WebViewChatScreen> {
                 isLoading = false;
               });
               logD(error.toString());
-              context.showSnackBar(message: error.toString());
+              context.flushBarTopErrorMessage(message: error.toString());
               Navigator.pop(context);
             },
             // onNavigationRequest: (NavigationRequest request) {
