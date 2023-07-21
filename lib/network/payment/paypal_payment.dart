@@ -18,11 +18,6 @@ class PayPalPayment {
       MaterialPageRoute(
         builder: (BuildContext context) => UsePaypal(
             sandboxMode: true,
-            // clientId:
-            // "AVpFDyu8miaS4QtS2pzBa0l-KGmCOy9cGCIZavQOs5ev7YSeSMd-WExl_jTNUtGhRqGdSuEh73dJ90Yi",
-            // secretKey:
-            // "EMpw5WwZ__n2YemFw2fo82VriBb753vwR7FgXUhoNp7u34w6oMLGZlJOklXdwjNoxeT8AxlZph2irRG8",
-
             clientId: clientId,
             secretKey: secretKey,
             returnURL: "https://samplesite.com/return",

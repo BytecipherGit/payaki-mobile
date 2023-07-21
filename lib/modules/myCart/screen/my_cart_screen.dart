@@ -275,7 +275,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 onTab: () {
                                   PayPalPayment().pay(
                                       context: context,
-                                      amount: "1051",
+                                      amount: myCart?.total.toString() ?? "0",
                                       onSuccess: (Map params) {
                                         logD("onSuccess: $params");
 
