@@ -7,8 +7,10 @@ import 'package:payaki/network/model/response/post/post_list_response.dart';
 import 'package:payaki/network/repository/post_repository.dart';
 
 import 'package:payaki/network/model/request/post/like_dislike_post_request.dart'
-as post_like_dislike_r;
+    as post_like_dislike_r;
 
+import 'package:payaki/network/model/request/post/delete_post_request.dart'
+    as delete_post;
 
 class MyAdsScreenVm extends ChangeNotifier {
   final PostRepository postRepository = PostRepository();
@@ -139,10 +141,9 @@ class MyAdsScreenVm extends ChangeNotifier {
   }) {
     postRepository
         .postLikeDislike(post_like_dislike_r.LikeDislikePostRequest(
-        name: Endpoints.post.likeDislikePost,
-        param: post_like_dislike_r.Param(
-            userId: Preference().getUserId(),
-            productId: postId)))
+            name: Endpoints.post.likeDislikePost,
+            param: post_like_dislike_r.Param(
+                userId: Preference().getUserId(), productId: postId)))
         .then((value) {
       if (value.code == 200) {
         favouriteAdsList?.removeAt(index);
@@ -159,5 +160,34 @@ class MyAdsScreenVm extends ChangeNotifier {
     });
   }
 
-
+  deletePost({
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+    required String postId,
+    required int index,
+    required bool isPendingPost,
+  }) {
+    postRepository
+        .deletePost(delete_post.DeletePostRequest(
+            name: Endpoints.post.deleteUserPost,
+            param: delete_post.Param(productId: postId)))
+        .then((value) {
+      if (value.code == 200) {
+        if (isPendingPost == true) {
+          pendingAdsList?.removeAt(index);
+        } else {
+          myAdsList?.removeAt(index);
+        }
+        notifyListeners();
+        onSuccess?.call(value.message ?? "");
+      } else {
+        onFailure?.call(value.message ?? "");
+      }
+      notifyListeners();
+    }).onError((error, stackTrace) {
+      logE("error $error");
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
 }

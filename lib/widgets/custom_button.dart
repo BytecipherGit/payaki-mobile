@@ -6,7 +6,7 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 
 class CustomButton extends StatelessWidget {
-  final int buttonType; // 0 elevated, 1 outlined , 2 TextButton
+  final int buttonType; // 0 elevated, 1 outlined , 2 TextButton,3 outlineWithIcon,4 transparentButton
 
    CustomButton({
     Key? key,
@@ -29,13 +29,14 @@ class CustomButton extends StatelessWidget {
   })  : buttonType = 2,
         super(key: key);
 
-   CustomButton.outlineWithIcon({
+   CustomButton.withIcon({
     Key? key,
     required this.buttonText,
     required this.onTab,
     required this.icon,
   })  : buttonType = 3,
         super(key: key);
+
 
 
   final String buttonText;
@@ -55,7 +56,9 @@ class CustomButton extends StatelessWidget {
           child: Text(
             buttonText,
             maxLines: 1,
-            style: StyleUtility.buttonTextStyle
+            style: StyleUtility.buttonTextStyle.copyWith(
+              color: ColorUtility.color282828
+            )
           ));
     }
     if (buttonType == 2) {
@@ -109,6 +112,10 @@ class CustomButton extends StatelessWidget {
         ),
       );
     }
+
+
+
+
 
     Gradient gradient = const LinearGradient(
         colors: [ColorUtility.color9C5FA3,

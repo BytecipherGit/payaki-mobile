@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/modules/myCart/viewModel/my_car_screen_vm.dart';
+import 'package:payaki/modules/myCart/viewModel/my_cart_screen_vm.dart';
+import 'package:payaki/network/end_points.dart';
+import 'package:payaki/network/model/request/cart/checkout_request.dart';
+import 'package:payaki/network/payment/paypal_payment.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -12,6 +17,7 @@ import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
+import 'package:payaki/widgets/delete_alert_dialog.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +32,13 @@ class _MyCartScreenState extends State<MyCartScreen> {
   MyCartScreenVm myCartScreenVm = MyCartScreenVm();
 
   int length = 0;
+
+  String? paymentId;
+  String? status;
+  String? payerId;
+
+  List<String> productIds = [];
+  List<String> amounts = [];
 
   @override
   void initState() {
@@ -82,7 +95,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         primary: false,
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
-                                          return InkWell(
+                                          return GestureDetector(
                                             onTap: () {},
                                             child: Padding(
                                               padding: const EdgeInsets.only(
@@ -150,45 +163,47 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                   ),
                                                   InkWell(
                                                     onTap: () {
-                                                      CommonDialog
-                                                          .showLoadingDialog(
-                                                              context);
-                                                      myCartScreenVm
-                                                          .removeFromCart(
-                                                              onSuccess:
-                                                                  (message) {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                context.flushBarTopSuccessMessage(
-                                                                    message:
-                                                                        message);
+                                                      showRemovePostDialog(
+                                                        context: context,
+                                                        onDeleteTap: () {
+                                                          CommonDialog
+                                                              .showLoadingDialog(
+                                                                  context);
+                                                          myCartScreenVm
+                                                              .removeFromCart(
+                                                                  onSuccess:
+                                                                      (message) {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    context.flushBarTopSuccessMessage(
+                                                                        message:
+                                                                            message);
 
-                                                                myCartScreenVm
-                                                                    .cartList(
-                                                                        onSuccess:
-                                                                            (String
+                                                                    myCartScreenVm
+                                                                        .cartList(
+                                                                            onSuccess: (String
                                                                                 value) {},
-                                                                        onFailure:
-                                                                            (value) {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                          context.flushBarTopErrorMessage(
-                                                                              message: value.toString());
-                                                                        });
-                                                              },
-                                                              onFailure:
-                                                                  (message) {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                context.flushBarTopErrorMessage(
-                                                                    message:
-                                                                        message);
-                                                              },
-                                                              index: index,
-                                                              postId: myCart
-                                                                  ?.products?[
-                                                                      index]
-                                                                  .productId);
+                                                                            onFailure:
+                                                                                (value) {
+                                                                              Navigator.pop(context);
+                                                                              context.flushBarTopErrorMessage(message: value.toString());
+                                                                            });
+                                                                  },
+                                                                  onFailure:
+                                                                      (message) {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    context.flushBarTopErrorMessage(
+                                                                        message:
+                                                                            message);
+                                                                  },
+                                                                  index: index,
+                                                                  postId: myCart
+                                                                      ?.products?[
+                                                                          index]
+                                                                      .productId);
+                                                        },
+                                                      );
                                                     },
                                                     child: Container(
                                                       height: 45.w,
@@ -257,7 +272,68 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             CustomButton(
                                 buttonText:
                                     "Check out (${"₹ ${myCart?.total ?? ""}"})",
-                                onTab: () {}),
+                                onTab: () {
+                                  PayPalPayment().pay(
+                                      context: context,
+                                      amount: "1051",
+                                      onSuccess: (Map params) {
+                                        logD("onSuccess: $params");
+
+                                        status = params["status"].toString();
+                                        paymentId =
+                                            params["paymentId"].toString();
+                                        payerId = params["data"]["payer"]
+                                            ["payer_info"]["payer_id"];
+
+
+                                        productIds.clear();
+                                        amounts.clear();
+                                        for (var i = 0;
+                                            i < (myCart?.products?.length ?? 0);
+                                            i++) {
+                                          productIds.add(
+                                              myCart?.products?[i].productId ??
+                                                  "0");
+                                          amounts.add(myCart
+                                                  ?.products?[i].productPrice ??
+                                              "0");
+                                        }
+
+                                        Timer(const Duration(seconds: 1), () {
+                                          CommonDialog.showLoadingDialog(
+                                              context);
+                                          myCartScreenVm.checkoutCart(
+                                              request: CheckoutRequest(
+                                                name: Endpoints.cartEndPoints
+                                                    .checkoutPaypal,
+                                                param: Param(
+                                                    totalAmount: myCart?.total,
+                                                    productIds: productIds,
+                                                    amounts: amounts,
+                                                    paymentId: paymentId,
+                                                    payerId: payerId,
+                                                    status: status),
+                                              ),
+                                              onSuccess: (String message) {
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                                context
+                                                    .flushBarTopSuccessMessage(
+                                                        message: message);
+                                              },
+                                              onFailure: (String message) {
+                                                Navigator.pop(context);
+                                                context
+                                                    .flushBarTopSuccessMessage(
+                                                        message: message);
+                                              });
+                                        });
+                                      },
+                                      onFailure: (String message) {
+                                        context.flushBarTopErrorMessage(
+                                            message: message.toString());
+                                      });
+                                }),
                             SizedBox(
                               height: 10.h,
                             )
@@ -283,5 +359,19 @@ class _MyCartScreenState extends State<MyCartScreen> {
         }),
       ),
     );
+  }
+
+  Future<dynamic> showRemovePostDialog({
+    required BuildContext context,
+    required VoidCallback onDeleteTap,
+  }) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return DeleteAlertDialog(
+            onDeleteTap: onDeleteTap,
+            yesText: "Delete Item",
+          );
+        });
   }
 }

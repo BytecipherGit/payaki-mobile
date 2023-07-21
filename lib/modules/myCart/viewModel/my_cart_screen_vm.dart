@@ -6,6 +6,9 @@ import 'package:payaki/network/model/request/cart/add_and_remove_cart_request.da
 import 'package:payaki/network/model/response/cart/cart_list_response.dart';
 import 'package:payaki/network/repository/cart_repository.dart';
 
+import '../../../network/model/request/cart/checkout_request.dart'
+as checkout;
+
 class MyCartScreenVm extends ChangeNotifier {
   final CartRepository cartRepository = CartRepository();
 
@@ -61,4 +64,35 @@ class MyCartScreenVm extends ChangeNotifier {
       onFailure?.call(error.toString());
     });
   }
+
+
+  checkoutCart({
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+    required checkout.CheckoutRequest request,
+  }) {
+    cartRepository
+        .checkoutCart(request)
+        .then((value) {
+      if (value.code == 200) {
+        onSuccess?.call(value.message ?? "");
+      } else {
+        onFailure?.call(value.message ?? "");
+      }
+      notifyListeners();
+    }).onError((error, stackTrace) {
+      logE("error $error");
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
+
+
+
+
+
+
+
+
+
 }

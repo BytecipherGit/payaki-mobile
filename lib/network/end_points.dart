@@ -42,6 +42,7 @@ class PostEndPoints {
 
   String get expireParam => "expire";
   String get pendingParam => "pending";
+  String get deleteUserPost => "deleteUserPost";
 }
 
 class LocationEndPoints {
@@ -74,6 +75,8 @@ class CartEndPoints {
   String get addToCart => "addToCart";
   String get getCartItems => "getCartItems";
   String get deleteFromCart => "deleteFromCart";
+  String get checkoutPaypal => "checkoutPaypal";
+
 }
 
 

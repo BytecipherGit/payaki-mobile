@@ -18,10 +18,12 @@ class GridItemWidget extends StatelessWidget {
   final String? featured;
   final String? highlight;
   final bool? isFavouriteList;
+  final bool? isShowDeleteIcon;
   final bool? isExpiredList;
 
   final VoidCallback? onTap;
   final VoidCallback? onFavouriteIconTap;
+  final VoidCallback? onDeleteIconTap;
 
   const GridItemWidget({
     super.key,
@@ -33,11 +35,13 @@ class GridItemWidget extends StatelessWidget {
     required this.isVerified,
     required this.onTap,
     this.onFavouriteIconTap,
+    this.onDeleteIconTap,
     required this.urgent,
     required this.featured,
     required this.highlight,
     this.isFavouriteList = false,
     this.isExpiredList = false,
+    this.isShowDeleteIcon = false,
   });
 
   @override
@@ -201,6 +205,16 @@ class GridItemWidget extends StatelessWidget {
                                     child: Image.asset(
                                       ImageUtility.favIcon,
                                       height: 18.sp,
+                                    ),
+                                  )
+                                : const SizedBox(),
+                            isShowDeleteIcon == true
+                                ? InkWell(
+                                    onTap: onDeleteIconTap,
+                                    child: Image.asset(
+                                      ImageUtility.deleteIcon,
+                                      color: ColorUtility.colorEB4335,
+                                      height: 22.sp,
                                     ),
                                   )
                                 : const SizedBox(),

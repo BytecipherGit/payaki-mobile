@@ -9,6 +9,7 @@ import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
+import 'package:payaki/widgets/delete_alert_dialog.dart';
 import 'package:payaki/widgets/grid_item_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -119,14 +120,15 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                         myAdsScreenVm.myAdsListLoading == true
                             ? const CircularProgressWidget()
                             : AddListWidget(
-                                myAdsList: myAdsScreenVm.myAdsList,
+                                adsList: myAdsScreenVm.myAdsList,
+                                isShowDeleteIcon: true,
                               ),
 
                         // Favourite Ads
                         myAdsScreenVm.favouriteAdsListLoading == true
                             ? const CircularProgressWidget()
                             : AddListWidget(
-                                myAdsList: myAdsScreenVm.favouriteAdsList,
+                                adsList: myAdsScreenVm.favouriteAdsList,
                                 isFavouriteList: true,
                               ),
 
@@ -134,14 +136,16 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                         myAdsScreenVm.pendingAdsListLoading == true
                             ? const CircularProgressWidget()
                             : AddListWidget(
-                                myAdsList: myAdsScreenVm.pendingAdsList,
+                                adsList: myAdsScreenVm.pendingAdsList,
+                                isShowDeleteIcon: true,
+                                isPendingPost: true,
                               ),
 
                         //Expired Ads
                         myAdsScreenVm.expiredAdsListLoading == true
                             ? const CircularProgressWidget()
                             : AddListWidget(
-                                myAdsList: myAdsScreenVm.expiredAdsList,
+                                adsList: myAdsScreenVm.expiredAdsList,
                                 isExpiredList: true,
                               ),
                       ],
@@ -160,25 +164,29 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
 class AddListWidget extends StatelessWidget {
   final bool? isFavouriteList;
   final bool? isExpiredList;
-  final List<Data>? myAdsList;
+  final bool? isShowDeleteIcon;
+  final List<Data>? adsList;
+  final bool? isPendingPost;
 
   const AddListWidget({
     super.key,
-    this.myAdsList,
+    this.adsList,
     this.isFavouriteList,
     this.isExpiredList,
+    this.isShowDeleteIcon,
+    this.isPendingPost,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 20.w, right: 20.w),
-      child: (myAdsList?.length ?? 0) > 0
+      child: (adsList?.length ?? 0) > 0
           ? GridView.builder(
               shrinkWrap: true,
               primary: false,
               padding: EdgeInsets.only(top: 20.h, bottom: 60.h),
-              itemCount: myAdsList?.length,
+              itemCount: adsList?.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.w,
@@ -186,25 +194,26 @@ class AddListWidget extends StatelessWidget {
                   childAspectRatio: 0.82),
               itemBuilder: (context, index) {
                 String? image;
-                if ((myAdsList?[index].image?.length ?? 0) > 0) {
-                  image = myAdsList?[index].image?[0];
+                if ((adsList?[index].image?.length ?? 0) > 0) {
+                  image = adsList?[index].image?[0];
                 }
 
                 return GridItemWidget(
-                  price: myAdsList?[index].price ?? "",
-                  title: myAdsList?[index].productName ?? "",
-                  address: myAdsList?[index].fullAddress ?? "",
+                  price: adsList?[index].price ?? "",
+                  title: adsList?[index].productName ?? "",
+                  address: adsList?[index].fullAddress ?? "",
                   imageUrl: image ?? "",
-                  expiredDate: myAdsList?[index].expiredDate,
-                  isVerified: myAdsList?[index].isVerified,
-                  urgent: myAdsList?[index].urgent,
-                  featured: myAdsList?[index].featured,
-                  highlight: myAdsList?[index].highlight,
+                  expiredDate: adsList?[index].expiredDate,
+                  isVerified: adsList?[index].isVerified,
+                  urgent: adsList?[index].urgent,
+                  featured: adsList?[index].featured,
+                  highlight: adsList?[index].highlight,
                   isFavouriteList: isFavouriteList,
                   isExpiredList: isExpiredList,
+                  isShowDeleteIcon: isShowDeleteIcon,
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.postDetailsScreen,
-                            arguments: {"postId": myAdsList?[index].id})
+                            arguments: {"postId": adsList?[index].id})
                         .then((value) {
                       Provider.of<MyAdsScreenVm>(context, listen: false)
                           .getFavouriteAds();
@@ -214,15 +223,40 @@ class AddListWidget extends StatelessWidget {
                     CommonDialog.showLoadingDialog(context);
                     Provider.of<MyAdsScreenVm>(context, listen: false)
                         .postLikeDislike(
-                            postId: myAdsList?[index].id ?? "",
+                            postId: adsList?[index].id ?? "",
                             index: index,
                             onSuccess: (message) {
                               Navigator.pop(context);
-                              context.flushBarTopSuccessMessage(message: message);
+                              context.flushBarTopSuccessMessage(
+                                  message: message);
                             },
                             onFailure: (message) {
                               Navigator.pop(context);
+                              context.flushBarTopErrorMessage(message: message);
                             });
+                  },
+                  onDeleteIconTap: () {
+                    showDeletePostDialog(
+                      context: context,
+                      onDeleteTap: () {
+                        CommonDialog.showLoadingDialog(context);
+                        Provider.of<MyAdsScreenVm>(context, listen: false)
+                            .deletePost(
+                                postId: adsList?[index].id ?? "",
+                                index: index,
+                                isPendingPost: isPendingPost ?? false,
+                                onSuccess: (message) {
+                                  Navigator.pop(context);
+                                  context.flushBarTopSuccessMessage(
+                                      message: message);
+                                },
+                                onFailure: (message) {
+                                  Navigator.pop(context);
+                                  context.flushBarTopErrorMessage(
+                                      message: message);
+                                });
+                      },
+                    );
                   },
                 );
               },
@@ -236,5 +270,18 @@ class AddListWidget extends StatelessWidget {
                 ),
               )),
     );
+  }
+
+  Future<dynamic> showDeletePostDialog({
+    required BuildContext context,
+    required VoidCallback onDeleteTap,
+  }) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return DeleteAlertDialog(
+            onDeleteTap: onDeleteTap,
+          );
+        });
   }
 }

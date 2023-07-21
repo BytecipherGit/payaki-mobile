@@ -59,6 +59,7 @@ class ImageUtility {
   static const String addToCartIcon = 'assets/images/add_to_cart_icon.png';
   static const String deleteIcon = 'assets/images/delete_icon.png';
   static const String emptyCartImage = 'assets/images/empty_cart_image.png';
+  static const String deletePostImage = 'assets/images/delete_post_image.png';
 
 
 

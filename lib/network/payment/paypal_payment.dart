@@ -3,19 +3,13 @@ import 'package:flutter_paypal/flutter_paypal.dart';
 import 'package:payaki/logger/app_logger.dart';
 
 class PayPalPayment {
-  String clientId = "AVpFDyu8miaS4QtS2pzBa0l-KGmCOy9cGCIZavQOs5ev7YSeSMd-WExl_jTNUtGhRqGdSuEh73dJ90Yi";
-  String secretKey = "EMpw5WwZ__n2YemFw2fo82VriBb753vwR7FgXUhoNp7u34w6oMLGZlJOklXdwjNoxeT8AxlZph2irRG8";
+  String clientId =
+      "AVpFDyu8miaS4QtS2pzBa0l-KGmCOy9cGCIZavQOs5ev7YSeSMd-WExl_jTNUtGhRqGdSuEh73dJ90Yi";
+  String secretKey =
+      "EMpw5WwZ__n2YemFw2fo82VriBb753vwR7FgXUhoNp7u34w6oMLGZlJOklXdwjNoxeT8AxlZph2irRG8";
 
-
-  void initiatePayment(double amount) {
-    // Implement PayPal payment initiation logic
-  }
-
-  void handleCallback(Map<String, dynamic> callbackData) {
-    // Handle the PayPal payment callback data
-  }
-
-  pay({required BuildContext context,
+  pay({
+    required BuildContext context,
     required String amount,
     required ValueChanged<Map> onSuccess,
     required ValueChanged<String> onFailure,
@@ -28,7 +22,6 @@ class PayPalPayment {
             // "AVpFDyu8miaS4QtS2pzBa0l-KGmCOy9cGCIZavQOs5ev7YSeSMd-WExl_jTNUtGhRqGdSuEh73dJ90Yi",
             // secretKey:
             // "EMpw5WwZ__n2YemFw2fo82VriBb753vwR7FgXUhoNp7u34w6oMLGZlJOklXdwjNoxeT8AxlZph2irRG8",
-
 
             clientId: clientId,
             secretKey: secretKey,
@@ -73,14 +66,12 @@ class PayPalPayment {
             ],
             note: "Contact us for any questions on your order.",
             onSuccess: (Map params) async {
-             // logD("onSuccess: $params");
+              // logD("onSuccess: $params");
               onSuccess.call(params);
-
             },
             onError: (error) {
-            //
+              //
               onFailure.call("$error");
-
             },
             onCancel: (params) {
               logD('cancelled: $params');
@@ -88,9 +79,4 @@ class PayPalPayment {
       ),
     );
   }
-
-
-
-
-
 }

@@ -450,7 +450,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                       Padding(
                                         padding:
                                         EdgeInsets.only(bottom: 25.h),
-                                        child: CustomButton.outlineWithIcon(
+                                        child: CustomButton.withIcon(
                                             buttonText: "Add to Cart",
                                             icon: ImageUtility.addToCartIcon,
                                             onTab: () {
