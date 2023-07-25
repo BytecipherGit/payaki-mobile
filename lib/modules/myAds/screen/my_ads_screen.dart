@@ -11,6 +11,7 @@ import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/delete_alert_dialog.dart';
 import 'package:payaki/widgets/grid_item_widget.dart';
+import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
 class MyAdsScreen extends StatefulWidget {
@@ -261,14 +262,11 @@ class AddListWidget extends StatelessWidget {
                 );
               },
             )
-          : SizedBox(
-              height: 100.sp,
-              child: Center(
-                child: Text(
-                  "No Post Found",
-                  style: StyleUtility.inputTextStyle,
-                ),
-              )),
+          :
+
+
+       const NoDataWidget(title: 'You haven’t listed anything yet.',),
+
     );
   }
 

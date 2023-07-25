@@ -48,345 +48,345 @@ class _ProfileScreenState extends State<ProfileScreen> {
           var userProfile = profileScreenVm.userProfileResponse?.data;
 
           return profileScreenVm.isLoading == false
-              ? Padding(
+              ? SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: SingleChildScrollView(
-                    physics: const ClampingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        userProfile?.status == "0"
-                            ? Container(
-                                margin: EdgeInsets.only(top: 15.h),
-                                width: double.infinity,
-                                padding: EdgeInsets.only(
-                                    left: 10.w,
-                                    right: 10.w,
-                                    top: 10.w,
-                                    bottom: 18.w),
-                                decoration: BoxDecoration(
-                                  color: ColorUtility.colorDACADD,
-                                  borderRadius: BorderRadius.circular(20.r),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      ImageUtility.verifyEmailIcon,
-                                      width: 30.w,
-                                      height: 30.h,
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          RichText(
-                                            textAlign: TextAlign.start,
-                                            text: TextSpan(
-                                              text: 'Welcome',
-                                              style: StyleUtility.axiforma400
-                                                  .copyWith(
-                                                      color: ColorUtility
-                                                          .color001802,
-                                                      fontSize: TextSizeUtility
-                                                          .textSize14),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text:
-                                                      ' ${userProfile?.name ?? ""}, ',
-                                                  style: StyleUtility
-                                                      .axiforma600
-                                                      .copyWith(
-                                                          color: ColorUtility
-                                                              .color001802,
-                                                          fontSize:
-                                                              TextSizeUtility
-                                                                  .textSize14),
-                                                ),
-                                                TextSpan(
-                                                  text: "Go to your email",
-                                                  style: StyleUtility
-                                                      .axiforma400
-                                                      .copyWith(
-                                                          color: ColorUtility
-                                                              .color001802,
-                                                          fontSize:
-                                                              TextSizeUtility
-                                                                  .textSize14),
-                                                ),
-                                                TextSpan(
-                                                  //  text: " test@mail123.com ",
-                                                  text:
-                                                      " ${userProfile?.email ?? ""} ",
-                                                  style: StyleUtility
-                                                      .axiforma600
-                                                      .copyWith(
-                                                          color: ColorUtility
-                                                              .color001802,
-                                                          fontSize:
-                                                              TextSizeUtility
-                                                                  .textSize14),
-                                                ),
-                                                TextSpan(
-                                                  text:
-                                                      "verify your email address.",
-                                                  style: StyleUtility
-                                                      .axiforma400
-                                                      .copyWith(
-                                                          color: ColorUtility
-                                                              .color001802,
-                                                          fontSize:
-                                                              TextSizeUtility
-                                                                  .textSize14),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 15.h,
-                                          ),
-                                          Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              onTap: () {
-                                                CommonDialog.showLoadingDialog(
-                                                    context);
-                                                profileScreenVm.resendEmail(
-                                                  email: userProfile?.email,
-                                                  onSuccess: (message) {
-                                                    Navigator.pop(context);
-                                                    context.flushBarTopSuccessMessage(
-                                                        message: message);
-                                                  },
-                                                  onFailure: (message) {
-                                                    Navigator.pop(context);
-                                                    context.flushBarTopErrorMessage(
-                                                        message: message);
-                                                  },
-                                                );
-                                              },
-                                              child: Text(
-                                                "Resend Email",
-                                                style: StyleUtility.urlTextStyle
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      userProfile?.status == "0"
+                          ? Container(
+                              margin: EdgeInsets.only(top: 15.h),
+                              width: double.infinity,
+                              padding: EdgeInsets.only(
+                                  left: 10.w,
+                                  right: 10.w,
+                                  top: 10.w,
+                                  bottom: 18.w),
+                              decoration: BoxDecoration(
+                                color: ColorUtility.colorDACADD,
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    ImageUtility.verifyEmailIcon,
+                                    width: 30.w,
+                                    height: 30.h,
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        RichText(
+                                          textAlign: TextAlign.start,
+                                          text: TextSpan(
+                                            text: 'Welcome',
+                                            style: StyleUtility.axiforma400
+                                                .copyWith(
+                                                    color: ColorUtility
+                                                        .color001802,
+                                                    fontSize: TextSizeUtility
+                                                        .textSize14),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text:
+                                                    ' ${userProfile?.name ?? ""}, ',
+                                                style: StyleUtility
+                                                    .axiforma600
                                                     .copyWith(
+                                                        color: ColorUtility
+                                                            .color001802,
                                                         fontSize:
                                                             TextSizeUtility
                                                                 .textSize14),
                                               ),
+                                              TextSpan(
+                                                text: "Go to your email",
+                                                style: StyleUtility
+                                                    .axiforma400
+                                                    .copyWith(
+                                                        color: ColorUtility
+                                                            .color001802,
+                                                        fontSize:
+                                                            TextSizeUtility
+                                                                .textSize14),
+                                              ),
+                                              TextSpan(
+                                                //  text: " test@mail123.com ",
+                                                text:
+                                                    " ${userProfile?.email ?? ""} ",
+                                                style: StyleUtility
+                                                    .axiforma600
+                                                    .copyWith(
+                                                        color: ColorUtility
+                                                            .color001802,
+                                                        fontSize:
+                                                            TextSizeUtility
+                                                                .textSize14),
+                                              ),
+                                              TextSpan(
+                                                text:
+                                                    "verify your email address.",
+                                                style: StyleUtility
+                                                    .axiforma400
+                                                    .copyWith(
+                                                        color: ColorUtility
+                                                            .color001802,
+                                                        fontSize:
+                                                            TextSizeUtility
+                                                                .textSize14),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 15.h,
+                                        ),
+                                        Material(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            onTap: () {
+                                              CommonDialog.showLoadingDialog(
+                                                  context);
+                                              profileScreenVm.resendEmail(
+                                                email: userProfile?.email,
+                                                onSuccess: (message) {
+                                                  Navigator.pop(context);
+                                                  context.flushBarTopSuccessMessage(
+                                                      message: message);
+                                                },
+                                                onFailure: (message) {
+                                                  Navigator.pop(context);
+                                                  context.flushBarTopErrorMessage(
+                                                      message: message);
+                                                },
+                                              );
+                                            },
+                                            child: Text(
+                                              "Resend Email",
+                                              style: StyleUtility.urlTextStyle
+                                                  .copyWith(
+                                                      fontSize:
+                                                          TextSizeUtility
+                                                              .textSize14),
                                             ),
-                                          )
-                                        ],
-                                      ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
+                      SizedBox(height: 15.h),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.only(
+                            left: 25.w, right: 25.w, top: 20.w, bottom: 14.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: Column(
+                          children: [
+                            ClipOval(
+                              child: userProfile?.image != null &&
+                                      userProfile!.image != ""
+                                  ? SizedBox(
+                                      width: 90.w,
+                                      height: 90.w,
+                                      child: NetworkImageWidget(
+                                          width: 25.w,
+                                          height: 25.w,
+                                          url: userProfile.image ?? ""),
                                     )
-                                  ],
-                                ),
-                              )
-                            : const SizedBox(),
-                        SizedBox(height: 15.h),
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.only(
-                              left: 25.w, right: 25.w, top: 20.w, bottom: 14.w),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          child: Column(
-                            children: [
-                              ClipOval(
-                                child: userProfile?.image != null &&
-                                        userProfile!.image != ""
-                                    ? SizedBox(
-                                        width: 90.w,
-                                        height: 90.w,
-                                        child: NetworkImageWidget(
-                                            width: 25.w,
-                                            height: 25.w,
-                                            url: userProfile.image ?? ""),
-                                      )
-                                    : Image.asset(
-                                        ImageUtility.userDummyIcon,
-                                        width: 90.w,
-                                        height: 90.w,
-                                      ),
-                              ),
-                              SizedBox(
-                                height: 5.h,
-                              ),
-                              Text(
-                                userProfile?.email ?? "",
-                                style: StyleUtility.headingTextStyle.copyWith(
-                                    fontSize: TextSizeUtility.textSize22),
+                                  : Image.asset(
+                                      ImageUtility.userDummyIcon,
+                                      width: 90.w,
+                                      height: 90.w,
+                                    ),
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Text(
+                              userProfile?.email ?? "",
+                              style: StyleUtility.headingTextStyle.copyWith(
+                                  fontSize: TextSizeUtility.textSize22),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(userProfile?.name ?? "",
                                 textAlign: TextAlign.center,
-                              ),
-                              Text(userProfile?.name ?? "",
-                                  textAlign: TextAlign.center,
-                                  style: StyleUtility.titleTextStyle),
-                              socialUrlView(userProfile),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              SizedBox(
-                                height: 40.sp,
-                                width: MediaQuery.of(context).size.width,
-                                child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: ColorUtility.colorF8FAFB,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                    ),
-                                    side: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
-                                        width: 2),
+                                style: StyleUtility.titleTextStyle),
+                            socialUrlView(userProfile),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            SizedBox(
+                              height: 40.sp,
+                              width: MediaQuery.of(context).size.width,
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: ColorUtility.colorF8FAFB,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.r),
                                   ),
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, RouteName.editProfileScreen,
-                                        arguments: {
-                                          "userProfile": userProfile
-                                        }).then((value) {
-                                      if (value == true) {
-                                        profileScreenVm.getUserDetail();
-                                      }
-                                    });
-                                  },
-                                  child: Text(
-                                    "Edit Profile",
-                                    maxLines: 1,
-                                    style:
-                                        StyleUtility.buttonTextStyle.copyWith(
-                                      color: ColorUtility.color152D4A,
-                                      fontSize: TextSizeUtility.textSize14,
-                                    ),
+                                  side: const BorderSide(
+                                      color: ColorUtility.colorE2E5EF,
+                                      width: 2),
+                                ),
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, RouteName.editProfileScreen,
+                                      arguments: {
+                                        "userProfile": userProfile
+                                      }).then((value) {
+                                    if (value == true) {
+                                      profileScreenVm.getUserDetail();
+                                    }
+                                  });
+                                },
+                                child: Text(
+                                  "Edit Profile",
+                                  maxLines: 1,
+                                  style:
+                                      StyleUtility.buttonTextStyle.copyWith(
+                                    color: ColorUtility.color152D4A,
+                                    fontSize: TextSizeUtility.textSize14,
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 15.h),
-                          width: double.infinity,
-                          padding: EdgeInsets.only(
-                              left: 17.w, right: 10.w, top: 15.w, bottom: 33.w),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 5.h,
-                              ),
-                              Text("Information",
-                                  style: StyleUtility.headingTextStyle),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                              SettingTileWidget(
-                                title: userProfile?.email ?? "",
-                                image: ImageUtility.emailIcon,
-                                imageWidth: 18.w,
-                              ),
-                              userProfile?.website != null &&
-                                      userProfile!.website!.isNotEmpty
-                                  ? SettingTileWidget(
-                                      title: userProfile.website ?? "",
-                                      image: ImageUtility.webSiteUrlIcon,
-                                      imageWidth: 18.w,
-                                    )
-                                  : const SizedBox(),
-                              userProfile?.address != null &&
-                                      userProfile!.address!.isNotEmpty
-                                  ? SettingTileWidget(
-                                      title: userProfile.address ?? "",
-                                      image: ImageUtility.locationIcon,
-                                      imageWidth: 16.w,
-                                      onTap: () async {
-                                        await googleSignIn.signOut();
-                                        Preference().clearSharedPreference();
-                                        Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            RouteName.logInScreen,
-                                            (route) => false);
-                                      },
-                                    )
-                                  : const SizedBox()
-                            ],
-                          ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 15.h),
+                        width: double.infinity,
+                        padding: EdgeInsets.only(
+                            left: 17.w, right: 10.w, top: 15.w, bottom: 33.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
-                        SizedBox(height: 15.h),
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.only(
-                              left: 17.w, right: 10.w, top: 15.w, bottom: 33.w),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 5.h,
-                              ),
-                              Text("Account Settings",
-                                  style: StyleUtility.headingTextStyle),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                              SettingTileWidget(
-                                title: "Change Password",
-                                image: ImageUtility.passwordIcon,
-                                imageWidth: 14.w,
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RouteName.changePasswordScreen);
-                                },
-                              ),
-                              SettingTileWidget(
-                                title: "Transaction",
-                                image: ImageUtility.transactionIcon,
-                                imageWidth: 14.w,
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RouteName.transactionScreen);
-                                },
-                              ),
-
-                              SettingTileWidget(
-                                title: "My Cart",
-                                image: ImageUtility.addToCartIcon,
-                                imageWidth: 14.w,
-                                onTap: () {
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Text("Information",
+                                style: StyleUtility.headingTextStyle),
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            SettingTileWidget(
+                              title: userProfile?.email ?? "",
+                              image: ImageUtility.emailIcon,
+                              imageWidth: 18.w,
+                            ),
+                            userProfile?.website != null &&
+                                    userProfile!.website!.isNotEmpty
+                                ? SettingTileWidget(
+                                    title: userProfile.website ?? "",
+                                    image: ImageUtility.webSiteUrlIcon,
+                                    imageWidth: 18.w,
+                                  )
+                                : const SizedBox(),
+                            userProfile?.address != null &&
+                                    userProfile!.address!.isNotEmpty
+                                ? SettingTileWidget(
+                                    title: userProfile.address ?? "",
+                                    image: ImageUtility.locationIcon,
+                                    imageWidth: 16.w,
+                                    onTap: () async {
+                                      await googleSignIn.signOut();
+                                      Preference().clearSharedPreference();
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          RouteName.logInScreen,
+                                          (route) => false);
+                                    },
+                                  )
+                                : const SizedBox()
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 15.h),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.only(
+                            left: 17.w, right: 10.w, top: 15.w, bottom: 33.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Text("Account Settings",
+                                style: StyleUtility.headingTextStyle),
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            SettingTileWidget(
+                              title: "Change Password",
+                              image: ImageUtility.passwordIcon,
+                              imageWidth: 14.w,
+                              onTap: () {
                                 Navigator.pushNamed(
-                                    context, RouteName.myCartScreen);
-                                   },
-                              ),
-                              SettingTileWidget(
-                                title: "Log Out",
-                                image: ImageUtility.logOutIcon,
-                                imageWidth: 12.w,
-                                onTap: () async {
-                                  await googleSignIn.signOut();
-                                  Preference().clearSharedPreference();
-                                  Navigator.pushNamedAndRemoveUntil(context,
-                                      RouteName.logInScreen, (route) => false);
-                                },
-                              )
-                            ],
-                          ),
+                                    context, RouteName.changePasswordScreen);
+                              },
+                            ),
+                            SettingTileWidget(
+                              title: "Transaction",
+                              image: ImageUtility.transactionIcon,
+                              imageWidth: 14.w,
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteName.transactionScreen);
+                              },
+                            ),
+
+                            SettingTileWidget(
+                              title: "My Cart",
+                              image: ImageUtility.addToCartIcon,
+                              imageWidth: 14.w,
+                              onTap: () {
+                              Navigator.pushNamed(
+                                  context, RouteName.myCartScreen);
+                                 },
+                            ),
+                            SettingTileWidget(
+                              title: "Log Out",
+                              image: ImageUtility.logOutIcon,
+                              imageWidth: 12.w,
+                              onTap: () async {
+                                await googleSignIn.signOut();
+                                Preference().clearSharedPreference();
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    RouteName.logInScreen, (route) => false);
+                              },
+                            )
+                          ],
                         ),
-                        SizedBox(height: 60.h),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 60.h),
+                    ],
                   ),
-                )
+                ),
+              )
               : const CircularProgressWidget();
         }),
       ),

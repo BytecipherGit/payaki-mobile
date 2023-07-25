@@ -8,9 +8,10 @@ class DeleteAlertDialog extends StatelessWidget {
   final VoidCallback onDeleteTap;
   final String? yesText;
 
-  const DeleteAlertDialog({super.key,
+  const DeleteAlertDialog({
+    super.key,
     required this.onDeleteTap,
-     this.yesText,
+    this.yesText,
   });
 
   @override
@@ -24,59 +25,51 @@ class DeleteAlertDialog extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.r))),
         child: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.r),
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(
-                  left: 19.w, right: 19.w, top: 24.w, bottom: 24.w),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Image.asset(
-                    ImageUtility.deletePostImage,
-                    width: 160.w,
-                  ),
-                  SizedBox(
-                    height: 13.h,
-                  ),
-                  Text(
-                    "Are you sure you want to delete ?",
-                    style: StyleUtility.headingTextStyle,
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomButton.text(
-                            buttonText: "Cancel",
-                            onTab: () {
-                              Navigator.pop(context);
-                            }),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Expanded(
-                        child: CustomButton(
-                            buttonText: yesText ?? "Delete Post",
-                            onTab: () {
-                              Navigator.pop(context);
-                              onDeleteTap();
-                            }),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: 19.w, right: 19.w, top: 24.w, bottom: 24.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Image.asset(
+                  ImageUtility.deletePostImage,
+                  width: 160.w,
+                ),
+                SizedBox(
+                  height: 13.h,
+                ),
+                Text(
+                  "Are you sure you want to delete ?",
+                  style: StyleUtility.headingTextStyle,
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton.text(
+                          buttonText: "Cancel",
+                          onTab: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Expanded(
+                      child: CustomButton(
+                          buttonText: yesText ?? "Delete Post",
+                          onTab: () {
+                            Navigator.pop(context);
+                            onDeleteTap();
+                          }),
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
         ),

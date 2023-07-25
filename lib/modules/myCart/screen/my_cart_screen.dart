@@ -9,6 +9,7 @@ import 'package:payaki/modules/myCart/viewModel/my_cart_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/cart/checkout_request.dart';
 import 'package:payaki/network/payment/paypal_payment.dart';
+import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -19,6 +20,7 @@ import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/widgets/delete_alert_dialog.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
+import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
 class MyCartScreen extends StatefulWidget {
@@ -89,17 +91,25 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ListView.builder(
-                                        padding: EdgeInsets.only(
-                                            bottom: 20.h, top: 10.h),
+                                        padding: EdgeInsets.only(bottom: 20.h),
                                         itemCount: myCart?.products?.length,
                                         primary: false,
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
                                           return GestureDetector(
-                                            onTap: () {},
+                                            behavior: HitTestBehavior.opaque,
+                                            onTap: () {
+                                              Navigator.pushNamed(context,
+                                                  RouteName.postDetailsScreen,
+                                                  arguments: {
+                                                    "postId": myCart
+                                                        ?.products?[index]
+                                                        .productId
+                                                  });
+                                            },
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  bottom: 8.0),
+                                                  bottom: 8.0, top: 8.0),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -285,7 +295,6 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         payerId = params["data"]["payer"]
                                             ["payer_info"]["payer_id"];
 
-
                                         productIds.clear();
                                         amounts.clear();
                                         for (var i = 0;
@@ -339,21 +348,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             )
                           ],
                         )
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 65.w),
-                              child: Image.asset(ImageUtility.emptyCartImage),
-                            ),
-                            SizedBox(
-                              height: 25.h,
-                            ),
-                            Text(
-                              "No Item Available.",
-                              style: StyleUtility.noDataTextStyle,
-                            )
-                          ],
+                      : const NoDataWidget(
+                          title: 'No Item Available.',
                         ),
                 );
         }),
