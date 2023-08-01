@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/profile/viewModel/profile_screen_vm.dart';
 import 'package:payaki/modules/profile/widget/setting_tile_widget.dart';
 import 'package:payaki/network/model/response/profile/user_profile_response.dart';
@@ -28,15 +30,34 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   ProfileScreenVm profileScreenVm = ProfileScreenVm();
 
+
+ late PackageInfo packageInfo ;
+
+  String? version;
+  String? buildNumber ;
+
   @override
   void initState() {
     super.initState();
+
+    getAppVersion();
     profileScreenVm = Provider.of(context, listen: false);
     profileScreenVm.getUserDetail(onFailure: (message) {
       context.flushBarTopErrorMessage(message: message);
     });
   }
 
+
+  getAppVersion() async {
+
+    packageInfo = await PackageInfo.fromPlatform();
+
+     version = packageInfo.version;
+     buildNumber = packageInfo.buildNumber;
+
+    logD("version $version");
+    logD("buildNumber $buildNumber");
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -368,6 +389,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   context, RouteName.myCartScreen);
                                  },
                             ),
+
+                            SettingTileWidget(
+                              title: "Version (${buildNumber ?? 1})",
+                              image: ImageUtility.versionIcon,
+                              imageWidth: 14.w,
+
+                            ),
+
                             SettingTileWidget(
                               title: "Log Out",
                               image: ImageUtility.logOutIcon,
