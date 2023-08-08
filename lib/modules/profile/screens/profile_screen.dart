@@ -49,7 +49,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
   getAppVersion() async {
-
     packageInfo = await PackageInfo.fromPlatform();
 
      version = packageInfo.version;
@@ -328,14 +327,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     title: userProfile.address ?? "",
                                     image: ImageUtility.locationIcon,
                                     imageWidth: 16.w,
-                                    onTap: () async {
-                                      await googleSignIn.signOut();
-                                      Preference().clearSharedPreference();
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context,
-                                          RouteName.logInScreen,
-                                          (route) => false);
-                                    },
                                   )
                                 : const SizedBox()
                           ],

@@ -1,6 +1,4 @@
 class ImageUtility {
-
-
   // login signup screen images
   static const String loginBoardImage = 'assets/images/login_board.png';
   static const String faceBookIcon = 'assets/images/face_book_icon.png';
@@ -61,8 +59,4 @@ class ImageUtility {
   static const String emptyCartImage = 'assets/images/empty_cart_image.png';
   static const String deletePostImage = 'assets/images/delete_post_image.png';
   static const String versionIcon = 'assets/images/version_icon.png';
-
-
-
-
 }
