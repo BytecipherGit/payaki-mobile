@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:payaki/modules/addTraining/screens/training_detail_screen.dart';
+import 'package:payaki/modules/addTraining/screens/training_gallery_screen.dart';
+import 'package:payaki/modules/addTraining/screens/training_promo_screen.dart';
 import 'package:payaki/modules/auth/changePassword/screen/change_password_screen.dart';
 import 'package:payaki/modules/auth/changePassword/viewModel/change_password_screen_vm.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_new_password_screen.dart';
@@ -46,6 +49,7 @@ import 'package:payaki/modules/search/providers/search_result_screen_vm.dart';
 import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/modules/search/screens/search_result_screen.dart';
 import 'package:payaki/modules/search/screens/search_screen.dart';
+import 'package:payaki/modules/splash/splash_screen.dart';
 import 'package:payaki/modules/transaction/screens/transaction_detail_screen.dart';
 import 'package:payaki/modules/transaction/screens/transaction_screen.dart';
 import 'package:payaki/modules/transaction/viewModel/transaction_screen_vm.dart';
@@ -58,6 +62,9 @@ import '../modules/postDetails/screens/image_view_screen.dart';
 class AppRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RouteName.splashScreen:
+        return MaterialPageRoute(builder: (context) => const SplashScreen());
+
       case RouteName.welcomeScreen:
         return MaterialPageRoute(builder: (context) => const WelcomeScreen());
 
@@ -328,6 +335,15 @@ class AppRoute {
             builder: (context) => ChangeNotifierProvider(
                 create: (_) => MyCartScreenVm(), child: const MyCartScreen()));
 
+      case RouteName.trainingDetailScreen:
+        return MaterialPageRoute(
+            builder: (context) => const TrainingDetailScreen());
+      case RouteName.trainingPromoScreen:
+        return MaterialPageRoute(
+            builder: (context) => const TrainingPromoScreen());
+      case RouteName.trainingGalleryScreen:
+        return MaterialPageRoute(
+            builder: (context) => const TrainingGalleryScreen());
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
     }

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +37,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
+  TextEditingController brandNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -144,6 +144,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           titleText: "Username*",
                           image: ImageUtility.userNameIcon,
                           textInputType: TextInputType.emailAddress,
+                        ),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        SimpleTextField(
+                          controller: brandNameController,
+                          hintText: "Enter Your Brand Name",
+                          titleText: "Seller Name",
+                          image: ImageUtility.fullNameIcon,
+                          textInputType: TextInputType.text,
                         ),
                         SizedBox(
                           height: 15.h,

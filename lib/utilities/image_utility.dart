@@ -13,6 +13,7 @@ class ImageUtility {
   static const String successBoardImage = 'assets/images/success_board.png';
   static const String carImage = 'assets/images/car.png';
   static const String uploadImage = 'assets/images/upload_image.png';
+  static const String uploadVideo = 'assets/images/upload_video.png';
   static const String removeImage = 'assets/images/remove_image.png';
   static const String locationSelectIcon = 'assets/images/location_select_icon.png';
   static const String locationIcon = 'assets/images/location_icon.png';

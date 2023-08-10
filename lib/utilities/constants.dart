@@ -9,4 +9,6 @@ class Constant {
   static const latest = 'latest';
   static const android = 'android';
   static const ios = 'ios';
+
+  static const videoFile = 'videoFile';
 }

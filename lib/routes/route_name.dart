@@ -34,4 +34,8 @@ class RouteName {
   static const String imageViewScreen = "/imageViewScreen";
   static const String webViewChatScreen = "/webViewChatScreen";
   static const String myCartScreen = "/myCartScreen";
+
+  static const String trainingDetailScreen = "/trainingDetailScreen";
+  static const String trainingPromoScreen = "/trainingPromoScreen";
+  static const String trainingGalleryScreen = "/trainingGalleryScreen";
 }

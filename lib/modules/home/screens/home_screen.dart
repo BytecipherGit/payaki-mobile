@@ -79,7 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 10.sp,
                 ),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, RouteName.trainingDetailScreen);
                   },
                   child: Padding(
                     padding: EdgeInsets.all(5.sp),
@@ -255,7 +257,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                       onFailure: (value) {
                                         Navigator.pop(context);
-                                        context.flushBarTopErrorMessage(message: value);
+                                        context.flushBarTopErrorMessage(
+                                            message: value);
                                       });
                                 },
                                 child: SizedBox(

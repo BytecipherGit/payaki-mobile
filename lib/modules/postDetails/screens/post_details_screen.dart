@@ -381,63 +381,63 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         style:
                                         StyleUtility.postDescTextStyle),
 
-                                    if ((postDetailScreenVm
-                                        .tagArray?.length ??
-                                        0) >
-                                        0)
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            height: 25.h,
-                                          ),
-                                          Text(
-                                            "Tags",
-                                            style:
-                                            StyleUtility.headingTextStyle,
-                                          ),
-                                          SizedBox(
-                                            height: 8.h,
-                                          ),
-                                          Wrap(
-                                            children: List<Widget>.generate(
-                                              postDetailScreenVm
-                                                  .tagArray?.length ??
-                                                  0,
-                                                  (index) {
-                                                return Container(
-                                                  padding:
-                                                  EdgeInsets.symmetric(
-                                                      horizontal: 6.w,
-                                                      vertical: 3.w),
-                                                  margin: EdgeInsets.only(
-                                                      right: 10.w,
-                                                      bottom: 10.w),
-                                                  decoration: BoxDecoration(
-                                                      color: ColorUtility
-                                                          .color3D7E5,
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(3.r)),
-                                                  child: Text(
-                                                      postDetailScreenVm
-                                                          .tagArray?[
-                                                      index] ??
-                                                          "",
-                                                      style: StyleUtility
-                                                          .axiforma400.copyWith(
-                                                          fontSize:
-                                                          TextSizeUtility
-                                                              .textSize14,
-                                                          color: ColorUtility
-                                                              .color9C5FA3)),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    // if ((postDetailScreenVm
+                                    //     .tagArray?.length ??
+                                    //     0) >
+                                    //     0)
+                                    //   Column(
+                                    //     crossAxisAlignment:
+                                    //     CrossAxisAlignment.start,
+                                    //     children: [
+                                    //       SizedBox(
+                                    //         height: 25.h,
+                                    //       ),
+                                    //       Text(
+                                    //         "Tags",
+                                    //         style:
+                                    //         StyleUtility.headingTextStyle,
+                                    //       ),
+                                    //       SizedBox(
+                                    //         height: 8.h,
+                                    //       ),
+                                    //       Wrap(
+                                    //         children: List<Widget>.generate(
+                                    //           postDetailScreenVm
+                                    //               .tagArray?.length ??
+                                    //               0,
+                                    //               (index) {
+                                    //             return Container(
+                                    //               padding:
+                                    //               EdgeInsets.symmetric(
+                                    //                   horizontal: 6.w,
+                                    //                   vertical: 3.w),
+                                    //               margin: EdgeInsets.only(
+                                    //                   right: 10.w,
+                                    //                   bottom: 10.w),
+                                    //               decoration: BoxDecoration(
+                                    //                   color: ColorUtility
+                                    //                       .color3D7E5,
+                                    //                   borderRadius:
+                                    //                   BorderRadius
+                                    //                       .circular(3.r)),
+                                    //               child: Text(
+                                    //                   postDetailScreenVm
+                                    //                       .tagArray?[
+                                    //                   index] ??
+                                    //                       "",
+                                    //                   style: StyleUtility
+                                    //                       .axiforma400.copyWith(
+                                    //                       fontSize:
+                                    //                       TextSizeUtility
+                                    //                           .textSize14,
+                                    //                       color: ColorUtility
+                                    //                           .color9C5FA3)),
+                                    //             );
+                                    //           },
+                                    //         ),
+                                    //       ),
+                                    //     ],
+                                    //   ),
 
                                     SizedBox(
                                       height: 25.h,
@@ -510,7 +510,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                           .postDetailResponse
                                                           ?.data
                                                           ?.postUserDetails
-                                                          ?.email ??
+                                                         // ?.email ??
+                                                          ?.username ??
                                                           "",
                                                       style: StyleUtility
                                                           .headingTextStyle
@@ -545,17 +546,27 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                     SizedBox(
                                       height: 25.h,
                                     ),
+                                    // Text(
+                                    //   "Ad ID",
+                                    //   style: StyleUtility.headingTextStyle,
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 5.h,
+                                    // ),
+                                    // Text(
+                                    //     postDetailScreenVm.postDetailResponse
+                                    //         ?.data?.id ??
+                                    //         "",
+                                    //     style:
+                                    //     StyleUtility.postDescTextStyle),
                                     Text(
-                                      "Ad ID",
+                                      "Ad Views",
                                       style: StyleUtility.headingTextStyle,
                                     ),
                                     SizedBox(
                                       height: 5.h,
                                     ),
-                                    Text(
-                                        postDetailScreenVm.postDetailResponse
-                                            ?.data?.id ??
-                                            "",
+                                    Text("10",
                                         style:
                                         StyleUtility.postDescTextStyle),
                                     SizedBox(
@@ -604,74 +615,74 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                     ),
                                     Row(
                                       children: [
-                                        Expanded(
-                                            child: SizedBox(
-                                              height:
-                                              TextSizeUtility.buttonHeight,
-                                              child: ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.pushNamed(
-                                                        context,
-                                                        RouteName
-                                                            .replyEmailScreen,
-                                                        arguments: {
-                                                          "postId": widget
-                                                              .postId,
-                                                          "productName":
-                                                          postDetailScreenVm
-                                                              .postDetailResponse
-                                                              ?.data
-                                                              ?.productName ??
-                                                              "",
-                                                          "receiverName":
-                                                          postDetailScreenVm
-                                                              .postDetailResponse
-                                                              ?.data
-                                                              ?.postUserDetails
-                                                              ?.name ??
-                                                              "",
-                                                          "receiverEmail":
-                                                          postDetailScreenVm
-                                                              .postDetailResponse
-                                                              ?.data
-                                                              ?.postUserDetails
-                                                              ?.email ??
-                                                              "",
-                                                        });
-                                                  },
-                                                  style: ElevatedButton
-                                                      .styleFrom(
-                                                    backgroundColor:
-                                                    ColorUtility.color4285F4,
-                                                    shadowColor:
-                                                    Colors.transparent,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.r)),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    children: [
-                                                      Image.asset(
-                                                        ImageUtility.emailIcon,
-                                                        width: 14.w,
-                                                        color: Colors.white,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10.w,
-                                                      ),
-                                                      Text("Reply on Email",
-                                                          maxLines: 1,
-                                                          style: StyleUtility
-                                                              .buttonTextStyle),
-                                                    ],
-                                                  )),
-                                            )),
-                                        SizedBox(
-                                          width: 10.w,
-                                        ),
+                                        // Expanded(
+                                        //     child: SizedBox(
+                                        //       height:
+                                        //       TextSizeUtility.buttonHeight,
+                                        //       child: ElevatedButton(
+                                        //           onPressed: () {
+                                        //             Navigator.pushNamed(
+                                        //                 context,
+                                        //                 RouteName
+                                        //                     .replyEmailScreen,
+                                        //                 arguments: {
+                                        //                   "postId": widget
+                                        //                       .postId,
+                                        //                   "productName":
+                                        //                   postDetailScreenVm
+                                        //                       .postDetailResponse
+                                        //                       ?.data
+                                        //                       ?.productName ??
+                                        //                       "",
+                                        //                   "receiverName":
+                                        //                   postDetailScreenVm
+                                        //                       .postDetailResponse
+                                        //                       ?.data
+                                        //                       ?.postUserDetails
+                                        //                       ?.name ??
+                                        //                       "",
+                                        //                   "receiverEmail":
+                                        //                   postDetailScreenVm
+                                        //                       .postDetailResponse
+                                        //                       ?.data
+                                        //                       ?.postUserDetails
+                                        //                       ?.email ??
+                                        //                       "",
+                                        //                 });
+                                        //           },
+                                        //           style: ElevatedButton
+                                        //               .styleFrom(
+                                        //             backgroundColor:
+                                        //             ColorUtility.color4285F4,
+                                        //             shadowColor:
+                                        //             Colors.transparent,
+                                        //             shape: RoundedRectangleBorder(
+                                        //                 borderRadius:
+                                        //                 BorderRadius.circular(
+                                        //                     10.r)),
+                                        //           ),
+                                        //           child: Row(
+                                        //             mainAxisAlignment:
+                                        //             MainAxisAlignment.center,
+                                        //             children: [
+                                        //               Image.asset(
+                                        //                 ImageUtility.emailIcon,
+                                        //                 width: 14.w,
+                                        //                 color: Colors.white,
+                                        //               ),
+                                        //               SizedBox(
+                                        //                 width: 10.w,
+                                        //               ),
+                                        //               Text("Reply on Email",
+                                        //                   maxLines: 1,
+                                        //                   style: StyleUtility
+                                        //                       .buttonTextStyle),
+                                        //             ],
+                                        //           )),
+                                        //     )),
+                                        // SizedBox(
+                                        //   width: 10.w,
+                                        // ),
                                         Expanded(
                                             child: SizedBox(
                                               height:
@@ -823,34 +834,34 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                           ),
                                         ],
                                       ),
-                                    Text(
-                                      "User reviews",
-                                      style: StyleUtility.headingTextStyle,
-                                    ),
-                                    SizedBox(
-                                      height: 10.h,
-                                    ),
-                                    (postDetailScreenVm
-                                        .postDetailResponse
-                                        ?.data
-                                        ?.reviewRating
-                                        ?.length ??
-                                        0) >
-                                        0
-                                        ? UserReviews(
-                                        reviewRating: postDetailScreenVm
-                                            .postDetailResponse
-                                            ?.data
-                                            ?.reviewRating)
-                                        : Text(
-                                      "No User reviews",
-                                      style:
-                                      StyleUtility.headingTextStyle,
-                                    ),
-
-                                    SizedBox(
-                                      height: 25.h,
-                                    ),
+                                    // Text(
+                                    //   "User reviews",
+                                    //   style: StyleUtility.headingTextStyle,
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 10.h,
+                                    // ),
+                                    // (postDetailScreenVm
+                                    //     .postDetailResponse
+                                    //     ?.data
+                                    //     ?.reviewRating
+                                    //     ?.length ??
+                                    //     0) >
+                                    //     0
+                                    //     ? UserReviews(
+                                    //     reviewRating: postDetailScreenVm
+                                    //         .postDetailResponse
+                                    //         ?.data
+                                    //         ?.reviewRating)
+                                    //     : Text(
+                                    //   "No User reviews",
+                                    //   style:
+                                    //   StyleUtility.headingTextStyle,
+                                    // ),
+                                    //
+                                    // SizedBox(
+                                    //   height: 25.h,
+                                    // ),
                                     Text(
                                       "Similar Ads ",
                                       style: StyleUtility.headingTextStyle,

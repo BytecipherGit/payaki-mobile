@@ -37,10 +37,8 @@ class UserProfileRepository {
     if (image != null) {
       photo = await MultipartFile.fromFile(image.path, filename: image.name);
     }
-
     FormData formData =
         FormData.fromMap({"avatar": photo, ...request.toJson()});
-
     return dioHttpService
         .post(Endpoints.baseUrl, data: formData)
         .then((value) => BasicResponse.fromJson(value));
@@ -51,6 +49,4 @@ class UserProfileRepository {
         .post(Endpoints.baseUrl, data: request.toJson())
         .then((value) => TransactionListResponse.fromJson(value));
   }
-
-
 }

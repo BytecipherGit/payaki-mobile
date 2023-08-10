@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
@@ -9,8 +10,10 @@ import 'package:payaki/utilities/text_size_utility.dart';
 class UploadImageWidget extends StatelessWidget {
   final VoidCallback onTap;
   final String title;
+  final String? type;
 
-  const UploadImageWidget({Key? key, required this.onTap, required this.title})
+  const UploadImageWidget(
+      {Key? key, required this.onTap, required this.title, this.type})
       : super(key: key);
 
   @override
@@ -18,7 +21,6 @@ class UploadImageWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Text(
           title,
           style: StyleUtility.inputTextStyle,
@@ -38,6 +40,8 @@ class UploadImageWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
+                      type != null && type == Constant.videoFile ?
+                      ImageUtility.uploadVideo:
                       ImageUtility.uploadImage,
                       width: 50.w,
                       height: 50.w,
@@ -46,7 +50,9 @@ class UploadImageWidget extends StatelessWidget {
                       height: 5.h,
                     ),
                     Text(
-                      "Upload Images",
+                      type != null && type == Constant.videoFile
+                          ? "Upload Video"
+                          : "Upload Images",
                       style: StyleUtility.axiforma500.copyWith(
                           fontSize: TextSizeUtility.textSize14,
                           color: ColorUtility.color8F8F8F),
@@ -59,7 +65,9 @@ class UploadImageWidget extends StatelessWidget {
           height: 2.h,
         ),
         Text(
-          "Mandatory Only JPG, PNG, JPEG File Accepted",
+          type != null && type == Constant.videoFile
+              ? "Mandatory Only MP4, AVI File Accepted"
+              : "Mandatory Only JPG, PNG, JPEG File Accepted",
           style: StyleUtility.axiforma400.copyWith(
               fontSize: TextSizeUtility.textSize12,
               color: ColorUtility.color8F8F8F),
