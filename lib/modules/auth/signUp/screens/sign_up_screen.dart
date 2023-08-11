@@ -149,16 +149,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           height: 15.h,
                         ),
                         SimpleTextField(
-                          controller: brandNameController,
-                          hintText: "Enter Your Brand Name",
-                          titleText: "Seller Name",
-                          image: ImageUtility.fullNameIcon,
-                          textInputType: TextInputType.text,
-                        ),
-                        SizedBox(
-                          height: 15.h,
-                        ),
-                        SimpleTextField(
                           controller: emailController,
                           hintText: "Enter Email",
                           titleText: "Email*",

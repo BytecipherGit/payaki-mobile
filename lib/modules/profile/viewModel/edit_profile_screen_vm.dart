@@ -30,7 +30,8 @@ class EditProfileScreenVm extends ChangeNotifier {
       } else {
         onFailure?.call(value.message ?? "");
       }
-    }).onError((error, stackTrace) {
+    })
+        .onError((error, stackTrace) {
       logE("Error $error");
       isLoading = false;
       notifyListeners();

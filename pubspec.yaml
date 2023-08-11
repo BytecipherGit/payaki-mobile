@@ -69,7 +69,7 @@ dependencies:
   flutter_paypal: ^0.0.7
   package_info_plus: ^4.0.2
   video_thumbnail: ^0.5.3
-
+  path_provider: ^2.1.0
 
 dev_dependencies:
   flutter_test:

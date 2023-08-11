@@ -79,9 +79,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 10.sp,
                 ),
                 InkWell(
+                  onLongPress: (){
+                    // Navigator.pushNamed(
+                    //     context, RouteName.addEventDetailScreen);
+                  },
                   onTap: () {
-                    Navigator.pushNamed(
-                        context, RouteName.trainingDetailScreen);
+                    // Navigator.pushNamed(
+                    //     context, RouteName.addTrainingDetailScreen);
                   },
                   child: Padding(
                     padding: EdgeInsets.all(5.sp),

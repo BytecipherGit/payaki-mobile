@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:payaki/modules/addTraining/screens/training_detail_screen.dart';
+import 'package:payaki/modules/addEvent/screens/add_event%20_detail_screen.dart';
+import 'package:payaki/modules/addTraining/screens/add_training_detail_screen.dart';
 import 'package:payaki/modules/addTraining/screens/training_gallery_screen.dart';
 import 'package:payaki/modules/addTraining/screens/training_promo_screen.dart';
+import 'package:payaki/modules/addTraining/viewModel/add_training_detail_screen_vm.dart';
+import 'package:payaki/modules/addTraining/viewModel/training_promo_screen_vm.dart';
 import 'package:payaki/modules/auth/changePassword/screen/change_password_screen.dart';
 import 'package:payaki/modules/auth/changePassword/viewModel/change_password_screen_vm.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_new_password_screen.dart';
@@ -211,6 +214,7 @@ class AppRoute {
                   state: arg["state"],
                   phone: arg["phone"],
                   availableDays: arg["availableDays"],
+                  sellerName: arg["sellerName"]
                 ));
 
       case RouteName.userDetailScreen:
@@ -335,15 +339,26 @@ class AppRoute {
             builder: (context) => ChangeNotifierProvider(
                 create: (_) => MyCartScreenVm(), child: const MyCartScreen()));
 
-      case RouteName.trainingDetailScreen:
+      case RouteName.addTrainingDetailScreen:
         return MaterialPageRoute(
-            builder: (context) => const TrainingDetailScreen());
+            builder: (context) => ChangeNotifierProvider(
+                create: (_) => AddTrainingDetailScreenVm(),
+                child: const AddTrainingDetailScreen()));
       case RouteName.trainingPromoScreen:
         return MaterialPageRoute(
-            builder: (context) => const TrainingPromoScreen());
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => TrainingPromoScreenVm(),
+                  child: const TrainingPromoScreen(),
+                ));
       case RouteName.trainingGalleryScreen:
         return MaterialPageRoute(
             builder: (context) => const TrainingGalleryScreen());
+
+      case RouteName.addEventDetailScreen:
+        return MaterialPageRoute(
+            builder: (context) => const AddEventDetailScreen());
+
+
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
     }

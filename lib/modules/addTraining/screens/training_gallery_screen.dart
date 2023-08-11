@@ -10,6 +10,10 @@ import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/upload_image_widget.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:path_provider/path_provider.dart';
+
+
 
 class TrainingGalleryScreen extends StatefulWidget {
   const TrainingGalleryScreen({
@@ -21,17 +25,30 @@ class TrainingGalleryScreen extends StatefulWidget {
 }
 
 class _TrainingGalleryScreenState extends State<TrainingGalleryScreen> {
-  List<XFile> selectedImages = []; // List of selected image
+  List<XFile>? selectedVideos = []; // List of selected image
   final picker = ImagePicker();
 
-  Future getImages() async {
-  //  final pickedFile = await picker.pickMultiImage();
-    final pickedFile = await picker.pickMultipleMedia();
-    if (pickedFile.isNotEmpty) {
-      selectedImages.addAll(pickedFile);
+  List<String>? thumbnailPath = [];
+
+
+
+  Future getVideos() async {
+    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      selectedVideos?.add(pickedFile);
+      String? thumbnail = await VideoThumbnail.thumbnailFile(
+        video: pickedFile.path ?? "",
+        thumbnailPath: (await getTemporaryDirectory()).path,
+        imageFormat: ImageFormat.PNG,
+      );
+      setState(() {
+        thumbnailPath?.add(thumbnail!);
+      });
+
       setState(() {});
     } else {}
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +70,12 @@ class _TrainingGalleryScreenState extends State<TrainingGalleryScreen> {
               ),
               SizedBox(height: 25.h),
               UploadImageWidget(
-                  onTap: () {
-                    getImages();
-                  },
-                  title: "Attach File",
-              type: Constant.videoFile,),
+                onTap: () {
+                  getVideos();
+                },
+                title: "Attach File",
+                type: Constant.videoFile,
+              ),
               SizedBox(
                 height: 20.h,
               ),
@@ -68,14 +86,14 @@ class _TrainingGalleryScreenState extends State<TrainingGalleryScreen> {
                     crossAxisSpacing: 10.w,
                     mainAxisSpacing: 10.w,
                   ),
-                  itemCount: selectedImages.length,
+                  itemCount: selectedVideos?.length ?? 0,
                   itemBuilder: (BuildContext context, int index) {
                     return Stack(
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(5.r),
                           child: Image.file(
-                            File(selectedImages[index].path),
+                            File(thumbnailPath?[index] ?? ""),
                             fit: BoxFit.cover,
                             height: 200,
                             width: 200,
@@ -83,7 +101,8 @@ class _TrainingGalleryScreenState extends State<TrainingGalleryScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            selectedImages.removeAt(index);
+                            selectedVideos?.removeAt(index);
+                            thumbnailPath?.removeAt(index);
                             setState(() {});
                           },
                           child: Container(
@@ -106,7 +125,7 @@ class _TrainingGalleryScreenState extends State<TrainingGalleryScreen> {
               CustomButton(
                   buttonText: "Next",
                   onTab: () {
-                    if (selectedImages.isEmpty) {
+                    if (selectedVideos != null) {
                       context.flushBarTopErrorMessage(
                           message: "Please Upload Images.");
                     } else {}

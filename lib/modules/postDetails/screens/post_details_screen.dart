@@ -509,8 +509,11 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                       postDetailScreenVm
                                                           .postDetailResponse
                                                           ?.data
+                                                          ?.sellerName ??
+                                                      postDetailScreenVm
+                                                          .postDetailResponse
+                                                          ?.data
                                                           ?.postUserDetails
-                                                         // ?.email ??
                                                           ?.username ??
                                                           "",
                                                       style: StyleUtility
@@ -566,7 +569,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                     SizedBox(
                                       height: 5.h,
                                     ),
-                                    Text("10",
+                                    Text(
+                                        postDetailScreenVm.postDetailResponse
+                                                ?.data?.view ??
+                                                "",
                                         style:
                                         StyleUtility.postDescTextStyle),
                                     SizedBox(

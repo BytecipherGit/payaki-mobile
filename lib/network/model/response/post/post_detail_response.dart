@@ -1,6 +1,5 @@
-
-
-import 'package:payaki/network/model/response/post/post_list_response.dart' as ads;
+import 'package:payaki/network/model/response/post/post_list_response.dart'
+    as ads;
 
 class PostDetailResponse {
   bool? status;
@@ -36,6 +35,7 @@ class Data {
   String? featured;
   String? urgent;
   String? highlight;
+  String? sellerName;
   String? productName;
   String? slug;
   String? description;
@@ -76,57 +76,58 @@ class Data {
   List<String>? image;
   PostUserDetails? postUserDetails;
   List<ReviewRating>? reviewRating;
- // List<SimilarPost>? similarPost;
+
   List<ads.Data>? similarPost;
 
   Data(
       {this.id,
-        this.status,
-        this.userId,
-        this.featured,
-        this.urgent,
-        this.highlight,
-        this.productName,
-        this.slug,
-        this.description,
-        this.category,
-        this.subCategory,
-        this.price,
-        this.negotiable,
-        this.phone,
-        this.hidePhone,
-        this.location,
-        this.city,
-        this.state,
-        this.country,
-        this.latlong,
-        this.screenShot,
-        this.tag,
-        this.view,
-        this.createdAt,
-        this.updatedAt,
-        this.expireDate,
-        this.featuredExpDate,
-        this.urgentExpDate,
-        this.highlightExpDate,
-        this.adminSeen,
-        this.emailed,
-        this.hide,
-        this.catName,
-        this.subCatName,
-        this.cityName,
-        this.stateName,
-        this.countryName,
-        this.fullAddress,
-        this.postUrl,
-        this.chatUrl,
-        this.isFavourite,
-        this.expireDays,
-        this.expiredDate,
-        this.image,
-        this.postUserDetails,
-        this.reviewRating,
-        this.similarPost});
+      this.status,
+      this.userId,
+      this.featured,
+      this.urgent,
+      this.highlight,
+      this.sellerName,
+      this.productName,
+      this.slug,
+      this.description,
+      this.category,
+      this.subCategory,
+      this.price,
+      this.negotiable,
+      this.phone,
+      this.hidePhone,
+      this.location,
+      this.city,
+      this.state,
+      this.country,
+      this.latlong,
+      this.screenShot,
+      this.tag,
+      this.view,
+      this.createdAt,
+      this.updatedAt,
+      this.expireDate,
+      this.featuredExpDate,
+      this.urgentExpDate,
+      this.highlightExpDate,
+      this.adminSeen,
+      this.emailed,
+      this.hide,
+      this.catName,
+      this.subCatName,
+      this.cityName,
+      this.stateName,
+      this.countryName,
+      this.fullAddress,
+      this.postUrl,
+      this.chatUrl,
+      this.isFavourite,
+      this.expireDays,
+      this.expiredDate,
+      this.image,
+      this.postUserDetails,
+      this.reviewRating,
+      this.similarPost});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -135,6 +136,7 @@ class Data {
     featured = json['featured'];
     urgent = json['urgent'];
     highlight = json['highlight'];
+    sellerName = json['seller_name'];
     productName = json['product_name'];
     slug = json['slug'];
     description = json['description'];
@@ -172,7 +174,9 @@ class Data {
     isFavourite = json['is_favourite'];
     expireDays = json['expire_days'];
     expiredDate = json['expired_date'];
-    image = json["image"] == null ? [] : List<String>.from(json["image"]!.map((x) => x));
+    image = json["image"] == null
+        ? []
+        : List<String>.from(json["image"]!.map((x) => x));
 
     postUserDetails = json['post_user_details'] != null
         ? new PostUserDetails.fromJson(json['post_user_details'])
@@ -184,7 +188,7 @@ class Data {
       });
     }
     if (json['similar_post'] != null) {
-    //  similarPost = <SimilarPost>[];
+      //  similarPost = <SimilarPost>[];
       similarPost = <ads.Data>[];
       json['similar_post'].forEach((v) {
         similarPost!.add(new ads.Data.fromJson(v));
@@ -200,6 +204,7 @@ class Data {
     data['featured'] = this.featured;
     data['urgent'] = this.urgent;
     data['highlight'] = this.highlight;
+    data['seller_name'] = this.sellerName;
     data['product_name'] = this.productName;
     data['slug'] = this.slug;
     data['description'] = this.description;
@@ -290,7 +295,7 @@ class PostUserDetails {
   String? online;
   String? notify;
   dynamic notifyCat;
- dynamic otp;
+  dynamic otp;
   String? idProofType;
   String? idProofNumber;
   String? idProof;
@@ -300,49 +305,49 @@ class PostUserDetails {
 
   PostUserDetails(
       {this.id,
-        this.groupId,
-        this.username,
-        this.userType,
-        this.passwordHash,
-        this.forgot,
-        this.confirm,
-        this.email,
-        this.status,
-        this.view,
-        this.createdAt,
-        this.updatedAt,
-        this.name,
-        this.tagline,
-        this.description,
-        this.website,
-        this.sex,
-        this.countryCode,
-        this.phone,
-        this.postcode,
-        this.address,
-        this.country,
-        this.city,
-        this.image,
-        this.lastactive,
-        this.facebook,
-        this.twitter,
-        this.googleplus,
-        this.instagram,
-        this.linkedin,
-        this.youtube,
-        this.oauthProvider,
-        this.oauthUid,
-        this.oauthLink,
-        this.online,
-        this.notify,
-        this.notifyCat,
-        this.otp,
-        this.idProofType,
-        this.idProofNumber,
-        this.idProof,
-        this.addressProofType,
-        this.addressProofNumber,
-        this.addressProof});
+      this.groupId,
+      this.username,
+      this.userType,
+      this.passwordHash,
+      this.forgot,
+      this.confirm,
+      this.email,
+      this.status,
+      this.view,
+      this.createdAt,
+      this.updatedAt,
+      this.name,
+      this.tagline,
+      this.description,
+      this.website,
+      this.sex,
+      this.countryCode,
+      this.phone,
+      this.postcode,
+      this.address,
+      this.country,
+      this.city,
+      this.image,
+      this.lastactive,
+      this.facebook,
+      this.twitter,
+      this.googleplus,
+      this.instagram,
+      this.linkedin,
+      this.youtube,
+      this.oauthProvider,
+      this.oauthUid,
+      this.oauthLink,
+      this.online,
+      this.notify,
+      this.notifyCat,
+      this.otp,
+      this.idProofType,
+      this.idProofNumber,
+      this.idProof,
+      this.addressProofType,
+      this.addressProofNumber,
+      this.addressProof});
 
   PostUserDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -639,4 +644,3 @@ class ReviewRating {
 //     return data;
 //   }
 // }
-

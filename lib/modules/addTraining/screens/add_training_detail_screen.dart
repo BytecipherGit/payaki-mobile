@@ -1,57 +1,42 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/modules/postAdd/model/days_model.dart';
-import 'package:payaki/modules/postAdd/provider/location_vm.dart';
+import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
+import 'package:payaki/modules/addTraining/viewModel/add_training_detail_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
-import 'package:payaki/utilities/image_utility.dart';
-import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
-import 'package:payaki/widgets/mobile_number_text_field.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/modules/postAdd/model/days_model.dart';
+import 'package:payaki/utilities/image_utility.dart';
+import 'package:payaki/widgets/circular_progress_widget.dart';
+import 'package:payaki/widgets/mobile_number_text_field.dart';
 import 'package:provider/provider.dart';
-
 import '../../../network/model/response/location/city_list_response.dart';
 
-class AddLocationScreen extends StatefulWidget {
-  final int catId;
-  final int subCatId;
-  final String title;
-  final String tag;
-  final String description;
-  final String price;
-  final int negotiate;
-  final List<XFile> selectedImages; // List of selected image
-
-  const AddLocationScreen(
-      {Key? key,
-      required this.catId,
-      required this.subCatId,
-      required this.title,
-      required this.tag,
-      required this.description,
-      required this.price,
-      required this.negotiate,
-      required this.selectedImages})
-      : super(key: key);
+class AddTrainingDetailScreen extends StatefulWidget {
+  const AddTrainingDetailScreen({super.key});
 
   @override
-  State<AddLocationScreen> createState() => _AddLocationScreenState();
+  State<AddTrainingDetailScreen> createState() =>
+      _AddTrainingDetailScreenState();
 }
 
-class _AddLocationScreenState extends State<AddLocationScreen> {
+class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
   TextEditingController locationController = TextEditingController();
 
   GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
 
-  LocationVm locationVm = LocationVm();
+  AddTrainingDetailScreenVm addTrainingDetailScreenVm =
+      AddTrainingDetailScreenVm();
 
   String? location;
   String? city;
@@ -61,7 +46,8 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
 
   String? selectedLocation;
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController sellerNameController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+
   String? countryCode;
 
   Day? selectDayValue;
@@ -69,8 +55,9 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
   @override
   void initState() {
     super.initState();
-    locationVm = Provider.of<LocationVm>(context, listen: false);
-    locationVm.cityListApi(
+    addTrainingDetailScreenVm =
+        Provider.of<AddTrainingDetailScreenVm>(context, listen: false);
+    addTrainingDetailScreenVm.cityListApi(
         onSuccess: (value) {},
         onFailure: (String message) {
           Navigator.pop(context);
@@ -83,13 +70,14 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
       appBar: const CustomAppBar(
-        title: "Post Ad",
+        title: "Training",
       ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Consumer<LocationVm>(builder: (context, locationVm, child) {
-            return locationVm.isLoading == true
+          child: Consumer<AddTrainingDetailScreenVm>(
+              builder: (context, addTrainingDetailScreenVm, child) {
+            return addTrainingDetailScreenVm.isLoading == true
                 ? const CircularProgressWidget()
                 : Column(
                     children: [
@@ -101,8 +89,26 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                             children: [
                               SizedBox(height: 23.h),
                               Text(
-                                "Location",
+                                "Details",
                                 style: StyleUtility.headingTextStyle,
+                              ),
+                              SizedBox(height: 25.h),
+                              SimpleTextField(
+                                controller: titleController,
+                                hintText: "Title for your training",
+                                titleText: "Title *",
+                              ),
+                              SizedBox(
+                                height: 15.h,
+                              ),
+                              SimpleTextField(
+                                controller: descriptionController,
+                                hintText: "Tell us more about your description",
+                                titleText: "Description *",
+                                maxLine: 5,
+                              ),
+                              SizedBox(
+                                height: 15.h,
                               ),
                               selectedLocation != null
                                   ? Text(
@@ -110,7 +116,6 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                                       style: StyleUtility.headingTextStyle,
                                     )
                                   : const SizedBox(),
-                              SizedBox(height: 25.h),
                               Text(
                                 "Add Location",
                                 style: StyleUtility.inputTextStyle,
@@ -178,8 +183,8 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                                 ),
                                 suggestionsCallback: (query) {
                                   if (locationController.text.isNotEmpty) {
-                                    return locationVm.cityList!.where((obj) =>
-                                        obj.name!
+                                    return addTrainingDetailScreenVm.cityList!
+                                        .where((obj) => obj.name!
                                             .toLowerCase()
                                             .contains(query.toLowerCase()));
                                   }
@@ -207,7 +212,7 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                                   selectedLocation =
                                       "${suggestion.name!},${suggestion.stateName!}";
 
-                                  locationVm.notifyListeners();
+                                  addTrainingDetailScreenVm.notifyListeners();
                                 },
                               ),
                               SizedBox(
@@ -300,16 +305,6 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                               SizedBox(
                                 height: 15.h,
                               ),
-                              SimpleTextField(
-                                controller: sellerNameController,
-                                hintText: "Enter your brand name",
-                                titleText: "Seller Name*",
-                               // image: ImageUtility.userNameIcon,
-                                textInputType: TextInputType.emailAddress,
-                              ),
-                              SizedBox(
-                                height: 15.h,
-                              ),
                               MobileNumberTextField(
                                   controller: phoneNumberController,
                                   onChanged: (phone) {
@@ -317,6 +312,18 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                                   }),
                               SizedBox(
                                 height: 15.h,
+                              ),
+                              SimpleTextField(
+                                controller: priceController,
+                                hintText: "Enter Price",
+                                titleText: "Price *",
+                                textInputType: TextInputType.number,
+                                inputFormatter: [
+                                  DecimalInputFormatter(),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 25.h,
                               ),
                             ],
                           ),
@@ -328,39 +335,29 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                             FocusScope.of(context).unfocus();
                             logD("Selected location $location");
                             // if (locationController.text.isEmpty) {
-                            if (location == null) {
+                            if (titleController.text.isEmpty) {
+                              context.flushBarTopErrorMessage(
+                                  message: 'Please Enter Title.');
+                            } else if (descriptionController.text.isEmpty) {
+                              context.flushBarTopErrorMessage(
+                                  message: 'Please Enter Description.');
+                            } else if (location == null) {
                               context.flushBarTopErrorMessage(
                                   message: "Please Select Location.");
                             } else if (selectDayValue?.value == null) {
                               context.flushBarTopErrorMessage(
                                   message: "Please Select Expire Days.");
-                            }else if (sellerNameController.text.isEmpty) {
+                            } else if (phoneNumberController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
-                                  message: "Please Enter Seller Name.");
-                            }  else if (phoneNumberController.text.isEmpty) {
+                                  message: "Please Enter Mobile Number.");
+                            } else if (priceController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
                                   message: "Please Enter Mobile Number.");
                             } else {
                               Navigator.pushNamed(
-                                  context, RouteName.selectAddTypeScreen,
-                                  arguments: {
-                                    "catId": widget.catId,
-                                    "subCatId": widget.subCatId,
-                                    "title": widget.title,
-                                    "tag": widget.tag,
-                                    "description": widget.description,
-                                    "price": widget.price,
-                                    "negotiate": widget.negotiate,
-                                    "selectedImages": widget.selectedImages,
-                                    "location": location,
-                                    "city": city,
-                                    "country": country,
-                                    "latlong": latlong,
-                                    "state": state,
-                                    "phone": phoneNumberController.text,
-                                    "availableDays": selectDayValue?.value,
-                                    "sellerName": sellerNameController.text,
-                                  });
+                                context,
+                                RouteName.trainingPromoScreen,
+                              );
                             }
                           }),
                       SizedBox(
