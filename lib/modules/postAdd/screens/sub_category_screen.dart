@@ -69,13 +69,23 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, RouteName.addDetailScreen,
-                                  arguments: {
-                                    "catId": widget.catId,
-                                    "subCatId": int.parse(subCategoryScreenVm
-                                        .subCategoryList![index].subCatId!)
-                                  });
+                              if (widget.catId == 9) {
+                                Navigator.pushNamed(
+                                    context, RouteName.addTrainingDetailScreen,
+                                    arguments: {
+                                      "catId": widget.catId,
+                                      "subCatId": int.parse(subCategoryScreenVm
+                                          .subCategoryList![index].subCatId!)
+                                    });
+                              } else {
+                                Navigator.pushNamed(
+                                    context, RouteName.addDetailScreen,
+                                    arguments: {
+                                      "catId": widget.catId,
+                                      "subCatId": int.parse(subCategoryScreenVm
+                                          .subCategoryList![index].subCatId!)
+                                    });
+                              }
                             },
                             child: Padding(
                               padding: EdgeInsets.only(

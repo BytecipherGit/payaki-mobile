@@ -39,5 +39,7 @@ class RouteName {
   static const String trainingPromoScreen = "/trainingPromoScreen";
   static const String trainingGalleryScreen = "/trainingGalleryScreen";
 
-  static const String addEventDetailScreen = "/AddEventDetailScreen";
+  static const String addEventDetailScreen = "/addEventDetailScreen";
+  static const String addEventPromoScreen = "/addEventPromoScreen";
+  static const String addEventTicketScreen = "/addEventTicketScreen";
 }

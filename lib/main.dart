@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
             title: 'PAYAKI',
             theme: ThemeData(
               // This is the theme of your application.
-              //
               // Try running your application with "flutter run". You'll see the
               // application has a blue toolbar. Then, without quitting the app, try
               // changing the primarySwatch below to Colors.green and then invoke
@@ -44,11 +43,7 @@ class MyApp extends StatelessWidget {
               // is not restarted.
               primarySwatch: Colors.blue,
             ),
-            // home: const LogInScreen(),
             onGenerateRoute: AppRoute.generateRoute,
-            // home: Preference().getUserLogin() == false
-            //     ? const WelcomeScreen()
-            //     : const BottomNavigationBarScreen(),
             home: const SplashScreen(),
           );
         });

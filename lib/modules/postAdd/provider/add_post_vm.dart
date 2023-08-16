@@ -69,7 +69,6 @@ class AddPostVm extends ChangeNotifier {
       'featured': featured,
       'urgent': urgent,
       'highlight': highlight,
-
       'amount': amount,
       'currency': currency,
       'status': status,

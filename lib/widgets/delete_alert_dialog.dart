@@ -7,11 +7,13 @@ import 'package:payaki/widgets/custom_button.dart';
 class DeleteAlertDialog extends StatelessWidget {
   final VoidCallback onDeleteTap;
   final String? yesText;
+  final String? desc;
 
   const DeleteAlertDialog({
     super.key,
     required this.onDeleteTap,
     this.yesText,
+    this.desc,
   });
 
   @override
@@ -41,8 +43,10 @@ class DeleteAlertDialog extends StatelessWidget {
                   height: 13.h,
                 ),
                 Text(
+                  desc ??
                   "Are you sure you want to delete ?",
                   style: StyleUtility.headingTextStyle,
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(
                   height: 20.h,

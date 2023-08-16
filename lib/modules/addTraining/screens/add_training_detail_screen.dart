@@ -20,7 +20,11 @@ import 'package:provider/provider.dart';
 import '../../../network/model/response/location/city_list_response.dart';
 
 class AddTrainingDetailScreen extends StatefulWidget {
-  const AddTrainingDetailScreen({super.key});
+  final int catId;
+  final int subCatId;
+
+  const AddTrainingDetailScreen(
+      {super.key, required this.catId, required this.subCatId});
 
   @override
   State<AddTrainingDetailScreen> createState() =>
@@ -334,7 +338,6 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                           onTab: () {
                             FocusScope.of(context).unfocus();
                             logD("Selected location $location");
-                            // if (locationController.text.isEmpty) {
                             if (titleController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
                                   message: 'Please Enter Title.');
@@ -357,6 +360,20 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                               Navigator.pushNamed(
                                 context,
                                 RouteName.trainingPromoScreen,
+                                arguments: {
+                                  "catId": widget.catId,
+                                  "subCatId": widget.subCatId,
+                                  "title": titleController.text,
+                                  "price": priceController.text,
+                                  "description": descriptionController.text,
+                                  "location": location,
+                                  "city": city,
+                                  "country": country,
+                                  "latlong": latlong,
+                                  "state": state,
+                                  "phone": phoneNumberController.text,
+                                  "availableDays": selectDayValue?.value,
+                                },
                               );
                             }
                           }),

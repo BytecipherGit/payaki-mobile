@@ -67,7 +67,7 @@ class StyleUtility {
   static TextStyle inputTextStyle = TextStyle(
     fontFamily: "Axiforma_Regular",
     fontSize: TextSizeUtility.textSize14,
-    color: ColorUtility.color152D4A,
+      color: ColorUtility.color152D4A,
   );
 
   static TextStyle noDataTextStyle = TextStyle(
@@ -82,7 +82,7 @@ class StyleUtility {
     color: ColorUtility.colorB0B9C3,
   );
 
-  static TextStyle titleTextStyle = TextStyle(
+  static TextStyle  titleTextStyle = TextStyle(
     fontFamily: "Axiforma_Regular",
     fontSize: TextSizeUtility.textSize14,
     color: ColorUtility.color43576F,

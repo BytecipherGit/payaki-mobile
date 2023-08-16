@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -75,7 +76,7 @@ class _AddEventDetailScreenState extends State<AddEventDetailScreen> {
                       context.flushBarTopErrorMessage(
                           message: 'Please Enter Description.');
                     } else {
-
+                      Navigator.pushNamed(context, RouteName.addEventPromoScreen);
                     }
                   }),
               SizedBox(

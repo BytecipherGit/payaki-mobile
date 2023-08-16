@@ -452,7 +452,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         EdgeInsets.only(bottom: 25.h),
                                         child: CustomButton.withIcon(
                                             buttonText: "Add to Cart",
-                                            icon: ImageUtility.addToCartIcon,
+                                            image: ImageUtility.addToCartIcon,
                                             onTab: () {
                                                 CommonDialog.showLoadingDialog(
                                                     context);

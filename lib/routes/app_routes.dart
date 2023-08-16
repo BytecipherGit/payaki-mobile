@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:payaki/modules/addEvent/screens/add_event%20_detail_screen.dart';
+import 'package:payaki/modules/addEvent/screens/add_event_promo_screen.dart';
+import 'package:payaki/modules/addEvent/screens/add_event_ticket_screen.dart';
+import 'package:payaki/modules/addEvent/viewModel/add_event_promo_screen_vm.dart';
+import 'package:payaki/modules/addEvent/viewModel/add_event_ticket_screen_vm.dart';
 import 'package:payaki/modules/addTraining/screens/add_training_detail_screen.dart';
 import 'package:payaki/modules/addTraining/screens/training_gallery_screen.dart';
 import 'package:payaki/modules/addTraining/screens/training_promo_screen.dart';
@@ -199,23 +203,22 @@ class AppRoute {
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => SelectAddTypeScreen(
-                  catId: arg["catId"],
-                  subCatId: arg["subCatId"],
-                  title: arg["title"],
-                  tag: arg["tag"],
-                  price: arg["price"],
-                  description: arg["description"],
-                  negotiate: arg["negotiate"],
-                  selectedImages: arg["selectedImages"],
-                  location: arg["location"],
-                  city: arg["city"],
-                  country: arg["country"],
-                  latlong: arg["latlong"],
-                  state: arg["state"],
-                  phone: arg["phone"],
-                  availableDays: arg["availableDays"],
-                  sellerName: arg["sellerName"]
-                ));
+                catId: arg["catId"],
+                subCatId: arg["subCatId"],
+                title: arg["title"],
+                tag: arg["tag"],
+                price: arg["price"],
+                description: arg["description"],
+                negotiate: arg["negotiate"],
+                selectedImages: arg["selectedImages"],
+                location: arg["location"],
+                city: arg["city"],
+                country: arg["country"],
+                latlong: arg["latlong"],
+                state: arg["state"],
+                phone: arg["phone"],
+                availableDays: arg["availableDays"],
+                sellerName: arg["sellerName"]));
 
       case RouteName.userDetailScreen:
         return MaterialPageRoute(
@@ -340,15 +343,34 @@ class AppRoute {
                 create: (_) => MyCartScreenVm(), child: const MyCartScreen()));
 
       case RouteName.addTrainingDetailScreen:
+        var arg = settings.arguments as Map;
+
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                 create: (_) => AddTrainingDetailScreenVm(),
-                child: const AddTrainingDetailScreen()));
+                child: AddTrainingDetailScreen(
+                  catId: arg["catId"],
+                  subCatId: arg["subCatId"],
+                )));
       case RouteName.trainingPromoScreen:
+        var arg = settings.arguments as Map;
+
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => TrainingPromoScreenVm(),
-                  child: const TrainingPromoScreen(),
+                  child: TrainingPromoScreen(
+                      catId: arg["catId"],
+                      subCatId: arg["subCatId"],
+                      title: arg["title"],
+                      price: arg["price"],
+                      description: arg["description"],
+                      location: arg["location"],
+                      city: arg["city"],
+                      country: arg["country"],
+                      latlong: arg["latlong"],
+                      state: arg["state"],
+                      phone: arg["phone"],
+                      availableDays: arg["availableDays"]),
                 ));
       case RouteName.trainingGalleryScreen:
         return MaterialPageRoute(
@@ -357,7 +379,19 @@ class AppRoute {
       case RouteName.addEventDetailScreen:
         return MaterialPageRoute(
             builder: (context) => const AddEventDetailScreen());
+      case RouteName.addEventPromoScreen:
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => AddEventPromoScreenVm(),
+                  child: const AddEventPromoScreen(),
+                ));
 
+      case RouteName.addEventTicketScreen:
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => AddEventTicketScreenVm(),
+                  child: const AddEventTicketScreen(),
+                ));
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());

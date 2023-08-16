@@ -33,14 +33,21 @@ class CustomButton extends StatelessWidget {
     Key? key,
     required this.buttonText,
     required this.onTab,
-    required this.icon,
+    required this.image,
   })  : buttonType = 3,
+        super(key: key);
+  CustomButton.removeTicket({
+    Key? key,
+    required this.buttonText,
+    required this.onTab,
+  })  : buttonType = 4,
         super(key: key);
 
 
 
+
   final String buttonText;
-   String? icon;
+   String? image;
 
 
   final VoidCallback onTab;
@@ -82,7 +89,8 @@ class CustomButton extends StatelessWidget {
           ),
         ),
       );
-    }if (buttonType == 3) {
+    }
+    if (buttonType == 3) {
       return SizedBox(
         height: TextSizeUtility.buttonHeight,
         width: MediaQuery.of(context).size.width,
@@ -98,7 +106,7 @@ class CustomButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(icon!,width: 20.sp,height: 20.sp,),
+              Image.asset(image!,width: 20.sp,height: 20.sp,),
               SizedBox(width: 10.h,),
               Text(
                 buttonText,
@@ -113,7 +121,39 @@ class CustomButton extends StatelessWidget {
       );
     }
 
+    if (buttonType == 4) {
+      return SizedBox(
+        height: TextSizeUtility.removeTicketButtonHeight,
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: ColorUtility.colorF1D6D5,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.r)),
+          ),
+          onPressed: onTab,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(ImageUtility.deleteIcon,
+                color: ColorUtility.colorD7443E,
+                width: 20.sp,height: 20.sp,),
 
+              SizedBox(width: 10.h,),
+              Text(
+                buttonText,
+                maxLines: 1,
+                style: StyleUtility.buttonTextStyle.copyWith(
+                    color: ColorUtility.colorD7443E
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
 
 
