@@ -6,8 +6,12 @@ import 'package:payaki/integration/local_notification_integration.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/splash/splash_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
+import 'package:provider/provider.dart';
 
-
+import 'modules/addEvent/screens/add_event_ticket_screen.dart';
+import 'modules/addEvent/viewModel/add_event_ticket_screen_vm.dart';
+import 'modules/addTraining/screens/training_gallery_screen.dart';
+import 'modules/addTraining/viewModel/training_gallery_screen_vm.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +49,7 @@ class MyApp extends StatelessWidget {
             ),
             onGenerateRoute: AppRoute.generateRoute,
             home: const SplashScreen(),
+
           );
         });
   }

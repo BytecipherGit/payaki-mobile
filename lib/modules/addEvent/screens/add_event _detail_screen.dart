@@ -10,8 +10,9 @@ import 'package:payaki/widgets/simple_text_field.dart';
 
 class AddEventDetailScreen extends StatefulWidget {
 
-
-  const AddEventDetailScreen({Key? key})
+  final int catId;
+  final int subCatId;
+  const AddEventDetailScreen({Key? key, required this.catId, required this.subCatId})
       : super(key: key);
 
   @override
@@ -76,7 +77,13 @@ class _AddEventDetailScreenState extends State<AddEventDetailScreen> {
                       context.flushBarTopErrorMessage(
                           message: 'Please Enter Description.');
                     } else {
-                      Navigator.pushNamed(context, RouteName.addEventPromoScreen);
+                      Navigator.pushNamed(context, RouteName.addEventPromoScreen,
+                      arguments: {
+                        "catId": widget.catId,
+                        "subCatId": widget.subCatId,
+                        "title": titleController.text,
+                        "description": descriptionController.text,
+                      });
                     }
                   }),
               SizedBox(

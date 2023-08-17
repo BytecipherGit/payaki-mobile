@@ -86,10 +86,6 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                                     "",
                                 style: StyleUtility.titleTextStyle,
                               ),
-                              // leading: Image.asset(
-                              //   ImageUtility.carImage,
-                              //   width: 25.w,
-                              // ),
                               leading: NetworkImageWidget(
                                   width: 25.w,
                                   height: 25.w,

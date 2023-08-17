@@ -77,6 +77,14 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                       "subCatId": int.parse(subCategoryScreenVm
                                           .subCategoryList![index].subCatId!)
                                     });
+                              } else if (widget.catId == 10) {
+                                Navigator.pushNamed(
+                                    context, RouteName.addEventDetailScreen,
+                                    arguments: {
+                                      "catId": widget.catId,
+                                      "subCatId": int.parse(subCategoryScreenVm
+                                          .subCategoryList![index].subCatId!)
+                                    });
                               } else {
                                 Navigator.pushNamed(
                                     context, RouteName.addDetailScreen,

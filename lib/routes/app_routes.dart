@@ -8,6 +8,7 @@ import 'package:payaki/modules/addTraining/screens/add_training_detail_screen.da
 import 'package:payaki/modules/addTraining/screens/training_gallery_screen.dart';
 import 'package:payaki/modules/addTraining/screens/training_promo_screen.dart';
 import 'package:payaki/modules/addTraining/viewModel/add_training_detail_screen_vm.dart';
+import 'package:payaki/modules/addTraining/viewModel/training_gallery_screen_vm.dart';
 import 'package:payaki/modules/addTraining/viewModel/training_promo_screen_vm.dart';
 import 'package:payaki/modules/auth/changePassword/screen/change_password_screen.dart';
 import 'package:payaki/modules/auth/changePassword/viewModel/change_password_screen_vm.dart';
@@ -373,24 +374,50 @@ class AppRoute {
                       availableDays: arg["availableDays"]),
                 ));
       case RouteName.trainingGalleryScreen:
+        var arg = settings.arguments as Map;
         return MaterialPageRoute(
-            builder: (context) => const TrainingGalleryScreen());
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => TrainingGalleryScreenVm(),
+                  child: TrainingGalleryScreen(
+                    productId: arg["product_id"],
+                  ),
+                ));
 
       case RouteName.addEventDetailScreen:
+        var arg = settings.arguments as Map;
+
         return MaterialPageRoute(
-            builder: (context) => const AddEventDetailScreen());
+            builder: (context) => AddEventDetailScreen(
+                  catId: arg["catId"],
+                  subCatId: arg["subCatId"],
+                ));
       case RouteName.addEventPromoScreen:
+        var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => AddEventPromoScreenVm(),
-                  child: const AddEventPromoScreen(),
+                  child: AddEventPromoScreen(
+                    catId: arg["catId"],
+                    subCatId: arg["subCatId"],
+                    title: arg["title"],
+                    description: arg["description"],
+                  ),
                 ));
 
       case RouteName.addEventTicketScreen:
+        var arg = settings.arguments as Map;
+
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => AddEventTicketScreenVm(),
-                  child: const AddEventTicketScreen(),
+                  child: AddEventTicketScreen(
+                    catId: arg["catId"],
+                    subCatId: arg["subCatId"],
+                    title: arg["title"],
+                    description: arg["description"],
+                    promoImage: arg["promoImage"],
+                    promoVideo: arg["promoVideo"]
+                  ),
                 ));
 
       default:

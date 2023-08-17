@@ -15,8 +15,13 @@ import 'package:provider/provider.dart';
 
 
 class AddEventPromoScreen extends StatefulWidget {
+  final int catId;
+  final int subCatId;
+  final String title;
+  final String description;
+
   const AddEventPromoScreen({
-    Key? key,
+    Key? key, required this.catId, required this.subCatId, required this.title, required this.description,
   }) : super(key: key);
 
   @override
@@ -166,7 +171,15 @@ class _AddEventPromoScreenState extends State<AddEventPromoScreen> {
                                 message: "Please Upload Promo Video.");
                           } else {
                             Navigator.pushNamed(
-                                context, RouteName.addEventTicketScreen);
+                                context, RouteName.addEventTicketScreen,
+                            arguments: {
+                              "catId": widget.catId,
+                              "subCatId": widget.subCatId,
+                              "title": widget.title,
+                              "description": widget.description,
+                              "promoImage":addEventPromoScreenVm.selectedImages,
+                              "promoVideo":addEventPromoScreenVm.selectedVideo,
+                            });
                           }
                         }),
                     SizedBox(

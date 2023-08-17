@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/end_points.dart';
+import 'package:payaki/network/model/response/post/add_post_response.dart';
 import 'package:payaki/network/repository/post_repository.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -48,7 +49,7 @@ class TrainingPromoScreenVm extends ChangeNotifier {
   }
 
   addPostApi({
-    ValueChanged<String>? onSuccess,
+    ValueChanged<AddPostResponse>? onSuccess,
     ValueChanged<String>? onFailure,
     required XFile images,
     required XFile video,
@@ -104,8 +105,9 @@ class TrainingPromoScreenVm extends ChangeNotifier {
     postRepository.addPost(formData).then((value) {
       notifyListeners();
 
+
       if (value.code == 200) {
-        onSuccess?.call(value.message ?? "");
+        onSuccess?.call(value);
       } else {
         onFailure?.call(value.message ?? "");
       }

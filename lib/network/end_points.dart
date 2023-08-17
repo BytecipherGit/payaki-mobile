@@ -11,6 +11,7 @@ class Endpoints {
   static UserProfileEndPoints userProfileEndPoints = UserProfileEndPoints();
   static ChatEndPoints chatEndPoints = ChatEndPoints();
   static CartEndPoints cartEndPoints = CartEndPoints();
+  static TrainingEndPoints trainingEndPoints = TrainingEndPoints();
 }
 
 // TODO API flavours UAT/Production
@@ -76,6 +77,11 @@ class CartEndPoints {
   String get getCartItems => "getCartItems";
   String get deleteFromCart => "deleteFromCart";
   String get checkoutPaypal => "checkoutPaypal";
+
+}
+
+class TrainingEndPoints {
+  String get addTrainingVideo => "addTrainingVideo";
 
 }
 

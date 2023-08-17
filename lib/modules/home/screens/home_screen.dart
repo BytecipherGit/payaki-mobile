@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     homeScreenVm = Provider.of<HomeScreenVm>(context, listen: false);
     homeScreenVm.fetchCategoryList(
         onSuccess: (value) {},
@@ -78,22 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: 10.sp,
                 ),
-                InkWell(
-                  onLongPress: () {
-                    Navigator.pushNamed(
-                        context, RouteName.addEventDetailScreen);
-                  },
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, RouteName.addTrainingDetailScreen,
-                        arguments: {"catId": 1, "subCatId": 1});
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(5.sp),
-                    child: Image.asset(
-                      ImageUtility.notificationIcon,
-                      width: 16.sp,
-                    ),
+                Padding(
+                  padding: EdgeInsets.all(5.sp),
+                  child: Image.asset(
+                    ImageUtility.notificationIcon,
+                    width: 16.sp,
                   ),
                 )
               ],

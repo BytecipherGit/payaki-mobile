@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/addTraining/viewModel/training_promo_screen_vm.dart';
+import 'package:payaki/network/model/response/post/add_post_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
@@ -198,9 +199,6 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                         context.flushBarTopErrorMessage(
                             message: "Please Upload Promo Video.");
                       } else {
-                        // Navigator.pushNamed(
-                        //     context, RouteName.trainingGalleryScreen);
-
                         CommonDialog.showLoadingDialog(context);
                         trainingPromoScreenVm.addPostApi(
                             images: trainingPromoScreenVm.selectedImages!,
@@ -218,18 +216,28 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                             phone: widget.phone,
                             availableDays: widget.availableDays.toString(),
                             amount: widget.price,
-                            onSuccess: (String message) {
+                            onSuccess: (AddPostResponse response) {
                               Navigator.pop(context);
+
                               Navigator.pushNamedAndRemoveUntil(
-                                  context, RouteName.bottomNavigationBarScreen, (route) => false);
-                              context.flushBarTopSuccessMessage(message: message);
+                                context,
+                                RouteName.bottomNavigationBarScreen,
+                                // Replace with the route name of your dashboard screen
+                                (route) => false,
+                              );
+                              Navigator.pushNamed(
+                                  context, RouteName.trainingGalleryScreen,
+                              arguments: {
+                                    "product_id":response.data?.id
+                              });
+
+                              context.flushBarTopSuccessMessage(
+                                  message: response.message ?? "");
                             },
                             onFailure: (value) {
                               Navigator.pop(context);
                               context.flushBarTopErrorMessage(message: value);
                             });
-
-
                       }
                     }),
                 SizedBox(
@@ -243,5 +251,3 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
     );
   }
 }
-
-enum FileType { video }

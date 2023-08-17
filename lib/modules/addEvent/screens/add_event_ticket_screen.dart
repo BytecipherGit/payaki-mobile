@@ -2,11 +2,15 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
 import 'package:payaki/modules/addEvent/model/ticket_model.dart';
 import 'package:payaki/modules/addEvent/viewModel/add_event_ticket_screen_vm.dart';
+import 'package:payaki/network/model/response/post/add_post_response.dart';
+import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -16,7 +20,22 @@ import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
 class AddEventTicketScreen extends StatefulWidget {
-  const AddEventTicketScreen({Key? key}) : super(key: key);
+  final int catId;
+  final int subCatId;
+  final String title;
+  final String description;
+  final XFile promoImage;
+  final XFile promoVideo;
+
+  const AddEventTicketScreen(
+      {Key? key,
+      required this.catId,
+      required this.subCatId,
+      required this.title,
+      required this.description,
+      required this.promoImage,
+      required this.promoVideo})
+      : super(key: key);
 
   @override
   State<AddEventTicketScreen> createState() => _AddEventTicketScreenState();
@@ -35,7 +54,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
         title: "Event - Add Ticket",
       ),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: SafeArea(
@@ -86,7 +105,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                           titleText: "Quantity *",
                                           textInputType: TextInputType.number,
                                           inputFormatter: [
-                                            FilteringTextInputFormatter.digitsOnly
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
                                           ],
                                         ),
                                       ),
@@ -99,7 +119,6 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                           hintText: "Price",
                                           titleText: "Price *",
                                           textInputType: TextInputType.number,
-
                                           inputFormatter: [
                                             DecimalInputFormatter(),
                                           ],
@@ -125,10 +144,11 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                   context.flushBarTopErrorMessage(
                                       message: "Please Enter Ticket Price.");
                                 } else {
-                                  addEventTicketScreenVm.addTicket(TicketModel(
-                                      titleController.text,
-                                      quantityController.text,
-                                      priceController.text));
+                                  addEventTicketScreenVm.addTicket(Tickets(
+                                      ticketTitle: titleController.text,
+                                      ticketQuantity: quantityController.text,
+                                      ticketPrice: priceController.text,
+                                      sellingMode: "offline"));
 
                                   titleController.clear();
                                   quantityController.clear();
@@ -138,12 +158,13 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                 }
                               }),
                           SizedBox(height: 25.h),
+                         // if(addEventTicketScreenVm.ticketModel?.tickets != null && addEventTicketScreenVm.ticketModel!.tickets!.isNotEmpty)
                           ListView.builder(
                               shrinkWrap: true,
                               primary: false,
-                              itemCount: addEventTicketScreenVm.ticketList.length,
+                              itemCount:
+                                  addEventTicketScreenVm.ticketList.length ?? 0,
                               itemBuilder: (context, index) {
-
                                 var tickets = addEventTicketScreenVm.ticketList;
                                 return Padding(
                                   padding: EdgeInsets.only(bottom: 20.h),
@@ -163,7 +184,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(10.r),
+                                                  topLeft:
+                                                      Radius.circular(10.r),
                                                   topRight:
                                                       Radius.circular(10.r))),
                                           child: Column(
@@ -171,7 +193,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                tickets[index].title ?? "",
+                                                tickets[index].ticketTitle ??
+                                                    "",
                                                 style:
                                                     StyleUtility.titleTextStyle,
                                                 overflow: TextOverflow.ellipsis,
@@ -181,12 +204,13 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                                 height: 7.h,
                                               ),
                                               Text(
-                                                "₹ ${tickets[index].price ?? ""}",
+                                                "₹ ${tickets?[index].ticketPrice ?? ""}",
                                                 style: StyleUtility
                                                     .headingTextStyle
                                                     .copyWith(
-                                                        fontSize: TextSizeUtility
-                                                            .textSize22),
+                                                        fontSize:
+                                                            TextSizeUtility
+                                                                .textSize22),
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
                                               ),
@@ -194,18 +218,21 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                                 "Quantity",
                                                 style: StyleUtility.axiforma300
                                                     .copyWith(
-                                                        fontSize: TextSizeUtility
-                                                            .textSize12,
+                                                        fontSize:
+                                                            TextSizeUtility
+                                                                .textSize12,
                                                         color: ColorUtility
                                                             .color43576F),
                                               ),
                                               Text(
-                                                tickets[index].quantity ?? "",
-
-                                                style: StyleUtility.titleTextStyle
+                                                tickets?[index].ticketQuantity ??
+                                                    "",
+                                                style: StyleUtility
+                                                    .titleTextStyle
                                                     .copyWith(
-                                                        fontSize: TextSizeUtility
-                                                            .textSize16,
+                                                        fontSize:
+                                                            TextSizeUtility
+                                                                .textSize16,
                                                         color: ColorUtility
                                                             .color152D4A),
                                               ),
@@ -233,15 +260,15 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                           child: CustomButton.removeTicket(
                                             buttonText: "Remove Ticket",
                                             onTab: () {
-                                              showDeletePostDialog(
-                                                context: context,
-                                                  onDeleteTap: (){
-                                                addEventTicketScreenVm.removeTicket(index);
-                                                context.flushBarTopSuccessMessage(
-                                                    message:
-                                                    "Ticked Removed Successfully.");
-                                              });
-
+                                              showDeleteTicketDialog(
+                                                  context: context,
+                                                  onDeleteTap: () {
+                                                    addEventTicketScreenVm
+                                                        .removeTicket(index);
+                                                    context.flushBarTopSuccessMessage(
+                                                        message:
+                                                            "Ticked Removed Successfully.");
+                                                  });
                                             },
                                           ),
                                         )
@@ -258,13 +285,33 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                   CustomButton(
                       buttonText: "Done",
                       onTab: () {
-                        if (titleController.text.isEmpty) {
+                        if (addEventTicketScreenVm.ticketList == null || addEventTicketScreenVm.ticketList!.isEmpty) {
                           context.flushBarTopErrorMessage(
-                              message: 'Please Enter Title.');
-                        } else if (quantityController.text.isEmpty) {
-                          context.flushBarTopErrorMessage(
-                              message: 'Please Enter Description.');
-                        } else {}
+                              message: 'Please Create Ticket.');
+                        } else {
+                          // CommonDialog.showLoadingDialog(context);
+                          // addEventTicketScreenVm.addPostApi(
+                          //     images: widget.promoImage,
+                          //     video: widget.promoVideo,
+                          //     productName: widget.title,
+                          //     description: widget.description,
+                          //     categoryId: widget.catId,
+                          //     subCategoryId: widget.subCatId,
+                          //     onSuccess: (AddPostResponse response) {
+                          //       Navigator.pop(context);
+                          //       Navigator.pushNamedAndRemoveUntil(
+                          //           context,
+                          //           RouteName.bottomNavigationBarScreen,
+                          //           (route) => false);
+                          //
+                          //       context.flushBarTopSuccessMessage(
+                          //           message: response.message ?? "");
+                          //     },
+                          //     onFailure: (value) {
+                          //       Navigator.pop(context);
+                          //       context.flushBarTopErrorMessage(message: value);
+                          //     });
+                        }
                       }),
                   SizedBox(
                     height: 20.h,
@@ -278,7 +325,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
     );
   }
 
-  Future<dynamic> showDeletePostDialog({
+  Future<dynamic> showDeleteTicketDialog({
     required BuildContext context,
     required VoidCallback onDeleteTap,
   }) {
@@ -289,9 +336,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
             onDeleteTap: onDeleteTap,
             yesText: "Confirm",
             desc: "Are you sure you want to delete \nthis Ticket ?",
-
           );
         });
   }
-
 }
