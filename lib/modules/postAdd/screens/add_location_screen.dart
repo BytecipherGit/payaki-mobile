@@ -304,7 +304,7 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                                 controller: sellerNameController,
                                 hintText: "Enter your brand name",
                                 titleText: "Seller Name*",
-                               // image: ImageUtility.userNameIcon,
+                                // image: ImageUtility.userNameIcon,
                                 textInputType: TextInputType.emailAddress,
                               ),
                               SizedBox(
@@ -334,10 +334,10 @@ class _AddLocationScreenState extends State<AddLocationScreen> {
                             } else if (selectDayValue?.value == null) {
                               context.flushBarTopErrorMessage(
                                   message: "Please Select Expire Days.");
-                            }else if (sellerNameController.text.isEmpty) {
+                            } else if (sellerNameController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
                                   message: "Please Enter Seller Name.");
-                            }  else if (phoneNumberController.text.isEmpty) {
+                            } else if (phoneNumberController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
                                   message: "Please Enter Mobile Number.");
                             } else {

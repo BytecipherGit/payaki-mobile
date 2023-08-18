@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,27 +14,27 @@ class AddEventTicketScreenVm extends ChangeNotifier {
   final PostRepository postRepository = PostRepository();
 
   List<Tickets> ticketList = [];
- // TicketModel? ticketModel = TicketModel();
 
+  List<Map<String, dynamic>> ticketMapList = [];
 
   addTicket(Tickets tickets) {
     ticketList.add(tickets);
 
+    Map<String, dynamic> newTicket = {
+      "ticket_title": tickets.ticketTitle,
+      "ticket_price": tickets.ticketPrice,
+      "ticket_quantity": tickets.ticketQuantity,
+      "selling_mode": tickets.sellingMode,
+    };
 
-    // ticketModel?.tickets = [
-    //   Tickets(
-    //       ticketTitle: "titleController.text",
-    //       ticketQuantity: "2",
-    //       ticketPrice: "1",
-    //       sellingMode: "offline")
-    // ];
-    //
-    // logD("list length is ${ticketModel?.tickets?.length}");
+    ticketMapList.add(newTicket);
+
     notifyListeners();
   }
 
   removeTicket(int index) {
     ticketList.removeAt(index);
+    ticketMapList.removeAt(index);
     notifyListeners();
   }
 
@@ -55,6 +57,7 @@ class AddEventTicketScreenVm extends ChangeNotifier {
       filename: video.name,
     );
 
+    logD("Ticket length is ${ticketMapList.length}");
     FormData formData = FormData.fromMap({
       'name': Endpoints.post.addPost,
       'user_id': Preference().getUserId(),
@@ -64,17 +67,12 @@ class AddEventTicketScreenVm extends ChangeNotifier {
       'sub_category': subCategoryId,
       'product_images[]': imageFile,
       'promo_video': videoFile,
-     // 'max_size': "500", ...?ticketModel?.toJson()
-     // "events":ticketModel?.toJson()
+      'max_size': "500",
+      "events": jsonEncode(ticketMapList)
     });
-
-
-
-
 
     postRepository.addPost(formData).then((value) {
       notifyListeners();
-
       if (value.code == 200) {
         onSuccess?.call(value);
       } else {
@@ -83,7 +81,6 @@ class AddEventTicketScreenVm extends ChangeNotifier {
     }).onError((error, stackTrace) {
       logE("error $error");
       notifyListeners();
-
       onFailure?.call("Server Error");
     });
   }

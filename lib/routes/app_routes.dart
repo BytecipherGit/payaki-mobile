@@ -411,13 +411,12 @@ class AppRoute {
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => AddEventTicketScreenVm(),
                   child: AddEventTicketScreen(
-                    catId: arg["catId"],
-                    subCatId: arg["subCatId"],
-                    title: arg["title"],
-                    description: arg["description"],
-                    promoImage: arg["promoImage"],
-                    promoVideo: arg["promoVideo"]
-                  ),
+                      catId: arg["catId"],
+                      subCatId: arg["subCatId"],
+                      title: arg["title"],
+                      description: arg["description"],
+                      promoImage: arg["promoImage"],
+                      promoVideo: arg["promoVideo"]),
                 ));
 
       default:

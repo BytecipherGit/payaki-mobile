@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     homeScreenVm = Provider.of<HomeScreenVm>(context, listen: false);
     homeScreenVm.fetchCategoryList(
         onSuccess: (value) {},
