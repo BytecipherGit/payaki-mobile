@@ -12,6 +12,8 @@ import 'package:payaki/network/model/response/post/add_post_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/utilities/common_method.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
@@ -26,6 +28,9 @@ class AddEventTicketScreen extends StatefulWidget {
   final int subCatId;
   final String title;
   final String description;
+  final String eventDate;
+  final String eventTime;
+
   final XFile promoImage;
   final XFile promoVideo;
 
@@ -36,7 +41,9 @@ class AddEventTicketScreen extends StatefulWidget {
       required this.title,
       required this.description,
       required this.promoImage,
-      required this.promoVideo})
+      required this.promoVideo,
+      required this.eventDate,
+      required this.eventTime})
       : super(key: key);
 
   @override
@@ -305,7 +312,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                                 height: 7.h,
                                               ),
                                               Text(
-                                                "₹ ${tickets[index].ticketPrice ?? ""}",
+                                                "${Constant.currencySymbol} ${CommonMethod.numberFormat(tickets[index].ticketPrice ?? "")}",
                                                 style: StyleUtility
                                                     .headingTextStyle
                                                     .copyWith(
@@ -320,7 +327,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                                   Expanded(
                                                       child: Text(
                                                     tickets[index]
-                                                            .sellingMode?.toUpperCase() ??
+                                                            .sellingMode
+                                                            ?.toUpperCase() ??
                                                         "",
                                                     style: StyleUtility
                                                         .axiforma500
@@ -347,7 +355,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                                                     .color43576F),
                                                       ),
                                                       Text(
-                                                        tickets?[index]
+                                                        tickets[index]
                                                                 .ticketQuantity ??
                                                             "",
                                                         style: StyleUtility
@@ -423,6 +431,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                               video: widget.promoVideo,
                               productName: widget.title,
                               description: widget.description,
+                              eventDate: widget.eventDate,
+                              eventTime: widget.eventTime,
                               categoryId: widget.catId,
                               subCategoryId: widget.subCatId,
                               onSuccess: (AddPostResponse response) {

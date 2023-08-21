@@ -19,9 +19,13 @@ class AddEventPromoScreen extends StatefulWidget {
   final int subCatId;
   final String title;
   final String description;
+  final String eventDate;
+  final String eventTime;
+
+
 
   const AddEventPromoScreen({
-    Key? key, required this.catId, required this.subCatId, required this.title, required this.description,
+    Key? key, required this.catId, required this.subCatId, required this.title, required this.description, required this.eventDate, required this.eventTime,
   }) : super(key: key);
 
   @override
@@ -177,6 +181,8 @@ class _AddEventPromoScreenState extends State<AddEventPromoScreen> {
                               "subCatId": widget.subCatId,
                               "title": widget.title,
                               "description": widget.description,
+                              "eventDate": widget.eventDate,
+                              "eventTime": widget.eventTime,
                               "promoImage":addEventPromoScreenVm.selectedImages,
                               "promoVideo":addEventPromoScreenVm.selectedVideo,
                             });

@@ -1,12 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 
 class StyleUtility {
-
-
-
   static TextStyle headerTextStyle = TextStyle(
     fontFamily: "Axiforma_SemiBold",
     fontSize: TextSizeUtility.textSize16,
@@ -25,10 +21,6 @@ class StyleUtility {
     color: ColorUtility.colorB3B3B3,
   );
 
-
-
-
-
   static TextStyle welcomeDetailTextStyle = TextStyle(
     fontFamily: "Axiforma_Medium",
     fontSize: TextSizeUtility.textSize16,
@@ -36,20 +28,16 @@ class StyleUtility {
   );
 
   static TextStyle urlTextStyle = TextStyle(
-    fontFamily: "Axiforma_SemiBold",
-    fontSize: TextSizeUtility.textSize16,
-    color: ColorUtility.color9C5FA3,
-    decoration: TextDecoration.underline
-  );
-
+      fontFamily: "Axiforma_SemiBold",
+      fontSize: TextSizeUtility.textSize16,
+      color: ColorUtility.color9C5FA3,
+      decoration: TextDecoration.underline);
 
   static TextStyle laterTextStyle = TextStyle(
       fontFamily: "Axiforma_Medium",
       fontSize: TextSizeUtility.textSize14,
       color: ColorUtility.color282828,
-      decoration: TextDecoration.underline
-  );
-
+      decoration: TextDecoration.underline);
 
   static TextStyle buttonTextStyle = TextStyle(
     fontFamily: "Axiforma_Medium",
@@ -62,12 +50,10 @@ class StyleUtility {
     fontSize: TextSizeUtility.textSize14,
   );
 
-
-
   static TextStyle inputTextStyle = TextStyle(
     fontFamily: "Axiforma_Regular",
     fontSize: TextSizeUtility.textSize14,
-      color: ColorUtility.color152D4A,
+    color: ColorUtility.color152D4A,
   );
 
   static TextStyle noDataTextStyle = TextStyle(
@@ -82,7 +68,7 @@ class StyleUtility {
     color: ColorUtility.colorB0B9C3,
   );
 
-  static TextStyle  titleTextStyle = TextStyle(
+  static TextStyle titleTextStyle = TextStyle(
     fontFamily: "Axiforma_Regular",
     fontSize: TextSizeUtility.textSize14,
     color: ColorUtility.color43576F,
@@ -93,9 +79,6 @@ class StyleUtility {
     fontSize: TextSizeUtility.textSize14,
     color: ColorUtility.colorA5A5A5,
   );
-
-
-
 
   static TextStyle typeStyle = TextStyle(
     fontFamily: "Axiforma_Regular",
@@ -110,27 +93,19 @@ class StyleUtility {
   );
 
   static TextStyle reviewTitleTextStyle = TextStyle(
-    fontFamily: "Axiforma_Medium",
-    color: ColorUtility.color8B97A4,
-      fontSize: TextSizeUtility.textSize16
-  );
+      fontFamily: "Axiforma_Medium",
+      color: ColorUtility.color8B97A4,
+      fontSize: TextSizeUtility.textSize16);
 
   static TextStyle totalTextStyle = TextStyle(
       fontFamily: "Axiforma_SemiBold",
       color: ColorUtility.color8B97A4,
-      fontSize: TextSizeUtility.textSize16
-  );
+      fontSize: TextSizeUtility.textSize16);
 
-
-
-
-
-  static TextStyle resendOtpTextStyle =  TextStyle(
-    fontFamily: "Axiforma_Medium",
+  static TextStyle resendOtpTextStyle = TextStyle(
+      fontFamily: "Axiforma_Medium",
       color: ColorUtility.color27272A,
-      fontSize: TextSizeUtility.textSize16
-  );
-
+      fontSize: TextSizeUtility.textSize16);
 
   static TextStyle radioTitleTextStyle = TextStyle(
     fontFamily: "Axiforma_Regular",
@@ -149,11 +124,6 @@ class StyleUtility {
     fontFamily: "Axiforma_Medium",
   );
 
-
-
-
-
-
   static TextStyle axiforma600 = const TextStyle(
     fontFamily: "Axiforma_SemiBold",
   );
@@ -161,6 +131,4 @@ class StyleUtility {
   static TextStyle axiforma700 = const TextStyle(
     fontFamily: "Axiforma-Bold",
   );
-
-
 }

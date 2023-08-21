@@ -4,6 +4,8 @@ import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/transaction/viewModel/transaction_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_method.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
@@ -48,13 +50,13 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     itemCount: transactionList?.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
-
                           Navigator.pushNamed(
                               context, RouteName.transactionDetailScreen,
-                          arguments: {
-                                "transaction":transactionList?[index]
-                          });
+                              arguments: {
+                                "transaction": transactionList?[index]
+                              });
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -82,9 +84,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                transactionList?[index].transactionTime ?? "",
-                                   // DateFormat('yyyy-MM-dd').format(DateTime.parse("${transactionList?[index].transactionTime}")),
-                                        //  "2022/11/06",
+                                          transactionList?[index]
+                                                  .transactionTime ??
+                                              "",
                                           style: StyleUtility.titleTextStyle
                                               .copyWith(
                                                   color:
@@ -164,7 +166,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                       height: 7.sp,
                                     ),
                                     Text(
-                                      "₹ ${transactionList?[index].amount ?? ""}",
+                                      "${Constant.currencySymbol} ${CommonMethod.numberFormat(transactionList?[index].amount ?? "")}",
                                       style: StyleUtility.headerTextStyle
                                           .copyWith(
                                               fontSize:

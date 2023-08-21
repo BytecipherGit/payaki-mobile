@@ -45,6 +45,8 @@ class AddEventTicketScreenVm extends ChangeNotifier {
       required XFile video,
       required String productName,
       required String description,
+      required String eventDate,
+      required String eventTime,
       required int categoryId,
       required int subCategoryId}) async {
     MultipartFile imageFile = await MultipartFile.fromFile(
@@ -63,6 +65,8 @@ class AddEventTicketScreenVm extends ChangeNotifier {
       'user_id': Preference().getUserId(),
       'product_name': productName,
       'description': description,
+      'event_date': eventDate,
+      'event_time': eventTime,
       'category': categoryId,
       'sub_category': subCategoryId,
       'product_images[]': imageFile,

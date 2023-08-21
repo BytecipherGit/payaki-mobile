@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/modules/myAds/viewModel/my_ads_screen_vm.dart';
 import 'package:payaki/network/model/response/profile/transaction_list_response.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_method.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
@@ -49,7 +51,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
             ),
             Text("Amount", style: StyleUtility.titleTextStyle),
             Text(
-              "₹ ${widget.transaction?.amount ?? ""}",
+              "${Constant.currencySymbol} ${CommonMethod.numberFormat(widget.transaction?.amount ?? "")}",
               style: StyleUtility.headerTextStyle.copyWith(
                   fontSize: TextSizeUtility.textSize18,
                   color: ColorUtility.color43576F),

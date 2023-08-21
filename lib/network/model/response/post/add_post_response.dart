@@ -32,7 +32,7 @@ class Data {
   String? featured;
   String? urgent;
   String? highlight;
-  Null? sellerName;
+  String? sellerName;
   String? productName;
   String? slug;
   String? description;

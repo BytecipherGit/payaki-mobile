@@ -11,4 +11,5 @@ class Constant {
   static const ios = 'ios';
 
   static const videoFile = 'videoFile';
+  static const currencySymbol = 'Kz';
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
 import 'package:payaki/modules/home/widget/home_post_widget.dart';
 import 'package:payaki/network/end_points.dart';
@@ -10,6 +12,7 @@ import 'package:payaki/network/model/response/category/category_list_response.da
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/utilities/common_method.dart';
 import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -31,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     homeScreenVm = Provider.of<HomeScreenVm>(context, listen: false);
     homeScreenVm.fetchCategoryList(
         onSuccess: (value) {},
@@ -83,6 +87,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Image.asset(
                     ImageUtility.notificationIcon,
                     width: 16.sp,
+                  ),
+                ),
+                SizedBox(
+                  width: 10.sp,
+                ),
+                ClipOval(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RouteName.myCartScreen);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(15.sp),
+                        child: Image.asset(
+                          ImageUtility.addToCartIcon,
+                          width: 18.sp,
+                          color: ColorUtility.color43576F,
+                        ),
+                      ),
+                    ),
                   ),
                 )
               ],

@@ -401,6 +401,8 @@ class AppRoute {
                     subCatId: arg["subCatId"],
                     title: arg["title"],
                     description: arg["description"],
+                    eventDate: arg["eventDate"],
+                    eventTime: arg["eventTime"],
                   ),
                 ));
 
@@ -415,6 +417,8 @@ class AppRoute {
                       subCatId: arg["subCatId"],
                       title: arg["title"],
                       description: arg["description"],
+                      eventDate: arg["eventDate"],
+                      eventTime: arg["eventTime"],
                       promoImage: arg["promoImage"],
                       promoVideo: arg["promoVideo"]),
                 ));

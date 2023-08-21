@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moment_dart/moment_dart.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_method.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
@@ -74,6 +76,7 @@ class GridItemWidget extends StatelessWidget {
                   padding: EdgeInsets.all(10.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
                         children: [
@@ -123,12 +126,35 @@ class GridItemWidget extends StatelessWidget {
                               : const SizedBox(),
                         ],
                       ),
-                      isVerified == "1"
-                          ? Image.asset(
-                              ImageUtility.verifiedPostIcon,
-                              width: 26.w,
-                            )
+
+
+                    Column(
+                      children: [
+
+
+                      isVerified == "1" ?
+                      Padding(
+                        padding:  EdgeInsets.only(bottom: 5.w),
+
+                        child: Image.asset(
+                                ImageUtility.verifiedPostIcon,
+                                width: 26.w,
+                              ),
+                      )
                           : const SizedBox(),
+
+
+
+                        isFavouriteList == true
+                            ? InkWell(
+                          onTap: onFavouriteIconTap,
+                          child: Image.asset(
+                            ImageUtility.favIcon,
+                            height: 18.sp,
+                          ),
+                        )
+                            : const SizedBox(),
+  ])
                     ],
                   ),
                 )
@@ -150,7 +176,7 @@ class GridItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "₹ $price",
+                        "${Constant.currencySymbol} ${CommonMethod.numberFormat(price)}",
                         style: StyleUtility.headingTextStyle,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -199,15 +225,15 @@ class GridItemWidget extends StatelessWidget {
                                     ),
                                   )
                                 : const SizedBox(),
-                            isFavouriteList == true
-                                ? InkWell(
-                                    onTap: onFavouriteIconTap,
-                                    child: Image.asset(
-                                      ImageUtility.favIcon,
-                                      height: 18.sp,
-                                    ),
-                                  )
-                                : const SizedBox(),
+                            // isFavouriteList == true
+                            //     ? InkWell(
+                            //         onTap: onFavouriteIconTap,
+                            //         child: Image.asset(
+                            //           ImageUtility.favIcon,
+                            //           height: 18.sp,
+                            //         ),
+                            //       )
+                            //     : const SizedBox(),
                             isShowDeleteIcon == true
                                 ? InkWell(
                                     onTap: onDeleteIconTap,

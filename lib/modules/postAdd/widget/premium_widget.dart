@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 
@@ -72,13 +73,13 @@ class PremiumWidget extends StatelessWidget {
             height: 29.h,
           ),
           Text(
-            "\$$price",
+            "${Constant.currencySymbol} $price",
             style: StyleUtility.headerTextStyle.copyWith(
                 fontSize: TextSizeUtility.textSize24,
                 color: ColorUtility.color1F1F1F),
           ),
           Text(
-            "$month",
+            month,
             style: StyleUtility.axiforma400.copyWith(
                 fontSize: TextSizeUtility.textSize10,
                 color: ColorUtility.color1F1F1F),
