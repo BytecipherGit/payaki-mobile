@@ -1,8 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
 import 'package:payaki/logger/app_logger.dart';
@@ -57,6 +59,20 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
 
   List<String> sellingModeList = ["online", "offline"];
   String? sellingModeValue;
+
+  TextEditingController currencyControler = TextEditingController();
+
+  String formNum(String s) {
+    return NumberFormat.decimalPattern().format(
+      int.parse(s),
+    );
+  }
+
+  void _handleTapInputOutside(PointerDownEvent e) {
+    // widget.options.onTextFieldTap!();
+    debugPrint("tap outside do nothing?");
+    FocusScope.of(context).unfocus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +150,11 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                           inputFormatter: [
                                             DecimalInputFormatter(),
                                           ],
+                                          onTapOutside: (String value) {
+                                            CommonMethod
+                                                .numberFormatForTextEditing(
+                                                    priceController);
+                                          },
                                         ),
                                       )
                                     ],
@@ -255,7 +276,9 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                   addEventTicketScreenVm.addTicket(Tickets(
                                       ticketTitle: titleController.text,
                                       ticketQuantity: quantityController.text,
-                                      ticketPrice: priceController.text,
+                                      // ticketPrice: priceController.text,
+                                      ticketPrice: priceController.text
+                                          .replaceAll(',', ''),
                                       sellingMode: sellingModeValue));
 
                                   titleController.clear();
@@ -420,6 +443,9 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                   CustomButton(
                       buttonText: "Done",
                       onTab: () {
+                        logD("Value is ");
+                        logD(priceController.text);
+                        logD(currencyControler.text);
                         if (addEventTicketScreenVm.ticketList == null ||
                             addEventTicketScreenVm.ticketList!.isEmpty) {
                           context.flushBarTopErrorMessage(
@@ -476,5 +502,42 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
             desc: "Are you sure you want to delete \nthis Ticket ?",
           );
         });
+  }
+}
+
+class AmountInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final String newText = newValue.text.replaceAll(',', '');
+
+    if (newText.isEmpty) {
+      return newValue.copyWith(text: '');
+    }
+
+    final double? amount = double.tryParse(newText);
+    if (amount == null) {
+      return oldValue;
+    }
+
+    final String formattedText = _formatAmount(amount);
+    return newValue.copyWith(
+      text: formattedText,
+      selection: TextSelection.collapsed(offset: formattedText.length),
+    );
+  }
+
+  String _formatAmount(double amount) {
+    final String formatted = amount.toStringAsFixed(2);
+    final parts = formatted.split('.');
+    final wholePart = parts[0];
+    final decimalPart = parts.length > 1 ? '.${parts[1]}' : '';
+
+    final RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+    var matchFunc = (Match match) => '${match[1]},';
+
+    final wholePartWithCommas = wholePart.replaceAllMapped(reg, matchFunc);
+
+    return '$wholePartWithCommas$decimalPart';
   }
 }

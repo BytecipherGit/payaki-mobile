@@ -71,6 +71,7 @@ dependencies:
   video_thumbnail: ^0.5.3
   path_provider: ^2.1.0
   syncfusion_flutter_datepicker: ^22.2.9
+  flutter_multi_formatter: ^2.11.7
 
 dev_dependencies:
   flutter_test:

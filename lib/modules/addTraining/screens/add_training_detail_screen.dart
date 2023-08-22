@@ -5,6 +5,7 @@ import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
 import 'package:payaki/modules/addTraining/viewModel/add_training_detail_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_method.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -325,6 +326,10 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                                 inputFormatter: [
                                   DecimalInputFormatter(),
                                 ],
+                                onTapOutside: (String value) {
+                                  CommonMethod.numberFormatForTextEditing(
+                                      priceController);
+                                },
                               ),
                               SizedBox(
                                 height: 25.h,
@@ -364,7 +369,8 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                                   "catId": widget.catId,
                                   "subCatId": widget.subCatId,
                                   "title": titleController.text,
-                                  "price": priceController.text,
+                                //  "price": priceController.text,
+                                  "price": priceController.text.replaceAll(',', ''),
                                   "description": descriptionController.text,
                                   "location": location,
                                   "city": city,

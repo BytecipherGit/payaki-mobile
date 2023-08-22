@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_method.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 
@@ -17,6 +18,7 @@ class SimpleTextField extends StatelessWidget {
     this.onPrefixIconTap,
     this.maxLine,
     this.inputFormatter,
+    this.onTapOutside,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -28,6 +30,7 @@ class SimpleTextField extends StatelessWidget {
   final int? maxLine;
   final List<TextInputFormatter>? inputFormatter;
   final VoidCallback? onPrefixIconTap;
+  final ValueChanged<String>? onTapOutside;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,12 @@ class SimpleTextField extends StatelessWidget {
             style: StyleUtility.inputTextStyle,
             textAlignVertical: TextAlignVertical.center,
             inputFormatters: inputFormatter,
+            onTapOutside: (PointerDownEvent e) {
+
+              onTapOutside?.call("");
+
+
+            },
             decoration: InputDecoration(
               contentPadding:
                   EdgeInsets.only(left: 20.w, top: 16, bottom: 16, right: 5.w),

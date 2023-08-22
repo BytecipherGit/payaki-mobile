@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
 import 'package:payaki/modules/home/widget/home_post_widget.dart';
@@ -34,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     homeScreenVm = Provider.of<HomeScreenVm>(context, listen: false);
     homeScreenVm.fetchCategoryList(
         onSuccess: (value) {},
@@ -92,6 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: 10.sp,
                 ),
+                Preference()
+                    .getUserLogin() == true ?
                 ClipOval(
                   child: Material(
                     color: Colors.transparent,
@@ -109,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                )
+                ):const SizedBox()
               ],
             ),
           ),

@@ -237,9 +237,11 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                       addPostVm.updateUi();
                                     },
                                   ),
+
                                   SizedBox(
                                     width: 10.w,
                                   ),
+
                                   PremiumWidget(
                                     title: "Urgent",
                                     description:

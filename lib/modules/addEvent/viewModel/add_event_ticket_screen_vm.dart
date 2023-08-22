@@ -19,16 +19,13 @@ class AddEventTicketScreenVm extends ChangeNotifier {
 
   addTicket(Tickets tickets) {
     ticketList.add(tickets);
-
     Map<String, dynamic> newTicket = {
       "ticket_title": tickets.ticketTitle,
       "ticket_price": tickets.ticketPrice,
       "ticket_quantity": tickets.ticketQuantity,
       "selling_mode": tickets.sellingMode,
     };
-
     ticketMapList.add(newTicket);
-
     notifyListeners();
   }
 

@@ -5,6 +5,7 @@ import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_method.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
@@ -67,6 +68,10 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
                         inputFormatter: [
                           DecimalInputFormatter(),
                         ],
+                        onTapOutside: (String value) {
+                          CommonMethod.numberFormatForTextEditing(
+                              priceController);
+                        },
                       ),
                       SizedBox(
                         height: 20.h,
@@ -116,7 +121,8 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
                   buttonText: "Next",
                   onTab: () {
                     if (priceController.text.isEmpty) {
-                      context.flushBarTopErrorMessage(message: 'Please Enter Price.');
+                      context.flushBarTopErrorMessage(
+                          message: 'Please Enter Price.');
                     } else {
                       Navigator.pushNamed(context, RouteName.galleryScreen,
                           arguments: {
@@ -125,7 +131,8 @@ class _SetPriceScreenState extends State<SetPriceScreen> {
                             "title": widget.title,
                             "tag": widget.tag,
                             "description": widget.description,
-                            "price": priceController.text,
+                            //  "price": priceController.text,
+                            "price": priceController.text.replaceAll(',', ''),
                             "negotiate": negotiatePrice == true ? 1 : 0,
                           });
                     }
