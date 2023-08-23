@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/modules/addTraining/viewModel/training_promo_screen_vm.dart';
+import 'package:payaki/modules/training/addTraining/viewModel/training_promo_screen_vm.dart';
 import 'package:payaki/network/model/response/post/add_post_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -227,9 +227,7 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                               );
                               Navigator.pushNamed(
                                   context, RouteName.trainingGalleryScreen,
-                              arguments: {
-                                    "product_id":response.data?.id
-                              });
+                                  arguments: {"product_id": response.data?.id});
 
                               context.flushBarTopSuccessMessage(
                                   message: response.message ?? "");

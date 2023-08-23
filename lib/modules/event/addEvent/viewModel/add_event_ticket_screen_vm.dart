@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/modules/addEvent/model/ticket_model.dart';
+import 'package:payaki/modules/event/addEvent/model/ticket_model.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/response/post/add_post_response.dart';
 import 'package:payaki/network/repository/post_repository.dart';

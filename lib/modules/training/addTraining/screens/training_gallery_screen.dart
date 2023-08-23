@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/modules/addTraining/viewModel/training_gallery_screen_vm.dart';
+import 'package:payaki/modules/training/addTraining/viewModel/training_gallery_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/post/add_training_video_request.dart';
 import 'package:payaki/utilities/color_utility.dart';

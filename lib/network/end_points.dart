@@ -12,6 +12,7 @@ class Endpoints {
   static ChatEndPoints chatEndPoints = ChatEndPoints();
   static CartEndPoints cartEndPoints = CartEndPoints();
   static TrainingEndPoints trainingEndPoints = TrainingEndPoints();
+  static EventEndPoints eventEndPoints = EventEndPoints();
 }
 
 // TODO API flavours UAT/Production
@@ -82,6 +83,12 @@ class CartEndPoints {
 
 class TrainingEndPoints {
   String get addTrainingVideo => "addTrainingVideo";
+  String get getTrainingPost => "getTrainingPost";
+
+}
+
+class EventEndPoints {
+  String get eventList => "getEventPost";
 
 }
 

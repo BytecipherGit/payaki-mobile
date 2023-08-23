@@ -385,6 +385,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   context, RouteName.myCartScreen);
                                  },
                             ),
+                            SettingTileWidget(
+                              title: "My Events",
+                              image: ImageUtility.eventIcon,
+                              imageWidth: 14.w,
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteName.eventListScreen);
+                              },
+                            ),
+
+                            SettingTileWidget(
+                              title: "My Trainings",
+                              image: ImageUtility.trainingIcon,
+                              imageWidth: 14.w,
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteName.trainingListScreen);
+                              },
+                            ),
 
                             SettingTileWidget(
                               title: "Version (${buildNumber ?? 1})",

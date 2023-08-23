@@ -44,6 +44,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
       length: 4,
       child: Scaffold(
         backgroundColor: ColorUtility.whiteColor,
+
         appBar: const CustomAppBar(title: "My Ads",  isShowCartIcon: true,isShowBackButton: false),
         body: SafeArea(
           child: Column(

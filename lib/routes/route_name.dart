@@ -42,4 +42,7 @@ class RouteName {
   static const String addEventDetailScreen = "/addEventDetailScreen";
   static const String addEventPromoScreen = "/addEventPromoScreen";
   static const String addEventTicketScreen = "/addEventTicketScreen";
+
+  static const String eventListScreen = "/eventListScreen";
+  static const String trainingListScreen = "/trainingListScreen";
 }

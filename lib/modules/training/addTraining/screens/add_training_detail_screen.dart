@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
-import 'package:payaki/modules/addTraining/viewModel/add_training_detail_screen_vm.dart';
+import 'package:payaki/modules/training/addTraining/viewModel/add_training_detail_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_method.dart';
@@ -18,7 +18,8 @@ import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/mobile_number_text_field.dart';
 import 'package:provider/provider.dart';
-import '../../../network/model/response/location/city_list_response.dart';
+import 'package:payaki/network/model/response/location/city_list_response.dart';
+
 
 class AddTrainingDetailScreen extends StatefulWidget {
   final int catId;

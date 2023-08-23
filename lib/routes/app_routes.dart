@@ -1,15 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:payaki/modules/addEvent/screens/add_event%20_detail_screen.dart';
-import 'package:payaki/modules/addEvent/screens/add_event_promo_screen.dart';
-import 'package:payaki/modules/addEvent/screens/add_event_ticket_screen.dart';
-import 'package:payaki/modules/addEvent/viewModel/add_event_promo_screen_vm.dart';
-import 'package:payaki/modules/addEvent/viewModel/add_event_ticket_screen_vm.dart';
-import 'package:payaki/modules/addTraining/screens/add_training_detail_screen.dart';
-import 'package:payaki/modules/addTraining/screens/training_gallery_screen.dart';
-import 'package:payaki/modules/addTraining/screens/training_promo_screen.dart';
-import 'package:payaki/modules/addTraining/viewModel/add_training_detail_screen_vm.dart';
-import 'package:payaki/modules/addTraining/viewModel/training_gallery_screen_vm.dart';
-import 'package:payaki/modules/addTraining/viewModel/training_promo_screen_vm.dart';
 import 'package:payaki/modules/auth/changePassword/screen/change_password_screen.dart';
 import 'package:payaki/modules/auth/changePassword/viewModel/change_password_screen_vm.dart';
 import 'package:payaki/modules/auth/forgotPassword/screens/forgot_new_password_screen.dart';
@@ -28,6 +17,13 @@ import 'package:payaki/modules/auth/signUp/provider/signup_screen_vm.dart';
 import 'package:payaki/modules/auth/signUp/screens/sign_up_screen.dart';
 import 'package:payaki/modules/bottomBar/BottomNavigationBarScreen.dart';
 import 'package:payaki/modules/chat/screens/web_view_chat_screen.dart';
+import 'package:payaki/modules/event/addEvent/screens/add_event%20_detail_screen.dart';
+import 'package:payaki/modules/event/addEvent/screens/add_event_promo_screen.dart';
+import 'package:payaki/modules/event/addEvent/screens/add_event_ticket_screen.dart';
+import 'package:payaki/modules/event/addEvent/viewModel/add_event_promo_screen_vm.dart';
+import 'package:payaki/modules/event/addEvent/viewModel/add_event_ticket_screen_vm.dart';
+import 'package:payaki/modules/event/eventList/screen/event_list_screen.dart';
+import 'package:payaki/modules/event/eventList/viewModel/event_list_screen_vm.dart';
 import 'package:payaki/modules/myCart/screen/my_cart_screen.dart';
 import 'package:payaki/modules/myCart/viewModel/my_cart_screen_vm.dart';
 import 'package:payaki/modules/postAdd/provider/choose_category_screen_vm.dart';
@@ -58,6 +54,13 @@ import 'package:payaki/modules/search/providers/search_screen_vm.dart';
 import 'package:payaki/modules/search/screens/search_result_screen.dart';
 import 'package:payaki/modules/search/screens/search_screen.dart';
 import 'package:payaki/modules/splash/splash_screen.dart';
+import 'package:payaki/modules/training/addTraining/screens/add_training_detail_screen.dart';
+import 'package:payaki/modules/training/addTraining/screens/training_gallery_screen.dart';
+import 'package:payaki/modules/training/addTraining/screens/training_promo_screen.dart';
+import 'package:payaki/modules/training/addTraining/viewModel/training_gallery_screen_vm.dart';
+import 'package:payaki/modules/training/addTraining/viewModel/training_promo_screen_vm.dart';
+import 'package:payaki/modules/training/trainingList/screens/training_list_screen.dart';
+import 'package:payaki/modules/training/trainingList/viewModel/training_list_screen_vm.dart';
 import 'package:payaki/modules/transaction/screens/transaction_detail_screen.dart';
 import 'package:payaki/modules/transaction/screens/transaction_screen.dart';
 import 'package:payaki/modules/transaction/viewModel/transaction_screen_vm.dart';
@@ -66,6 +69,7 @@ import 'package:payaki/routes/route_name.dart';
 import 'package:provider/provider.dart';
 
 import '../modules/postDetails/screens/image_view_screen.dart';
+import '../modules/training/addTraining/viewModel/add_training_detail_screen_vm.dart';
 
 class AppRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -422,6 +426,19 @@ class AppRoute {
                       promoImage: arg["promoImage"],
                       promoVideo: arg["promoVideo"]),
                 ));
+
+      case RouteName.eventListScreen:
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => EventListScreenVm(),
+                  child: const EventListScreen(),
+                ));
+      case RouteName.trainingListScreen:
+        return MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+              create: (_) => TrainingListScreenVm(),
+              child: const TrainingListScreen(),
+            ));
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());

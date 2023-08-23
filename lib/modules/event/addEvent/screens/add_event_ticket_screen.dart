@@ -1,15 +1,14 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/inputFormatter/decimal_input_formatter.dart';
 import 'package:payaki/logger/app_logger.dart';
-import 'package:payaki/modules/addEvent/model/ticket_model.dart';
-import 'package:payaki/modules/addEvent/viewModel/add_event_ticket_screen_vm.dart';
+import 'package:payaki/modules/event/addEvent/model/ticket_model.dart';
+import 'package:payaki/modules/event/addEvent/viewModel/add_event_ticket_screen_vm.dart';
 import 'package:payaki/network/model/response/post/add_post_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';

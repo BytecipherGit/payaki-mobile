@@ -60,4 +60,6 @@ class ImageUtility {
   static const String emptyCartImage = 'assets/images/empty_cart_image.png';
   static const String deletePostImage = 'assets/images/delete_post_image.png';
   static const String versionIcon = 'assets/images/version_icon.png';
+  static const String eventIcon = 'assets/images/event_icon.png';
+  static const String trainingIcon = 'assets/images/training_icon.png';
 }
