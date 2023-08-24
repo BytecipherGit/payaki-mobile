@@ -92,26 +92,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: 10.sp,
                 ),
-                Preference()
-                    .getUserLogin() == true ?
-                ClipOval(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, RouteName.myCartScreen);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(15.sp),
-                        child: Image.asset(
-                          ImageUtility.addToCartIcon,
-                          width: 18.sp,
-                          color: ColorUtility.color43576F,
+                Preference().getUserLogin() == true
+                    ? ClipOval(
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, RouteName.myCartScreen);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(15.sp),
+                              child: Image.asset(
+                                ImageUtility.addToCartIcon,
+                                width: 18.sp,
+                                color: ColorUtility.color43576F,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ):const SizedBox()
+                      )
+                    : const SizedBox()
               ],
             ),
           ),
@@ -256,31 +257,46 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  CommonDialog.showLoadingDialog(context);
-                                  homeScreenVm.searchPostApi(
-                                      searchRequest: SearchRequest(
-                                          name: Endpoints.search.getAllPost,
-                                          param: Param(
-                                            category:
-                                                categoryList?[index].catId,
-                                          )),
-                                      onSuccess: (searchPostList) {
-                                        Navigator.pop(context);
-                                        Navigator.pushNamed(context,
-                                            RouteName.searchResultScreen,
-                                            arguments: {
-                                              "initialPostList": searchPostList,
-                                              "headerTitle":
-                                                  categoryList?[index].catName,
-                                              "category":
+                                  if (categoryList?[index].catId == "9") {
+                                    Navigator.pushNamed(
+                                        context, RouteName.trainingListScreen,arguments: {
+                                          "isAllPost" :true
+                                    });
+                                  } else if (categoryList?[index].catId ==
+                                      "10") {
+                                    Navigator.pushNamed(
+                                        context, RouteName.eventListScreen,arguments: {
+                                      "isFromAllPost" :true
+                                    });
+                                  } else {
+                                    CommonDialog.showLoadingDialog(context);
+                                    homeScreenVm.searchPostApi(
+                                        searchRequest: SearchRequest(
+                                            name: Endpoints.search.getAllPost,
+                                            param: Param(
+                                              category:
                                                   categoryList?[index].catId,
-                                            });
-                                      },
-                                      onFailure: (value) {
-                                        Navigator.pop(context);
-                                        context.flushBarTopErrorMessage(
-                                            message: value);
-                                      });
+                                            )),
+                                        onSuccess: (searchPostList) {
+                                          Navigator.pop(context);
+                                          Navigator.pushNamed(context,
+                                              RouteName.searchResultScreen,
+                                              arguments: {
+                                                "initialPostList":
+                                                    searchPostList,
+                                                "headerTitle":
+                                                    categoryList?[index]
+                                                        .catName,
+                                                "category":
+                                                    categoryList?[index].catId,
+                                              });
+                                        },
+                                        onFailure: (value) {
+                                          Navigator.pop(context);
+                                          context.flushBarTopErrorMessage(
+                                              message: value);
+                                        });
+                                  }
                                 },
                                 child: SizedBox(
                                   width: 70.sp,

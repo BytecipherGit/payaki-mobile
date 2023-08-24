@@ -449,6 +449,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                   ?.postUserDetails
                                                   ?.id &&
                                           Preference().getUserLogin())
+
                                         Padding(
                                           padding:
                                               EdgeInsets.only(bottom: 25.h),
@@ -475,7 +476,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                               message: message);
                                                     },
                                                     postId: widget.postId);
-                                              }),
+                                              }
+                                              ),
                                         ),
 
                                       Text(

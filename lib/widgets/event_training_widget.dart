@@ -8,7 +8,7 @@ import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 
-class EventWidget extends StatelessWidget {
+class EventTrainingWidget extends StatelessWidget {
   final String title;
   final String imageUrl;
   final String? expiredDate;
@@ -18,7 +18,7 @@ class EventWidget extends StatelessWidget {
   final VoidCallback? onTap;
   final VoidCallback? onDeleteIconTap;
 
-  const EventWidget({
+  const EventTrainingWidget({
     super.key,
     required this.title,
     required this.imageUrl,

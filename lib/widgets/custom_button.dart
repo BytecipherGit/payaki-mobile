@@ -34,6 +34,7 @@ class CustomButton extends StatelessWidget {
     required this.buttonText,
     required this.onTab,
     required this.image,
+     this.buttonHeight,
   })  : buttonType = 3,
         super(key: key);
   CustomButton.removeTicket({
@@ -48,9 +49,10 @@ class CustomButton extends StatelessWidget {
 
   final String buttonText;
    String? image;
-
-
   final VoidCallback onTab;
+
+   double? buttonHeight;
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +94,7 @@ class CustomButton extends StatelessWidget {
     }
     if (buttonType == 3) {
       return SizedBox(
-        height: TextSizeUtility.buttonHeight,
+        height: buttonHeight ?? TextSizeUtility.buttonHeight,
         width: MediaQuery.of(context).size.width,
         child: OutlinedButton(
           style: OutlinedButton.styleFrom(
@@ -123,7 +125,7 @@ class CustomButton extends StatelessWidget {
 
     if (buttonType == 4) {
       return SizedBox(
-        height: TextSizeUtility.removeTicketButtonHeight,
+        height: TextSizeUtility.smallHeightButtonHeight,
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(

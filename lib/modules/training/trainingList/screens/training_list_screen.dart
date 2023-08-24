@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/modules/event/widgets/event_widget.dart';
+import 'package:payaki/widgets/event_training_widget.dart';
 import 'package:payaki/modules/training/trainingList/viewModel/training_list_screen_vm.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
@@ -10,7 +10,10 @@ import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
 class TrainingListScreen extends StatefulWidget {
-  const TrainingListScreen({Key? key}) : super(key: key);
+  final bool isAllPost;
+
+  const TrainingListScreen({Key? key, required this.isAllPost})
+      : super(key: key);
 
   @override
   State<TrainingListScreen> createState() => _TrainingListScreenState();
@@ -24,6 +27,7 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
     super.initState();
     trainingListScreenVm = Provider.of(context, listen: false);
     trainingListScreenVm.getTraining(
+        isAllPost: widget.isAllPost,
         onSuccess: (String value) {},
         onFailure: (value) {
           Navigator.pop(context);
@@ -35,8 +39,8 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-      appBar: const CustomAppBar(
-        title: "My Training",
+      appBar: CustomAppBar(
+        title: widget.isAllPost == true ? "All Training" : "My Training",
       ),
       body: Consumer<TrainingListScreenVm>(
           builder: (context, trainingListScreenVm, child) {
@@ -61,11 +65,11 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
                           if ((eventList?[index].image?.length ?? 0) > 0) {
                             image = eventList?[index].image?[0];
                           }
-                          return EventWidget(
+                          return EventTrainingWidget(
                             title: eventList?[index].productName ?? "",
                             imageUrl: image ?? "",
                             expiredDate: eventList?[index].expiredDate,
-                            isShowDeleteIcon: true,
+                            isShowDeleteIcon: widget.isAllPost == false,
                             price: eventList?[index].price,
                             onTap: () {},
                             onDeleteIconTap: () {},

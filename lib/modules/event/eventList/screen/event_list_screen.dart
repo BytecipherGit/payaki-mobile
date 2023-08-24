@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/modules/event/eventDetails/event_detail_screen.dart';
 import 'package:payaki/modules/event/eventList/viewModel/event_list_screen_vm.dart';
-import 'package:payaki/modules/event/widgets/event_widget.dart';
+import 'package:payaki/widgets/event_training_widget.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
@@ -10,7 +11,9 @@ import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
 class EventListScreen extends StatefulWidget {
-  const EventListScreen({Key? key}) : super(key: key);
+  final bool isFromAllPost;
+
+  const EventListScreen({Key? key, required this.isFromAllPost}) : super(key: key);
 
   @override
   State<EventListScreen> createState() => _EventListScreenState();
@@ -24,6 +27,7 @@ class _EventListScreenState extends State<EventListScreen> {
     super.initState();
     eventListScreenVm = Provider.of(context, listen: false);
     eventListScreenVm.getEvent(
+        isAllPost: widget.isFromAllPost,
         onSuccess: (String value) {},
         onFailure: (value) {
           Navigator.pop(context);
@@ -35,8 +39,9 @@ class _EventListScreenState extends State<EventListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-      appBar: const CustomAppBar(
-        title: "My Event",
+      appBar:  CustomAppBar(
+        title: widget.isFromAllPost == true ? "All Event" : "My Event",
+
       ),
       body: Consumer<EventListScreenVm>(
           builder: (context, eventListScreenVm, child) {
@@ -62,12 +67,17 @@ class _EventListScreenState extends State<EventListScreen> {
                           if ((eventList?[index].image?.length ?? 0) > 0) {
                             image = eventList?[index].image?[0];
                           }
-                          return EventWidget(
+                          return EventTrainingWidget(
                             title: eventList?[index].productName ?? "",
                             imageUrl: image ?? "",
                             expiredDate: eventList?[index].expiredDate,
-                            isShowDeleteIcon: true,
-                            onTap: () {},
+                            isShowDeleteIcon: widget.isFromAllPost == false,
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => EventDetailsScreen(
+                                eventList:  eventList?[index],
+                                isFromAllPost:  widget.isFromAllPost,
+                              )));
+                            },
                             onDeleteIconTap: () {},
                           );
                         },

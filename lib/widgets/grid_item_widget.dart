@@ -126,35 +126,26 @@ class GridItemWidget extends StatelessWidget {
                               : const SizedBox(),
                         ],
                       ),
-
-
-                    Column(
-                      children: [
-
-
-                      isVerified == "1" ?
-                      Padding(
-                        padding:  EdgeInsets.only(bottom: 5.w),
-
-                        child: Image.asset(
-                                ImageUtility.verifiedPostIcon,
-                                width: 26.w,
-                              ),
-                      )
-                          : const SizedBox(),
-
-
-
+                      Column(children: [
+                        isVerified == "1"
+                            ? Padding(
+                                padding: EdgeInsets.only(bottom: 5.w),
+                                child: Image.asset(
+                                  ImageUtility.verifiedPostIcon,
+                                  width: 26.w,
+                                ),
+                              )
+                            : const SizedBox(),
                         isFavouriteList == true
                             ? InkWell(
-                          onTap: onFavouriteIconTap,
-                          child: Image.asset(
-                            ImageUtility.favIcon,
-                            height: 18.sp,
-                          ),
-                        )
+                                onTap: onFavouriteIconTap,
+                                child: Image.asset(
+                                  ImageUtility.favIcon,
+                                  height: 18.sp,
+                                ),
+                              )
                             : const SizedBox(),
-  ])
+                      ])
                     ],
                   ),
                 )

@@ -4,7 +4,7 @@ class TextSizeUtility {
 
   TextSizeUtility._();
   static double buttonHeight = 55.h;
-  static double removeTicketButtonHeight = 45.h;
+  static double smallHeightButtonHeight = 45.h;
 
 
   static  double textSize10 = 10.sp;

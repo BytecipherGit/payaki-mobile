@@ -67,11 +67,6 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
     );
   }
 
-  void _handleTapInputOutside(PointerDownEvent e) {
-    // widget.options.onTextFieldTap!();
-    debugPrint("tap outside do nothing?");
-    FocusScope.of(context).unfocus();
-  }
 
   @override
   Widget build(BuildContext context) {

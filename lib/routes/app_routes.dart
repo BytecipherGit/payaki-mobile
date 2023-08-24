@@ -428,17 +428,24 @@ class AppRoute {
                 ));
 
       case RouteName.eventListScreen:
+        var arg = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => EventListScreenVm(),
-                  child: const EventListScreen(),
+                  child:  EventListScreen(
+                    isFromAllPost: arg["isFromAllPost"],
+                  ),
                 ));
       case RouteName.trainingListScreen:
+        var arg = settings.arguments as Map;
+
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-              create: (_) => TrainingListScreenVm(),
-              child: const TrainingListScreen(),
-            ));
+                  create: (_) => TrainingListScreenVm(),
+                  child: TrainingListScreen(
+                    isAllPost: arg["isAllPost"],
+                  ),
+                ));
 
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
