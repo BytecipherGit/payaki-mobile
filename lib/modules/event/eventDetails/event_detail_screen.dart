@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/network/model/response/event/event_list_response.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -15,9 +16,8 @@ import 'package:share_plus/share_plus.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   final Data? eventList;
-  final bool? isFromAllPost;
 
-  const EventDetailsScreen({Key? key, required this.eventList, this.isFromAllPost})
+  const EventDetailsScreen({Key? key, required this.eventList})
       : super(key: key);
 
   @override
@@ -127,7 +127,12 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                       var tickets = widget.eventList?.event;
                                       return
 
-                                      widget.isFromAllPost == true ?
+
+                                       (Preference().getUserId() !=
+                                           widget.eventList?.userId)
+                                      ?
+
+
                                         Padding(
                                         padding: EdgeInsets.only(bottom: 20.h),
                                         child: DottedBorder(

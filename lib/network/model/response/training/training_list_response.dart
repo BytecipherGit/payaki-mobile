@@ -77,6 +77,7 @@ class Data {
   String? stateName;
   String? countryName;
   String? fullAddress;
+  String? postUserName;
   List<String>? image;
   List<Gallery>? gallery;
 
@@ -127,6 +128,7 @@ class Data {
         this.stateName,
         this.countryName,
         this.fullAddress,
+        this.postUserName,
         this.image,
         this.gallery});
 
@@ -177,6 +179,7 @@ class Data {
     stateName = json['state_name'];
     countryName = json['country_name'];
     fullAddress = json['full_address'];
+    postUserName = json['post_user_name'];
     image = json['image'].cast<String>();
     if (json['gallery'] != null) {
       gallery = <Gallery>[];
@@ -234,6 +237,7 @@ class Data {
     data['state_name'] = this.stateName;
     data['country_name'] = this.countryName;
     data['full_address'] = this.fullAddress;
+    data['post_user_name'] = this.postUserName;
     data['image'] = this.image;
     if (this.gallery != null) {
       data['gallery'] = this.gallery!.map((v) => v.toJson()).toList();

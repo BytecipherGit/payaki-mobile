@@ -19,31 +19,49 @@ class Endpoints {
 
 class AuthEndPoints {
   String get login => "login";
+
   String get socialLogin => "social_login";
+
   String get loginWithPhone => "loginWithPhone";
+
   String get verifyLoginOTP => "verifyLoginOTP";
+
   String get signup => "register";
+
   String get forgetPasswordSendOtp => "forgetPassword";
+
   String get forgetPasswordVerifyOtp => "verifyForgetPassword";
+
   String get generateNewPassword => "generateNewPassword";
+
   String get changePassword => "changePassword";
 }
+
 class CategoryEndPoints {
   String get getCategories => "getCategories";
+
   String get getSubCategories => "getSubCategories";
 }
+
 class PostEndPoints {
   String get addPost => "addPost";
+
   String get getPostDetails => "getPostDetails";
+
   String get likeDislikePost => "likeDislikePost";
+
   String get premiumAndLatestPost => "getPremiumAndLatestPost";
+
   String get getUserPost => "getUserPost";
 
   String get allParam => "all";
+
   String get favouriteParam => "favourite";
 
   String get expireParam => "expire";
+
   String get pendingParam => "pending";
+
   String get deleteUserPost => "deleteUserPost";
 }
 
@@ -57,39 +75,50 @@ class SearchEndPoints {
 
 class ReviewEndPoints {
   String get addReview => "reviewAndRating";
+
   String get replyByEmail => "replyByEmail";
+
   String get reportViolation => "reportViolation";
+
   String get placeQuote => "placeQuote";
 }
 
 class UserProfileEndPoints {
   String get viewProfile => "viewProfile";
+
   String get resendConfirmationEmail => "resendConfirmationEmail";
+
   String get getCountries => "getCountries";
+
   String get updateProfile => "updateProfile";
+
   String get getTransactionListing => "getTransactionListing";
 }
+
 class ChatEndPoints {
   String get chatUserListing => "chatUserListing";
 }
 
 class CartEndPoints {
   String get addToCart => "addToCart";
-  String get getCartItems => "getCartItems";
-  String get deleteFromCart => "deleteFromCart";
-  String get checkoutPaypal => "checkoutPaypal";
 
+  String get getCartItems => "getCartItems";
+
+  String get deleteFromCart => "deleteFromCart";
+
+  String get checkoutPaypal => "checkoutPaypal";
 }
 
 class TrainingEndPoints {
   String get addTrainingVideo => "addTrainingVideo";
+
   String get getTrainingPost => "getTrainingPost";
 
+  String get deleteUserTrainingPost => "deleteUserTrainingPost";
 }
 
 class EventEndPoints {
   String get eventList => "getEventPost";
 
+  String get deleteUserEventPost => "deleteUserEventPost";
 }
-
-

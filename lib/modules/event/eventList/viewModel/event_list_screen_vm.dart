@@ -5,6 +5,8 @@ import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/event/event_list_request.dart';
 import 'package:payaki/network/model/response/event/event_list_response.dart';
 import 'package:payaki/network/repository/event_repository.dart';
+import 'package:payaki/network/model/request/post/delete_post_request.dart'
+    as delete_post;
 
 class EventListScreenVm extends ChangeNotifier {
   final EventRepository eventRepository = EventRepository();
@@ -34,6 +36,32 @@ class EventListScreenVm extends ChangeNotifier {
     }).onError((error, stackTrace) {
       eventListLoading = false;
       logE("Error $error");
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
+
+  deletePost({
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+    required String postId,
+    required int index,
+  }) {
+    eventRepository
+        .deletePost(delete_post.DeletePostRequest(
+            name: Endpoints.eventEndPoints.deleteUserEventPost,
+            param: delete_post.Param(productId: postId)))
+        .then((value) {
+      if (value.code == 200) {
+        eventList?.data?.removeAt(index);
+        notifyListeners();
+        onSuccess?.call(value.message ?? "");
+      } else {
+        onFailure?.call(value.message ?? "");
+      }
+      notifyListeners();
+    }).onError((error, stackTrace) {
+      logE("error $error");
       notifyListeners();
       onFailure?.call(error.toString());
     });

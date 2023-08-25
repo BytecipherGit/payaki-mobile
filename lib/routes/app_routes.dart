@@ -22,6 +22,7 @@ import 'package:payaki/modules/event/addEvent/screens/add_event_promo_screen.dar
 import 'package:payaki/modules/event/addEvent/screens/add_event_ticket_screen.dart';
 import 'package:payaki/modules/event/addEvent/viewModel/add_event_promo_screen_vm.dart';
 import 'package:payaki/modules/event/addEvent/viewModel/add_event_ticket_screen_vm.dart';
+import 'package:payaki/modules/event/eventDetails/event_detail_screen.dart';
 import 'package:payaki/modules/event/eventList/screen/event_list_screen.dart';
 import 'package:payaki/modules/event/eventList/viewModel/event_list_screen_vm.dart';
 import 'package:payaki/modules/myCart/screen/my_cart_screen.dart';
@@ -59,6 +60,7 @@ import 'package:payaki/modules/training/addTraining/screens/training_gallery_scr
 import 'package:payaki/modules/training/addTraining/screens/training_promo_screen.dart';
 import 'package:payaki/modules/training/addTraining/viewModel/training_gallery_screen_vm.dart';
 import 'package:payaki/modules/training/addTraining/viewModel/training_promo_screen_vm.dart';
+import 'package:payaki/modules/training/trainingDetail/training_detail_screen.dart';
 import 'package:payaki/modules/training/trainingList/screens/training_list_screen.dart';
 import 'package:payaki/modules/training/trainingList/viewModel/training_list_screen_vm.dart';
 import 'package:payaki/modules/transaction/screens/transaction_detail_screen.dart';
@@ -432,13 +434,12 @@ class AppRoute {
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => EventListScreenVm(),
-                  child:  EventListScreen(
+                  child: EventListScreen(
                     isFromAllPost: arg["isFromAllPost"],
                   ),
                 ));
       case RouteName.trainingListScreen:
         var arg = settings.arguments as Map;
-
         return MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                   create: (_) => TrainingListScreenVm(),
@@ -446,7 +447,19 @@ class AppRoute {
                     isAllPost: arg["isAllPost"],
                   ),
                 ));
-
+      case RouteName.eventDetailsScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+          builder: (context) => EventDetailsScreen(
+            eventList: arg["eventList"],
+          ),
+        );
+      case RouteName.trainingDetailsScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+          builder: (context) =>
+              TrainingDetailsScreen(trainingData: arg["trainingData"]),
+        );
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
     }

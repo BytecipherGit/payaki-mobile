@@ -106,7 +106,6 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       Text("Payment Method",
                           style: StyleUtility.titleTextStyle),
                       Text(
-                        // "ONLINE",
                         widget.transaction?.transactionGatway ?? "",
                         style: StyleUtility.headingTextStyle
                             .copyWith(color: ColorUtility.color43576F),
@@ -149,7 +148,6 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       ),
                       Text("Description", style: StyleUtility.titleTextStyle),
                       Text(
-                        // "ONLINE",
                         "Lorem ipsum dolor sit ame lorem ipsum dolor sit ame lorem ipsum dolor sit ame lorem ipsum dolor sit ame",
                         style: StyleUtility.headingTextStyle
                             .copyWith(color: ColorUtility.color43576F),
@@ -159,7 +157,6 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       ),
                       Text("Date", style: StyleUtility.titleTextStyle),
                       Text(
-                        //  "22/02/2023",
                         widget.transaction?.transactionTime ?? "",
                         style: StyleUtility.headingTextStyle
                             .copyWith(color: ColorUtility.color43576F),

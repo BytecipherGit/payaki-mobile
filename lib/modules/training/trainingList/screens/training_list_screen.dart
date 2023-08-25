@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
+import 'package:payaki/modules/training/trainingDetail/training_detail_screen.dart';
+import 'package:payaki/routes/route_name.dart';
+import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/widgets/delete_alert_dialog.dart';
 import 'package:payaki/widgets/event_training_widget.dart';
 import 'package:payaki/modules/training/trainingList/viewModel/training_list_screen_vm.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -44,17 +48,17 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
       ),
       body: Consumer<TrainingListScreenVm>(
           builder: (context, trainingListScreenVm, child) {
-        var eventList = trainingListScreenVm.trainingList?.data;
+        var trainingList = trainingListScreenVm.trainingList?.data;
         return trainingListScreenVm.trainingListLoading == true
             ? const CircularProgressWidget()
             : Padding(
                 padding: EdgeInsets.only(left: 20.w, right: 20.w),
-                child: (eventList?.length ?? 0) > 0
+                child: (trainingList?.length ?? 0) > 0
                     ? GridView.builder(
                         shrinkWrap: true,
                         primary: false,
                         padding: EdgeInsets.only(top: 20.h, bottom: 60.h),
-                        itemCount: eventList?.length ?? 0,
+                        itemCount: trainingList?.length ?? 0,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 10.w,
@@ -62,17 +66,45 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
                             childAspectRatio: 0.85),
                         itemBuilder: (context, index) {
                           String? image;
-                          if ((eventList?[index].image?.length ?? 0) > 0) {
-                            image = eventList?[index].image?[0];
+                          if ((trainingList?[index].image?.length ?? 0) > 0) {
+                            image = trainingList?[index].image?[0];
                           }
                           return EventTrainingWidget(
-                            title: eventList?[index].productName ?? "",
+                            title: trainingList?[index].productName ?? "",
                             imageUrl: image ?? "",
-                            expiredDate: eventList?[index].expiredDate,
+                            expiredDate: trainingList?[index].expiredDate,
                             isShowDeleteIcon: widget.isAllPost == false,
-                            price: eventList?[index].price,
-                            onTap: () {},
-                            onDeleteIconTap: () {},
+                            price: trainingList?[index].price,
+                            onTap: () {
+
+                              Navigator.pushNamed(context, RouteName.trainingDetailsScreen,
+                              arguments: {
+                                "trainingData": trainingList?[index],
+                              });
+
+
+
+                            },
+                            onDeleteIconTap: () {
+                              showDeletePostDialog(
+                                  onDeleteTap: () {
+                                    CommonDialog.showLoadingDialog(context);
+                                    trainingListScreenVm.deletePost(
+                                        postId: trainingList?[index].id ?? "",
+                                        index: index,
+                                        onSuccess: (message) {
+                                          Navigator.pop(context);
+                                          context.flushBarTopSuccessMessage(
+                                              message: message);
+                                        },
+                                        onFailure: (message) {
+                                          Navigator.pop(context);
+                                          context.flushBarTopErrorMessage(
+                                              message: message);
+                                        });
+                                  },
+                                  context: context);
+                            },
                           );
                         },
                       )
@@ -82,5 +114,18 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
               );
       }),
     );
+  }
+
+  Future<dynamic> showDeletePostDialog({
+    required BuildContext context,
+    required VoidCallback onDeleteTap,
+  }) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return DeleteAlertDialog(
+            onDeleteTap: onDeleteTap,
+          );
+        });
   }
 }

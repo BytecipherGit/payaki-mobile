@@ -3,6 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/modules/event/eventDetails/event_detail_screen.dart';
 import 'package:payaki/modules/event/eventList/viewModel/event_list_screen_vm.dart';
+import 'package:payaki/routes/route_name.dart';
+import 'package:payaki/utilities/common_dialog.dart';
+import 'package:payaki/widgets/delete_alert_dialog.dart';
 import 'package:payaki/widgets/event_training_widget.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
@@ -13,7 +16,8 @@ import 'package:provider/provider.dart';
 class EventListScreen extends StatefulWidget {
   final bool isFromAllPost;
 
-  const EventListScreen({Key? key, required this.isFromAllPost}) : super(key: key);
+  const EventListScreen({Key? key, required this.isFromAllPost})
+      : super(key: key);
 
   @override
   State<EventListScreen> createState() => _EventListScreenState();
@@ -39,9 +43,8 @@ class _EventListScreenState extends State<EventListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-      appBar:  CustomAppBar(
+      appBar: CustomAppBar(
         title: widget.isFromAllPost == true ? "All Event" : "My Event",
-
       ),
       body: Consumer<EventListScreenVm>(
           builder: (context, eventListScreenVm, child) {
@@ -73,12 +76,36 @@ class _EventListScreenState extends State<EventListScreen> {
                             expiredDate: eventList?[index].expiredDate,
                             isShowDeleteIcon: widget.isFromAllPost == false,
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => EventDetailsScreen(
-                                eventList:  eventList?[index],
-                                isFromAllPost:  widget.isFromAllPost,
-                              )));
+
+                              Navigator.pushNamed(context, RouteName.eventDetailsScreen,
+                              arguments: {
+                                "eventList": eventList?[index]
+                              });
+
+
+
+
                             },
-                            onDeleteIconTap: () {},
+                            onDeleteIconTap: () {
+                              showDeletePostDialog(
+                                  onDeleteTap: () {
+                                    CommonDialog.showLoadingDialog(context);
+                                    eventListScreenVm.deletePost(
+                                        postId: eventList?[index].id ?? "",
+                                        index: index,
+                                        onSuccess: (message) {
+                                          Navigator.pop(context);
+                                          context.flushBarTopSuccessMessage(
+                                              message: message);
+                                        },
+                                        onFailure: (message) {
+                                          Navigator.pop(context);
+                                          context.flushBarTopErrorMessage(
+                                              message: message);
+                                        });
+                                  },
+                                  context: context);
+                            },
                           );
                         },
                       )
@@ -88,5 +115,18 @@ class _EventListScreenState extends State<EventListScreen> {
               );
       }),
     );
+  }
+
+  Future<dynamic> showDeletePostDialog({
+    required BuildContext context,
+    required VoidCallback onDeleteTap,
+  }) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return DeleteAlertDialog(
+            onDeleteTap: onDeleteTap,
+          );
+        });
   }
 }
