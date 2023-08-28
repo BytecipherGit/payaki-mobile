@@ -249,6 +249,7 @@ class Event {
   String? ticketPrice;
   String? availableQuantity;
   String? remainingQuantity;
+  int? bookQuantity;
   String? sellingMode;
   String? createdAt;
 
@@ -259,6 +260,7 @@ class Event {
         this.ticketPrice,
         this.availableQuantity,
         this.remainingQuantity,
+        this.bookQuantity,
         this.sellingMode,
         this.createdAt});
 
@@ -269,6 +271,7 @@ class Event {
     ticketPrice = json['ticket_price'];
     availableQuantity = json['available_quantity'];
     remainingQuantity = json['remaining_quantity'];
+    bookQuantity = 0;
     sellingMode = json['selling_mode'];
     createdAt = json['created_at'];
   }
@@ -281,6 +284,7 @@ class Event {
     data['ticket_price'] = this.ticketPrice;
     data['available_quantity'] = this.availableQuantity;
     data['remaining_quantity'] = this.remainingQuantity;
+    data['bookQuantity'] = this.bookQuantity;
     data['selling_mode'] = this.sellingMode;
     data['created_at'] = this.createdAt;
     return data;

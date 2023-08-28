@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/modules/event/eventDetails/event_detail_screen.dart';
+import 'package:payaki/modules/event/eventDetails/screens/event_detail_screen.dart';
 import 'package:payaki/modules/event/eventList/viewModel/event_list_screen_vm.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/common_dialog.dart';

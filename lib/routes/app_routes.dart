@@ -22,7 +22,8 @@ import 'package:payaki/modules/event/addEvent/screens/add_event_promo_screen.dar
 import 'package:payaki/modules/event/addEvent/screens/add_event_ticket_screen.dart';
 import 'package:payaki/modules/event/addEvent/viewModel/add_event_promo_screen_vm.dart';
 import 'package:payaki/modules/event/addEvent/viewModel/add_event_ticket_screen_vm.dart';
-import 'package:payaki/modules/event/eventDetails/event_detail_screen.dart';
+import 'package:payaki/modules/event/eventDetails/screens/event_detail_screen.dart';
+import 'package:payaki/modules/event/eventDetails/viewModel/event_detail_screen_vm.dart';
 import 'package:payaki/modules/event/eventList/screen/event_list_screen.dart';
 import 'package:payaki/modules/event/eventList/viewModel/event_list_screen_vm.dart';
 import 'package:payaki/modules/myCart/screen/my_cart_screen.dart';
@@ -450,10 +451,12 @@ class AppRoute {
       case RouteName.eventDetailsScreen:
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
-          builder: (context) => EventDetailsScreen(
-            eventList: arg["eventList"],
-          ),
-        );
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => EventDetailScreenVm(),
+                  child: EventDetailsScreen(
+                    eventList: arg["eventList"],
+                  ),
+                ));
       case RouteName.trainingDetailsScreen:
         var arg = settings.arguments as Map;
         return MaterialPageRoute(

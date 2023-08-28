@@ -121,4 +121,6 @@ class EventEndPoints {
   String get eventList => "getEventPost";
 
   String get deleteUserEventPost => "deleteUserEventPost";
+
+  String get checkoutEventPaypal => "checkouteventpaypal";
 }
