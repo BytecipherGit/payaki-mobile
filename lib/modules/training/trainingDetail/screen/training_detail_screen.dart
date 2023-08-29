@@ -1,16 +1,27 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moment_dart/moment_dart.dart';
+import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/logger/app_logger.dart';
+import 'package:payaki/modules/training/trainingDetail/viewModel/training_detail_screen_vm.dart';
+import 'package:payaki/network/end_points.dart';
+import 'package:payaki/network/model/request/cart/checkout_request.dart';
 import 'package:payaki/network/model/response/training/training_list_response.dart';
+import 'package:payaki/network/payment/paypal_payment.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
+import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/common_method.dart';
 import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
+import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class TrainingDetailsScreen extends StatefulWidget {
@@ -24,6 +35,9 @@ class TrainingDetailsScreen extends StatefulWidget {
 
 class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
   var imageHeight = 330.h;
+  String? paymentId;
+  String? status;
+  String? payerId;
 
   @override
   Widget build(BuildContext context) {
@@ -267,6 +281,73 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                       SizedBox(
                         height: 25.h,
                       ),
+                      Preference().getUserId() != widget.trainingData?.userId
+                          ? Consumer<TrainingDetailScreenVm>(builder:
+                              (context, trainingDetailScreenVm, child) {
+                              return CustomButton(
+                                  buttonText: "Purchase Training",
+                                  onTab: () {
+                                    PayPalPayment().pay(
+                                        context: context,
+                                        amount:
+                                            widget.trainingData?.price ?? "0",
+                                        onSuccess: (Map params) {
+                                          logD("onSuccess: $params");
+
+                                          status = params["status"].toString();
+                                          paymentId =
+                                              params["paymentId"].toString();
+                                          payerId = params["data"]["payer"]
+                                              ["payer_info"]["payer_id"];
+
+                                          Timer(const Duration(seconds: 1), () {
+                                            CommonDialog.showLoadingDialog(
+                                                context);
+                                            trainingDetailScreenVm
+                                                .purchaseTraining(
+                                                    request: CheckoutRequest(
+                                                      name: Endpoints
+                                                          .cartEndPoints
+                                                          .checkoutPaypal,
+                                                      param: Param(
+                                                          totalAmount: widget
+                                                                  .trainingData
+                                                                  ?.price ??
+                                                              "0",
+                                                          productIds: [
+                                                            "${widget.trainingData?.id}"
+                                                          ],
+                                                          amounts: [
+                                                            "${widget.trainingData?.price}"
+                                                          ],
+                                                          paymentId: paymentId,
+                                                          payerId: payerId,
+                                                          status: status),
+                                                    ),
+                                                    onSuccess:
+                                                        (String message) {
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                      context
+                                                          .flushBarTopSuccessMessage(
+                                                              message: message);
+                                                    },
+                                                    onFailure:
+                                                        (String message) {
+                                                      Navigator.pop(context);
+                                                      context
+                                                          .flushBarTopSuccessMessage(
+                                                              message: message);
+                                                    });
+                                          });
+                                        },
+                                        onFailure: (String message) {
+                                          context.flushBarTopErrorMessage(
+                                              message: message.toString());
+                                        });
+                                  });
+                            })
+                          : const SizedBox(),
                     ],
                   ),
                 ),
@@ -279,20 +360,20 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
           child: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(right: 22.w),
-                child: InkWell(
-                  onTap: () {
-                    Share.share(widget.trainingData?.productName ?? "");
-                  },
-                  child: Image.asset(
-                    ImageUtility.shareIcon,
-                    width: 17.w,
-                  ),
-                ),
-              )
-            ],
+            // actions: [
+            //   Padding(
+            //     padding: EdgeInsets.only(right: 22.w),
+            //     child: InkWell(
+            //       onTap: () {
+            //         Share.share(widget.trainingData?.productName ?? "");
+            //       },
+            //       child: Image.asset(
+            //         ImageUtility.shareIcon,
+            //         width: 17.w,
+            //       ),
+            //     ),
+            //   )
+            // ],
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(

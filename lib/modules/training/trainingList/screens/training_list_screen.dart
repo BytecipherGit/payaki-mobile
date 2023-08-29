@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/extensions/context_extensions.dart';
-import 'package:payaki/modules/training/trainingDetail/training_detail_screen.dart';
+import 'package:payaki/modules/training/trainingDetail/screen/training_detail_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/widgets/delete_alert_dialog.dart';

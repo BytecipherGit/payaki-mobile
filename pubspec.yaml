@@ -73,6 +73,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^22.2.9
   flutter_multi_formatter: ^2.11.7
   video_player: ^2.7.0
+  uni_links: ^0.5.1
 
 dev_dependencies:
   flutter_test:

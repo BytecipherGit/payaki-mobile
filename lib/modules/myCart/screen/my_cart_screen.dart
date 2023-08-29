@@ -281,7 +281,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             ),
                             CustomButton(
                                 buttonText:
-                                    "Check out (${"₹ ${myCart?.total ?? ""}"})",
+                                    "Check out (${"${myCart?.total ?? ""}"})",
                                 onTab: () {
                                   PayPalPayment().pay(
                                       context: context,
@@ -316,7 +316,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                 name: Endpoints.cartEndPoints
                                                     .checkoutPaypal,
                                                 param: Param(
-                                                    totalAmount: myCart?.total,
+                                                    totalAmount: myCart?.total.toString(),
                                                     productIds: productIds,
                                                     amounts: amounts,
                                                     paymentId: paymentId,

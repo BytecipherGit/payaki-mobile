@@ -22,7 +22,7 @@ class CheckoutRequest {
 class Param {
   List<String>? productIds;
   List<String>? amounts;
-  int? totalAmount;
+  String? totalAmount;
   String? paymentId;
   String? payerId;
   String? status;

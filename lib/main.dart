@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             onGenerateRoute: AppRoute.generateRoute,
-          //  home: const SplashScreen(),
-            home: const VideoPlayerScreen(),
+            home: const SplashScreen(),
+          //  home: const VideoPlayerScreen(),
 
           );
         });

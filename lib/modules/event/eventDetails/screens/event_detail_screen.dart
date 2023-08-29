@@ -477,20 +477,20 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                       child: AppBar(
                         backgroundColor: Colors.transparent,
                         elevation: 0,
-                        actions: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 22.w),
-                            child: InkWell(
-                              onTap: () {
-                                Share.share("Share");
-                              },
-                              child: Image.asset(
-                                ImageUtility.shareIcon,
-                                width: 17.w,
-                              ),
-                            ),
-                          )
-                        ],
+                        // actions: [
+                        //   Padding(
+                        //     padding: EdgeInsets.only(right: 22.w),
+                        //     child: InkWell(
+                        //       onTap: () {
+                        //         Share.share("Share");
+                        //       },
+                        //       child: Image.asset(
+                        //         ImageUtility.shareIcon,
+                        //         width: 17.w,
+                        //       ),
+                        //     ),
+                        //   )
+                        // ],
                         flexibleSpace: Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(

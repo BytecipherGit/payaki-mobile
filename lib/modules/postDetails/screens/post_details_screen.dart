@@ -976,10 +976,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                 padding: EdgeInsets.only(right: 22.w),
                                 child: InkWell(
                                   onTap: () {
-                                    Share.share(postDetailScreenVm
+                                    Share.share("${postDetailScreenVm
                                             .postDetailResponse
                                             ?.data
-                                            ?.productName ??
+                                            ?.productName}\nhttps://c4e4-122-175-237-30.ngrok-free.app/payaki-web/" ??
                                         "");
                                   },
                                   child: Image.asset(

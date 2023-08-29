@@ -61,7 +61,8 @@ import 'package:payaki/modules/training/addTraining/screens/training_gallery_scr
 import 'package:payaki/modules/training/addTraining/screens/training_promo_screen.dart';
 import 'package:payaki/modules/training/addTraining/viewModel/training_gallery_screen_vm.dart';
 import 'package:payaki/modules/training/addTraining/viewModel/training_promo_screen_vm.dart';
-import 'package:payaki/modules/training/trainingDetail/training_detail_screen.dart';
+import 'package:payaki/modules/training/trainingDetail/screen/training_detail_screen.dart';
+import 'package:payaki/modules/training/trainingDetail/viewModel/training_detail_screen_vm.dart';
 import 'package:payaki/modules/training/trainingList/screens/training_list_screen.dart';
 import 'package:payaki/modules/training/trainingList/viewModel/training_list_screen_vm.dart';
 import 'package:payaki/modules/transaction/screens/transaction_detail_screen.dart';
@@ -460,8 +461,10 @@ class AppRoute {
       case RouteName.trainingDetailsScreen:
         var arg = settings.arguments as Map;
         return MaterialPageRoute(
-          builder: (context) =>
-              TrainingDetailsScreen(trainingData: arg["trainingData"]),
+          builder: (context) => ChangeNotifierProvider(
+            create: (_) => TrainingDetailScreenVm(),
+            child: TrainingDetailsScreen(trainingData: arg["trainingData"]),
+          ),
         );
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
