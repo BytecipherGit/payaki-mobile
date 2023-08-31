@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payaki/local_store/shared_preference.dart';
+import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
@@ -54,14 +55,14 @@ class _SplashScreenState extends State<SplashScreen> {
       // the foreground or in the background.
       _sub = uriLinkStream.listen((Uri? uri) {
         if (!mounted) return;
-        print('got uri: $uri');
+        logD('got uri: $uri');
         setState(() {
           _latestUri = uri;
           _err = null;
         });
       }, onError: (Object err) {
         if (!mounted) return;
-        print('got err: $err');
+        logD('got err: $err');
         setState(() {
           _latestUri = null;
           if (err is FormatException) {
@@ -90,18 +91,18 @@ class _SplashScreenState extends State<SplashScreen> {
       try {
         final uri = await getInitialUri();
         if (uri == null) {
-          print('no initial uri');
+          logD('no initial uri');
         } else {
-          print('got initial uri: $uri');
+          logD('got initial uri: $uri');
         }
         if (!mounted) return;
         setState(() => _initialUri = uri);
       } on PlatformException {
         // Platform messages may fail but we ignore the exception
-        print('falied to get initial uri');
+        logD('falied to get initial uri');
       } on FormatException catch (err) {
         if (!mounted) return;
-        print('malformed initial uri');
+        logD('malformed initial uri');
         setState(() => _err = err);
       }
     }

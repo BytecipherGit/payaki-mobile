@@ -1197,8 +1197,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  video_player:
+  video_controls:
     dependency: "direct main"
+    description:
+      name: video_controls
+      sha256: "6498a2821f836d1738d5f9bd78a3376e2b558ca424c34be833f45c55c023ed43"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  video_player:
+    dependency: transitive
     description:
       name: video_player
       sha256: "3fd106c74da32f336dc7feb65021da9b0207cb3124392935f1552834f7cce822"

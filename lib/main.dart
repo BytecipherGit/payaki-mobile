@@ -5,7 +5,6 @@ import 'package:payaki/integration/firebase_integration.dart';
 import 'package:payaki/integration/local_notification_integration.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/splash/splash_screen.dart';
-import 'package:payaki/modules/training/videoPlayer/video_player_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 
 
@@ -15,6 +14,7 @@ Future<void> main() async {
   Loggy.initLoggy();
   await FirebaseIntegration().setFCM();
   await LocalNotificationIntegration().initialiseLocalNotification();
+
   runApp(const MyApp());
 }
 
@@ -45,7 +45,6 @@ class MyApp extends StatelessWidget {
             ),
             onGenerateRoute: AppRoute.generateRoute,
             home: const SplashScreen(),
-          //  home: const VideoPlayerScreen(),
 
           );
         });

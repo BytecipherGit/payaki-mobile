@@ -316,7 +316,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                 name: Endpoints.cartEndPoints
                                                     .checkoutPaypal,
                                                 param: Param(
-                                                    totalAmount: myCart?.total.toString(),
+                                                    totalAmount: myCart?.total
+                                                        .toString(),
                                                     productIds: productIds,
                                                     amounts: amounts,
                                                     paymentId: paymentId,

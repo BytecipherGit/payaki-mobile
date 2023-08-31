@@ -74,6 +74,7 @@ import 'package:provider/provider.dart';
 
 import '../modules/postDetails/screens/image_view_screen.dart';
 import '../modules/training/addTraining/viewModel/add_training_detail_screen_vm.dart';
+import '../modules/training/videoPlayer/video_player_screen.dart';
 
 class AppRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -466,6 +467,13 @@ class AppRoute {
             child: TrainingDetailsScreen(trainingData: arg["trainingData"]),
           ),
         );
+      case RouteName.videoPlayerScreen:
+        var arg = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (context) => VideoPlayerScreen(
+                  videoUrl: arg["videoUrl"],
+                ));
+
       default:
         return MaterialPageRoute(builder: (context) => const LogInScreen());
     }

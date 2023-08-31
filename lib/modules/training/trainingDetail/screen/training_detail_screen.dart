@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moment_dart/moment_dart.dart';
@@ -22,7 +21,6 @@ import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 class TrainingDetailsScreen extends StatefulWidget {
   final Data? trainingData;
@@ -244,14 +242,32 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding: EdgeInsets.only(right: 15.w),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(5.r),
-                                        child: Image.asset(
-                                          ImageUtility.videoThumbnail,
-                                          width: 85.w,
-                                          height: 85.w,
-                                          fit: BoxFit.cover,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          if (widget
+                                                  .trainingData
+                                                  ?.gallery?[index]
+                                                  .trainingVideo !=
+                                              null) {
+                                            Navigator.pushNamed(context,
+                                                RouteName.videoPlayerScreen,
+                                                arguments: {
+                                                  "videoUrl": widget
+                                                      .trainingData!
+                                                      .gallery![index]
+                                                      .trainingVideo!
+                                                });
+                                          }
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(5.r),
+                                          child: Image.asset(
+                                            ImageUtility.videoThumbnail,
+                                            width: 85.w,
+                                            height: 85.w,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                     );
@@ -269,13 +285,24 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                       SizedBox(
                         height: 5.h,
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5.r),
-                        child: Image.asset(
-                          ImageUtility.videoThumbnail,
-                          width: 85.w,
-                          height: 85.w,
-                          fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          if (widget.trainingData?.promoVideo != null) {
+                            Navigator.pushNamed(
+                                context, RouteName.videoPlayerScreen,
+                                arguments: {
+                                  "videoUrl": widget.trainingData!.promoVideo!
+                                });
+                          }
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.r),
+                          child: Image.asset(
+                            ImageUtility.videoThumbnail,
+                            width: 85.w,
+                            height: 85.w,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -360,20 +387,6 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
           child: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            // actions: [
-            //   Padding(
-            //     padding: EdgeInsets.only(right: 22.w),
-            //     child: InkWell(
-            //       onTap: () {
-            //         Share.share(widget.trainingData?.productName ?? "");
-            //       },
-            //       child: Image.asset(
-            //         ImageUtility.shareIcon,
-            //         width: 17.w,
-            //       ),
-            //     ),
-            //   )
-            // ],
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
