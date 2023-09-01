@@ -1,7 +1,13 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moment_dart/moment_dart.dart';
+import 'package:open_file_plus/open_file_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
@@ -21,6 +27,7 @@ import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class TrainingDetailsScreen extends StatefulWidget {
   final Data? trainingData;
@@ -36,6 +43,31 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
   String? paymentId;
   String? status;
   String? payerId;
+  int progress = 0;
+  final ReceivePort _receivePort = ReceivePort();
+
+  @pragma('vm:entry-point')
+  static downloadingCallback(id, status, progress) {
+    SendPort? sendPort = IsolateNameServer.lookupPortByName("downloading");
+    sendPort!.send([id, status, progress]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (mounted) {
+      IsolateNameServer.registerPortWithName(
+          _receivePort.sendPort, "downloading");
+      _receivePort.listen((message) {
+        setState(() {
+          progress = message[2];
+        });
+
+        print(progress);
+      });
+      FlutterDownloader.registerCallback(downloadingCallback);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +251,8 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                 .fromNow(),
                             style: StyleUtility.postDescTextStyle),
                       if (Preference().getUserId() ==
-                          widget.trainingData?.userId)
+                              widget.trainingData?.userId ||
+                          (widget.trainingData!.isPurchased!))
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -259,16 +292,82 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                                 });
                                           }
                                         },
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(5.r),
-                                          child: Image.asset(
-                                            ImageUtility.videoThumbnail,
-                                            width: 85.w,
-                                            height: 85.w,
-                                            fit: BoxFit.cover,
+                                        child: Stack(children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(5.r),
+                                            child: Image.asset(
+                                              ImageUtility.videoThumbnail,
+                                              width: 85.w,
+                                              height: 85.w,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
-                                        ),
+                                          Positioned(
+                                              bottom: -10,
+                                              right: -10,
+                                              child: IconButton(
+                                                splashColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                icon: Icon(
+                                                  Icons.download,
+                                                  size: 25.h,
+                                                  color:
+                                                      ColorUtility.color9C5FA3,
+                                                ),
+                                                onPressed: () async {
+                                                  final status =
+                                                      await Permission.storage
+                                                          .request();
+
+                                                  if (status.isGranted) {
+                                                    final externalDir = Platform
+                                                            .isAndroid
+                                                        ? await getExternalStorageDirectory() //FOR ANDROID
+                                                        : await getApplicationSupportDirectory(); //FOR iOS
+
+                                                    await FlutterDownloader
+                                                        .enqueue(
+                                                      url: widget
+                                                          .trainingData!
+                                                          .gallery![index]
+                                                          .trainingVideo!,
+                                                      savedDir:
+                                                          externalDir!.path,
+                                                      fileName: DateTime.now()
+                                                          .millisecondsSinceEpoch
+                                                          .toString(),
+                                                      showNotification: true,
+                                                      openFileFromNotification:
+                                                          true,
+                                                    ).then((id) {
+                                                      print("file Id ${id}");
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: const Text(
+                                                              'Download completed'),
+                                                          action:
+                                                              SnackBarAction(
+                                                            label: 'Open',
+                                                            onPressed:
+                                                                () async {
+                                                              // Open the downloaded file in the Files app
+                                                              await OpenFile.open(
+                                                                  '${externalDir.path}/$id');
+                                                            },
+                                                          ),
+                                                        ),
+                                                      );
+                                                    });
+                                                  } else {
+                                                    print("Permission deined");
+                                                  }
+                                                },
+                                              ))
+                                        ]),
                                       ),
                                     );
                                   }),
@@ -308,73 +407,82 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                       SizedBox(
                         height: 25.h,
                       ),
-                      Preference().getUserId() != widget.trainingData?.userId
-                          ? Consumer<TrainingDetailScreenVm>(builder:
-                              (context, trainingDetailScreenVm, child) {
-                              return CustomButton(
-                                  buttonText: "Purchase Training",
-                                  onTab: () {
-                                    PayPalPayment().pay(
-                                        context: context,
-                                        amount:
-                                            widget.trainingData?.price ?? "0",
-                                        onSuccess: (Map params) {
-                                          logD("onSuccess: $params");
+                      if (!(widget.trainingData!.isPurchased!))
+                        Preference().getUserId() != widget.trainingData?.userId
+                            ? Consumer<TrainingDetailScreenVm>(builder:
+                                (context, trainingDetailScreenVm, child) {
+                                return CustomButton(
+                                    buttonText: "Purchase Training",
+                                    onTab: () {
+                                      PayPalPayment().pay(
+                                          context: context,
+                                          amount:
+                                              widget.trainingData?.price ?? "0",
+                                          onSuccess: (Map params) {
+                                            logD("onSuccess: $params");
 
-                                          status = params["status"].toString();
-                                          paymentId =
-                                              params["paymentId"].toString();
-                                          payerId = params["data"]["payer"]
-                                              ["payer_info"]["payer_id"];
+                                            status =
+                                                params["status"].toString();
+                                            paymentId =
+                                                params["paymentId"].toString();
+                                            payerId = params["data"]["payer"]
+                                                ["payer_info"]["payer_id"];
 
-                                          Timer(const Duration(seconds: 1), () {
-                                            CommonDialog.showLoadingDialog(
-                                                context);
-                                            trainingDetailScreenVm
-                                                .purchaseTraining(
-                                                    request: CheckoutRequest(
-                                                      name: Endpoints
-                                                          .cartEndPoints
-                                                          .checkoutPaypal,
-                                                      param: Param(
-                                                          totalAmount: widget
-                                                                  .trainingData
-                                                                  ?.price ??
-                                                              "0",
-                                                          productIds: [
-                                                            "${widget.trainingData?.id}"
-                                                          ],
-                                                          amounts: [
-                                                            "${widget.trainingData?.price}"
-                                                          ],
-                                                          paymentId: paymentId,
-                                                          payerId: payerId,
-                                                          status: status),
-                                                    ),
-                                                    onSuccess:
-                                                        (String message) {
-                                                      Navigator.pop(context);
-                                                      Navigator.pop(context);
-                                                      context
-                                                          .flushBarTopSuccessMessage(
-                                                              message: message);
-                                                    },
-                                                    onFailure:
-                                                        (String message) {
-                                                      Navigator.pop(context);
-                                                      context
-                                                          .flushBarTopSuccessMessage(
-                                                              message: message);
-                                                    });
+                                            Timer(const Duration(seconds: 1),
+                                                () {
+                                              CommonDialog.showLoadingDialog(
+                                                  context);
+                                              trainingDetailScreenVm
+                                                  .purchaseTraining(
+                                                      request: CheckoutRequest(
+                                                        name: Endpoints
+                                                            .cartEndPoints
+                                                            .checkoutPaypal,
+                                                        param: Param(
+                                                            totalAmount: widget
+                                                                    .trainingData
+                                                                    ?.price ??
+                                                                "0",
+                                                            productIds: [
+                                                              "${widget.trainingData?.id}"
+                                                            ],
+                                                            amounts: [
+                                                              "${widget.trainingData?.price}"
+                                                            ],
+                                                            paymentId:
+                                                                paymentId,
+                                                            payerId: payerId,
+                                                            status: status),
+                                                      ),
+                                                      onSuccess:
+                                                          (String message) {
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                        context
+                                                            .flushBarTopSuccessMessage(
+                                                                message:
+                                                                    message);
+                                                      },
+                                                      onFailure:
+                                                          (String message) {
+                                                        Navigator.pop(context);
+                                                        context
+                                                            .flushBarTopSuccessMessage(
+                                                                message:
+                                                                    message);
+                                                      });
+                                            });
+                                          },
+                                          onFailure: (String message) {
+                                            context.flushBarTopErrorMessage(
+                                                message: message.toString());
                                           });
-                                        },
-                                        onFailure: (String message) {
-                                          context.flushBarTopErrorMessage(
-                                              message: message.toString());
-                                        });
-                                  });
-                            })
-                          : const SizedBox(),
+                                    });
+                              })
+                            : const SizedBox(),
+                      SizedBox(
+                        height: 25.h,
+                      ),
                     ],
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loggy/loggy.dart';
 import 'package:payaki/integration/firebase_integration.dart';
@@ -7,14 +8,13 @@ import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/modules/splash/splash_screen.dart';
 import 'package:payaki/routes/app_routes.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preference().instance();
   Loggy.initLoggy();
   await FirebaseIntegration().setFCM();
   await LocalNotificationIntegration().initialiseLocalNotification();
-
+  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   runApp(const MyApp());
 }
 
@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-
             title: 'PAYAKI',
             theme: ThemeData(
               // This is the theme of your application.
@@ -45,7 +44,6 @@ class MyApp extends StatelessWidget {
             ),
             onGenerateRoute: AppRoute.generateRoute,
             home: const SplashScreen(),
-
           );
         });
   }

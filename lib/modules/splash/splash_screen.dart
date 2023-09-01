@@ -85,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _handleInitialUri() async {
     // In this example app this is an almost useless guard, but it is here to
     // show we are not going to call getInitialUri multiple times, even if this
-    // was a weidget that will be disposed of (ex. a navigation route change).
+    // was a widget that will be disposed of (ex. a navigation route change).
     if (!_initialUriIsHandled) {
       _initialUriIsHandled = true;
       try {

@@ -78,6 +78,7 @@ class Data {
   String? countryName;
   String? fullAddress;
   String? postUserName;
+  bool? isPurchased;
   List<String>? image;
   List<Gallery>? gallery;
 
@@ -129,6 +130,7 @@ class Data {
       this.countryName,
       this.fullAddress,
       this.postUserName,
+      this.isPurchased,
       this.image,
       this.gallery});
 
@@ -180,6 +182,7 @@ class Data {
     countryName = json['country_name'];
     fullAddress = json['full_address'];
     postUserName = json['post_user_name'];
+    isPurchased = json['is_purchased'];
     image = json['image'].cast<String>();
     if (json['gallery'] != null) {
       gallery = <Gallery>[];
@@ -238,6 +241,7 @@ class Data {
     data['country_name'] = this.countryName;
     data['full_address'] = this.fullAddress;
     data['post_user_name'] = this.postUserName;
+    data['is_purchased'] = this.isPurchased;
     data['image'] = this.image;
     if (this.gallery != null) {
       data['gallery'] = this.gallery!.map((v) => v.toJson()).toList();
