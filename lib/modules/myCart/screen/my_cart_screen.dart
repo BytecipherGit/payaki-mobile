@@ -23,6 +23,8 @@ import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../event/event_purchase_screen/event_purchase_screen.dart';
+
 class MyCartScreen extends StatefulWidget {
   const MyCartScreen({Key? key}) : super(key: key);
 
@@ -283,66 +285,67 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 buttonText:
                                     "Check out (${"${myCart?.total ?? ""}"})",
                                 onTab: () {
-                                  PayPalPayment().pay(
-                                      context: context,
-                                      amount: myCart?.total.toString() ?? "0",
-                                      onSuccess: (Map params) {
-                                        logD("onSuccess: $params");
-
-                                        status = params["status"].toString();
-                                        paymentId =
-                                            params["paymentId"].toString();
-                                        payerId = params["data"]["payer"]
-                                            ["payer_info"]["payer_id"];
-
-                                        productIds.clear();
-                                        amounts.clear();
-                                        for (var i = 0;
-                                            i < (myCart?.products?.length ?? 0);
-                                            i++) {
-                                          productIds.add(
-                                              myCart?.products?[i].productId ??
-                                                  "0");
-                                          amounts.add(myCart
-                                                  ?.products?[i].productPrice ??
-                                              "0");
-                                        }
-
-                                        Timer(const Duration(seconds: 1), () {
-                                          CommonDialog.showLoadingDialog(
-                                              context);
-                                          myCartScreenVm.checkoutCart(
-                                              request: CheckoutRequest(
-                                                name: Endpoints.cartEndPoints
-                                                    .checkoutPaypal,
-                                                param: Param(
-                                                    totalAmount: myCart?.total
-                                                        .toString(),
-                                                    productIds: productIds,
-                                                    amounts: amounts,
-                                                    paymentId: paymentId,
-                                                    payerId: payerId,
-                                                    status: status),
-                                              ),
-                                              onSuccess: (String message) {
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                                context
-                                                    .flushBarTopSuccessMessage(
-                                                        message: message);
-                                              },
-                                              onFailure: (String message) {
-                                                Navigator.pop(context);
-                                                context
-                                                    .flushBarTopSuccessMessage(
-                                                        message: message);
-                                              });
-                                        });
-                                      },
-                                      onFailure: (String message) {
-                                        context.flushBarTopErrorMessage(
-                                            message: message.toString());
-                                      });
+                                  Navigator.push(context,MaterialPageRoute(builder: (context) => const EventPurchaseScreen(),));
+                                  // PayPalPayment().pay(
+                                  //     context: context,
+                                  //     amount: myCart?.total.toString() ?? "0",
+                                  //     onSuccess: (Map params) {
+                                  //       logD("onSuccess: $params");
+                                  //
+                                  //       status = params["status"].toString();
+                                  //       paymentId =
+                                  //           params["paymentId"].toString();
+                                  //       payerId = params["data"]["payer"]
+                                  //           ["payer_info"]["payer_id"];
+                                  //
+                                  //       productIds.clear();
+                                  //       amounts.clear();
+                                  //       for (var i = 0;
+                                  //           i < (myCart?.products?.length ?? 0);
+                                  //           i++) {
+                                  //         productIds.add(
+                                  //             myCart?.products?[i].productId ??
+                                  //                 "0");
+                                  //         amounts.add(myCart
+                                  //                 ?.products?[i].productPrice ??
+                                  //             "0");
+                                  //       }
+                                  //
+                                  //       Timer(const Duration(seconds: 1), () {
+                                  //         CommonDialog.showLoadingDialog(
+                                  //             context);
+                                  //         myCartScreenVm.checkoutCart(
+                                  //             request: CheckoutRequest(
+                                  //               name: Endpoints.cartEndPoints
+                                  //                   .checkoutPaypal,
+                                  //               param: Param(
+                                  //                   totalAmount: myCart?.total
+                                  //                       .toString(),
+                                  //                   productIds: productIds,
+                                  //                   amounts: amounts,
+                                  //                   paymentId: paymentId,
+                                  //                   payerId: payerId,
+                                  //                   status: status),
+                                  //             ),
+                                  //             onSuccess: (String message) {
+                                  //               Navigator.pop(context);
+                                  //               Navigator.pop(context);
+                                  //               context
+                                  //                   .flushBarTopSuccessMessage(
+                                  //                       message: message);
+                                  //             },
+                                  //             onFailure: (String message) {
+                                  //               Navigator.pop(context);
+                                  //               context
+                                  //                   .flushBarTopSuccessMessage(
+                                  //                       message: message);
+                                  //             });
+                                  //       });
+                                  //     },
+                                  //     onFailure: (String message) {
+                                  //       context.flushBarTopErrorMessage(
+                                  //           message: message.toString());
+                                  //     });
                                 }),
                             SizedBox(
                               height: 10.h,

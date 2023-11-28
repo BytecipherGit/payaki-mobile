@@ -16,6 +16,8 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:provider/provider.dart';
 
+import '../../event/event_purchase_screen/event_purchase_screen.dart';
+
 class SelectAddTypeScreen extends StatefulWidget {
   final int catId;
   final int subCatId;
@@ -306,33 +308,33 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                           if (highlightValue == true) {
                             calculateAmount = calculateAmount + 100;
                           }
-
-                          PayPalPayment().pay(
-                              context: context,
-                              amount: calculateAmount.toString(),
-                              onSuccess: (Map params) {
-                                logD("onSuccess: $params");
-
-                                amount = calculateAmount.toString();
-                                status = params["status"].toString();
-                                paymentId = params["paymentId"].toString();
-                                currency = params["data"]["transactions"][0]
-                                        ["amount"]["currency"]
-                                    .toString();
-
-                                logD("amount: $amount");
-                                logD("currency: $currency");
-                                logD("status: $status");
-                                logD("paymentId: $paymentId");
-
-                                Timer(const Duration(seconds: 1), () {
-                                  addPost(addPostVm: addPostVm);
-                                });
-                              },
-                              onFailure: (String message) {
-                                context.flushBarTopErrorMessage(
-                                    message: message.toString());
-                              });
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const EventPurchaseScreen(),));
+                          // PayPalPayment().pay(
+                          //     context: context,
+                          //     amount: calculateAmount.toString(),
+                          //     onSuccess: (Map params) {
+                          //       logD("onSuccess: $params");
+                          //
+                          //       amount = calculateAmount.toString();
+                          //       status = params["status"].toString();
+                          //       paymentId = params["paymentId"].toString();
+                          //       currency = params["data"]["transactions"][0]
+                          //               ["amount"]["currency"]
+                          //           .toString();
+                          //
+                          //       logD("amount: $amount");
+                          //       logD("currency: $currency");
+                          //       logD("status: $status");
+                          //       logD("paymentId: $paymentId");
+                          //
+                          //       Timer(const Duration(seconds: 1), () {
+                          //         addPost(addPostVm: addPostVm);
+                          //       });
+                          //     },
+                          //     onFailure: (String message) {
+                          //       context.flushBarTopErrorMessage(
+                          //           message: message.toString());
+                          //     });
                         }
                       }),
                 ),

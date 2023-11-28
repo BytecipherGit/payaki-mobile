@@ -29,8 +29,10 @@ import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../event/event_purchase_screen/event_purchase_screen.dart';
+
 class TrainingDetailsScreen extends StatefulWidget {
-  final Data? trainingData;
+  final Datum? trainingData;
 
   const TrainingDetailsScreen({Key? key, this.trainingData}) : super(key: key);
 
@@ -139,7 +141,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                           if (widget.trainingData?.createdAt != null)
                             Text(
                               Moment(DateTime.parse(
-                                      widget.trainingData!.createdAt!))
+                                      widget.trainingData!.createdAt!.toString()))
                                   .fromNow(),
                               style: StyleUtility.postDescTextStyle.copyWith(
                                   fontSize: TextSizeUtility.textSize12),
@@ -247,7 +249,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                       if (widget.trainingData?.expiredDate != null)
                         Text(
                             Moment(DateTime.parse(
-                                    widget.trainingData!.expiredDate!))
+                                    widget.trainingData!.expiredDate!.toString()))
                                 .fromNow(),
                             style: StyleUtility.postDescTextStyle),
                       if (Preference().getUserId() ==
@@ -414,69 +416,70 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                 return CustomButton(
                                     buttonText: "Purchase Training",
                                     onTab: () {
-                                      PayPalPayment().pay(
-                                          context: context,
-                                          amount:
-                                              widget.trainingData?.price ?? "0",
-                                          onSuccess: (Map params) {
-                                            logD("onSuccess: $params");
-
-                                            status =
-                                                params["status"].toString();
-                                            paymentId =
-                                                params["paymentId"].toString();
-                                            payerId = params["data"]["payer"]
-                                                ["payer_info"]["payer_id"];
-
-                                            Timer(const Duration(seconds: 1),
-                                                () {
-                                              CommonDialog.showLoadingDialog(
-                                                  context);
-                                              trainingDetailScreenVm
-                                                  .purchaseTraining(
-                                                      request: CheckoutRequest(
-                                                        name: Endpoints
-                                                            .cartEndPoints
-                                                            .checkoutPaypal,
-                                                        param: Param(
-                                                            totalAmount: widget
-                                                                    .trainingData
-                                                                    ?.price ??
-                                                                "0",
-                                                            productIds: [
-                                                              "${widget.trainingData?.id}"
-                                                            ],
-                                                            amounts: [
-                                                              "${widget.trainingData?.price}"
-                                                            ],
-                                                            paymentId:
-                                                                paymentId,
-                                                            payerId: payerId,
-                                                            status: status),
-                                                      ),
-                                                      onSuccess:
-                                                          (String message) {
-                                                        Navigator.pop(context);
-                                                        Navigator.pop(context);
-                                                        context
-                                                            .flushBarTopSuccessMessage(
-                                                                message:
-                                                                    message);
-                                                      },
-                                                      onFailure:
-                                                          (String message) {
-                                                        Navigator.pop(context);
-                                                        context
-                                                            .flushBarTopSuccessMessage(
-                                                                message:
-                                                                    message);
-                                                      });
-                                            });
-                                          },
-                                          onFailure: (String message) {
-                                            context.flushBarTopErrorMessage(
-                                                message: message.toString());
-                                          });
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const EventPurchaseScreen(),));
+                                      // PayPalPayment().pay(
+                                      //     context: context,
+                                      //     amount:
+                                      //         widget.trainingData?.price ?? "0",
+                                      //     onSuccess: (Map params) {
+                                      //       logD("onSuccess: $params");
+                                      //
+                                      //       status =
+                                      //           params["status"].toString();
+                                      //       paymentId =
+                                      //           params["paymentId"].toString();
+                                      //       payerId = params["data"]["payer"]
+                                      //           ["payer_info"]["payer_id"];
+                                      //
+                                      //       Timer(const Duration(seconds: 1),
+                                      //           () {
+                                      //         CommonDialog.showLoadingDialog(
+                                      //             context);
+                                      //         trainingDetailScreenVm
+                                      //             .purchaseTraining(
+                                      //                 request: CheckoutRequest(
+                                      //                   name: Endpoints
+                                      //                       .cartEndPoints
+                                      //                       .checkoutPaypal,
+                                      //                   param: Param(
+                                      //                       totalAmount: widget
+                                      //                               .trainingData
+                                      //                               ?.price ??
+                                      //                           "0",
+                                      //                       productIds: [
+                                      //                         "${widget.trainingData?.id}"
+                                      //                       ],
+                                      //                       amounts: [
+                                      //                         "${widget.trainingData?.price}"
+                                      //                       ],
+                                      //                       paymentId:
+                                      //                           paymentId,
+                                      //                       payerId: payerId,
+                                      //                       status: status),
+                                      //                 ),
+                                      //                 onSuccess:
+                                      //                     (String message) {
+                                      //                   Navigator.pop(context);
+                                      //                   Navigator.pop(context);
+                                      //                   context
+                                      //                       .flushBarTopSuccessMessage(
+                                      //                           message:
+                                      //                               message);
+                                      //                 },
+                                      //                 onFailure:
+                                      //                     (String message) {
+                                      //                   Navigator.pop(context);
+                                      //                   context
+                                      //                       .flushBarTopSuccessMessage(
+                                      //                           message:
+                                      //                               message);
+                                      //                 });
+                                      //       });
+                                      //     },
+                                      //     onFailure: (String message) {
+                                      //       context.flushBarTopErrorMessage(
+                                      //           message: message.toString());
+                                      //     });
                                     });
                               })
                             : const SizedBox(),

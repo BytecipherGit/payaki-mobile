@@ -23,6 +23,8 @@ import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../event_purchase_screen/event_purchase_screen.dart';
+
 class EventDetailsScreen extends StatefulWidget {
   final Data? eventList;
 
@@ -530,44 +532,46 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     logD("Ticket amounts is ${ticketAmounts}");
     logD("Ticket Quantity is ${ticketQuantity}");
     logD("Total amount is ${totalAmount}");
-
-    PayPalPayment().pay(
-        context: context,
-        amount: totalAmount.toString(),
-        onSuccess: (Map params) {
-          logD("onSuccess: $params");
-          status = params["status"].toString();
-          paymentId = params["paymentId"].toString();
-          payerId = params["data"]["payer"]["payer_info"]["payer_id"];
-
-          Timer(const Duration(seconds: 1), () {
-            CommonDialog.showLoadingDialog(context);
-            eventDetailScreenVm.eventCheckout(
-                request: EventCheckoutRequest(
-                  name: Endpoints.eventEndPoints.checkoutEventPaypal,
-                  param: Param(
-                      productId: eventData.id,
-                      ticketTypeIds: ticketIds,
-                      ticketAmounts: ticketAmounts,
-                      ticketQuantities: ticketQuantity,
-                      totalAmount: totalAmount.toString(),
-                      paymentId: paymentId,
-                      payerId: payerId,
-                      status: status),
-                ),
-                onSuccess: (String message) {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  context.flushBarTopSuccessMessage(message: message);
-                },
-                onFailure: (String message) {
-                  Navigator.pop(context);
-                  context.flushBarTopSuccessMessage(message: message);
-                });
-          });
-        },
-        onFailure: (String message) {
-          context.flushBarTopErrorMessage(message: message.toString());
-        });
+Navigator.push(context, MaterialPageRoute(builder: (context) => const EventPurchaseScreen(),));
+    // PayPalPayment().pay(
+    //     context: context,
+    //     amount: totalAmount.toString(),
+    //     onSuccess: (Map params) {
+    //       logD("onSuccess: $params");
+    //       status = params["status"].toString();
+    //       paymentId = params["paymentId"].toString();
+    //       payerId = params["data"]["payer"]["payer_info"]["payer_id"];
+    //
+    //       Timer(const Duration(seconds: 1), () {
+    //         CommonDialog.showLoadingDialog(context);
+    //         eventDetailScreenVm.eventCheckout(
+    //             request: EventCheckoutRequest(
+    //               name: Endpoints.eventEndPoints.checkoutEventPaypal,
+    //               param: Param(
+    //                   productId: eventData.id,
+    //                   ticketTypeIds: ticketIds,
+    //                   ticketAmounts: ticketAmounts,
+    //                   ticketQuantities: ticketQuantity,
+    //                   totalAmount: totalAmount.toString(),
+    //                   paymentId: paymentId,
+    //                   payerId: payerId,
+    //                   status: status),
+    //             ),
+    //             onSuccess: (String message) {
+    //               Navigator.pop(context);
+    //               Navigator.pop(context);
+    //               context.flushBarTopSuccessMessage(message: message);
+    //             },
+    //             onFailure: (String message) {
+    //               Navigator.pop(context);
+    //               context.flushBarTopSuccessMessage(message: message);
+    //             });
+    //       });
+    //     },
+    //     onFailure: (String message) {
+    //       context.flushBarTopErrorMessage(message: message.toString());
+    //     }
+    //
+    //     );
   }
 }

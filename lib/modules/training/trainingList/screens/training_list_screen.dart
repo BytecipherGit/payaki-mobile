@@ -72,14 +72,14 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
                           return EventTrainingWidget(
                             title: trainingList?[index].productName ?? "",
                             imageUrl: image ?? "",
-                            expiredDate: trainingList?[index].expiredDate,
+                            expiredDate: trainingList![index].expiredDate.toString(),
                             isShowDeleteIcon: widget.isAllPost == false,
-                            price: trainingList?[index].price,
+                            price: trainingList[index].price,
                             onTap: () {
 
                               Navigator.pushNamed(context, RouteName.trainingDetailsScreen,
                               arguments: {
-                                "trainingData": trainingList?[index],
+                                "trainingData": trainingList[index],
                               });
 
 

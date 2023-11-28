@@ -159,7 +159,7 @@ class CustomButton extends StatelessWidget {
 
 
 
-    Gradient gradient = const LinearGradient(
+    Gradient gradient =  const LinearGradient(
         colors: [ColorUtility.color9C5FA3,
           ColorUtility.color844193
         ]);
@@ -179,7 +179,7 @@ class CustomButton extends StatelessWidget {
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
+            // shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.r)),
           ),
