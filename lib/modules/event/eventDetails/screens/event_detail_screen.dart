@@ -23,6 +23,7 @@ import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../widgets/mobile_number_text_field.dart';
 import '../../event_purchase_screen/event_purchase_screen.dart';
 
 class EventDetailsScreen extends StatefulWidget {
@@ -532,8 +533,45 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     logD("Ticket amounts is ${ticketAmounts}");
     logD("Ticket Quantity is ${ticketQuantity}");
     logD("Total amount is ${totalAmount}");
-Navigator.push(context, MaterialPageRoute(builder: (context) => const EventPurchaseScreen(),));
-    // PayPalPayment().pay(
+    showPaymentLoadingDialog(ctx: context,
+          onSuccess: ( params) {
+            logD("onSuccess: $params");
+            // status = params["status"].toString();
+            // paymentId = params["paymentId"].toString();
+            // payerId = params["data"]["payer"]["payer_info"]["payer_id"];
+
+            Timer(const Duration(seconds: 1), () {
+              CommonDialog.showLoadingDialog(context);
+              eventDetailScreenVm.eventCheckout(
+                  request: EventCheckoutRequest(
+                    name: Endpoints.eventEndPoints.checkoutEventPaypal,
+                    param: Param(
+                        productId: eventData.id,
+                        ticketTypeIds: ticketIds,
+                        ticketAmounts: ticketAmounts,
+                        ticketQuantities: ticketQuantity,
+                        totalAmount: totalAmount.toString(),
+                        paymentId: paymentId,
+                        payerId: payerId,
+                        status: status),
+                  ),
+                  onSuccess: (String message) {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    context.flushBarTopSuccessMessage(message: message);
+                  },
+                  onFailure: (String message) {
+                    Navigator.pop(context);
+                    context.flushBarTopSuccessMessage(message: message);
+                  });
+            });
+          },
+          onFailure: (String message) {
+            context.flushBarTopErrorMessage(message: message.toString());
+          }
+    );
+// Navigator.push(context, MaterialPageRoute(builder: (context) => const EventPurchaseScreen(),));
+    // Payment().pay(
     //     context: context,
     //     amount: totalAmount.toString(),
     //     onSuccess: (Map params) {
@@ -573,5 +611,89 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => const EventPurch
     //     }
     //
     //     );
+  }
+
+
+  static showPaymentLoadingDialog({
+    required BuildContext ctx,
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+  }) {
+    showDialog(
+      barrierDismissible: false,
+      context: ctx,
+      builder: (BuildContext context) {
+        TextEditingController mobileController = TextEditingController();
+        String? countryCode;
+        return Dialog(
+
+            child:Container(
+
+                height: 400.h,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: ColorUtility.whiteColor,),
+                child:ChangeNotifierProvider(
+                  create: (context) => Payment(),
+                  child: Consumer<Payment>(
+                      builder: (context,payment,child) {
+                        return Column(
+                          children: [
+                            Row(mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(onPressed: (){
+                                  Navigator.pop(context);
+                                }, icon: const Icon(Icons.cancel_sharp,color: Colors.black,))
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+
+                                  SizedBox(
+                                    height: 25.h,
+                                  ),
+                                  Text(
+                                    "Enter your Mobile Number",
+                                    style: StyleUtility.headingTextStyle,
+                                  ),
+                                  SizedBox(
+                                    height: 25.h,
+                                  ),
+                                  MobileNumberTextField(
+                                    controller: mobileController,
+                                    onChanged: (phone) {
+                                      countryCode = phone.countryCode;
+                                      logD(phone.number);
+                                      logD(phone.countryCode);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                  CustomButton(
+                                      buttonText: "Authorise Payment",
+                                      onTab: () async{
+                                        if (mobileController.text.isEmpty) {
+                                          context.flushBarTopErrorMessage(
+                                              message: "Please Enter Mobile Number");
+                                        } else {
+                                          CommonDialog.showPaymentLoadingDialog(context);
+                                          Future.delayed(const Duration(seconds: 5)).then((value) => Navigator.pop(context));
+                                          payment.pay();
+                                        }
+                                      }),
+
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  ),
+                )
+            ));
+      },
+    );
   }
 }

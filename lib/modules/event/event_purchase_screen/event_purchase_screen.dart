@@ -10,6 +10,9 @@ import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/mobile_number_text_field.dart';
+import 'package:provider/provider.dart';
+
+import '../../../network/payment/paypal_payment.dart';
 
 class EventPurchaseScreen extends StatefulWidget {
   const EventPurchaseScreen({Key? key}) : super(key: key);
@@ -25,7 +28,6 @@ class _EventPurchaseScreenState
 
   String? countryCode;
   String? deviceToken;
-
   @override
   void initState() {
     super.initState();
@@ -44,87 +46,69 @@ class _EventPurchaseScreenState
       appBar: const CustomAppBar(
         title: "Authorise Payment",
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 25.h,
-              ),
-              Text(
-                "Enter your Mobile Number",
-                style: StyleUtility.headingTextStyle,
-              ),
-              SizedBox(
-                height: 25.h,
-              ),
-              MobileNumberTextField(
-                controller: mobileController,
-                onChanged: (phone) {
-                  countryCode = phone.countryCode;
-                  logD(phone.number);
-                  logD(phone.countryCode);
-                },
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Expanded(
-                  child: Container(
-                      alignment: Alignment.bottomCenter,
-                      child:CustomButton(
-                          buttonText: "Authorise Payment",
-                          onTab: () {
-                            if (mobileController.text.isEmpty) {
-                              context.flushBarTopErrorMessage(
-                                  message: "Please Enter Mobile Number");
-                            } else {
-                              CommonDialog.showPaymentLoadingDialog(context);
-                              startTimer();
-
-                              // loginWithPhoneSendOtpVm.sendOtp(
-                              //   request: LoginWithPhoneSendOtpRequest(
-                              //       name: Endpoints.auth.loginWithPhone,
-                              //       param: Param(
-                              //           phone: mobileController.text,
-                              //           countryCode: countryCode,
-                              //           deviceType: Platform.isAndroid
-                              //               ? Constant.android
-                              //               : Constant.ios,
-                              //           deviceToken: deviceToken)),
-                              //   onSuccess: (value) {
-                              //     Navigator.pop(context);
-                              //     context.flushBarTopErrorMessage(
-                              //         message:
-                              //         "${value.message} ${value.data!.otp}");
-                              //     Navigator.pushNamed(context,
-                              //         RouteName.loginWithPhoneVerifyOtpScreen,
-                              //         arguments: {
-                              //           "countryCode": countryCode,
-                              //           "mobile": mobileController.text,
-                              //         });
-                              //   },
-                              //   onFailure: (value) {
-                              //     Navigator.pop(context);
-                              //     context.flushBarTopErrorMessage(message: value);
-                              //   },
-                              // );
-                            }
-                          }))),
-              SizedBox(
-                height: 35.h,
-              ),
-            ],
-          ),
+      body:ChangeNotifierProvider(
+        create: (context) => Payment(),
+        child: Consumer<Payment>(
+            builder: (context,payment,child) {
+              return SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 25.h,
+                      ),
+                      Text(
+                        "Enter your Mobile Number",
+                        style: StyleUtility.headingTextStyle,
+                      ),
+                      SizedBox(
+                        height: 25.h,
+                      ),
+                      MobileNumberTextField(
+                        controller: mobileController,
+                        onChanged: (phone) {
+                          countryCode = phone.countryCode;
+                          logD(phone.number);
+                          logD(phone.countryCode);
+                        },
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Expanded(
+                          child: Container(
+                              alignment: Alignment.bottomCenter,
+                              child:CustomButton(
+                                  buttonText: "Authorise Payment",
+                                  onTab: () {
+                                    if (mobileController.text.isEmpty) {
+                                      context.flushBarTopErrorMessage(
+                                          message: "Please Enter Mobile Number");
+                                    } else {
+                                      // CommonDialog.showPaymentLoadingDialog(context);
+                                      // startTimer();
+                                      // payment.pay();
+                                      // showPaymentLoadingDialog(context);
+                                    }
+                                  }))),
+                      SizedBox(
+                        height: 35.h,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
         ),
-      ),
+      )
     );
   }
 
+
   int _start = 1;
-  Timer _timer = Timer(Duration(milliseconds: 1), () {});
+  Timer _timer = Timer(const Duration(seconds: 1), () {});
 
 
   @override

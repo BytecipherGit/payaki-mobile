@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,6 +17,7 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widgets/mobile_number_text_field.dart';
 import '../../event/event_purchase_screen/event_purchase_screen.dart';
 
 class SelectAddTypeScreen extends StatefulWidget {
@@ -53,8 +55,7 @@ class SelectAddTypeScreen extends StatefulWidget {
       required this.state,
       required this.phone,
       required this.availableDays,
-      required this.sellerName
-      })
+      required this.sellerName})
       : super(key: key);
 
   @override
@@ -239,11 +240,9 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                       addPostVm.updateUi();
                                     },
                                   ),
-
                                   SizedBox(
                                     width: 10.w,
                                   ),
-
                                   PremiumWidget(
                                     title: "Urgent",
                                     description:
@@ -308,8 +307,40 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                           if (highlightValue == true) {
                             calculateAmount = calculateAmount + 100;
                           }
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const EventPurchaseScreen(),));
-                          // PayPalPayment().pay(
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) =>
+                          //           const EventPurchaseScreen(),
+                          //     ));
+
+
+                          showPaymentLoadingDialog(ctx: context,
+                                onSuccess: ( params) {
+                                  logD("onSuccess: $params");
+
+                                  // amount = calculateAmount.toString();
+                                  // status = params["status"].toString();
+                                  // paymentId = params["paymentId"].toString();
+                                  // currency = params["data"]["transactions"][0]
+                                  //         ["amount"]["currency"]
+                                  //     .toString();
+
+                                  logD("amount: $amount");
+                                  logD("currency: $currency");
+                                  logD("status: $status");
+                                  logD("paymentId: $paymentId");
+
+                                  Timer(const Duration(seconds: 1), () {
+                                    addPost(addPostVm: addPostVm);
+                                  });
+                                },
+                                onFailure: (String message) {
+                                  context.flushBarTopErrorMessage(
+                                      message: message.toString());
+                                }
+                          );
+                          // Payment().pay(
                           //     context: context,
                           //     amount: calculateAmount.toString(),
                           //     onSuccess: (Map params) {
@@ -399,10 +430,93 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.bottomNavigationBarScreen, (route) => false);
           context.flushBarTopSuccessMessage(message: message);
-          },
+        },
         onFailure: (value) {
           Navigator.pop(context);
           context.flushBarTopErrorMessage(message: value);
         });
+  }
+
+  static showPaymentLoadingDialog({
+    required BuildContext ctx,
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+  }) {
+    showDialog(
+      barrierDismissible: false,
+      context: ctx,
+      builder: (BuildContext context) {
+        TextEditingController mobileController = TextEditingController();
+        String? countryCode;
+        return Dialog(
+
+            child:Container(
+
+                height: 400.h,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: ColorUtility.whiteColor,),
+                child:ChangeNotifierProvider(
+                  create: (context) => Payment(),
+                  child: Consumer<Payment>(
+                      builder: (context,payment,child) {
+                        return Column(
+                          children: [
+                            Row(mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(onPressed: (){
+                                  Navigator.pop(context);
+                                }, icon: const Icon(Icons.cancel_sharp,color: Colors.black,))
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+
+                                  SizedBox(
+                                    height: 25.h,
+                                  ),
+                                  Text(
+                                    "Enter your Mobile Number",
+                                    style: StyleUtility.headingTextStyle,
+                                  ),
+                                  SizedBox(
+                                    height: 25.h,
+                                  ),
+                                  MobileNumberTextField(
+                                    controller: mobileController,
+                                    onChanged: (phone) {
+                                      countryCode = phone.countryCode;
+                                      logD(phone.number);
+                                      logD(phone.countryCode);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                  CustomButton(
+                                      buttonText: "Authorise Payment",
+                                      onTab: () async{
+                                        if (mobileController.text.isEmpty) {
+                                          context.flushBarTopErrorMessage(
+                                              message: "Please Enter Mobile Number");
+                                        } else {
+                                          CommonDialog.showPaymentLoadingDialog(context);
+                                          Future.delayed(const Duration(seconds: 5)).then((value) => Navigator.pop(context));
+                                          payment.pay();
+                                        }
+                                      }),
+
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  ),
+                )
+            ));
+      },
+    );
   }
 }
