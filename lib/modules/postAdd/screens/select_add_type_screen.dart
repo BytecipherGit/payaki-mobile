@@ -319,7 +319,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                 onSuccess: ( params) {
                                   logD("onSuccess: $params");
 
-                                  // amount = calculateAmount.toString();
+                                  amount = calculateAmount.toString();
                                   // status = params["status"].toString();
                                   // paymentId = params["paymentId"].toString();
                                   // currency = params["data"]["transactions"][0]
@@ -330,15 +330,15 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                   logD("currency: $currency");
                                   logD("status: $status");
                                   logD("paymentId: $paymentId");
-
                                   Timer(const Duration(seconds: 1), () {
                                     addPost(addPostVm: addPostVm);
                                   });
                                 },
                                 onFailure: (String message) {
+                            Navigator.pop(context);
                                   context.flushBarTopErrorMessage(
                                       message: message.toString());
-                                }
+                                }, amount: amount
                           );
                           // Payment().pay(
                           //     context: context,
@@ -441,6 +441,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
     required BuildContext ctx,
     ValueChanged<String>? onSuccess,
     ValueChanged<String>? onFailure,
+    required String? amount,
   }) {
     showDialog(
       barrierDismissible: false,
@@ -501,9 +502,25 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                           context.flushBarTopErrorMessage(
                                               message: "Please Enter Mobile Number");
                                         } else {
-                                          CommonDialog.showPaymentLoadingDialog(context);
-                                          Future.delayed(const Duration(seconds: 5)).then((value) => Navigator.pop(context));
-                                          payment.pay();
+                                          CommonDialog.showLoadingDialog(ctx);
+                                          payment.pay(
+                                              amount: amount,
+                                              phoneNumber:mobileController.text,
+                                              onSuccess: (valueData) {
+                                                Navigator.pop(context);
+                                                CommonDialog.showPaymentLoadingDialog(context);
+                                                Future.delayed(
+                                                    const Duration(seconds: 5))
+                                                    .then((value) {
+                                                  Navigator.pop(context);
+                                                  Navigator.pop(context);
+                                                  context.flushBarTopSuccessMessage(message: valueData);
+                                                });
+
+                                              },
+                                              onFailure: (value) {
+                                                onFailure!.call(value);
+                                              });
                                         }
                                       }),
 

@@ -475,9 +475,10 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                               });
                                             },
                                             onFailure: (String message) {
+                                        Navigator.pop(context);
                                               context.flushBarTopErrorMessage(
                                                   message: message.toString());
-                                            }
+                                            },amount: widget.trainingData?.price ?? "0",
                                       );
 
                                       // Payment().pay(
@@ -584,6 +585,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
     required BuildContext ctx,
     ValueChanged<String>? onSuccess,
     ValueChanged<String>? onFailure,
+    required String amount
   }) {
     showDialog(
       barrierDismissible: false,
@@ -644,9 +646,25 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                           context.flushBarTopErrorMessage(
                                               message: "Please Enter Mobile Number");
                                         } else {
-                                          CommonDialog.showPaymentLoadingDialog(context);
-                                          Future.delayed(const Duration(seconds: 5)).then((value) => Navigator.pop(context));
-                                          payment.pay();
+                                          CommonDialog.showLoadingDialog(ctx);
+                                          payment.pay(
+                                              amount: amount,
+                                              phoneNumber:mobileController.text,
+                                              onSuccess: (valueData) {
+                                                Navigator.pop(context);
+                                                CommonDialog.showPaymentLoadingDialog(context);
+                                                Future.delayed(
+                                                    const Duration(seconds: 5))
+                                                    .then((value) {
+                                                  Navigator.pop(context);
+                                                  Navigator.pop(context);
+                                                  context.flushBarTopSuccessMessage(message: valueData);
+                                                });
+
+                                              },
+                                              onFailure: (value) {
+                                                onFailure!.call(value);
+                                              });
                                         }
                                       }),
 

@@ -18,6 +18,7 @@ class Preference {
   static const String _isUserLoggedIn = "isUserLoggedIn";
   static const String _userName = "userName";
   static const String _name = "name";
+  static const String _phone = "phone";
   static const String _userEmail = "userEmail";
   static const String _accessToken = "accessToken";
   static const String _userId = "userId";
@@ -26,11 +27,15 @@ class Preference {
   static setUserName(String value) async {
     _pref?.setString(_userName, value);
   }
-
-  String getUserName() {
+   String getUserName() {
     return _pref?.getString(_userName) ?? "";
   }
-
+  static setPhone(String value) async {
+    _pref?.setString(_phone, value);
+  }
+  String getPhone() {
+    return _pref?.getString(_phone) ?? "";
+  }
   static setName(String value) async {
     _pref?.setString(_name, value);
   }

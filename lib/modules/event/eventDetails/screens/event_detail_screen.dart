@@ -15,16 +15,13 @@ import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
 import 'package:payaki/utilities/common_method.dart';
 import 'package:payaki/utilities/constants.dart';
-import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../../../widgets/mobile_number_text_field.dart';
-import '../../event_purchase_screen/event_purchase_screen.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   final Data? eventList;
@@ -532,7 +529,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     logD("Ticket Id is ${ticketIds}");
     logD("Ticket amounts is ${ticketAmounts}");
     logD("Ticket Quantity is ${ticketQuantity}");
-    logD("Total amount is ${totalAmount}");
+    logD("Total amount is $totalAmount");
     showPaymentLoadingDialog(ctx: context,
           onSuccess: ( params) {
             logD("onSuccess: $params");
@@ -567,8 +564,10 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             });
           },
           onFailure: (String message) {
+      Navigator.pop(context);
             context.flushBarTopErrorMessage(message: message.toString());
-          }
+          },
+    amount: totalAmount.toString(),
     );
 // Navigator.push(context, MaterialPageRoute(builder: (context) => const EventPurchaseScreen(),));
     // Payment().pay(
@@ -618,13 +617,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     required BuildContext ctx,
     ValueChanged<String>? onSuccess,
     ValueChanged<String>? onFailure,
+    required String amount
   }) {
     showDialog(
       barrierDismissible: false,
       context: ctx,
       builder: (BuildContext context) {
         TextEditingController mobileController = TextEditingController();
-        String? countryCode;
         return Dialog(
 
             child:Container(
@@ -663,7 +662,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                   MobileNumberTextField(
                                     controller: mobileController,
                                     onChanged: (phone) {
-                                      countryCode = phone.countryCode;
                                       logD(phone.number);
                                       logD(phone.countryCode);
                                     },
@@ -678,9 +676,25 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                           context.flushBarTopErrorMessage(
                                               message: "Please Enter Mobile Number");
                                         } else {
-                                          CommonDialog.showPaymentLoadingDialog(context);
-                                          Future.delayed(const Duration(seconds: 5)).then((value) => Navigator.pop(context));
-                                          payment.pay();
+                                          CommonDialog.showLoadingDialog(ctx);
+                                          payment.pay(
+                                              amount: amount,
+                                              phoneNumber:mobileController.text,
+                                              onSuccess: (valueData) {
+                                                Navigator.pop(context);
+                                                CommonDialog.showPaymentLoadingDialog(context);
+                                                Future.delayed(
+                                                    const Duration(seconds: 5))
+                                                    .then((value) {
+                                                  Navigator.pop(context);
+                                                   Navigator.pop(context);
+                                                  context.flushBarTopSuccessMessage(message: valueData);
+                                                });
+
+                                              },
+                                              onFailure: (value) {
+                                                onFailure!.call(value);
+                                              });
                                         }
                                       }),
 

@@ -23,6 +23,7 @@ class LoginWithPhoneVerifyOtpVm extends ChangeNotifier {
 
         Preference.setUserName(value.data?.username ?? "");
         Preference.setName(value.data?.name ?? "");
+        Preference.setPhone(value.data?.phone ?? "");
         Preference.setUserEmail(value.data?.email ?? "");
         Preference.setUserChatUrl(value.data?.chatUrl ?? "");
 
