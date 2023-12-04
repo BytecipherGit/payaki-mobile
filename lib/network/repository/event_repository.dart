@@ -6,6 +6,8 @@ import 'package:payaki/network/model/request/post/delete_post_request.dart';
 import 'package:payaki/network/model/response/basic_response.dart';
 import 'package:payaki/network/model/response/event/event_list_response.dart';
 
+import '../model/response/cart/checkout_cart_response.dart';
+
 class EventRepository {
   DioHttpService dioHttpService = DioHttpService();
 
@@ -21,10 +23,10 @@ class EventRepository {
         .then((value) => BasicResponse.fromJson(value));
   }
 
-  Future<BasicResponse> eventCheckout(EventCheckoutRequest data) {
+  Future<CartCheckoutResponse> eventCheckout(EventCheckoutRequest data) {
     return dioHttpService
         .post(Endpoints.baseUrl, data: data.toJson())
-        .then((value) => BasicResponse.fromJson(value));
+        .then((value) =>CartCheckoutResponse.fromJson(value));
   }
 
 

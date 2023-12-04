@@ -25,9 +25,9 @@ class Param {
   List<String>? ticketAmounts;
   List<String>? ticketQuantities;
   String? totalAmount;
-  String? paymentId;
-  String? payerId;
-  String? status;
+  // String? paymentId;
+  // String? payerId;
+  // String? status;
 
   Param(
       {this.productId,
@@ -35,9 +35,10 @@ class Param {
         this.ticketAmounts,
         this.ticketQuantities,
         this.totalAmount,
-        this.paymentId,
-        this.payerId,
-        this.status});
+        // this.paymentId,
+        // this.payerId,
+        // this.status
+      });
 
   Param.fromJson(Map<String, dynamic> json) {
     productId = json['productId'];
@@ -45,9 +46,9 @@ class Param {
     ticketAmounts = json['ticketAmounts'].cast<int>();
     ticketQuantities = json['ticketQuantities'].cast<int>();
     totalAmount = json['totalAmount'];
-    paymentId = json['paymentId'];
-    payerId = json['payer_id'];
-    status = json['status'];
+    // paymentId = json['paymentId'];
+    // payerId = json['payer_id'];
+    // status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -57,9 +58,9 @@ class Param {
     data['ticketAmounts'] = this.ticketAmounts;
     data['ticketQuantities'] = this.ticketQuantities;
     data['totalAmount'] = this.totalAmount;
-    data['paymentId'] = this.paymentId;
-    data['payer_id'] = this.payerId;
-    data['status'] = this.status;
+    // data['paymentId'] = this.paymentId;
+    // data['payer_id'] = this.payerId;
+    // data['status'] = this.status;
     return data;
   }
 }

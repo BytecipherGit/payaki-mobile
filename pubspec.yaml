@@ -79,6 +79,7 @@ dependencies:
   flutter_downloader: ^1.10.5
   open_file_plus: ^3.4.1
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -6,6 +6,8 @@ import 'package:payaki/network/model/request/cart/checkout_request.dart';
 import 'package:payaki/network/model/response/basic_response.dart';
 import 'package:payaki/network/model/response/cart/cart_list_response.dart';
 
+import '../model/response/cart/checkout_cart_response.dart';
+
 class CartRepository {
   DioHttpService dioHttpService = DioHttpService();
 
@@ -21,9 +23,9 @@ class CartRepository {
         .then((value) => CartListResponse.fromJson(value));
   }
 
-  Future<BasicResponse> checkoutCart(CheckoutRequest request) {
+  Future<CartCheckoutResponse> checkoutCart(CheckoutRequest request) {
     return dioHttpService
         .post(Endpoints.baseUrl, data: request.toJson())
-        .then((value) => BasicResponse.fromJson(value));
+        .then((value) => CartCheckoutResponse.fromJson(value));
   }
 }

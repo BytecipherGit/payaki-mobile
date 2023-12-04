@@ -313,8 +313,11 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                           //       builder: (context) =>
                           //           const EventPurchaseScreen(),
                           //     ));
-
-
+                          amount = calculateAmount.toString();
+                          logD("amount: $amount");
+                          logD("currency: $currency");
+                          logD("status: $status");
+                          logD("paymentId: $paymentId");
                           showPaymentLoadingDialog(ctx: context,
                                 onSuccess: ( params) {
                                   logD("onSuccess: $params");
@@ -388,14 +391,11 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
     highlightValue = false;
     addPostVm.updateUi();
   }
-
   addPost({required AddPostVm addPostVm}) {
     // context.showSnackBar(message: "Post Added ${amount ?? ""}");
-
     var featured = featuredValue == true ? "1" : "0";
     var urgent = urgentValue == true ? "1" : "0";
     var highlight = highlightValue == true ? "1" : "0";
-
     logD("featured $featured");
     logD("urgent $urgent");
     logD("highlight $highlight");
@@ -520,7 +520,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                               },
                                               onFailure: (value) {
                                                 onFailure!.call(value);
-                                              });
+                                              }, context: ctx, id: '');
                                         }
                                       }),
 

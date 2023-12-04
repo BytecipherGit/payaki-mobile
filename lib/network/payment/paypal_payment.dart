@@ -3,7 +3,6 @@ import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/model/request/payment/payment_request.dart';
 
-import '../../utilities/common_dialog.dart';
 import '../model/request/payment/payment_token_request.dart';
 import '../repository/payment_repository.dart';
 
@@ -18,7 +17,6 @@ class Payment extends ChangeNotifier {
 
   String currency = "AOA";
   String description = "POSTMAN_Test";
-  String merchantTransactionId = "TR00000180320";
   String paymentMethod = "GPO_d16765a2-d951-4f08-9db8-2f9a6b5a8b45";
   String name = Preference().getName();
   String telephone = Preference().getPhone();
@@ -28,6 +26,7 @@ class Payment extends ChangeNotifier {
     ValueChanged<String>? onFailure,
     required String? amount,
     required String? phoneNumber,
+    required BuildContext context, required String id,
   }) {
     try {
       paymentRepository
@@ -35,7 +34,8 @@ class Payment extends ChangeNotifier {
               clientId: clientId,
               clientSecret: secretKey,
               grantType: grantType,
-              resource: resource))
+              resource: resource),context:context
+      )
           .then((paymentTokenResponse) async {
         print(paymentTokenResponse.accessToken);
 
@@ -45,25 +45,34 @@ class Payment extends ChangeNotifier {
               amount: amount,
               currency: currency,
               description: description,
-              merchantTransactionId: merchantTransactionId,
+              merchantTransactionId: id,
               notify: Notify(email: email, name: name, telephone: telephone),
               paymentInfo: PaymentInfo(phoneNumber: "$countryCode$phoneNumber"),
               paymentMethod: paymentMethod),
-          token: paymentTokenResponse.accessToken,
-        )
-            .then((value) async{
+          token: paymentTokenResponse.accessToken, context: context,
+        ).then((value) async{
           print(value.id);
-          if (value.responseStatus!.successful == false) {
-            onSuccess?.call(value.responseStatus!.message.toString());
-            await  paymentRepository
-                .getPaymentStatus(
-                    token: paymentTokenResponse.accessToken!, id:value.id.toString())
-                .then((paymentStatus) {
-              print(paymentStatus);
+          if (value.responseStatus!.successful == false){
+            Future.delayed(const Duration(seconds: 10),() {
+                paymentRepository
+                  .getPaymentStatus(
+                  token: paymentTokenResponse.accessToken!, id:value.id.toString())
+                  .then((paymentStatus) {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                if (paymentStatus.payment!.transactionEvents![0].responseStatus!.successful==true) {
+                  print(paymentStatus);
+                  onSuccess?.call(paymentStatus.payment!.transactionEvents![0].responseStatus!.message!);
+                }else{
+                  onFailure?.call(paymentStatus.payment!.transactionEvents![0].responseStatus!.message!);
+                }
+              });
             });
-            onSuccess?.call(value.id.toString());
+
+            // onSuccess?.call(value.id.toString());
 
           } else {
+            Navigator.pop(context);
             onFailure?.call(value.responseStatus!.message.toString());
           }
         });

@@ -65,7 +65,7 @@ class MyCartScreenVm extends ChangeNotifier {
     });
   }
 
-
+String orderId='';
   checkoutCart({
     ValueChanged<String>? onSuccess,
     ValueChanged<String>? onFailure,
@@ -75,7 +75,11 @@ class MyCartScreenVm extends ChangeNotifier {
         .checkoutCart(request)
         .then((value) {
       if (value.code == 200) {
-        onSuccess?.call(value.message ?? "");
+        print(value.merchantTransactionId);
+        orderId=value.merchantTransactionId.toString();
+        notifyListeners();
+        onSuccess?.call(orderId ?? "");
+
       } else {
         onFailure?.call(value.message ?? "");
       }

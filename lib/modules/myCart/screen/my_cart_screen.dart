@@ -285,126 +285,58 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 buttonText:
                                     "Check out (${"${myCart?.total ?? ""}"})",
                                 onTab: () {
-                                  // Navigator.push(context,MaterialPageRoute(builder: (context) => const EventPurchaseScreen(),));
+                                  productIds.clear();
+                                  amounts.clear();
+                                  for (var i = 0;
+                                      i < (myCart?.products?.length ?? 0);
+                                      i++) {
+                                    productIds.add(
+                                        myCart?.products?[i].productId ?? "0");
+                                    amounts.add(
+                                        myCart?.products?[i].productPrice ??
+                                            "0");
+                                  }
 
-                                  showPaymentLoadingDialog(
-                                    ctx: context,
-                                    onSuccess: (params) {
-                                      logD("onSuccess: $params");
-                                      // status = params["status"].toString();
-                                      // paymentId =
-                                      //     params["paymentId"].toString();
-                                      // payerId = params["data"]["payer"]
-                                      //     ["payer_info"]["payer_id"];
-
-                                      productIds.clear();
-                                      amounts.clear();
-                                      for (var i = 0;
-                                          i < (myCart?.products?.length ?? 0);
-                                          i++) {
-                                        productIds.add(
-                                            myCart?.products?[i].productId ??
-                                                "0");
-                                        amounts.add(
-                                            myCart?.products?[i].productPrice ??
-                                                "0");
-                                      }
-
-                                      Timer(const Duration(seconds: 1), () {
-                                        CommonDialog.showLoadingDialog(context);
-                                        myCartScreenVm.checkoutCart(
-                                            request: CheckoutRequest(
-                                              name: Endpoints
-                                                  .cartEndPoints.checkoutPaypal,
-                                              param: Param(
-                                                  totalAmount:
-                                                      myCart?.total.toString(),
-                                                  productIds: productIds,
-                                                  amounts: amounts,
-                                                  paymentId: paymentId,
-                                                  payerId: payerId,
-                                                  status: status),
-                                            ),
+                                  print(productIds);
+                                  print(amounts);
+                                  Timer(const Duration(seconds: 1), () {
+                                    CommonDialog.showLoadingDialog(context);
+                                    myCartScreenVm.checkoutCart(
+                                        request: CheckoutRequest(
+                                          name: Endpoints
+                                              .cartEndPoints.checkoutPaypal,
+                                          param: Param(
+                                            totalAmount:
+                                                myCart?.total.toString(),
+                                            productIds: productIds,
+                                            amounts: amounts,
+                                          ),
+                                        ),
+                                        onSuccess: (String id) {
+                                          Navigator.pop(context);
+                                          showPaymentLoadingDialog(
+                                            ctx: context,
                                             onSuccess: (String message) {
                                               Navigator.pop(context);
-                                              Navigator.pop(context);
                                               context.flushBarTopSuccessMessage(
-                                                  message: message);
+                                                  message: message.toString());
                                             },
                                             onFailure: (String message) {
                                               Navigator.pop(context);
-                                              context.flushBarTopSuccessMessage(
-                                                  message: message);
-                                            });
-                                      });
-                                    },
-                                    onFailure: (String message) {
-                                      Navigator.pop(context);
-                                      context.flushBarTopErrorMessage(
-                                          message: message.toString());
-                                    },
-                                    amount: myCart?.total.toString() ?? "0",
-                                  );
-                                  // Payment().pay(
-                                  //     context: context,
-                                  //     amount: myCart?.total.toString() ?? "0",
-                                  //     onSuccess: (Map params) {
-                                  //       logD("onSuccess: $params");
-                                  //
-                                  //       status = params["status"].toString();
-                                  //       paymentId =
-                                  //           params["paymentId"].toString();
-                                  //       payerId = params["data"]["payer"]
-                                  //           ["payer_info"]["payer_id"];
-                                  //
-                                  //       productIds.clear();
-                                  //       amounts.clear();
-                                  //       for (var i = 0;
-                                  //           i < (myCart?.products?.length ?? 0);
-                                  //           i++) {
-                                  //         productIds.add(
-                                  //             myCart?.products?[i].productId ??
-                                  //                 "0");
-                                  //         amounts.add(myCart
-                                  //                 ?.products?[i].productPrice ??
-                                  //             "0");
-                                  //       }
-                                  //
-                                  //       Timer(const Duration(seconds: 1), () {
-                                  //         CommonDialog.showLoadingDialog(
-                                  //             context);
-                                  //         myCartScreenVm.checkoutCart(
-                                  //             request: CheckoutRequest(
-                                  //               name: Endpoints.cartEndPoints
-                                  //                   .checkoutPaypal,
-                                  //               param: Param(
-                                  //                   totalAmount: myCart?.total
-                                  //                       .toString(),
-                                  //                   productIds: productIds,
-                                  //                   amounts: amounts,
-                                  //                   paymentId: paymentId,
-                                  //                   payerId: payerId,
-                                  //                   status: status),
-                                  //             ),
-                                  //             onSuccess: (String message) {
-                                  //               Navigator.pop(context);
-                                  //               Navigator.pop(context);
-                                  //               context
-                                  //                   .flushBarTopSuccessMessage(
-                                  //                       message: message);
-                                  //             },
-                                  //             onFailure: (String message) {
-                                  //               Navigator.pop(context);
-                                  //               context
-                                  //                   .flushBarTopSuccessMessage(
-                                  //                       message: message);
-                                  //             });
-                                  //       });
-                                  //     },
-                                  //     onFailure: (String message) {
-                                  //       context.flushBarTopErrorMessage(
-                                  //           message: message.toString());
-                                  //     });
+                                              context.flushBarTopErrorMessage(
+                                                  message: message.toString());
+                                            },
+                                            amount:
+                                                myCart?.total.toString() ?? "0",
+                                            id: id,
+                                          );
+                                        },
+                                        onFailure: (String message) {
+                                          Navigator.pop(context);
+                                          context.flushBarTopSuccessMessage(
+                                              message: message);
+                                        });
+                                  });
                                 }),
                             SizedBox(
                               height: 10.h,
@@ -424,13 +356,13 @@ class _MyCartScreenState extends State<MyCartScreen> {
       {required BuildContext ctx,
       ValueChanged<String>? onSuccess,
       ValueChanged<String>? onFailure,
-      required String amount}) {
+      required String amount,
+      required String id}) {
     showDialog(
       barrierDismissible: false,
       context: ctx,
       builder: (BuildContext context) {
         TextEditingController mobileController = TextEditingController();
-        String? countryCode;
         return Dialog(
             child: Container(
                 height: 400.h,
@@ -441,82 +373,78 @@ class _MyCartScreenState extends State<MyCartScreen> {
                 child: ChangeNotifierProvider(
                   create: (context) => Payment(),
                   child: Consumer<Payment>(builder: (context, payment, child) {
-                    return Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(
-                                  Icons.cancel_sharp,
-                                  color: Colors.black,
-                                ))
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    return WillPopScope(
+                      onWillPop: () async{
+                        return false;
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              SizedBox(
-                                height: 25.h,
-                              ),
-                              Text(
-                                "Enter your Mobile Number",
-                                style: StyleUtility.headingTextStyle,
-                              ),
-                              SizedBox(
-                                height: 25.h,
-                              ),
-                              MobileNumberTextField(
-                                controller: mobileController,
-                                onChanged: (phone) {
-                                  countryCode = phone.countryCode;
-                                  logD(phone.number);
-                                  logD(phone.countryCode);
-                                  payment.countryCode=phone.countryCode;
-                                  payment.notifyListeners();
-                                },
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              CustomButton(
-                                  buttonText: "Authorise Payment",
-                                  onTab: () async {
-                                    if (mobileController.text.isEmpty) {
-                                      context.flushBarTopErrorMessage(
-                                          message:
-                                              "Please Enter Mobile Number");
-                                    } else {
-                                      CommonDialog.showLoadingDialog(ctx);
-                                      payment.pay(
-                                          amount: amount,
-                                          phoneNumber:mobileController.text,
-                                          onSuccess: (valueData) {
-                                            Navigator.pop(context);
-                                            CommonDialog.showPaymentLoadingDialog(context);
-                                            Future.delayed(
-                                                    const Duration(seconds: 5))
-                                                .then((value) {
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                    context.flushBarTopSuccessMessage(message: valueData);
-                                                });
-
-                                          },
-                                          onFailure: (value) {
-                                            onFailure!.call(value);
-                                          });
-                                    }
-                                  }),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(
+                                    Icons.cancel_sharp,
+                                    color: Colors.black,
+                                  ))
                             ],
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 25.h,
+                                ),
+                                Text(
+                                  "Enter your Mobile Number",
+                                  style: StyleUtility.headingTextStyle,
+                                ),
+                                SizedBox(
+                                  height: 25.h,
+                                ),
+                                MobileNumberTextField(
+                                  controller: mobileController,
+                                  onChanged: (phone) {
+                                    logD(phone.number);
+                                    logD(phone.countryCode);
+                                    payment.countryCode = phone.countryCode;
+                                    payment.notifyListeners();
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                CustomButton(
+                                    buttonText: "Authorise Payment",
+                                    onTab: () async {
+                                      if (mobileController.text.isEmpty) {
+                                        context.flushBarTopErrorMessage(
+                                            message:
+                                                "Please Enter Mobile Number");
+                                      } else {
+                                        payment.pay(
+                                            amount: amount,
+                                            phoneNumber: mobileController.text,
+                                            id: id,
+                                            onSuccess: (valueData) {
+                                              onSuccess!.call(valueData);
+                                            },
+                                            onFailure: (value) {
+                                              onFailure!.call(value);
+                                            },
+                                            context: ctx);
+                                      }
+                                    }),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   }),
                 )));

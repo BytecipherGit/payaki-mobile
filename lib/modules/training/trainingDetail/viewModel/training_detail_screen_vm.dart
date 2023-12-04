@@ -13,7 +13,7 @@ class TrainingDetailScreenVm extends ChangeNotifier {
   }) {
     cartRepository.checkoutCart(request).then((value) {
       if (value.code == 200) {
-        onSuccess?.call(value.message ?? "");
+        onSuccess?.call(value.merchantTransactionId ?? "");
       } else {
         onFailure?.call(value.message ?? "");
       }

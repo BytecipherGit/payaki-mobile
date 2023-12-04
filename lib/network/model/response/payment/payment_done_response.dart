@@ -29,12 +29,12 @@ class Payment {
   String? merchantTransactionId;
   String? type;
   String? operation;
-  int? amount;
+  double? amount;
   String? currency;
   String? status;
   String? description;
   bool? disputes;
-  int? applicationFeeAmount;
+  double? applicationFeeAmount;
   String? paymentMethod;
   DateTime? createdDate;
   DateTime? updatedDate;
