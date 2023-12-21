@@ -13,6 +13,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/upload_image_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 
 class AddEventPromoScreen extends StatefulWidget {
   final int catId;
@@ -38,8 +40,8 @@ class _AddEventPromoScreenState extends State<AddEventPromoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Event",
+      appBar:  CustomAppBar(
+        title: S.of(context).event,
       ),
       body: Consumer<AddEventPromoScreenVm>(
           builder: (context, addEventPromoScreenVm,child) {
@@ -56,7 +58,7 @@ class _AddEventPromoScreenState extends State<AddEventPromoScreen> {
                           children: [
                             SizedBox(height: 23.h),
                             Text(
-                              "Promo Image",
+                              S.of(context).promoImage,
                               style: StyleUtility.headingTextStyle,
                             ),
                             SizedBox(height: 25.h),
@@ -64,7 +66,7 @@ class _AddEventPromoScreenState extends State<AddEventPromoScreen> {
                                 onTap: () {
                                   addEventPromoScreenVm.getImages();
                                 },
-                                title: "Attach File"),
+                                title: S.of(context).attachFile),
                             if (addEventPromoScreenVm.selectedImages != null)
                               Padding(
                                 padding: EdgeInsets.only(top: 20.h),
@@ -99,7 +101,7 @@ class _AddEventPromoScreenState extends State<AddEventPromoScreen> {
                               ),
                             SizedBox(height: 23.h),
                             Text(
-                              "Promo Video",
+                              S.of(context).promoVideo,
                               style: StyleUtility.headingTextStyle,
                             ),
                             SizedBox(height: 25.h),
@@ -107,7 +109,7 @@ class _AddEventPromoScreenState extends State<AddEventPromoScreen> {
                               onTap: () {
                                 addEventPromoScreenVm.getVideo();
                               },
-                              title: "Attach File",
+                              title:S.of(context).attachVideoFile,
                               type: Constant.videoFile,
                             ),
                             SizedBox(
@@ -132,7 +134,7 @@ class _AddEventPromoScreenState extends State<AddEventPromoScreen> {
                                         color: ColorUtility.colorB3B3B3,
                                         child: Center(
                                             child: Text(
-                                              "Video",
+                                              S.of(context).video,
                                               style: StyleUtility.inputTextStyle
                                                   .copyWith(
                                                   color: Colors.white),
@@ -165,14 +167,14 @@ class _AddEventPromoScreenState extends State<AddEventPromoScreen> {
                       ),
                     ),
                     CustomButton(
-                        buttonText: "Next",
+                        buttonText: S.of(context).next,
                         onTab: () {
                           if (addEventPromoScreenVm.selectedImages == null) {
                             context.flushBarTopErrorMessage(
-                                message: "Please Upload Promo Image.");
+                                message: S.of(context).pleaseUploadPromoImage);
                           } else if (addEventPromoScreenVm.selectedVideo == null) {
                             context.flushBarTopErrorMessage(
-                                message: "Please Upload Promo Video.");
+                                message:S.of(context).pleaseUploadPromoVideo);
                           } else {
                             Navigator.pushNamed(
                                 context, RouteName.addEventTicketScreen,

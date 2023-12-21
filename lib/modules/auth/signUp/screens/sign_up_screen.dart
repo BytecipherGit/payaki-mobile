@@ -27,6 +27,8 @@ import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:payaki/widgets/upload_image_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -101,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: [
                         Center(
                           child: Text(
-                            "Let’s create your account !",
+                            S.of(context).LetsCreateYourAccount,
                             style: StyleUtility.headingTextStyle,
                           ),
                         ),
@@ -110,12 +112,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(
-                              text: 'Don’t have an account? ',
+                              text: S.of(context).DidNotHaveAnAccount,
                               style: StyleUtility.detailTextStyle,
                               children: <TextSpan>[
                                 TextSpan(
                                   style: StyleUtility.urlTextStyle,
-                                  text: 'Sign In',
+                                  text: S.of(context).signIn,
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Navigator.pushReplacementNamed(
@@ -131,8 +133,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SimpleTextField(
                           controller: fullNameController,
-                          hintText: "Enter your Full Name",
-                          titleText: "Full Name*",
+                          hintText: S.of(context).enterFullName,
+                          titleText:S.of(context).fullName,
                           image: ImageUtility.fullNameIcon,
                         ),
                         SizedBox(
@@ -140,8 +142,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SimpleTextField(
                           controller: userNameController,
-                          hintText: "Enter Username",
-                          titleText: "Username*",
+                          hintText: S.of(context).enterUserName,
+                          titleText: S.of(context).userName,
                           image: ImageUtility.userNameIcon,
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -150,8 +152,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SimpleTextField(
                           controller: emailController,
-                          hintText: "Enter Email",
-                          titleText: "Email*",
+                          hintText: S.of(context).EnterEmail,
+                          titleText:S.of(context).Email,
                           image: ImageUtility.emailIcon,
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -168,8 +170,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SimpleTextField(
                           controller: passwordController,
-                          hintText: "Enter Password",
-                          titleText: "Password*",
+                          hintText:S.of(context).EnterPassword,
+                          titleText: S.of(context).Password,
                           image: ImageUtility.passwordIcon,
                           textInputType: TextInputType.visiblePassword,
                         ),
@@ -177,8 +179,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           height: 15.h,
                         ),
                         DropDownWidget(
-                          titleText: "Id Proof Type*",
-                          hintText: "Select ID Proof Type",
+                          titleText: S.of(context).idProofType,
+                          hintText: S.of(context).selectYourIdProofType,
                           itemList: idItemList,
                           selectedValue: selectedIdProofType,
                           onValueChange: (value) {
@@ -191,8 +193,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SimpleTextField(
                           controller: idProofNumberController,
-                          hintText: "Enter Id Proof Number",
-                          titleText: "Id Proof Number*",
+                          hintText: S.of(context).enterIdProofNumber,
+                          titleText: S.of(context).idProofNumber,
                           textInputType: TextInputType.visiblePassword,
                         ),
                         SizedBox(
@@ -202,7 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onTap: () {
                               showBottomSheetForSelectImage(signUpVm);
                             },
-                            title: "ID Proof*"),
+                            title: S.of(context).idProof),
                         idProofImage != null
                             ? Padding(
                                 padding: EdgeInsets.only(top: 15.h),
@@ -245,12 +247,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             textAlign: TextAlign.center,
                             text: TextSpan(
                               text:
-                                  'By clicking on “Register Now” button you are\nagree to our ',
+                              S.of(context).byClickingOnRegisterNow,
                               style: StyleUtility.detailTextStyle,
                               children: <TextSpan>[
                                 TextSpan(
                                   style: StyleUtility.urlTextStyle,
-                                  text: 'Terms & Condition',
+                                  text: S.of(context).termsAndConditions,
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {},
                                 ),
@@ -263,39 +265,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         Consumer<SignUpVm>(builder: (context, model, child) {
                           return CustomButton(
-                              buttonText: "Register",
+                              buttonText: S.of(context).register,
                               onTab: () async {
                                 if (fullNameController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter Your Full Name.");
+                                      message: S.of(context).pleaseEnterYourFullName);
                                 } else if (userNameController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter Your Username.");
+                                      message: S.of(context).pleaseEnterYourUsername);
                                 } else if (emailController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter Your Email.");
+                                      message: S.of(context).pleaseEnterEmail);
                                 } else if (Validators.checkValidateEmail(
                                         emailController.text) ==
                                     false) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter Valid Email.");
+                                      message: S.of(context).pleaseEnterValidEmail);
                                 } else if (phoneNumberController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
                                       message:
-                                          "Please Enter Your Phone Number.");
+                                      S.of(context).pleaseEnterYourPhoneNumber);
                                 } else if (passwordController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter Your Password.");
+                                      message: S.of(context).pleaseEnterPassword);
                                 } else if (selectedIdProofType == null) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Select ID Proof Type.");
+                                      message: S.of(context).pleaseSelectIDProofType);
                                 } else if (idProofNumberController
                                     .text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter ID Proof Number.");
+                                      message: S.of(context).pleaseEnterIDProofNumber);
                                 } else if (idProofImage == null) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Upload ID Proof Image.");
+                                      message: S.of(context).pleaseUploadIDProofImage);
                                 } else {
                                   MultipartFile idImageFile =
                                       await MultipartFile.fromFile(
@@ -352,7 +354,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                                 child: Text(
-                                  "Or continue with",
+                                  S.of(context).orContinueWith,
                                   style: StyleUtility.axiforma400.copyWith(
                                       fontSize: TextSizeUtility.textSize12,
                                       color: ColorUtility.colorBCBCBC),
@@ -445,7 +447,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 9.h,
                       ),
                       Text(
-                        "Camera",
+                        S.of(context).camera,
                         style: StyleUtility.titleTextStyle
                             .copyWith(fontSize: TextSizeUtility.textSize20),
                       )
@@ -477,7 +479,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 9.h,
                       ),
                       Text(
-                        "Gallery",
+                        S.of(context).gallery,
                         style: StyleUtility.titleTextStyle
                             .copyWith(fontSize: TextSizeUtility.textSize20),
                       )

@@ -16,6 +16,8 @@ import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:provider/provider.dart';
 
+import '../../generated/l10n.dart';
+
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
 
@@ -122,7 +124,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
                       onTap: () {
                         onTabTapped(0);
                       },
-                      title: "Home",
+                      title: S.of(context).home,
                       image: ImageUtility.homeIcon,
                       currentIndex: 0,
                       selectIndex: _selectIndex,
@@ -132,7 +134,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
                       onTap: () {
                         onTabTapped(1);
                       },
-                      title: "Chat",
+                      title: S.of(context).chat,
                       image: ImageUtility.chatIcon,
                       currentIndex: 1,
                       selectIndex: _selectIndex,
@@ -145,7 +147,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
                       onTap: () {
                         onTabTapped(2);
                       },
-                      title: "My Add",
+                      title:S.of(context).myAd,
                       image: ImageUtility.myAddIcon,
                       currentIndex: 2,
                       selectIndex: _selectIndex,
@@ -155,7 +157,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
                       onTap: () {
                         onTabTapped(3);
                       },
-                      title: "Profile",
+                      title: S.of(context).profile,
                       image: ImageUtility.profileIcon,
                       currentIndex: 3,
                       selectIndex: _selectIndex,

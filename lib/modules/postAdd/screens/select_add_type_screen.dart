@@ -17,6 +17,7 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:provider/provider.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../widgets/mobile_number_text_field.dart';
 import '../../event/event_purchase_screen/event_purchase_screen.dart';
 
@@ -83,8 +84,8 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Post Ad",
+      appBar:  CustomAppBar(
+        title: S.of(context).postAd,
       ),
       body: SafeArea(
         child: ChangeNotifierProvider(
@@ -100,7 +101,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: Text(
-                          "Make your Ad Premium",
+                          S.of(context).makeYourAdPremium,
                           style: StyleUtility.headingTextStyle,
                         ),
                       ),
@@ -206,7 +207,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                       color: ColorUtility.color9C5FA3,
                                     ),
                                     child: Text(
-                                      "RECOMMENDED",
+                                      S.of(context).recommended,
                                       style: StyleUtility.axiforma400.copyWith(
                                           color: ColorUtility.whiteColor,
                                           fontSize: TextSizeUtility.textSize10),
@@ -229,11 +230,11 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                 scrollDirection: Axis.horizontal,
                                 children: <Widget>[
                                   PremiumWidget(
-                                    title: "Featured",
+                                    title: S.of(context).featured,
                                     description:
-                                        "Featured ads attract higher-quality viewer and are displayed prominently in the Featured ads section home page.",
+                                    S.of(context).featuredDetails,
                                     price: "100",
-                                    month: "300 Days",
+                                    month: "300 ${ S.of(context).days}",
                                     checkBoxValue: featuredValue,
                                     onSelect: (vale) {
                                       featuredValue = vale;
@@ -244,11 +245,11 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     width: 10.w,
                                   ),
                                   PremiumWidget(
-                                    title: "Urgent",
+                                    title: S.of(context).urgent,
                                     description:
-                                        "Make your ad stand out and let viewer know that your advertise is time sensitive.",
+                                      S.of(context).urgentDetails,
                                     price: "100",
-                                    month: "300 Days",
+                                    month: "300 ${ S.of(context).days}",
                                     checkBoxValue: urgentValue,
                                     onSelect: (vale) {
                                       urgentValue = vale;
@@ -259,11 +260,11 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     width: 10.w,
                                   ),
                                   PremiumWidget(
-                                    title: "Highlight",
+                                    title:S.of(context).highlight,
                                     description:
-                                        "Make your ad highlighted with border in listing search result page. Easy to focus.",
+                                    S.of(context).highlightDetails,
                                     price: "100",
-                                    month: "300 Days",
+                                    month: "300 ${ S.of(context).days}",
                                     checkBoxValue: highlightValue,
                                     onSelect: (vale) {
                                       highlightValue = vale;
@@ -283,11 +284,11 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: CustomButton(
-                      buttonText: "Post Add",
+                      buttonText: S.of(context).postAdd,
                       onTab: () {
                         if (selectAddTypeValue == null) {
                           context.flushBarTopErrorMessage(
-                              message: "Please Select Add Type.");
+                              message: S.of(context).pleaseSelectAddType);
                         } else if (selectAddTypeValue == freeAd) {
                           addPost(addPostVm: addPostVm);
                         } else if (selectAddTypeValue == premium &&
@@ -295,7 +296,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                             urgentValue == false &&
                             highlightValue == false) {
                           context.flushBarTopErrorMessage(
-                              message: "Please Select Premium Type.");
+                              message: S.of(context).pleaseSelectPremiumType);
                         } else {
                           int calculateAmount = 0;
                           if (featuredValue == true) {
@@ -313,62 +314,60 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                           //       builder: (context) =>
                           //           const EventPurchaseScreen(),
                           //     ));
-                          amount = calculateAmount.toString();
-                          logD("amount: $amount");
-                          logD("currency: $currency");
-                          logD("status: $status");
-                          logD("paymentId: $paymentId");
-                          showPaymentLoadingDialog(ctx: context,
-                                onSuccess: ( params) {
-                                  logD("onSuccess: $params");
+                          // amount = calculateAmount.toString();
+                          // logD("amount: $amount");
+                          // logD("currency: $currency");
+                          // logD("status: $status");
+                          // logD("paymentId: $paymentId");
+                          // showPaymentLoadingDialog(ctx: context,
+                          //       onSuccess: ( params) {
+                          //         logD("onSuccess: $params");
+                          //
+                          //         amount = calculateAmount.toString();
+                          //         // status = params["status"].toString();
+                          //         // paymentId = params["paymentId"].toString();
+                          //         // currency = params["data"]["transactions"][0]
+                          //         //         ["amount"]["currency"]
+                          //         //     .toString();
+                          //
+                          //         logD("amount: $amount");
+                          //         logD("currency: $currency");
+                          //         logD("status: $status");
+                          //         logD("paymentId: $paymentId");
+                          //         Timer(const Duration(seconds: 1), () {
+                          //           addPost(addPostVm: addPostVm);
+                          //         });
+                          //       },
+                          //       onFailure: (String message) {
+                          //   Navigator.pop(context);
+                          //         context.flushBarTopErrorMessage(
+                          //             message: message.toString());
+                          //       }, amount: amount
+                          // );
+                          Payment().payPal(
+                              context: context,
+                              amount: calculateAmount.toString(),
+                              onSuccess: (Map params) {
+                                logD("onSuccess: $params");
 
-                                  amount = calculateAmount.toString();
-                                  // status = params["status"].toString();
-                                  // paymentId = params["paymentId"].toString();
-                                  // currency = params["data"]["transactions"][0]
-                                  //         ["amount"]["currency"]
-                                  //     .toString();
-
-                                  logD("amount: $amount");
-                                  logD("currency: $currency");
-                                  logD("status: $status");
-                                  logD("paymentId: $paymentId");
-                                  Timer(const Duration(seconds: 1), () {
-                                    addPost(addPostVm: addPostVm);
-                                  });
-                                },
-                                onFailure: (String message) {
-                            Navigator.pop(context);
-                                  context.flushBarTopErrorMessage(
-                                      message: message.toString());
-                                }, amount: amount
-                          );
-                          // Payment().pay(
-                          //     context: context,
-                          //     amount: calculateAmount.toString(),
-                          //     onSuccess: (Map params) {
-                          //       logD("onSuccess: $params");
-                          //
-                          //       amount = calculateAmount.toString();
-                          //       status = params["status"].toString();
-                          //       paymentId = params["paymentId"].toString();
-                          //       currency = params["data"]["transactions"][0]
-                          //               ["amount"]["currency"]
-                          //           .toString();
-                          //
-                          //       logD("amount: $amount");
-                          //       logD("currency: $currency");
-                          //       logD("status: $status");
-                          //       logD("paymentId: $paymentId");
-                          //
-                          //       Timer(const Duration(seconds: 1), () {
-                          //         addPost(addPostVm: addPostVm);
-                          //       });
-                          //     },
-                          //     onFailure: (String message) {
-                          //       context.flushBarTopErrorMessage(
-                          //           message: message.toString());
-                          //     });
+                                amount = calculateAmount.toString();
+                                status = params["status"].toString();
+                                paymentId = params["paymentId"].toString();
+                                currency = params["data"]["transactions"][0]
+                                        ["amount"]["currency"]
+                                    .toString();
+                                logD("amount: $amount");
+                                logD("currency: $currency");
+                                logD("status: $status");
+                                logD("paymentId: $paymentId");
+                                Timer(const Duration(seconds: 1), () {
+                                  addPost(addPostVm: addPostVm);
+                                });
+                              },
+                              onFailure: (String message) {
+                                context.flushBarTopErrorMessage(
+                                    message: message.toString());
+                              });
                         }
                       }),
                 ),
@@ -478,7 +477,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     height: 25.h,
                                   ),
                                   Text(
-                                    "Enter your Mobile Number",
+                                    S.of(context).enterYourMobileNumber,
                                     style: StyleUtility.headingTextStyle,
                                   ),
                                   SizedBox(
@@ -496,11 +495,11 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     height: 20.h,
                                   ),
                                   CustomButton(
-                                      buttonText: "Authorise Payment",
+                                      buttonText: S.of(context).authorisePayment,
                                       onTab: () async{
                                         if (mobileController.text.isEmpty) {
                                           context.flushBarTopErrorMessage(
-                                              message: "Please Enter Mobile Number");
+                                              message:S.of(context).pleaseEnterYourPhoneNumber);
                                         } else {
                                           CommonDialog.showLoadingDialog(ctx);
                                           payment.pay(

@@ -9,6 +9,8 @@ import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:provider/provider.dart';
 
+import '../../../generated/l10n.dart';
+
 class SubCategoryScreen extends StatefulWidget {
   final int catId;
   final String catName;
@@ -43,8 +45,8 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Post Ad",
+      appBar:  CustomAppBar(
+        title: S.of(context).postAd,
       ),
       body: SafeArea(
         child: Padding(

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:payaki/extensions/context_extensions.dart';
 import 'package:payaki/local_store/shared_preference.dart';
-import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/home/viewModel/home_screen_vm.dart';
 import 'package:payaki/modules/home/widget/home_post_widget.dart';
 import 'package:payaki/network/end_points.dart';
@@ -13,7 +11,6 @@ import 'package:payaki/network/model/response/category/category_list_response.da
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/common_dialog.dart';
-import 'package:payaki/utilities/common_method.dart';
 import 'package:payaki/utilities/constants.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
@@ -21,6 +18,8 @@ import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
+import '../../../generated/l10n.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -154,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 37.h,
                     ),
                     HomePostWidget(
-                      title: "Premium Ad",
+                      title:S.of(context).premiumAd,
                       post: homeScreenVm.premiumAndLatestPost?.data?.premium,
                       onSeeAllTap: () {
                         CommonDialog.showLoadingDialog(context);
@@ -171,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context, RouteName.searchResultScreen,
                                   arguments: {
                                     "initialPostList": searchPostList,
-                                    "headerTitle": "Premium Ad",
+                                    "headerTitle": S.of(context).premiumAd,
                                     "listingType": Constant.premium,
                                   });
                             },
@@ -185,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 20.h,
                     ),
                     HomePostWidget(
-                      title: "Latest Ad",
+                      title: S.of(context).latestAd,
                       post: homeScreenVm.premiumAndLatestPost?.data?.latest,
                       onSeeAllTap: () {
                         CommonDialog.showLoadingDialog(context);
@@ -202,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context, RouteName.searchResultScreen,
                                   arguments: {
                                     "initialPostList": searchPostList,
-                                    "headerTitle": "Latest Ad",
+                                    "headerTitle": S.of(context).latestAd,
                                     "listingType": Constant.latest,
                                   });
                             },
@@ -232,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Padding(
           padding: EdgeInsets.only(left: 20.w, right: 20.w),
           child: Text(
-            "Browse Categories",
+            S.of(context).browseCategories,
             style: StyleUtility.headingTextStyle,
           ),
         ),

@@ -23,6 +23,7 @@ import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../widgets/mobile_number_text_field.dart';
 
 class MyCartScreen extends StatefulWidget {
@@ -62,8 +63,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "My Cart",
+      appBar:  CustomAppBar(
+        title: S.of(context).myCart,
       ),
       body: SafeArea(
         child:
@@ -81,7 +82,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                               height: 23.h,
                             ),
                             Text(
-                              "My Cart",
+                              S.of(context).myCart,
                               style: StyleUtility.headingTextStyle,
                             ),
                             SizedBox(
@@ -247,7 +248,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                       height: 9.h,
                                     ),
                                     Text(
-                                      "Order Info",
+                                      S.of(context).orderInfo,
                                       style: StyleUtility.headingTextStyle,
                                     ),
                                     SizedBox(
@@ -256,7 +257,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                     Row(
                                       children: [
                                         Text(
-                                          "Total",
+                                          S.of(context).total,
                                           style: StyleUtility.totalTextStyle,
                                         ),
                                         Expanded(
@@ -283,7 +284,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             ),
                             CustomButton(
                                 buttonText:
-                                    "Check out (${"${myCart?.total ?? ""}"})",
+                                    "${S.of(context).checkOut} (${"${myCart?.total ?? ""}"})",
                                 onTab: () {
                                   productIds.clear();
                                   amounts.clear();
@@ -343,8 +344,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             )
                           ],
                         )
-                      : const NoDataWidget(
-                          title: 'No Item Available.',
+                      :  NoDataWidget(
+                          title: S.of(context).noItemAvailable,
                         ),
                 );
         }),
@@ -401,7 +402,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                   height: 25.h,
                                 ),
                                 Text(
-                                  "Enter your Mobile Number",
+                                  S.of(context).enterYourMobileNumber,
                                   style: StyleUtility.headingTextStyle,
                                 ),
                                 SizedBox(
@@ -420,12 +421,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                   height: 20.h,
                                 ),
                                 CustomButton(
-                                    buttonText: "Authorise Payment",
+                                    buttonText:S.of(context).authorisePayment,
                                     onTab: () async {
                                       if (mobileController.text.isEmpty) {
                                         context.flushBarTopErrorMessage(
                                             message:
-                                                "Please Enter Mobile Number");
+                                            S.of(context).pleaseEnterYourPhoneNumber);
                                       } else {
                                         payment.pay(
                                             amount: amount,
@@ -461,7 +462,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
         builder: (BuildContext dialogContext) {
           return DeleteAlertDialog(
             onDeleteTap: onDeleteTap,
-            yesText: "Delete Item",
+            yesText: S.of(context).deleteItem,
           );
         });
   }

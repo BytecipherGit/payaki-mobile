@@ -12,6 +12,8 @@ import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../generated/l10n.dart';
+
 class ChooseCategoryScreen extends StatefulWidget {
   const ChooseCategoryScreen({Key? key}) : super(key: key);
 
@@ -41,8 +43,8 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Post Ad",
+      appBar:  CustomAppBar(
+        title:  S.of(context).postAd,
       ),
       body: SafeArea(
         child: Padding(
@@ -54,7 +56,7 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
                 height: 23.h,
               ),
               Text(
-                "Choose Category",
+                S.of(context).chooseCategory,
                 style: StyleUtility.headingTextStyle,
               ),
               Expanded(child: Consumer<ChooseCategoryScreenVm>(

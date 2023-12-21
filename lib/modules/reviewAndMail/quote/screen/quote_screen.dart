@@ -13,6 +13,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class QuoteScreen extends StatefulWidget {
   final String postId;
   final String postUserId;
@@ -53,14 +55,14 @@ class _QuoteScreenState extends State<QuoteScreen> {
                     children: [
                       SizedBox(height: 23.h),
                       Text(
-                        "Place your Quote",
+                        S.of(context).placeYourQuote,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(height: 25.h),
                       SimpleTextField(
                         controller: amountController,
-                        hintText: "Enter your Amount",
-                        titleText: "Amount*",
+                        hintText: S.of(context).enterYourAmount,
+                        titleText: S.of(context).amount,
                         textInputType: TextInputType.number,
                         inputFormatter: [
                           DecimalInputFormatter(),
@@ -71,8 +73,8 @@ class _QuoteScreenState extends State<QuoteScreen> {
                       ),
                       SimpleTextField(
                         controller: messageController,
-                        hintText: "Your message",
-                        titleText: "Message *",
+                        hintText: S.of(context).yourMessage,
+                        titleText: S.of(context).message,
                         maxLine: 5,
                       ),
                       SizedBox(
@@ -84,14 +86,14 @@ class _QuoteScreenState extends State<QuoteScreen> {
               ),
               Consumer<QuoteScreenVm>(builder: (context, quoteScreenVm, child) {
                 return CustomButton(
-                    buttonText: "Send",
+                    buttonText: S.of(context).send,
                     onTab: () {
                       if (amountController.text.isEmpty) {
                         context.flushBarTopErrorMessage(
-                            message: 'Please Enter Amount.');
+                            message:  S.of(context).pleaseEnterAmount);
                       } else if (messageController.text.isEmpty) {
                         context.flushBarTopErrorMessage(
-                            message: 'Please Enter Message.');
+                            message: S.of(context).pleaseEnterMessage);
                       } else {
                         CommonDialog.showLoadingDialog(context);
                         quoteScreenVm.sendQuote(

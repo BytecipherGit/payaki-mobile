@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loggy/loggy.dart';
+import 'package:payaki/generated/l10n.dart';
 import 'package:payaki/integration/firebase_integration.dart';
 import 'package:payaki/integration/local_notification_integration.dart';
 import 'package:payaki/local_store/shared_preference.dart';
@@ -31,6 +33,15 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'PAYAKI',
+            localizationsDelegates: const [
+              AppLocalizationDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ], supportedLocales:const[
+            Locale('en','US'),
+            Locale('pt', 'PT')
+          ],
             theme: ThemeData(
               // This is the theme of your application.
               // Try running your application with "flutter run". You'll see the

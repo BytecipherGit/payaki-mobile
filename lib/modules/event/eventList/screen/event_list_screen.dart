@@ -13,6 +13,8 @@ import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class EventListScreen extends StatefulWidget {
   final bool isFromAllPost;
 
@@ -44,7 +46,7 @@ class _EventListScreenState extends State<EventListScreen> {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
       appBar: CustomAppBar(
-        title: widget.isFromAllPost == true ? "All Event" : "My Event",
+        title: widget.isFromAllPost == true ?  S.of(context).allEvent : S.of(context).myEvents,
       ),
       body: Consumer<EventListScreenVm>(
           builder: (context, eventListScreenVm, child) {
@@ -109,8 +111,8 @@ class _EventListScreenState extends State<EventListScreen> {
                           );
                         },
                       )
-                    : const NoDataWidget(
-                        title: 'You haven’t listed anything yet.',
+                    :  NoDataWidget(
+                        title: S.of(context).youHaveNotListedAnythingYet,
                       ),
               );
       }),

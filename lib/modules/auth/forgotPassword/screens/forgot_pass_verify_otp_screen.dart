@@ -18,6 +18,8 @@ import 'package:payaki/widgets/otp_text_field.dart';
 import 'package:payaki/widgets/timer_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class ForgotPassVerifyOtpScreen extends StatefulWidget {
   final String userId;
   final String countryCode;
@@ -57,8 +59,8 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Forgot  Password",
+      appBar:  CustomAppBar(
+        title: S.of(context).forgetPassword,
       ),
       body: SafeArea(
         child: Padding(
@@ -77,7 +79,7 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                             height: 25.h,
                           ),
                           Text(
-                            "Enter OTP",
+                            S.of(context).enterOTP,
                             style: StyleUtility.headingTextStyle,
                           ),
                           SizedBox(
@@ -87,7 +89,7 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                             textAlign: TextAlign.start,
                             text: TextSpan(
                               text:
-                                  'Please enter OTP which has been sent to your Phone Number',
+                              S.of(context).pleaseEnterOTPWhichHasBeenSentToYour,
                               style: StyleUtility.detailTextStyle,
                               children: <TextSpan>[
                                 TextSpan(
@@ -116,7 +118,7 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                           RichText(
                             textAlign: TextAlign.start,
                             text: TextSpan(
-                              text: 'Didn’t received OTP ? ',
+                              text:  S.of(context).didNotReceivedOTP,
                               style: StyleUtility.detailTextStyle
                                   .copyWith(color: ColorUtility.colorAEB1B9),
                               children: <TextSpan>[
@@ -126,7 +128,7 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                                             .copyWith()
                                         : StyleUtility.detailTextStyle.copyWith(
                                             color: ColorUtility.colorAEB1B9),
-                                    text: 'Resend OTP',
+                                    text:  S.of(context).resendOTP,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         if (_isTimerRunning == false) {
@@ -171,12 +173,12 @@ class _ForgotPassVerifyOtpScreenState extends State<ForgotPassVerifyOtpScreen> {
                 Container(
                     alignment: Alignment.bottomCenter,
                     child: CustomButton(
-                        buttonText: "Verify OTP",
+                        buttonText:  S.of(context).verifyOTP,
                         onTab: () {
                           if (otpController.text.isEmpty ||
                               otpController.text.length < 6) {
                             context.flushBarTopErrorMessage(
-                                message: "Please Enter 6 Digit Otp");
+                                message:  S.of(context).pleaseEnterSixDigitOTP);
                           } else {
                             CommonDialog.showLoadingDialog(context);
                             forgotPassVerifyOtpVm.verifyOtp(

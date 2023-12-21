@@ -19,6 +19,8 @@ import 'package:payaki/network/model/response/post/post_list_response.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../generated/l10n.dart';
+
 class SearchResultScreen extends StatefulWidget {
   final List<Data> initialPostList;
   final String headerTitle;
@@ -105,7 +107,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                               width: 8.w,
                             ),
                             Text(
-                              "Sort by",
+                              S.of(context).sortBy,
                               style: StyleUtility.titleTextStyle
                                   .copyWith(color: ColorUtility.color1E1E1E),
                             )
@@ -139,7 +141,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                               width: 8.w,
                             ),
                             Text(
-                              "Filter",
+                              S.of(context).filter,
                               style: StyleUtility.titleTextStyle
                                   .copyWith(color: ColorUtility.color1E1E1E),
                             )
@@ -209,7 +211,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                         )
                       : Center(
                           child: Text(
-                            "No Post Found",
+                            S.of(context).noPostFound,
                             style: StyleUtility.headingTextStyle,
                           ),
                         ),
@@ -253,14 +255,14 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Filter",
+                      S.of(context).filter,
                       style: StyleUtility.headingTextStyle,
                     ),
                     SizedBox(
                       height: 30.h,
                     ),
                     Text(
-                      "Price Range",
+                      S.of(context).priceRange,
                       style: StyleUtility.inputTextStyle,
                     ),
                     SizedBox(
@@ -272,7 +274,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                             child: SimpleTextField(
                           controller: priceFromController,
                           textInputType: TextInputType.number,
-                          hintText: "From",
+                          hintText: S.of(context).from,
                           inputFormatter: [
                             DecimalInputFormatter(),
                           ],
@@ -284,7 +286,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                             child: SimpleTextField(
                           controller: priceToController,
                           textInputType: TextInputType.number,
-                          hintText: "To",
+                          hintText: S.of(context).to,
                           inputFormatter: [
                             DecimalInputFormatter(),
                           ],
@@ -298,7 +300,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                       children: [
                         Expanded(
                             child: CustomButton.outline(
-                                buttonText: "Reset",
+                                buttonText:S.of(context).reset,
                                 onTab: () {
                                   Navigator.pop(context);
                                   resetFilter(searchResultScreenVm);
@@ -308,7 +310,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                         ),
                         Expanded(
                             child: CustomButton(
-                                buttonText: "Done",
+                                buttonText: S.of(context).done,
                                 onTab: () {
                                   if (priceFromController.text.isEmpty) {
                                     context.flushBarTopErrorMessage(

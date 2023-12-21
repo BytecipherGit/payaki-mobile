@@ -7,6 +7,8 @@ import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/grid_item_widget.dart';
 import 'package:payaki/network/model/response/post/post_list_response.dart';
 
+import '../../../generated/l10n.dart';
+
 class HomePostWidget extends StatelessWidget {
   final List<Data>? post;
   final String title;
@@ -37,7 +39,7 @@ class HomePostWidget extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(5.w),
                   child: Text(
-                    "See All",
+                    S.of(context).seeAll,
                     style: StyleUtility.titleTextStyle.copyWith(
                         fontSize: TextSizeUtility.textSize12,
                         color: ColorUtility.color152D4A),
@@ -91,7 +93,7 @@ class HomePostWidget extends StatelessWidget {
                   height: 100.sp,
                   child: Center(
                     child: Text(
-                      "No Post Found",
+                      S.of(context).noPostFound,
                       style: StyleUtility.inputTextStyle,
                     ),
                   )),

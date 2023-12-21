@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:payaki/modules/auth/logIn/screens/log_in_screen.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
+
+import '../../../../generated/l10n.dart';
 
 class ForgotPassSuccessScreen extends StatefulWidget {
   const ForgotPassSuccessScreen({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class _ForgotPassSuccessScreenState extends State<ForgotPassSuccessScreen> {
                       height: 70.h,
                     ),
                     Text(
-                      "Password has been\nchange successfully",
+                      S.of(context).passwordHasBeenChangedSuccessfully,
                       style: StyleUtility.axiforma700.copyWith(
                           fontSize: TextSizeUtility.textSize28,
                           color: ColorUtility.color152D4A),
@@ -49,7 +50,7 @@ class _ForgotPassSuccessScreenState extends State<ForgotPassSuccessScreen> {
                       height: 8.h,
                     ),
                     Text(
-                      "Your Password has been\nchange successfully",
+                      S.of(context).yourPasswordHasBeenChangedSuccessfully,
                       style: StyleUtility.axiforma400.copyWith(
                           fontSize: TextSizeUtility.textSize18,
                           color: ColorUtility.color8B97A4),
@@ -61,7 +62,7 @@ class _ForgotPassSuccessScreenState extends State<ForgotPassSuccessScreen> {
               Container(
                   alignment: Alignment.bottomCenter,
                   child: CustomButton(
-                      buttonText: "Back to Log In",
+                      buttonText: S.of(context).backTOLogin,
                       onTab: () {
                         Navigator.pushNamedAndRemoveUntil(
                             context, RouteName.logInScreen, (route) => false);

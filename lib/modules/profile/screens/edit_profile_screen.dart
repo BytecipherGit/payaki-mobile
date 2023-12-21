@@ -21,6 +21,8 @@ import 'package:provider/provider.dart';
 import 'package:payaki/network/model/response/profile/country_list_response.dart'
     as country;
 
+import '../../../generated/l10n.dart';
+
 class EditProfileScreen extends StatefulWidget {
   final Data userProfile;
 
@@ -91,8 +93,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Edit Profile",
+      appBar:  CustomAppBar(
+        title: S.of(context).editProfile,
       ),
       body: SafeArea(
         child: Padding(
@@ -148,16 +150,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 SizedBox(height: 35.h),
                 SimpleTextField(
                   controller: nameController,
-                  hintText: "Enter Your Name",
-                  titleText: "Name *",
+                  hintText: S.of(context).enterFullName,
+                  titleText:S.of(context).fullName,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: addressController,
-                  hintText: "Enter Your Address",
-                  titleText: "Address",
+                  hintText:S.of(context).enterYourAddress,
+                  titleText: S.of(context).address,
                 ),
                 SizedBox(
                   height: 15.h,
@@ -165,7 +167,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Country",
+                    S.of(context).country,
                     style: StyleUtility.inputTextStyle,
                     textAlign: TextAlign.start,
                   ),
@@ -222,7 +224,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       borderRadius: BorderRadius.circular(10.r),
                       hint: Text(
-                        "Select Country",
+                        S.of(context).selectYOurCountry,
                         style: StyleUtility.hintTextStyle,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -258,8 +260,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 SimpleTextField(
                   controller: aboutMeController,
-                  hintText: "About Me",
-                  titleText: "About Me",
+                  hintText:S.of(context).aboutMe,
+                  titleText: S.of(context).aboutMe,
                   maxLine: 5,
                 ),
                 // SizedBox(
@@ -311,56 +313,56 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 SimpleTextField(
                   controller: facebookController,
-                  hintText: "Enter Facebook Profile Link",
-                  titleText: "Facebook",
+                  hintText:S.of(context).enterYourFacebookProfileLink,
+                  titleText: S.of(context).facebook,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: pinterestController,
-                  hintText: "Enter Pinterest Profile Link",
-                  titleText: "Pinterest",
+                  hintText:S.of(context).enterYourPinterestProfileLink,
+                  titleText: S.of(context).pinterest,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: twitterController,
-                  hintText: "Enter Twitter Profile Link",
-                  titleText: "Twitter",
+                  hintText:S.of(context).enterYourTwitterProfileLink,
+                  titleText: S.of(context).twitter,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: instagramController,
-                  hintText: "Enter Instagram Profile Link",
-                  titleText: "Instagram",
+                  hintText: S.of(context).enterYourInstagramProfileLink,
+                  titleText: S.of(context).instagram,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: linkedinController,
-                  hintText: "Enter Linkedin Profile Link",
-                  titleText: "Linkedin",
+                  hintText: S.of(context).enterYourLinkedinProfileLink,
+                  titleText: S.of(context).linkedin,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: youtubeController,
-                  hintText: "Enter Youtube Profile Link",
-                  titleText: "Youtube",
+                  hintText: S.of(context).enterYourYoutubeProfileLink,
+                  titleText: S.of(context).youtube,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: websiteURLController,
-                  hintText: "Enter Website URL",
-                  titleText: "Website URL",
+                  hintText:S.of(context).enterYourYourWebsiteURL,
+                  titleText: S.of(context).websiteUrl,
                 ),
                 SizedBox(
                   height: 54.h,
@@ -368,55 +370,55 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Consumer<EditProfileScreenVm>(
                     builder: (context, editProfileScreenVm, child) {
                   return CustomButton(
-                      buttonText: "Update",
+                      buttonText: S.of(context).update,
                       onTab: () async {
                         if (nameController.text.isEmpty) {
-                          context.flushBarTopErrorMessage(message: 'Please Enter Title.');
+                          context.flushBarTopErrorMessage(message:S.of(context).pleaseEnterTitle,);
                         } else if (facebookController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     facebookController.text) ==
                                 false) {
                           context.flushBarTopErrorMessage(
-                              message: "Please Enter Valid Facebook Link.");
+                              message: S.of(context).pleaseEnterValidFacebookLink);
                         } else if (pinterestController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     pinterestController.text) ==
                                 false) {
                           context.flushBarTopErrorMessage(
                               message:
-                                  "Please Enter Valid Pinterest Profile Link.");
+                              S.of(context).pleaseEnterValidPinterestProfileLink);
                         } else if (twitterController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     twitterController.text) ==
                                 false) {
                           context.flushBarTopErrorMessage(
                               message:
-                                  "Please Enter Valid Twitter Profile Link.");
+                              S.of(context).pleaseEnterValidTwitterProfileLink);
                         } else if (instagramController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     instagramController.text) ==
                                 false) {
                           context.flushBarTopErrorMessage(
-                              message: "Please Enter Valid Instagram Link.");
+                              message: S.of(context).pleaseEnterValidInstagramLink);
                         } else if (linkedinController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     linkedinController.text) ==
                                 false) {
                           context.flushBarTopErrorMessage(
                               message:
-                                  "Please Enter Valid Linkedin Profile Link.");
+                              S.of(context).pleaseEnterValidLinkedinProfileLink);
                         } else if (youtubeController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     youtubeController.text) ==
                                 false) {
                           context.flushBarTopErrorMessage(
-                              message: "Please Enter Valid Youtube Link.");
+                              message: S.of(context).pleaseEnterValidYoutubeLink);
                         } else if (websiteURLController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     websiteURLController.text) ==
                                 false) {
                           context.flushBarTopErrorMessage(
-                              message: "Please Enter Valid Website URL.");
+                              message: S.of(context).pleaseEnterValidWebsiteURL);
                         } else {
                           CommonDialog.showLoadingDialog(context);
                           editProfileScreenVm.updateProfile(

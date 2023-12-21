@@ -20,6 +20,8 @@ import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../generated/l10n.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -60,8 +62,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-      appBar: const CustomAppBar(
-        title: "Profile",
+      appBar:  CustomAppBar(
+        title:  S.of(context).profile,
         isShowBackButton: false,
         isShowCartIcon: true,
       ),
@@ -110,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           RichText(
                                             textAlign: TextAlign.start,
                                             text: TextSpan(
-                                              text: 'Welcome',
+                                              text:   S.of(context).welcomeMessage,
                                               style: StyleUtility.axiforma400
                                                   .copyWith(
                                                       color: ColorUtility
@@ -131,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                   .textSize14),
                                                 ),
                                                 TextSpan(
-                                                  text: "Go to your email",
+                                                  text: S.of(context).goToYourEmail,
                                                   style: StyleUtility
                                                       .axiforma400
                                                       .copyWith(
@@ -156,7 +158,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ),
                                                 TextSpan(
                                                   text:
-                                                      "verify your email address.",
+                                                  S.of(context).verifyYourEmailAddress,
                                                   style: StyleUtility
                                                       .axiforma400
                                                       .copyWith(
@@ -195,7 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 );
                                               },
                                               child: Text(
-                                                "Resend Email",
+                                                S.of(context).resendEmail,
                                                 style: StyleUtility.urlTextStyle
                                                     .copyWith(
                                                         fontSize:
@@ -280,7 +282,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     });
                                   },
                                   child: Text(
-                                    "Edit Profile",
+                                    S.of(context).editProfile,
                                     maxLines: 1,
                                     style:
                                         StyleUtility.buttonTextStyle.copyWith(
@@ -308,7 +310,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               SizedBox(
                                 height: 5.h,
                               ),
-                              Text("Information",
+                              Text(S.of(context).information,
                                   style: StyleUtility.headingTextStyle),
                               SizedBox(
                                 height: 15.h,
@@ -352,13 +354,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               SizedBox(
                                 height: 5.h,
                               ),
-                              Text("Account Settings",
+                              Text(S.of(context).accountSettings,
                                   style: StyleUtility.headingTextStyle),
                               SizedBox(
                                 height: 15.h,
                               ),
                               SettingTileWidget(
-                                title: "Change Password",
+                                title: S.of(context).changePassword,
                                 image: ImageUtility.passwordIcon,
                                 imageWidth: 14.w,
                                 onTap: () {
@@ -367,7 +369,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 },
                               ),
                               SettingTileWidget(
-                                title: "Transaction",
+                                title: S.of(context).transaction,
                                 image: ImageUtility.transactionIcon,
                                 imageWidth: 14.w,
                                 onTap: () {
@@ -376,7 +378,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 },
                               ),
                               SettingTileWidget(
-                                title: "My Cart",
+                                title: S.of(context).myCart,
                                 image: ImageUtility.addToCartIcon,
                                 imageWidth: 14.w,
                                 onTap: () {
@@ -385,7 +387,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 },
                               ),
                               SettingTileWidget(
-                                title: "My Events",
+                                title: S.of(context).myEvents,
                                 image: ImageUtility.eventIcon,
                                 imageWidth: 14.w,
                                 onTap: () {
@@ -395,7 +397,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 },
                               ),
                               SettingTileWidget(
-                                title: "My Trainings",
+                                title: S.of(context).myTrainings,
                                 image: ImageUtility.trainingIcon,
                                 imageWidth: 14.w,
                                 onTap: () {
@@ -410,7 +412,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 imageWidth: 14.w,
                               ),
                               SettingTileWidget(
-                                title: "Log Out",
+                                title: S.of(context).logOut,
                                 image: ImageUtility.logOutIcon,
                                 imageWidth: 12.w,
                                 onTap: () async {

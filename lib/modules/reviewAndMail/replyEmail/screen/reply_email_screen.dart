@@ -15,6 +15,8 @@ import 'package:payaki/widgets/mobile_number_text_field.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class ReplyEmailScreen extends StatefulWidget {
   final String postId;
   final String productName;
@@ -55,7 +57,7 @@ class _ReplyEmailScreenState extends State<ReplyEmailScreen> {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
       appBar: CustomAppBar(
-        title: "Send Mail To ${widget.receiverName}",
+        title: "${S.of(context).sendMailTo}${widget.receiverName}",
       ),
       body: SafeArea(
         child: Padding(
@@ -71,16 +73,16 @@ class _ReplyEmailScreenState extends State<ReplyEmailScreen> {
                       SizedBox(height: 25.h),
                       SimpleTextField(
                         controller: fullNameController,
-                        hintText: "Enter Full Name",
-                        titleText: "Full Name *",
+                        hintText: S.of(context).enterFullName,
+                        titleText:S.of(context).fullName,
                       ),
                       SizedBox(
                         height: 15.h,
                       ),
                       SimpleTextField(
                         controller: emailController,
-                        hintText: "Enter Email Address.",
-                        titleText: "Email Address *",
+                        hintText: S.of(context).EnterEmail,
+                        titleText: S.of(context).Email,
                       ),
                       SizedBox(
                         height: 15.h,
@@ -95,8 +97,8 @@ class _ReplyEmailScreenState extends State<ReplyEmailScreen> {
                       ),
                       SimpleTextField(
                         controller: messageController,
-                        hintText: "Enter Your Message...",
-                        titleText: "Message *",
+                        hintText: S.of(context).writeYourMessage,
+                        titleText: S.of(context).message,
                         maxLine: 5,
                       ),
                       SizedBox(
@@ -109,22 +111,22 @@ class _ReplyEmailScreenState extends State<ReplyEmailScreen> {
               Consumer<ReplyEmailScreenVm>(
                   builder: (context, replyEmailScreenVm, child) {
                 return CustomButton(
-                    buttonText: "Send Mail",
+                    buttonText: S.of(context).sendMail,
                     onTab: () {
                       if (fullNameController.text.isEmpty) {
                         context.flushBarTopErrorMessage(
-                            message: 'Please Enter Full Name.');
+                            message: S.of(context).pleaseEnterYourFullName);
                       } else if (Validators.checkValidateEmail(
                               emailController.text) ==
                           false) {
                         context.flushBarTopErrorMessage(
-                            message: 'Please Enter Valid Email Address.');
+                            message:S.of(context).pleaseEnterValidEmail);
                       } else if (phoneNumberController.text.isEmpty) {
                         context.flushBarTopErrorMessage(
-                            message: 'Please Enter Mobile Number.');
+                            message: S.of(context).PleaseEnterYourMobileNumber);
                       } else if (messageController.text.isEmpty) {
                         context.flushBarTopErrorMessage(
-                            message: 'Please Enter Message...');
+                            message: S.of(context).pleaseEnterMessage);
                       } else {
                         CommonDialog.showLoadingDialog(context);
                         replyEmailScreenVm.replyEmail(

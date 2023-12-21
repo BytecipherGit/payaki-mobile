@@ -17,6 +17,8 @@ import 'package:payaki/widgets/otp_text_field.dart';
 import 'package:payaki/widgets/timer_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class LoginWithPhoneVerifyOtpScreen extends StatefulWidget {
   final String countryCode;
   final String mobile;
@@ -53,8 +55,8 @@ class _LoginWithPhoneVerifyOtpScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Log In with Phone",
+      appBar:  CustomAppBar(
+        title: S.of(context).LogInWithPhone,
       ),
       body: SafeArea(
         child: Padding(
@@ -73,7 +75,7 @@ class _LoginWithPhoneVerifyOtpScreenState
                             height: 25.h,
                           ),
                           Text(
-                            "Enter OTP",
+                            S.of(context).enterOTP,
                             style: StyleUtility.headingTextStyle,
                           ),
                           SizedBox(
@@ -83,7 +85,7 @@ class _LoginWithPhoneVerifyOtpScreenState
                             textAlign: TextAlign.start,
                             text: TextSpan(
                               text:
-                                  'Please enter OTP which has been sent to your Phone Number',
+                              S.of(context).pleaseEnterOTPWhichHasBeenSentToYour,
                               style: StyleUtility.detailTextStyle,
                               children: <TextSpan>[
                                 TextSpan(
@@ -129,7 +131,7 @@ class _LoginWithPhoneVerifyOtpScreenState
                           RichText(
                             textAlign: TextAlign.start,
                             text: TextSpan(
-                              text: 'Didn’t received OTP ? ',
+                              text: S.of(context).didNotReceivedOTP,
                               style: StyleUtility.detailTextStyle
                                   .copyWith(color: ColorUtility.colorAEB1B9),
                               children: <TextSpan>[
@@ -139,7 +141,7 @@ class _LoginWithPhoneVerifyOtpScreenState
                                             .copyWith()
                                         : StyleUtility.detailTextStyle.copyWith(
                                             color: ColorUtility.colorAEB1B9),
-                                    text: 'Resend OTP',
+                                    text: S.of(context).resendOTP,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         if (_isTimerRunning == false) {
@@ -183,12 +185,12 @@ class _LoginWithPhoneVerifyOtpScreenState
                 Container(
                     alignment: Alignment.bottomCenter,
                     child: CustomButton(
-                        buttonText: "Verify OTP",
+                        buttonText: S.of(context).verifyOTP,
                         onTab: () {
                           if (otpController.text.isEmpty ||
                               otpController.text.length < 6) {
                             context.flushBarTopErrorMessage(
-                                message: "Please Enter 6 Digit Otp");
+                                message: S.of(context).pleaseEnterSixDigitOTP);
                           } else {
                             CommonDialog.showLoadingDialog(context);
                             loginWithPhoneVerifyOtpVm.verifyOtp(

@@ -23,6 +23,8 @@ import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../generated/l10n.dart';
+
 class PostDetailsScreen extends StatefulWidget {
   final String postId;
 
@@ -255,7 +257,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                               3.r)),
                                                   child: Center(
                                                     child: Text(
-                                                        "Negotiate"
+                                                        S.of(context).negotiate
                                                             .toUpperCase(),
                                                         style: StyleUtility
                                                             .typeStyle),
@@ -311,7 +313,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         height: 25.h,
                                       ),
                                       Text(
-                                        "Location",
+                                        S.of(context).location,
                                         style: StyleUtility.headingTextStyle,
                                       ),
                                       SizedBox(
@@ -370,7 +372,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         height: 25.h,
                                       ),
                                       Text(
-                                        "Description",
+                                        S.of(context).descriptionDetail,
                                         style: StyleUtility.headingTextStyle,
                                       ),
                                       Text(
@@ -454,7 +456,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                           padding:
                                               EdgeInsets.only(bottom: 25.h),
                                           child: CustomButton.withIcon(
-                                              buttonText: "Add to Cart",
+                                              buttonText: S.of(context).addToCart,
                                               image: ImageUtility.addToCartIcon,
                                               onTab: () {
                                                 CommonDialog.showLoadingDialog(
@@ -481,7 +483,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         ),
 
                                       Text(
-                                        "Posted By",
+                                        S.of(context).postedBy,
                                         style: StyleUtility.headingTextStyle,
                                       ),
                                       SizedBox(
@@ -566,7 +568,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                       //     style:
                                       //     StyleUtility.postDescTextStyle),
                                       Text(
-                                        "Ad Views",
+                                        S.of(context).adViews,
                                         style: StyleUtility.headingTextStyle,
                                       ),
                                       SizedBox(
@@ -582,7 +584,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         height: 25.h,
                                       ),
                                       Text(
-                                        "Expire Ad",
+                                        S.of(context).expireAd,
                                         style: StyleUtility.headingTextStyle,
                                       ),
                                       SizedBox(
@@ -616,7 +618,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                 });
                                           },
                                           child: Text(
-                                            "Report this AD".toUpperCase(),
+                                            S.of(context).reportThisAdd.toUpperCase(),
                                             style: StyleUtility.urlTextStyle,
                                           )),
                                       SizedBox(
@@ -728,7 +730,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                                 widget.postId);
                                                   } else {
                                                     showLoginDialog(context,
-                                                        "Log In to Save This Ad");
+                                                        S.of(context).logInToSaveThisAd);
                                                   }
                                                 },
                                                 style: ElevatedButton.styleFrom(
@@ -766,8 +768,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                                         ?.isFavourite ??
                                                                     false) ==
                                                                 false
-                                                            ? "Save this Ad"
-                                                            : "Ad Saved",
+                                                            ?   S.of(context).saveThisAd
+                                                            :   S.of(context).adSaved,
                                                         maxLines: 1,
                                                         style: StyleUtility
                                                             .buttonTextStyle),
@@ -785,7 +787,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Add your review",
+                                              S.of(context).addYourReview,
                                               style:
                                                   StyleUtility.headingTextStyle,
                                             ),
@@ -814,7 +816,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                           width: 18.w,
                                                         ),
                                                         Text(
-                                                          "Add Review",
+                                                          S.of(context).addReview,
                                                           style: StyleUtility
                                                               .headingTextStyle
                                                               .copyWith(
@@ -867,7 +869,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                       //   height: 25.h,
                                       // ),
                                       Text(
-                                        "Similar Ads ",
+                                        S.of(context).similarAds,
                                         style: StyleUtility.headingTextStyle,
                                       ),
 
@@ -954,7 +956,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                               padding:
                                                   EdgeInsets.only(bottom: 20.h),
                                               child: Text(
-                                                "No Similar Ads.",
+                                                S.of(context).noSimilarAds,
                                                 style: StyleUtility
                                                     .headingTextStyle,
                                               ),
@@ -1025,14 +1027,14 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                           children: [
                             Expanded(
                                 child: CustomButton.outline(
-                                    buttonText: "Quote",
+                                    buttonText: S.of(context).quote,
                                     onTab: () {
                                       if (Preference().getUserId() ==
                                           postDetailScreenVm.postDetailResponse
                                               ?.data?.postUserDetails?.id) {
                                         context.flushBarTopErrorMessage(
                                             message:
-                                                "You cannot Quote On Your Own Post.");
+                                            S.of(context).youCanNotQuoteOnYourOwnPost);
                                       } else {
                                         if (Preference().getUserLogin()) {
                                           Navigator.pushNamed(
@@ -1055,7 +1057,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                               });
                                         } else {
                                           showLoginDialog(context,
-                                              "Log In to chat or send quote");
+                                              S.of(context).logInToChatOrSendQuote);
                                         }
                                       }
                                     })),
@@ -1064,7 +1066,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             ),
                             Expanded(
                                 child: CustomButton(
-                                    buttonText: "Chat",
+                                    buttonText:  S.of(context).chat,
                                     onTab: () {
                                       if (Preference().getUserLogin()) {
                                         if (Preference().getUserId() ==
@@ -1075,7 +1077,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                 ?.id) {
                                           context.flushBarTopErrorMessage(
                                               message:
-                                                  "You cannot Chat On Your Own Post.");
+                                              S.of(context).youCanNotChatOnYourOwnPost);
                                         } else {
                                           if (postDetailScreenVm
                                                   .postDetailResponse
@@ -1094,7 +1096,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         }
                                       } else {
                                         showLoginDialog(context,
-                                            "Log In to chat or send quote");
+                                            S.of(context).logInToChatOrSendQuote);
                                       }
                                     }))
                           ],
@@ -1154,14 +1156,14 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                           height: 10.h,
                         ),
                         Text(
-                          "Please log In first for chat",
+                          S.of(context).pleaseLogInFirstForChat,
                           style: StyleUtility.titleTextStyle,
                         ),
                         SizedBox(
                           height: 30.h,
                         ),
                         CustomButton(
-                            buttonText: "Log In",
+                            buttonText:  S.of(context).LogIn,
                             onTab: () {
                               Navigator.pop(context);
                               goToLogIn();
@@ -1176,7 +1178,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Text(
-                                "Later",
+                                S.of(context).later,
                                 style: StyleUtility.laterTextStyle,
                               ),
                             ))
@@ -1299,7 +1301,7 @@ class UserReviews extends StatelessWidget {
               );
             })
         : Text(
-            "No User Reviews",
+      S.of(context).noUserReviews,
             style: StyleUtility.headingTextStyle,
           );
   }

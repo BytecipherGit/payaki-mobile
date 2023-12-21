@@ -14,6 +14,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class ForgotNewPasswordScreen extends StatefulWidget {
   final String userId;
 
@@ -33,8 +35,8 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Change Password",
+      appBar:  CustomAppBar(
+        title:  S.of(context).forgetPassword,
       ),
       body: SafeArea(
         child: Padding(
@@ -51,7 +53,7 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                         height: 25.h,
                       ),
                       Text(
-                        "Enter your New Password",
+                        S.of(context).enterYourNewPassword,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(
@@ -59,8 +61,8 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                       ),
                       SimpleTextField(
                         controller: newPasswordController,
-                        hintText: "New Password",
-                        titleText: "New Password",
+                        hintText:  S.of(context).enterNewPassword,
+                        titleText:  S.of(context).newPassword,
                         image: ImageUtility.passwordIcon,
                         textInputType: TextInputType.visiblePassword,
                       ),
@@ -69,8 +71,8 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                       ),
                       SimpleTextField(
                         controller: confirmPasswordController,
-                        hintText: "Enter Confirm Password",
-                        titleText: "Confirm Password",
+                        hintText:  S.of(context).enterConfirmPassword,
+                        titleText:  S.of(context).confirmPassword,
                         image: ImageUtility.passwordIcon,
                         textInputType: TextInputType.visiblePassword,
                       ),
@@ -86,18 +88,18 @@ class _ForgotNewPasswordScreenState extends State<ForgotNewPasswordScreen> {
                 return Container(
                     alignment: Alignment.bottomCenter,
                     child: CustomButton(
-                        buttonText: "Done",
+                        buttonText:  S.of(context).done,
                         onTab: () {
                           if (newPasswordController.text.isEmpty) {
                             context.flushBarTopErrorMessage(
-                                message: "Please Enter New Password");
+                                message:  S.of(context).pleaseEnterNewPassword);
                           } else if (confirmPasswordController.text.isEmpty) {
                             context.flushBarTopErrorMessage(
-                                message: "Please Confirm Password");
+                                message:  S.of(context).pleaseEnterConfirmPassword);
                           } else if (newPasswordController.text !=
                               confirmPasswordController.text) {
                             context.flushBarTopErrorMessage(
-                                message: "Confirm Password Not Matched.");
+                                message:  S.of(context).confirmPasswordNotMatched);
                           } else {
                             CommonDialog.showLoadingDialog(context);
                             forgotNewPassVm.generateNewPass(

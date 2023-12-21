@@ -8,6 +8,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/mobile_number_text_field.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 
+import '../../../generated/l10n.dart';
+
 class UserDetailScreen extends StatefulWidget {
   const UserDetailScreen({Key? key}) : super(key: key);
 
@@ -27,7 +29,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
       appBar: AppBar(
           backgroundColor: ColorUtility.whiteColor,
           title: Text(
-            "Post Ad",
+            S.of(context).postAd,
             style: StyleUtility.headerTextStyle,
           ),
           centerTitle: true,
@@ -51,7 +53,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                         height: 23.h,
                       ),
                       Text(
-                        "User Details",
+                        S.of(context).userDetails,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(
@@ -59,16 +61,16 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                       ),
                       SimpleTextField(
                         controller: fullNameController,
-                        hintText: "Enter Full Name",
-                        titleText: "Full Name *",
+                        hintText: S.of(context).enterFullName,
+                        titleText: S.of(context).fullName,
                       ),
                       SizedBox(
                         height: 15.h,
                       ),
                       SimpleTextField(
                         controller: emailController,
-                        hintText: "Enter Email",
-                        titleText: "Email *",
+                        hintText:  S.of(context).EnterEmail,
+                        titleText: S.of(context).Email,
                       ),
                       SizedBox(
                         height: 15.h,
@@ -90,7 +92,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
               Container(
                   alignment: Alignment.bottomCenter,
                   child: CustomButton(
-                      buttonText: "Next",
+                      buttonText:  S.of(context).next,
                       onTab: () {
 
                       })),

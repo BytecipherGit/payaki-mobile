@@ -11,6 +11,8 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/upload_image_widget.dart';
 
+import '../../../generated/l10n.dart';
+
 class GalleryScreen extends StatefulWidget {
   final int catId;
   final int subCatId;
@@ -51,8 +53,8 @@ class _GalleryScreenState extends State<GalleryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Post Ad",
+      appBar:  CustomAppBar(
+        title: S.of(context).postAd,
       ),
 
       body: SafeArea(
@@ -63,7 +65,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
             children: [
               SizedBox(height: 23.h),
               Text(
-                "Gallery",
+                S.of(context).gallery,
                 style: StyleUtility.headingTextStyle,
               ),
               SizedBox(height: 25.h),
@@ -71,7 +73,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   onTap: () {
                     getImages();
                   },
-                  title: "Attach File"),
+                  title:  S.of(context).attachFile),
               SizedBox(
                 height: 20.h,
               ),
@@ -118,10 +120,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
                 height: 20.h,
               ),
               CustomButton(
-                  buttonText: "Next",
+                  buttonText:  S.of(context).next,
                   onTab: () {
                     if (selectedImages.isEmpty) {
-                      context.flushBarTopErrorMessage(message: "Please Upload Images.");
+                      context.flushBarTopErrorMessage(message: S.of(context).pleaseUploadImages);
                     } else {
                       Navigator.pushNamed(context, RouteName.addLocationScreen,
                           arguments: {

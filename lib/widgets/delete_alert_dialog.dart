@@ -4,6 +4,8 @@ import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/custom_button.dart';
 
+import '../generated/l10n.dart';
+
 class DeleteAlertDialog extends StatelessWidget {
   final VoidCallback onDeleteTap;
   final String? yesText;
@@ -44,7 +46,7 @@ class DeleteAlertDialog extends StatelessWidget {
                 ),
                 Text(
                   desc ??
-                  "Are you sure you want to delete ?",
+                      S.of(context).areYouSureYouWantTODelete,
                   style: StyleUtility.headingTextStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -55,7 +57,7 @@ class DeleteAlertDialog extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomButton.text(
-                          buttonText: "Cancel",
+                          buttonText:S.of(context).cancel,
                           onTab: () {
                             Navigator.pop(context);
                           }),
@@ -65,7 +67,7 @@ class DeleteAlertDialog extends StatelessWidget {
                     ),
                     Expanded(
                       child: CustomButton(
-                          buttonText: yesText ?? "Delete Post",
+                          buttonText: yesText ?? S.of(context).deletePost,
                           onTab: () {
                             Navigator.pop(context);
                             onDeleteTap();

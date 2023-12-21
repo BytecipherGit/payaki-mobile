@@ -43,8 +43,6 @@ class PaymentRepository {
 
   Future<PaymentResponse> paymentApi(
       {required PaymentRequest request, required token,required BuildContext context}) async {
-    print(request.toJson());
-    print(token);
     CommonDialog.showPaymentLoadingDialog(context);
     // Map<String,String> headers = {'Content-Type':'application/json','Authorization':'Bearer $token','Accept':'application/json'};
     try {
@@ -70,7 +68,6 @@ class PaymentRepository {
   }
 
   Future<PaymentDoneResponse> getPaymentStatus({ required String token,required String id}) async {
-    print(id);
     try {
       var response = await http.get(
         Uri.parse(
@@ -82,7 +79,6 @@ class PaymentRepository {
       );
 
       if (response.statusCode == 200) {
-        print(response.body);
         return PaymentDoneResponse.fromJson(json.decode(response.body));
       } else {
         // If the response status code is not 200, handle the error

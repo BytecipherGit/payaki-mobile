@@ -24,6 +24,8 @@ import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
 
@@ -108,14 +110,14 @@ class _LogInScreenState extends State<LogInScreen> {
                         children: [
                           Center(
                             child: Text(
-                              "Welcome Back !",
+                              S.of(context).welcomeBack,
                               style: StyleUtility.headingTextStyle,
                             ),
                           ),
                           SizedBox(height: 10.h),
                           Center(
                             child: Text(
-                              "Please enter your account here",
+                              S.of(context).pleaseEnterYourAccountHere,
                               style: StyleUtility.detailTextStyle,
                             ),
                           ),
@@ -124,8 +126,8 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           SimpleTextField(
                             controller: emailController,
-                            hintText: "Enter Email",
-                            titleText: "Email",
+                            hintText:  S.of(context).EnterEmail,
+                            titleText: S.of(context).Email,
                             image: ImageUtility.emailIcon,
                             textInputType: TextInputType.emailAddress,
                           ),
@@ -134,8 +136,8 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           SimpleTextField(
                             controller: passwordController,
-                            hintText: "Enter Password",
-                            titleText: "Password",
+                            hintText:  S.of(context).EnterPassword,
+                            titleText: S.of(context).Password,
                             image: ImageUtility.passwordIcon,
                             textInputType: TextInputType.visiblePassword,
                             passwordVisible: passwordVisible,
@@ -178,7 +180,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                     width: 10.w,
                                   ),
                                   Text(
-                                    "Remember me ",
+                                    S.of(context).RememberMe,
                                     style: StyleUtility.axiforma500.copyWith(
                                         fontSize: TextSizeUtility.textSize14,
                                         color: ColorUtility.color5B5B5B),
@@ -191,7 +193,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       RouteName.forgotPassSendOtpScreen);
                                 },
                                 child: Text(
-                                  "Recovery password",
+                                  S.of(context).RecoveryPassword,
                                   style: StyleUtility.axiforma500.copyWith(
                                       fontSize: TextSizeUtility.textSize14,
                                       color: ColorUtility.color152D4A),
@@ -203,21 +205,21 @@ class _LogInScreenState extends State<LogInScreen> {
                             height: 29.h,
                           ),
                           CustomButton(
-                              buttonText: "Log In",
+                              buttonText: S.of(context).LogIn,
                               onTab: () {
 
                                 logD("message");
                                 if (emailController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: 'Please Enter Email.');
+                                      message:  S.of(context).pleaseEnterEmail);
                                 } else if (Validators.checkValidateEmail(
                                         emailController.text) ==
                                     false) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter Valid Email.");
+                                      message:  S.of(context).pleaseEnterValidEmail);
                                 } else if (passwordController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: 'Please Enter Password.');
+                                      message:  S.of(context).pleaseEnterPassword);
                                 } else {
                                   CommonDialog.showLoadingDialog(context);
 
@@ -248,7 +250,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             height: 20.h,
                           ),
                           CustomButton(
-                              buttonText: "Log In with Phone",
+                              buttonText: S.of(context).LogInWithPhone,
                               onTab: () {
                                 Navigator.pushNamed(context,
                                     RouteName.loginWithPhoneSendOtpScreen);
@@ -269,7 +271,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.w),
                                   child: Text(
-                                    "Or continue with",
+                                    S.of(context).orContinueWith,
                                     style: StyleUtility.axiforma400.copyWith(
                                         fontSize: TextSizeUtility.textSize12,
                                         color: ColorUtility.colorBCBCBC),
@@ -329,12 +331,12 @@ class _LogInScreenState extends State<LogInScreen> {
                             child: RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
-                                text: 'Don’t have an account? \n',
+                                text:  S.of(context).DidNotHaveAnAccount,
                                 style: StyleUtility.detailTextStyle,
                                 children: <TextSpan>[
                                   TextSpan(
                                     style: StyleUtility.urlTextStyle,
-                                    text: 'Sign Up',
+                                    text: S.of(context).SignUp,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Navigator.pushReplacementNamed(

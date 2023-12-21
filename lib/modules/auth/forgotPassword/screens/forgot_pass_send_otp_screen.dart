@@ -14,6 +14,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/mobile_number_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class ForgotPassSendOtpScreen extends StatefulWidget {
   const ForgotPassSendOtpScreen({Key? key}) : super(key: key);
 
@@ -31,8 +33,8 @@ class _ForgotPassSendOtpScreenState extends State<ForgotPassSendOtpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Forgot  Password",
+      appBar:  CustomAppBar(
+        title:  S.of(context).forgetPassword,
       ),
       body: SafeArea(
         child: Padding(
@@ -44,7 +46,7 @@ class _ForgotPassSendOtpScreenState extends State<ForgotPassSendOtpScreen> {
                 height: 25.h,
               ),
               Text(
-                "Enter your Mobile Number",
+                S.of(context).enterYourMobileNumber,
                 style: StyleUtility.headingTextStyle,
               ),
               SizedBox(
@@ -67,11 +69,11 @@ class _ForgotPassSendOtpScreenState extends State<ForgotPassSendOtpScreen> {
                       child: Consumer<ForgotPassSendOtpVm>(
                           builder: (context, forgotPassSendOtpVm, child) {
                         return CustomButton(
-                            buttonText: "Send OTP",
+                            buttonText:  S.of(context).sendOTP,
                             onTab: () {
                               if (mobileController.text.isEmpty) {
                                 context.flushBarTopErrorMessage(
-                                    message: "Please Enter Mobile Number");
+                                    message:  S.of(context).PleaseEnterYourMobileNumber);
                               } else {
                                 CommonDialog.showLoadingDialog(context);
                                 forgotPassSendOtpVm.forgotPassSendOtp(

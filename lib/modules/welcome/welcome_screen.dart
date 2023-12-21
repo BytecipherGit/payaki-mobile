@@ -6,6 +6,8 @@ import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 
+import '../../generated/l10n.dart';
+
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
@@ -41,7 +43,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 children: [
                   Center(
                     child: Text(
-                      "Welcome!",
+                      S.of(context).welcomeMessage,
                       style: StyleUtility.headingTextStyle.copyWith(
                           color: ColorUtility.whiteColor,
                           fontSize: TextSizeUtility.textSize24),
@@ -83,7 +85,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               height: 9.h,
                             ),
                             Text(
-                              "BUY",
+                              S.of(context).buy,
                               style: StyleUtility.titleTextStyle.copyWith(
                                   fontSize: TextSizeUtility.textSize20,
                                   color: ColorUtility.whiteColor),
@@ -115,7 +117,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               height: 9.h,
                             ),
                             Text(
-                              "SELL",
+                              S.of(context).sell,
                               style: StyleUtility.titleTextStyle.copyWith(
                                   fontSize: TextSizeUtility.textSize20,
                                   color: ColorUtility.whiteColor),

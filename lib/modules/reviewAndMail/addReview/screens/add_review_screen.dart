@@ -13,6 +13,7 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
+import '../../../../generated/l10n.dart';
 import '../viewModel/add_review_screen_vm.dart';
 
 class AddReviewScreen extends StatefulWidget {
@@ -33,8 +34,8 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Review",
+      appBar:  CustomAppBar(
+        title:S.of(context).review,
       ),
       body: SafeArea(
         child: Padding(
@@ -49,11 +50,11 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                     children: [
                       SizedBox(height: 23.h),
                       Text(
-                        "Add your Review",
+                        S.of(context).addYourReview,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(height: 15.h),
-                      Text("How would you rate this product?",
+                      Text(S.of(context).howWouldYouRateThisProduct,
                           style: StyleUtility.reviewTitleTextStyle),
                       SizedBox(height: 15.h),
                       RatingBar.builder(
@@ -75,8 +76,8 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                       SizedBox(height: 25.h),
                       SimpleTextField(
                         controller: descriptionController,
-                        hintText: "Your Reviews",
-                        titleText: "Reviews *",
+                        hintText:S.of(context).yourReviews,
+                        titleText: S.of(context).review,
                         maxLine: 5,
                       ),
                       SizedBox(
@@ -89,11 +90,11 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
               Consumer<AddReviewScreenVm>(
                   builder: (context, addReviewScreenVm, child) {
                 return CustomButton(
-                    buttonText: "Submit Review",
+                    buttonText: S.of(context).submitReview,
                     onTab: () {
                       if (descriptionController.text.isEmpty) {
                         context.flushBarTopErrorMessage(
-                            message: 'Please Enter Your Reviews.');
+                            message:S.of(context).pleaseEnterYourReviews);
                       } else {
                         CommonDialog.showLoadingDialog(context);
                         addReviewScreenVm.addReview(

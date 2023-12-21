@@ -14,6 +14,8 @@ import 'package:payaki/widgets/grid_item_widget.dart';
 import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../generated/l10n.dart';
+
 class MyAdsScreen extends StatefulWidget {
   const MyAdsScreen({Key? key}) : super(key: key);
 
@@ -45,7 +47,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
       child: Scaffold(
         backgroundColor: ColorUtility.whiteColor,
 
-        appBar: const CustomAppBar(title: "My Ads",  isShowCartIcon: true,isShowBackButton: false),
+        appBar:  CustomAppBar(title: S.of(context).allEvent,  isShowCartIcon: true,isShowBackButton: false),
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,9 +69,9 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                             border: Border(
                                 bottom: BorderSide(
                                     color: ColorUtility.colorE2E5EF))),
-                        child: const Center(
+                        child:  Center(
                             child: Text(
-                          'My Ads',
+                              S.of(context).myAd,
                           textAlign: TextAlign.center,
                         ))),
                   ),
@@ -79,9 +81,9 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                             border: Border(
                                 bottom: BorderSide(
                                     color: ColorUtility.colorE2E5EF))),
-                        child: const Center(
+                        child:  Center(
                             child: Text(
-                          'Favourite Ads',
+                              S.of(context).favouriteAds,
                           textAlign: TextAlign.center,
                         ))),
                   ),
@@ -91,9 +93,9 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                             border: Border(
                                 bottom: BorderSide(
                                     color: ColorUtility.colorE2E5EF))),
-                        child: const Center(
+                        child:  Center(
                             child: Text(
-                          'Pending Ads',
+                              S.of(context).pendingAds,
                           textAlign: TextAlign.center,
                         ))),
                   ),
@@ -103,9 +105,9 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                             border: Border(
                                 bottom: BorderSide(
                                     color: ColorUtility.colorE2E5EF))),
-                        child: const Center(
+                        child:  Center(
                             child: Text(
-                          'Expired Ads',
+                              S.of(context).expiredAds,
                           textAlign: TextAlign.center,
                         ))),
                   ),
@@ -266,7 +268,7 @@ class AddListWidget extends StatelessWidget {
           :
 
 
-       const NoDataWidget(title: 'You haven’t listed anything yet.',),
+        NoDataWidget(title:S.of(context).youHaveNotListedAnythingYet,),
 
     );
   }

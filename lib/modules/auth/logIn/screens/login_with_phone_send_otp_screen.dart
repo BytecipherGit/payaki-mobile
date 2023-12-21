@@ -18,6 +18,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/mobile_number_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class LoginWithPhoneSendOtpScreen extends StatefulWidget {
   const LoginWithPhoneSendOtpScreen({Key? key}) : super(key: key);
 
@@ -48,8 +50,8 @@ class _LoginWithPhoneSendOtpScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Log In with Phone",
+      appBar: CustomAppBar(
+        title: S.of(context).LogInWithPhone,
       ),
       body: SafeArea(
         child: Padding(
@@ -61,7 +63,7 @@ class _LoginWithPhoneSendOtpScreenState
                 height: 25.h,
               ),
               Text(
-                "Enter your Mobile Number",
+                S.of(context).enterYourMobileNumber,
                 style: StyleUtility.headingTextStyle,
               ),
               SizedBox(
@@ -84,11 +86,12 @@ class _LoginWithPhoneSendOtpScreenState
                       child: Consumer<LoginWithPhoneSendOtpVm>(
                           builder: (context, loginWithPhoneSendOtpVm, child) {
                         return CustomButton(
-                            buttonText: "Send OTP",
+                            buttonText: S.of(context).sendOTP,
                             onTab: () {
                               if (mobileController.text.isEmpty) {
                                 context.flushBarTopErrorMessage(
-                                    message: "Please Enter Mobile Number");
+                                    message:
+                                        S.of(context).pleaseEnterMobileNumber);
                               } else {
                                 CommonDialog.showLoadingDialog(context);
                                 loginWithPhoneSendOtpVm.sendOtp(
@@ -115,7 +118,8 @@ class _LoginWithPhoneSendOtpScreenState
                                   },
                                   onFailure: (value) {
                                     Navigator.pop(context);
-                                    context.flushBarTopErrorMessage(message: value);
+                                    context.flushBarTopErrorMessage(
+                                        message: value);
                                   },
                                 );
                               }

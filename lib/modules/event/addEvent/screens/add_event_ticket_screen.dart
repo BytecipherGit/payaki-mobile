@@ -24,6 +24,8 @@ import 'package:payaki/widgets/delete_alert_dialog.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class AddEventTicketScreen extends StatefulWidget {
   final int catId;
   final int subCatId;
@@ -72,8 +74,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-      appBar: const CustomAppBar(
-        title: "Event - Add Ticket",
+      appBar:  CustomAppBar(
+        title: S.of(context).eventAddTicket,
       ),
       body: GestureDetector(
         onTap: () {
@@ -112,8 +114,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                 children: [
                                   SimpleTextField(
                                     controller: titleController,
-                                    hintText: "Title",
-                                    titleText: "Title *",
+                                    hintText:S.of(context).title,
+                                    titleText: S.of(context).titleRequired,
                                   ),
                                   SizedBox(
                                     height: 15.h,
@@ -123,8 +125,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                       Expanded(
                                         child: SimpleTextField(
                                           controller: quantityController,
-                                          hintText: "Quantity",
-                                          titleText: "Quantity *",
+                                          hintText: S.of(context).quantity,
+                                          titleText: S.of(context).quantityRequired,
                                           textInputType: TextInputType.number,
                                           inputFormatter: [
                                             FilteringTextInputFormatter
@@ -138,8 +140,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                       Expanded(
                                         child: SimpleTextField(
                                           controller: priceController,
-                                          hintText: "Price",
-                                          titleText: "Price *",
+                                          hintText: S.of(context).enterPrice,
+                                          titleText:  S.of(context).price,
                                           textInputType: TextInputType.number,
                                           inputFormatter: [
                                             DecimalInputFormatter(),
@@ -157,7 +159,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                     height: 15.h,
                                   ),
                                   Text(
-                                    "Selling Mode*",
+                                    S.of(context).sellingMode,
                                     style: StyleUtility.inputTextStyle,
                                   ),
                                   DropdownButtonHideUnderline(
@@ -218,7 +220,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                       ),
                                       borderRadius: BorderRadius.circular(10.r),
                                       hint: Text(
-                                        "Select Selling Mode",
+                                        S.of(context).selectSellingMode,
                                         style: StyleUtility.hintTextStyle,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -252,20 +254,20 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                           ),
                           SizedBox(height: 25.h),
                           CustomButton.outline(
-                              buttonText: "Add",
+                              buttonText: S.of(context).add,
                               onTab: () {
                                 if (titleController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter Ticket Title.");
+                                      message:  S.of(context).pleaseEnterTitle);
                                 } else if (quantityController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter Ticket Quantity.");
+                                      message:  S.of(context).pleaseEnterTicketQuantity);
                                 } else if (priceController.text.isEmpty) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Enter Ticket Price.");
+                                      message:  S.of(context).pleaseEnterTicketPrice);
                                 } else if (sellingModeValue?.isEmpty ?? true) {
                                   context.flushBarTopErrorMessage(
-                                      message: "Please Select Selling Mode.");
+                                      message: S.of(context).pleaseSelectSellingMode);
                                 } else {
                                   addEventTicketScreenVm.addTicket(Tickets(
                                       ticketTitle: titleController.text,
@@ -279,7 +281,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                   quantityController.clear();
                                   priceController.clear();
                                   context.flushBarTopSuccessMessage(
-                                      message: "Ticked Added.");
+                                      message:  S.of(context).tickedAdded);
                                 }
                               }),
                           SizedBox(height: 25.h),
@@ -361,7 +363,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                                         CrossAxisAlignment.end,
                                                     children: [
                                                       Text(
-                                                        "Quantity",
+                                                        S.of(context).quantity,
                                                         style: StyleUtility
                                                             .axiforma300
                                                             .copyWith(
@@ -410,7 +412,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                                   bottomRight:
                                                       Radius.circular(10.r))),
                                           child: CustomButton.removeTicket(
-                                            buttonText: "Remove Ticket",
+                                            buttonText:  S.of(context).removeTicket,
                                             onTab: () {
                                               showDeleteTicketDialog(
                                                   context: context,
@@ -419,7 +421,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                                                         .removeTicket(index);
                                                     context.flushBarTopSuccessMessage(
                                                         message:
-                                                            "Ticked Removed Successfully.");
+                                                        S.of(context).tickedRemovedSuccessfully);
                                                   });
                                             },
                                           ),
@@ -435,7 +437,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                     ),
                   ),
                   CustomButton(
-                      buttonText: "Done",
+                      buttonText:  S.of(context).done,
                       onTab: () {
                         logD("Value is ");
                         logD(priceController.text);
@@ -443,7 +445,7 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
                         if (addEventTicketScreenVm.ticketList == null ||
                             addEventTicketScreenVm.ticketList!.isEmpty) {
                           context.flushBarTopErrorMessage(
-                              message: 'Please Create Ticket.');
+                              message: S.of(context).pleaseCreateTicket);
                         } else {
                           CommonDialog.showLoadingDialog(context);
                           addEventTicketScreenVm.addPostApi(
@@ -492,8 +494,8 @@ class _AddEventTicketScreenState extends State<AddEventTicketScreen> {
         builder: (BuildContext dialogContext) {
           return DeleteAlertDialog(
             onDeleteTap: onDeleteTap,
-            yesText: "Confirm",
-            desc: "Are you sure you want to delete \nthis Ticket ?",
+            yesText: S.of(context).confirm,
+            desc:  S.of(context).removeTicketPopUp,
           );
         });
   }

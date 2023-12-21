@@ -11,6 +11,8 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 
+import '../../../../generated/l10n.dart';
+
 class AddEventDetailScreen extends StatefulWidget {
   final int catId;
   final int subCatId;
@@ -33,8 +35,8 @@ class _AddEventDetailScreenState extends State<AddEventDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Event",
+      appBar:  CustomAppBar(
+        title: S.of(context).event,
       ),
       body: SafeArea(
         child: Padding(
@@ -49,30 +51,30 @@ class _AddEventDetailScreenState extends State<AddEventDetailScreen> {
                     children: [
                       SizedBox(height: 23.h),
                       Text(
-                        "Details",
+                        S.of(context).details,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(height: 25.h),
                       SimpleTextField(
                         controller: titleController,
-                        hintText: "Title for your advertise",
-                        titleText: "Title *",
+                        hintText:  S.of(context).titleForYourAdd,
+                        titleText:  S.of(context).titleRequired,
                       ),
                       SizedBox(
                         height: 15.h,
                       ),
                       SimpleTextField(
                         controller: descriptionController,
-                        hintText: "Tell us more about your advertise",
-                        titleText: "Description *",
+                        hintText:  S.of(context).tellUsMoreAboutYourAdd,
+                        titleText:  S.of(context).description,
                         maxLine: 5,
                       ),
                       SizedBox(
                         height: 15.h,
                       ),
                       DateTimeTextField(
-                        hintText: "Select Date",
-                        titleText: "Date*",
+                        hintText:  S.of(context).selectDate,
+                        titleText:  S.of(context).date,
                         icon: Icons.calendar_month,
                         controller: dateController,
                         onTap: () async {
@@ -89,8 +91,8 @@ class _AddEventDetailScreenState extends State<AddEventDetailScreen> {
                         height: 15.h,
                       ),
                       DateTimeTextField(
-                        hintText: "Select Time",
-                        titleText: "Time*",
+                        hintText:  S.of(context).selectTime,
+                        titleText: S.of(context).time,
                         icon: Icons.watch_later_outlined,
                         controller: timeController,
                         onTap: () async {
@@ -124,20 +126,20 @@ class _AddEventDetailScreenState extends State<AddEventDetailScreen> {
                 ),
               ),
               CustomButton(
-                  buttonText: "Next",
+                  buttonText: S.of(context).next,
                   onTab: () {
                     if (titleController.text.isEmpty) {
                       context.flushBarTopErrorMessage(
-                          message: 'Please Enter Title.');
+                          message: S.of(context).pleaseEnterTitle);
                     } else if (descriptionController.text.isEmpty) {
                       context.flushBarTopErrorMessage(
-                          message: 'Please Enter Description.');
+                          message: S.of(context).pleaseEnterDescription);
                     }else if (dateController.text.isEmpty) {
                       context.flushBarTopErrorMessage(
-                          message: 'Please Select Date.');
+                          message: S.of(context).pleaseSelectDate);
                     }else if (timeController.text.isEmpty) {
                       context.flushBarTopErrorMessage(
-                          message: 'Please Select Time.');
+                          message: S.of(context).pleaseSelectTime);
                     } else {
                       Navigator.pushNamed(
                           context, RouteName.addEventPromoScreen,

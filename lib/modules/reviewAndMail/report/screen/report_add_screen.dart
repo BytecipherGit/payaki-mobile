@@ -15,6 +15,8 @@ import 'package:payaki/widgets/dropdown_widget.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class ReportAddScreen extends StatefulWidget {
   final String postUrl;
 
@@ -59,8 +61,8 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Report",
+      appBar:  CustomAppBar(
+        title: S.of(context).report,
       ),
       body: SafeArea(
         child: Padding(
@@ -73,39 +75,39 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
                 SizedBox(height: 25.h),
                 SimpleTextField(
                   controller: nameController,
-                  hintText: "Enter Your Name",
-                  titleText: "Your Name*",
+                  hintText: S.of(context).enterYourName,
+                  titleText: S.of(context).yourName,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: emailController,
-                  hintText: "Enter Email Address",
-                  titleText: "Email Address *",
+                  hintText:S.of(context).EnterEmail,
+                  titleText:S.of(context).Email,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: userNameController,
-                  hintText: "Enter Username",
-                  titleText: "Username",
+                  hintText: S.of(context).enterUserName,
+                  titleText:S.of(context).userName,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: userNameOfOtherPersonController,
-                  hintText: "Enter Username",
-                  titleText: "Username of other Person",
+                  hintText:S.of(context).enterUserName,
+                  titleText: S.of(context).useNameOfOtherPerson,
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 DropDownWidget(
-                  titleText: "Violation Type*",
-                  hintText: "Select Violation Type",
+                  titleText: S.of(context).violationType,
+                  hintText: S.of(context).selectViolationType,
                   itemList: violationTypeList,
                   selectedValue: selectedViolationType,
                   onValueChange: (value) {
@@ -117,16 +119,16 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
                 ),
                 SimpleTextField(
                   controller: violationUrlController,
-                  hintText: "Enter URL",
-                  titleText: "URL of  Violation",
+                  hintText: S.of(context).enterURL,
+                  titleText:S.of(context).uRLOfViolation
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 SimpleTextField(
                   controller: detailController,
-                  hintText: "Enter Violation Details",
-                  titleText: "Violation Details *",
+                  hintText: S.of(context).enterViolationDetails,
+                  titleText:S.of(context).violationDetails,
                   maxLine: 5,
                 ),
                 SizedBox(
@@ -135,28 +137,28 @@ class _ReportAddScreenState extends State<ReportAddScreen> {
                 Consumer<ReportAddScreenVm>(
                     builder: (context, reportAddScreenVm, child) {
                   return CustomButton(
-                      buttonText: "Report Violation",
+                      buttonText: S.of(context).reportViolation,
                       onTab: () {
                         if (nameController.text.isEmpty) {
                           context.flushBarTopErrorMessage(
-                              message: 'Please Enter Your Name.');
+                              message: S.of(context).pleaseEnterYourName);
                         } else if (Validators.checkValidateEmail(
                                 emailController.text) ==
                             false) {
                           context.flushBarTopErrorMessage(
-                              message: 'Please Enter Valid Email Address.');
+                              message: S.of(context).pleaseEnterEmail);
                         } else if (selectedViolationType == null) {
                           context.flushBarTopErrorMessage(
-                              message: 'Please Select Violation Type.');
+                              message: S.of(context).pleaseSelectViolationType);
                         } else if (violationUrlController.text.isNotEmpty &&
                             Validators.checkValidateUrl(
                                     violationUrlController.text) ==
                                 false) {
                           context.flushBarTopErrorMessage(
-                              message: "Please Enter Valid Link.");
+                              message: S.of(context).pleaseEnterValidLink);
                         } else if (detailController.text.isEmpty) {
                           context.flushBarTopErrorMessage(
-                              message: 'Please Enter Violation Details');
+                              message: S.of(context).pleaseEnterViolationDetails);
                         } else {
                           CommonDialog.showLoadingDialog(context);
                           reportAddScreenVm.reportViolation(

@@ -361,7 +361,7 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                                   message: "Please Enter Mobile Number.");
                             } else if (priceController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
-                                  message: "Please Enter Mobile Number.");
+                                  message: "Please Enter price");
                             } else {
                               Navigator.pushNamed(
                                 context,

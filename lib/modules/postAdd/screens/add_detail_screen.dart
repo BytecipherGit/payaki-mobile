@@ -8,6 +8,8 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 
+import '../../../generated/l10n.dart';
+
 class AddDetailScreen extends StatefulWidget {
   final int catId;
   final int subCatId;
@@ -28,8 +30,8 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Post Ad",
+      appBar:  CustomAppBar(
+        title: S.of(context).postAd,
       ),
       body: SafeArea(
         child: Padding(
@@ -44,30 +46,30 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                     children: [
                       SizedBox(height: 23.h),
                       Text(
-                        "Ads Details",
+                        S.of(context).adsDetails,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(height: 25.h),
                       SimpleTextField(
                         controller: titleController,
-                        hintText: "Title for your advertise",
-                        titleText: "Title *",
+                        hintText: S.of(context).titleForYourAdd,
+                        titleText: S.of(context).titleRequired,
                       ),
                       SizedBox(
                         height: 15.h,
                       ),
                       SimpleTextField(
                         controller: tagController,
-                        hintText: "Enter the tags separated by commas.",
-                        titleText: "Tag *",
+                        hintText: S.of(context).enterTheTagsSeparatedByCommas,
+                        titleText: S.of(context).tag,
                       ),
                       SizedBox(
                         height: 15.h,
                       ),
                       SimpleTextField(
                         controller: descriptionController,
-                        hintText: "Tell us more about your advertise",
-                        titleText: "Description *",
+                        hintText:S.of(context).tellUsMoreAboutYourAdd,
+                        titleText:S.of(context).description,
                         maxLine: 5,
                       ),
                       SizedBox(
@@ -78,15 +80,15 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                 ),
               ),
               CustomButton(
-                  buttonText: "Next",
+                  buttonText: S.of(context).next,
                   onTab: () {
                     if (titleController.text.isEmpty) {
-                      context.flushBarTopErrorMessage(message: 'Please Enter Title.');
+                      context.flushBarTopErrorMessage(message: S.of(context).pleaseEnterTitle);
                     } else if (tagController.text.isEmpty) {
-                      context.flushBarTopErrorMessage(message: 'Please Enter Tag.');
+                      context.flushBarTopErrorMessage(message: S.of(context).pleaseEnterTag);
                     } else if (descriptionController.text.isEmpty) {
                       context.flushBarTopErrorMessage(
-                          message: 'Please Enter Description.');
+                          message: S.of(context).pleaseEnterDescription);
                     } else {
                       Navigator.pushNamed(context, RouteName.setPriceScreen,
                           arguments: {

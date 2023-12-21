@@ -15,6 +15,8 @@ import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../generated/l10n.dart';
+
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({Key? key}) : super(key: key);
 
@@ -42,7 +44,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorUtility.whiteColor,
-        appBar: const CustomAppBar(title: "Chat", isShowBackButton: false),
+        appBar:  CustomAppBar(title: S.of(context).chat, isShowBackButton: false),
         body: Consumer<ChatListScreenVm>(
             builder: (context, chatListScreenVm, child) {
           return chatListScreenVm.chatUserListLoading == false
@@ -145,7 +147,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       })
                   : Center(
                       child: Text(
-                        "No User Found",
+                        S.of(context).noUserFound,
                         style: StyleUtility.inputTextStyle,
                       ),
                     )

@@ -6,6 +6,8 @@ import 'package:payaki/widgets/custom_appbar.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../generated/l10n.dart';
+
 class WebViewChatScreen extends StatefulWidget {
   final String? url;
 
@@ -68,8 +70,8 @@ class _WebViewChatScreenState extends State<WebViewChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Chat",
+      appBar:  CustomAppBar(
+        title: S.of(context).chat,
       ),
       body: SafeArea(
        // bottom: false,
@@ -81,7 +83,7 @@ class _WebViewChatScreenState extends State<WebViewChatScreen> {
                   widget.url != null && widget.url != ""?
                   WebViewWidget(
                     controller: controller,
-                  ):Center(child: Text("Invalid Chat Url"),),
+                  ):Center(child: Text(S.of(context).invalidChatURL),),
                   isLoading
                       ? const Center(
                           child: CircularProgressIndicator(),

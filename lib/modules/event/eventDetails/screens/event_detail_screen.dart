@@ -21,6 +21,7 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../../widgets/mobile_number_text_field.dart';
 
 class EventDetailsScreen extends StatefulWidget {
@@ -46,6 +47,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     super.initState();
     refreshTicketQuantity();
   }
+
   refreshTicketQuantity() {
     for (var i = 0; i < (widget.eventList?.event?.length ?? 0); i++) {
       widget.eventList?.event![i].bookQuantity = 0;
@@ -120,7 +122,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                     height: 25.h,
                                   ),
                                   Text(
-                                    "Event Date",
+                                    S.of(context).eventDate,
                                     style: StyleUtility.headingTextStyle,
                                   ),
                                   Text(widget.eventList?.eventDate ?? "",
@@ -129,7 +131,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                     height: 25.h,
                                   ),
                                   Text(
-                                    "Description",
+                                    S.of(context).descriptionDetail,
                                     style: StyleUtility.headingTextStyle,
                                   ),
                                   Text(widget.eventList?.description ?? "",
@@ -138,7 +140,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                     height: 25.h,
                                   ),
                                   Text(
-                                    "Ticket List",
+                                    S.of(context).ticketList,
                                     style: StyleUtility.headingTextStyle,
                                   ),
                                   ListView.builder(
@@ -242,7 +244,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                                                           .end,
                                                                   children: [
                                                                     Text(
-                                                                      "Avai. Quantity : ${tickets?[index].remainingQuantity ?? ""}",
+                                                                      "${S.of(context).availableQuantity} ${tickets?[index].remainingQuantity ?? ""}",
                                                                       style: StyleUtility
                                                                           .titleTextStyle,
                                                                       overflow:
@@ -421,7 +423,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                                                         .end,
                                                                 children: [
                                                                   Text(
-                                                                    "Quantity",
+                                                                    S.of(context).quantity,
                                                                     style: StyleUtility
                                                                         .axiforma300
                                                                         .copyWith(
@@ -454,7 +456,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                               widget.eventList?.userId &&
                                           totalAmount > 0)
                                       ? CustomButton(
-                                          buttonText: "Purchase ($totalAmount)",
+                                          buttonText: "${ S.of(context).purchase} ($totalAmount)",
                                           onTab: () {
                                             if (widget.eventList != null) {
                                               onBuyTickets(widget.eventList!,
@@ -552,16 +554,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               ctx: context,
               onSuccess: (String message) {
                 Navigator.pop(context);
-                context.flushBarTopSuccessMessage(
-                    message: message.toString());
+                context.flushBarTopSuccessMessage(message: message.toString());
               },
               onFailure: (String message) {
                 Navigator.pop(context);
-                context.flushBarTopErrorMessage(
-                    message: message.toString());
+                context.flushBarTopErrorMessage(message: message.toString());
               },
-              amount:
-              totalAmount.toString(),
+              amount: totalAmount.toString(),
               id: id,
             );
           },
@@ -570,18 +569,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             context.flushBarTopSuccessMessage(message: message);
           });
     });
-
-
   }
-
-
 
   static showPaymentLoadingDialog(
       {required BuildContext ctx,
-        ValueChanged<String>? onSuccess,
-        ValueChanged<String>? onFailure,
-        required String amount,
-        required String id}) {
+      ValueChanged<String>? onSuccess,
+      ValueChanged<String>? onFailure,
+      required String amount,
+      required String id}) {
     showDialog(
       barrierDismissible: false,
       context: ctx,
@@ -621,7 +616,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                 height: 25.h,
                               ),
                               Text(
-                                "Enter your Mobile Number",
+                                S.of(context).enterYourMobileNumber,
                                 style: StyleUtility.headingTextStyle,
                               ),
                               SizedBox(
@@ -640,12 +635,12 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                 height: 20.h,
                               ),
                               CustomButton(
-                                  buttonText: "Authorise Payment",
+                                  buttonText:  S.of(context).authorisePayment,
                                   onTab: () async {
                                     if (mobileController.text.isEmpty) {
                                       context.flushBarTopErrorMessage(
                                           message:
-                                          "Please Enter Mobile Number");
+                                          S.of(context).pleaseEnterYourPhoneNumber);
                                     } else {
                                       payment.pay(
                                           amount: amount,
