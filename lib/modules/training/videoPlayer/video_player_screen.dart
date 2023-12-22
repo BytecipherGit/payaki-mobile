@@ -5,6 +5,8 @@ import "package:payaki/widgets/custom_appbar.dart";
 
 import "package:video_controls/video_controls.dart";
 
+import "../../../generated/l10n.dart";
+
 // const String url =
 //     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
@@ -29,8 +31,8 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Video",
+      appBar:  CustomAppBar(
+        title: S.of(context).video,
 
       ),
 

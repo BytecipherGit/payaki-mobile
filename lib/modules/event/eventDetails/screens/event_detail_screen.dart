@@ -423,7 +423,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                                                         .end,
                                                                 children: [
                                                                   Text(
-                                                                    S.of(context).quantity,
+                                                                    S
+                                                                        .of(context)
+                                                                        .quantity,
                                                                     style: StyleUtility
                                                                         .axiforma300
                                                                         .copyWith(
@@ -456,7 +458,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                               widget.eventList?.userId &&
                                           totalAmount > 0)
                                       ? CustomButton(
-                                          buttonText: "${ S.of(context).purchase} ($totalAmount)",
+                                          buttonText:
+                                              "${S.of(context).purchase} ($totalAmount)",
                                           onTab: () {
                                             if (widget.eventList != null) {
                                               onBuyTickets(widget.eventList!,
@@ -635,12 +638,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                 height: 20.h,
                               ),
                               CustomButton(
-                                  buttonText:  S.of(context).authorisePayment,
+                                  buttonText: S.of(context).authorisePayment,
                                   onTab: () async {
                                     if (mobileController.text.isEmpty) {
                                       context.flushBarTopErrorMessage(
-                                          message:
-                                          S.of(context).pleaseEnterYourPhoneNumber);
+                                          message: S
+                                              .of(context)
+                                              .pleaseEnterYourPhoneNumber);
                                     } else {
                                       payment.pay(
                                           amount: amount,

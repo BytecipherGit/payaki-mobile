@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:payaki/utilities/style_utility.dart';
 
+import '../generated/l10n.dart';
+
 class TimerWidget extends StatefulWidget {
   final int durationInSeconds;
   final VoidCallback onTimerFinished;
@@ -52,7 +54,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           ),
         ),
         Text(
-          ' Sec Left',
+          S.of(context).secLeft,
           style: StyleUtility.detailTextStyle,
         ),
       ],

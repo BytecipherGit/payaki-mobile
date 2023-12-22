@@ -5,6 +5,8 @@ import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 
+import '../generated/l10n.dart';
+
 class DateTimeTextField extends StatelessWidget {
   const DateTimeTextField({
     Key? key,
@@ -48,7 +50,7 @@ class DateTimeTextField extends StatelessWidget {
               filled: true,
               fillColor: ColorUtility.colorF8FAFB,
               hintStyle: StyleUtility.hintTextStyle,
-              hintText: "Select Date",
+              hintText:  S.of(context).selectDate,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),
                 borderSide: const BorderSide(

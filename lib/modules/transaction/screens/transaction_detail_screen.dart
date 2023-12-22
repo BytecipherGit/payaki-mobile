@@ -10,6 +10,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 
+import '../../../generated/l10n.dart';
+
 class TransactionDetailScreen extends StatefulWidget {
   final Data? transaction;
 
@@ -29,7 +31,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-      appBar: const CustomAppBar(title: "Transaction Detail"),
+      appBar:  CustomAppBar(title: S.of(context).transactionDetail),
       body: Container(
         width: double.infinity,
         margin:
@@ -43,7 +45,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Title", style: StyleUtility.titleTextStyle),
+            Text(S.of(context).title, style: StyleUtility.titleTextStyle),
             Text(
               widget.transaction?.productName ?? "",
               style: StyleUtility.headingTextStyle
@@ -52,7 +54,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
             SizedBox(
               height: 15.sp,
             ),
-            Text("Amount", style: StyleUtility.titleTextStyle),
+            Text(S.of(context).amount, style: StyleUtility.titleTextStyle),
             Text(
               "${Constant.currencySymbol} ${CommonMethod.numberFormat(widget.transaction?.amount ?? "")}",
               style: StyleUtility.headerTextStyle.copyWith(
@@ -67,13 +69,13 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("Premium", style: StyleUtility.titleTextStyle),
+                      Text(S.of(context).premium, style: StyleUtility.titleTextStyle),
                       Wrap(
                         alignment: WrapAlignment.end,
                         children: [
                           if (widget.transaction?.urgent == "1")
                             Text(
-                              "URGENT",
+                              S.of(context).urgent,
                               style: StyleUtility.headingTextStyle.copyWith(
                                 color: ColorUtility.color5DB85C,
                               ),
@@ -82,7 +84,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                             Padding(
                               padding: EdgeInsets.only(left: 10.w),
                               child: Text(
-                                "FEATURED",
+                                S.of(context).featured,
                                 style: StyleUtility.headingTextStyle.copyWith(
                                   color: ColorUtility.colorF1AD4E,
                                 ),
@@ -92,7 +94,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                             Padding(
                               padding: EdgeInsets.only(left: 10.w),
                               child: Text(
-                                "HIGHLIGHT",
+                                S.of(context).highlight,
                                 style: StyleUtility.headingTextStyle.copyWith(
                                   color: ColorUtility.color5BC1DF,
                                 ),
@@ -103,7 +105,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       SizedBox(
                         height: 15.sp,
                       ),
-                      Text("Payment Method",
+                      Text(S.of(context).paymentMethod,
                           style: StyleUtility.titleTextStyle),
                       Text(
                         widget.transaction?.transactionGatway ?? "",
@@ -113,7 +115,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       SizedBox(
                         height: 15.sp,
                       ),
-                      Text("Date", style: StyleUtility.titleTextStyle),
+                      Text(S.of(context).date, style: StyleUtility.titleTextStyle),
                       Text(
                         //  "22/02/2023",
                         widget.transaction?.transactionTime ?? "",
@@ -123,7 +125,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       SizedBox(
                         height: 15.sp,
                       ),
-                      Text("Status", style: StyleUtility.titleTextStyle),
+                      Text(S.of(context).status, style: StyleUtility.titleTextStyle),
                       Text(
                         widget.transaction?.status?.toUpperCase() ?? "",
                         style: StyleUtility.headingTextStyle
@@ -137,7 +139,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("Phone Number", style: StyleUtility.titleTextStyle),
+                      Text(S.of(context).phoneNumber, style: StyleUtility.titleTextStyle),
                       Text(
                         "+244812024778",
                         style: StyleUtility.headingTextStyle
@@ -146,7 +148,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       SizedBox(
                         height: 15.sp,
                       ),
-                      Text("Description", style: StyleUtility.titleTextStyle),
+                      Text(S.of(context).descriptionDetail, style: StyleUtility.titleTextStyle),
                       Text(
                         "Lorem ipsum dolor sit ame lorem ipsum dolor sit ame lorem ipsum dolor sit ame lorem ipsum dolor sit ame",
                         style: StyleUtility.headingTextStyle
@@ -155,7 +157,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       SizedBox(
                         height: 15.sp,
                       ),
-                      Text("Date", style: StyleUtility.titleTextStyle),
+                      Text(S.of(context).date, style: StyleUtility.titleTextStyle),
                       Text(
                         widget.transaction?.transactionTime ?? "",
                         style: StyleUtility.headingTextStyle
@@ -164,7 +166,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       SizedBox(
                         height: 15.sp,
                       ),
-                      Text("Status", style: StyleUtility.titleTextStyle),
+                      Text(S.of(context).status, style: StyleUtility.titleTextStyle),
                       Text(
                         widget.transaction?.status?.toUpperCase() ?? "",
                         style: StyleUtility.headingTextStyle
@@ -173,7 +175,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       SizedBox(
                         height: 15.sp,
                       ),
-                      Text("Image", style: StyleUtility.titleTextStyle),
+                      Text(S.of(context).image, style: StyleUtility.titleTextStyle),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(5.r),
                         child: Image.asset(
@@ -186,7 +188,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       SizedBox(
                         height: 15.sp,
                       ),
-                      Text("Video", style: StyleUtility.titleTextStyle),
+                      Text(S.of(context).video, style: StyleUtility.titleTextStyle),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(5.r),
                         child: Image.asset(

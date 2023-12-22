@@ -20,6 +20,7 @@ import 'package:payaki/widgets/mobile_number_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:payaki/network/model/response/location/city_list_response.dart';
 
+import '../../../../generated/l10n.dart';
 
 class AddTrainingDetailScreen extends StatefulWidget {
   final int catId;
@@ -75,8 +76,8 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Training",
+      appBar: CustomAppBar(
+        title: S.of(context).training,
       ),
       body: SafeArea(
         child: Padding(
@@ -95,22 +96,24 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                             children: [
                               SizedBox(height: 23.h),
                               Text(
-                                "Details",
+                                S.of(context).details,
                                 style: StyleUtility.headingTextStyle,
                               ),
                               SizedBox(height: 25.h),
                               SimpleTextField(
                                 controller: titleController,
-                                hintText: "Title for your training",
-                                titleText: "Title *",
+                                hintText: S.of(context).titleForYourTraining,
+                                titleText: S.of(context).title,
                               ),
                               SizedBox(
                                 height: 15.h,
                               ),
                               SimpleTextField(
                                 controller: descriptionController,
-                                hintText: "Tell us more about your description",
-                                titleText: "Description *",
+                                hintText: S
+                                    .of(context)
+                                    .tellUsMoreAboutYourDescription,
+                                titleText: S.of(context).description,
                                 maxLine: 5,
                               ),
                               SizedBox(
@@ -123,7 +126,7 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                                     )
                                   : const SizedBox(),
                               Text(
-                                "Add Location",
+                                S.of(context).addLocation,
                                 style: StyleUtility.inputTextStyle,
                               ),
                               TypeAheadField<Data>(
@@ -136,7 +139,7 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                                         left: 20.w,
                                         right: 5.w),
                                     filled: true,
-                                    hintText: "Enter Location",
+                                    hintText: S.of(context).enterLocation,
                                     fillColor: ColorUtility.colorF8FAFB,
                                     hintStyle: StyleUtility.hintTextStyle,
                                     border: OutlineInputBorder(
@@ -225,7 +228,7 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                                 height: 15.h,
                               ),
                               Text(
-                                "Expire Ad",
+                                S.of(context).expireAd,
                                 style: StyleUtility.inputTextStyle,
                               ),
                               DropdownButtonHideUnderline(
@@ -280,7 +283,7 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                                   ),
                                   borderRadius: BorderRadius.circular(10.r),
                                   hint: Text(
-                                    "Select Expire Days",
+                                    S.of(context).selectYOurCountry,
                                     style: StyleUtility.hintTextStyle,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -321,8 +324,8 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                               ),
                               SimpleTextField(
                                 controller: priceController,
-                                hintText: "Enter Price",
-                                titleText: "Price *",
+                                hintText: S.of(context).enterPrice,
+                                titleText: S.of(context).price,
                                 textInputType: TextInputType.number,
                                 inputFormatter: [
                                   DecimalInputFormatter(),
@@ -340,28 +343,31 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                         ),
                       ),
                       CustomButton(
-                          buttonText: "Next",
+                          buttonText: S.of(context).next,
                           onTab: () {
                             FocusScope.of(context).unfocus();
                             logD("Selected location $location");
                             if (titleController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
-                                  message: 'Please Enter Title.');
+                                  message: S.of(context).pleaseEnterTitle);
                             } else if (descriptionController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
-                                  message: 'Please Enter Description.');
+                                  message:
+                                      S.of(context).pleaseEnterDescription);
                             } else if (location == null) {
                               context.flushBarTopErrorMessage(
-                                  message: "Please Select Location.");
+                                  message: S.of(context).pleaseSelectLocation);
                             } else if (selectDayValue?.value == null) {
                               context.flushBarTopErrorMessage(
-                                  message: "Please Select Expire Days.");
+                                  message:
+                                      S.of(context).pleaseSelectExpireDays);
                             } else if (phoneNumberController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
-                                  message: "Please Enter Mobile Number.");
+                                  message:
+                                      S.of(context).pleaseEnterMobileNumber);
                             } else if (priceController.text.isEmpty) {
                               context.flushBarTopErrorMessage(
-                                  message: "Please Enter price");
+                                  message: S.of(context).pleaseEnterPrice);
                             } else {
                               Navigator.pushNamed(
                                 context,
@@ -370,8 +376,9 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
                                   "catId": widget.catId,
                                   "subCatId": widget.subCatId,
                                   "title": titleController.text,
-                                //  "price": priceController.text,
-                                  "price": priceController.text.replaceAll(',', ''),
+                                  //  "price": priceController.text,
+                                  "price":
+                                      priceController.text.replaceAll(',', ''),
                                   "description": descriptionController.text,
                                   "location": location,
                                   "city": city,

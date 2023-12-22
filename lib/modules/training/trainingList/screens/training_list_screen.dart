@@ -13,6 +13,8 @@ import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class TrainingListScreen extends StatefulWidget {
   final bool isAllPost;
 
@@ -44,7 +46,7 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
       appBar: CustomAppBar(
-        title: widget.isAllPost == true ? "All Training" : "My Training",
+        title: widget.isAllPost == true ? S.of(context).allTraining: S.of(context).myTrainings,
       ),
       body: Consumer<TrainingListScreenVm>(
           builder: (context, trainingListScreenVm, child) {
@@ -108,8 +110,8 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
                           );
                         },
                       )
-                    : const NoDataWidget(
-                        title: 'You haven’t listed anything yet.',
+                    :  NoDataWidget(
+                        title: S.of(context).youHaveNotListedAnythingYet,
                       ),
               );
       }),

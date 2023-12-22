@@ -7,6 +7,8 @@ import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 
+import '../generated/l10n.dart';
+
 class MobileNumberTextField extends StatelessWidget {
   const MobileNumberTextField({
     Key? key,
@@ -25,7 +27,7 @@ class MobileNumberTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Phone Number*",
+          S.of(context).phoneNumber,
           style: StyleUtility.inputTextStyle,
         ),
         IntlPhoneField(
@@ -80,7 +82,7 @@ class MobileNumberTextField extends StatelessWidget {
               filled: true,
               fillColor: ColorUtility.colorF8FAFB,
               hintStyle: StyleUtility.hintTextStyle,
-              hintText: "Mobile Number",
+              hintText:  S.of(context).phoneNumber,
             ),
             initialCountryCode: 'AO',
             onChanged: (phone) {

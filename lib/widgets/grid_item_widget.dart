@@ -9,6 +9,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 
+import '../generated/l10n.dart';
+
 class GridItemWidget extends StatelessWidget {
   final String price;
   final String title;
@@ -91,7 +93,7 @@ class GridItemWidget extends StatelessWidget {
                                           .withOpacity(0.6),
                                       borderRadius: BorderRadius.circular(3.r)),
                                   child: Center(
-                                    child: Text(("Urgent").toUpperCase(),
+                                    child: Text(( S.of(context).urgent).toUpperCase(),
                                         style: StyleUtility.typeStyle),
                                   ))
                               : const SizedBox(),
@@ -106,7 +108,7 @@ class GridItemWidget extends StatelessWidget {
                                           .withOpacity(0.6),
                                       borderRadius: BorderRadius.circular(3.r)),
                                   child: Center(
-                                    child: Text(("featured").toUpperCase(),
+                                    child: Text(( S.of(context).featured).toUpperCase(),
                                         style: StyleUtility.typeStyle),
                                   ))
                               : const SizedBox(),
@@ -120,7 +122,7 @@ class GridItemWidget extends StatelessWidget {
                                           .withOpacity(0.6),
                                       borderRadius: BorderRadius.circular(3.r)),
                                   child: Center(
-                                    child: Text(("HIGHLIGHT").toUpperCase(),
+                                    child: Text(( S.of(context).highlight).toUpperCase(),
                                         style: StyleUtility.typeStyle),
                                   ))
                               : const SizedBox(),
@@ -208,7 +210,7 @@ class GridItemWidget extends StatelessWidget {
                             expiredDate != null
                                 ? Expanded(
                                     child: Text(
-                                      "Exp. ${Moment(DateTime.parse(expiredDate!)).fromNow()}",
+                                      "${ S.of(context).exp }${Moment(DateTime.parse(expiredDate!)).fromNow()}",
                                       style: StyleUtility.titleTextStyle
                                           .copyWith(
                                               color: ColorUtility.color323436),

@@ -15,6 +15,7 @@ import 'package:payaki/widgets/custom_button.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/simple_text_field.dart';
 import 'package:provider/provider.dart';
+import '../../../generated/l10n.dart';
 import '../../../network/model/response/category/category_list_response.dart'
     as category;
 import '../../../network/model/response/location/city_list_response.dart';
@@ -64,8 +65,8 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Search",
+      appBar:  CustomAppBar(
+        title:  S.of(context).search,
       ),
       body: SafeArea(
         child: Padding(
@@ -82,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       children: [
                         SizedBox(height: 23.h),
                         Text(
-                          "Category",
+                          S.of(context).category,
                           style: StyleUtility.inputTextStyle,
                         ),
                         DropdownButtonHideUnderline(
@@ -138,7 +139,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                             borderRadius: BorderRadius.circular(10.r),
                             hint: Text(
-                              "Select Category",
+                              S.of(context).selectCategory,
                               style: StyleUtility.hintTextStyle,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -173,14 +174,14 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         SimpleTextField(
                           controller: titleController,
-                          hintText: "Title",
-                          titleText: "Title *",
+                          hintText:  S.of(context).title,
+                          titleText: S.of(context).titleRequired,
                         ),
                         SizedBox(
                           height: 15.h,
                         ),
                         Text(
-                          "Add Location",
+                          S.of(context).addLocation,
                           style: StyleUtility.inputTextStyle,
                         ),
                         TypeAheadField<Data>(
@@ -193,7 +194,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   left: 20.w,
                                   right: 5.w),
                               filled: true,
-                              hintText: "Enter Location",
+                              hintText: S.of(context).enterLocation,
                               fillColor: ColorUtility.colorF8FAFB,
                               hintStyle: StyleUtility.hintTextStyle,
                               border: OutlineInputBorder(
@@ -302,7 +303,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               CustomButton(
-                  buttonText: "Search",
+                  buttonText:  S.of(context).search,
                   onTab: () {
                     logD("Selected location $location");
                     // if (locationController.text.isEmpty) {
@@ -310,7 +311,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         location == null &&
                         selectedCategory == null) {
                       context.flushBarTopErrorMessage(
-                          message: "Please Fill Up At Least One Field.");
+                          message:  S.of(context).pleaseFillUpAtLeastOneField);
                     } else {
                       CommonDialog.showLoadingDialog(context);
                       searchScreenVm.searchPostApi(

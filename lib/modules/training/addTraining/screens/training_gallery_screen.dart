@@ -15,6 +15,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/upload_image_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class TrainingGalleryScreen extends StatefulWidget {
 
   final String productId;
@@ -31,8 +33,8 @@ class _TrainingGalleryScreenState extends State<TrainingGalleryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Training",
+      appBar:  CustomAppBar(
+        title:S.of(context).training,
       ),
       body: SafeArea(
         child: Padding(
@@ -47,7 +49,7 @@ class _TrainingGalleryScreenState extends State<TrainingGalleryScreen> {
                         children: [
                       SizedBox(height: 23.h),
                       Text(
-                        "Gallery",
+                        S.of(context).gallery,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(height: 25.h),
@@ -55,7 +57,7 @@ class _TrainingGalleryScreenState extends State<TrainingGalleryScreen> {
                         onTap: () {
                           trainingGalleryScreenVm.getVideos();
                         },
-                        title: "Attach File",
+                        title: S.of(context).attachFile,
                         type: Constant.videoFile,
                       ),
                       SizedBox(
@@ -96,11 +98,11 @@ class _TrainingGalleryScreenState extends State<TrainingGalleryScreen> {
                   height: 20.h,
                 ),
                 CustomButton(
-                    buttonText: "Upload",
+                    buttonText: S.of(context).upload,
                     onTab: () {
                       if (trainingGalleryScreenVm.selectedVideos == null) {
                         context.flushBarTopErrorMessage(
-                            message: "Please Select Images.");
+                            message:  S.of(context).pleaseSelectImages);
                       } else {
                         CommonDialog.showLoadingDialog(context);
 

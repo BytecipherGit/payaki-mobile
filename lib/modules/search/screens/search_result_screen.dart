@@ -315,11 +315,11 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                   if (priceFromController.text.isEmpty) {
                                     context.flushBarTopErrorMessage(
                                         message:
-                                            "Please Enter Price From Value");
+                                        S.of(context).pleaseEnterPriceFromValue);
                                   } else if (priceFromController.text.isEmpty) {
                                     context.flushBarTopErrorMessage(
                                         message:
-                                            "Please Enter Price From Value");
+                                        S.of(context).pleaseEnterPriceFromValue);
                                   } else {
                                     Navigator.pop(context);
 
@@ -370,14 +370,14 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Sort by",
+                          S.of(context).sortBy,
                           style: StyleUtility.headingTextStyle,
                         ),
                         SizedBox(
                           height: 30.h,
                         ),
                         ShortByListTile(
-                            title: "Name",
+                            title:  S.of(context).name,
                             value: name,
                             selectedShortByValue: selectedShortByValue ?? "",
                             onChanged: (value) {
@@ -386,7 +386,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                               });
                             }),
                         ShortByListTile(
-                            title: "Date",
+                            title:  S.of(context).date,
                             value: date,
                             selectedShortByValue: selectedShortByValue ?? "",
                             onChanged: (value) {
@@ -395,7 +395,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                               });
                             }),
                         ShortByListTile(
-                            title: "Price : Low to High",
+                            title: S.of(context).priceLowToHigh,
                             value: priceLowToHeigh,
                             selectedShortByValue: selectedShortByValue ?? "",
                             onChanged: (value) {
@@ -404,7 +404,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                               });
                             }),
                         ShortByListTile(
-                            title: "Price : High to low",
+                            title:  S.of(context).priceHighToLow,
                             value: priceHeighToLow,
                             selectedShortByValue: selectedShortByValue ?? "",
                             onChanged: (value) {
@@ -419,7 +419,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                           children: [
                             Expanded(
                                 child: CustomButton.outline(
-                                    buttonText: "Reset",
+                                    buttonText:  S.of(context).reset,
                                     onTab: () {
                                       Navigator.pop(context);
                                       resetFilter(searchResultScreenVm);
@@ -429,11 +429,11 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                             ),
                             Expanded(
                                 child: CustomButton(
-                                    buttonText: "Done",
+                                    buttonText:  S.of(context).done,
                                     onTab: () {
                                       if (selectedShortByValue == null) {
                                         context.flushBarTopErrorMessage(
-                                            message: "Please Select Short By");
+                                            message:  S.of(context).pleaseSelectShortBy);
                                       } else {
                                         Navigator.pop(context);
 

@@ -18,7 +18,7 @@
   "RecoveryPassword": "Recuperação de senha",
   "LogIn": "Entrar",
   "LogInWithPhone": "Entrar com o telefone",
-  "DidNotHaveAnAccount": "Não tem uma conta?",
+  "DidNotHaveAnAccount": "Não tem uma conta? ",
   "SignUp": "Registrar",
   "signIn": "Registrar",
   "orContinueWith": "Ou continuar com",
@@ -315,6 +315,11 @@
   "pleaseEnterYourName":     "Por favor, insira seu nome.",
   "pleaseEnterPriceFromValue":     "Por favor, insira um valor de preço inicial",
   "pleaseSelectShortBy":     "Por favor, selecione a ordem.",
-  "pleaseFillUpAtLeastOneField": "Por favor, preencha pelo menos um campo."
+  "pleaseFillUpAtLeastOneField": "Por favor, preencha pelo menos um campo.",
+  "upload": "Upload",
+  "image": "Image",
+  "pleaseWait": "Por favor, aguarde...",
+  "pleaseWaitWhileAuthorising": "Por favor, aguarde enquanto autoriza...",
+  "pleaseSelectImages": "Por favor, selecione imagens."
 }
 

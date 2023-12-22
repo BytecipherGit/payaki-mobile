@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:payaki/utilities/color_utility.dart';
 
+import '../generated/l10n.dart';
+
 class CommonDialog{
 
 
@@ -28,8 +30,8 @@ class CommonDialog{
                       ? */
                       Container(
                         padding: const EdgeInsets.all(10.0),
-                        child: const Text(
-                          "Please wait...",
+                        child:  Text(
+                          S.of(context).pleaseWait,
                           style: TextStyle(color: Colors.grey, fontSize: 16.0),
                         ),
                       )
@@ -60,8 +62,8 @@ class CommonDialog{
                         // const Text("Please wait while authorising"),
                         Container(
                           padding: const EdgeInsets.all(10.0),
-                          child: const Text(
-                            "Please wait while authorising...",
+                          child:  Text(
+                            S.of(context).pleaseWaitWhileAuthorising,
                             style: TextStyle(color: Colors.grey, fontSize: 16.0),
                           ),
                         ),

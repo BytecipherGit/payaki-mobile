@@ -29,6 +29,7 @@ import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../../widgets/mobile_number_text_field.dart';
 import '../../../event/event_purchase_screen/event_purchase_screen.dart';
 
@@ -153,7 +154,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                         height: 25.h,
                       ),
                       Text(
-                        "Location",
+                        S.of(context).location,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(
@@ -178,7 +179,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                         height: 25.h,
                       ),
                       Text(
-                        "Description",
+                        S.of(context).description,
                         style: StyleUtility.headingTextStyle,
                       ),
                       Text(widget.trainingData?.description ?? "",
@@ -187,7 +188,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                         height: 25.h,
                       ),
                       Text(
-                        "Posted By",
+                        S.of(context).postedBy,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(
@@ -263,7 +264,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                               height: 15.sp,
                             ),
                             Text(
-                              "Video Gallery",
+                              S.of(context).videoGallery,
                               style: StyleUtility.headingTextStyle,
                             ),
                             SizedBox(
@@ -350,11 +351,11 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                                               context)
                                                           .showSnackBar(
                                                         SnackBar(
-                                                          content: const Text(
-                                                              'Download completed'),
+                                                          content:  Text(
+                                                              S.of(context).downloadCompleted),
                                                           action:
                                                               SnackBarAction(
-                                                            label: 'Open',
+                                                            label: S.of(context).Open,
                                                             onPressed:
                                                                 () async {
                                                               // Open the downloaded file in the Files app
@@ -381,7 +382,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                         height: 15.sp,
                       ),
                       Text(
-                        "Promo Video",
+                        S.of(context).promoVideo,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(
@@ -415,7 +416,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                             ? Consumer<TrainingDetailScreenVm>(builder:
                                 (context, trainingDetailScreenVm, child) {
                                 return CustomButton(
-                                    buttonText: "Purchase Training",
+                                    buttonText: S.of(context).purchaseTraining,
                                     onTab: () {
                                       Timer(const Duration(seconds: 1), () {
                                         CommonDialog.showLoadingDialog(context);
@@ -547,7 +548,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                 height: 25.h,
                               ),
                               Text(
-                                "Enter your Mobile Number",
+                                S.of(context).enterYourMobileNumber,
                                 style: StyleUtility.headingTextStyle,
                               ),
                               SizedBox(
@@ -566,12 +567,12 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                 height: 20.h,
                               ),
                               CustomButton(
-                                  buttonText: "Authorise Payment",
+                                  buttonText: S.of(context).authorisePayment,
                                   onTab: () async {
                                     if (mobileController.text.isEmpty) {
                                       context.flushBarTopErrorMessage(
                                           message:
-                                          "Please Enter Mobile Number");
+                                          S.of(context).pleaseEnterMobileNumber);
                                     } else {
                                       payment.pay(
                                           amount: amount,

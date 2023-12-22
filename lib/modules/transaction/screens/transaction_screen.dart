@@ -12,6 +12,8 @@ import 'package:payaki/widgets/circular_progress_widget.dart';
 import 'package:payaki/widgets/custom_appbar.dart';
 import 'package:provider/provider.dart';
 
+import '../../../generated/l10n.dart';
+
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({Key? key}) : super(key: key);
 
@@ -37,7 +39,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.colorF6F6F6,
-      appBar: const CustomAppBar(title: "Transaction"),
+      appBar:  CustomAppBar(title:S.of(context).transaction),
       body: Consumer<TransactionScreenVm>(builder: (context, model, child) {
         var transactionList = model.transactionListResponse?.data;
         return model.isLoading == true
@@ -100,7 +102,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                                       .urgent ==
                                                   "1")
                                                 Text(
-                                                  "URGENT",
+                                                  S.of(context).urgent,
                                                   style: StyleUtility
                                                       .titleTextStyle
                                                       .copyWith(
@@ -117,7 +119,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                                   padding: EdgeInsets.only(
                                                       left: 5.w),
                                                   child: Text(
-                                                    "FEATURED",
+                                                    S.of(context).featured,
                                                     style: StyleUtility
                                                         .titleTextStyle
                                                         .copyWith(
@@ -135,7 +137,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                                   padding: EdgeInsets.only(
                                                       left: 5.w),
                                                   child: Text(
-                                                    "HIGHLIGHT",
+                                                    S.of(context).highlight,
                                                     style: StyleUtility
                                                         .titleTextStyle
                                                         .copyWith(
@@ -197,14 +199,14 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Payment method".toUpperCase(),
+                                          S.of(context).paymentMethod.toUpperCase(),
                                           style: StyleUtility.titleTextStyle
                                               .copyWith(
                                                   fontSize: TextSizeUtility
                                                       .textSize12),
                                         ),
                                         Text(
-                                          "Status".toUpperCase(),
+                                          S.of(context).status.toUpperCase(),
                                           style: StyleUtility.titleTextStyle
                                               .copyWith(
                                                   fontSize: TextSizeUtility
@@ -249,8 +251,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
                         ),
                       );
                     })
-                : const Center(
-                    child: Text("No Transaction Found"),
+                :  Center(
+                    child: Text(S.of(context).noTransactionFound),
                   );
       }),
     );

@@ -407,7 +407,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 },
                               ),
                               SettingTileWidget(
-                                title: "Version (${buildNumber ?? 1})",
+                                title: "${S.of(context).version} (${buildNumber ?? 1})",
                                 image: ImageUtility.versionIcon,
                                 imageWidth: 14.w,
                               ),

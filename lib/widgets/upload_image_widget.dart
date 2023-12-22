@@ -7,6 +7,8 @@ import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/utilities/text_size_utility.dart';
 
+import '../generated/l10n.dart';
+
 class UploadImageWidget extends StatelessWidget {
   final VoidCallback onTap;
   final String title;
@@ -51,8 +53,8 @@ class UploadImageWidget extends StatelessWidget {
                     ),
                     Text(
                       type != null && type == Constant.videoFile
-                          ? "Upload Video"
-                          : "Upload Images",
+                          ?  S.of(context).uploadVideo
+                          :  S.of(context).uploadImage,
                       style: StyleUtility.axiforma500.copyWith(
                           fontSize: TextSizeUtility.textSize14,
                           color: ColorUtility.color8F8F8F),
@@ -66,8 +68,8 @@ class UploadImageWidget extends StatelessWidget {
         ),
         Text(
           type != null && type == Constant.videoFile
-              ? "Mandatory Only MP4, AVI File Accepted"
-              : "Mandatory Only JPG, PNG, JPEG File Accepted",
+              ?  S.of(context).mandatoryOnlyVideoType
+              :  S.of(context).mandatoryOlyJPGPNG,
           style: StyleUtility.axiforma400.copyWith(
               fontSize: TextSizeUtility.textSize12,
               color: ColorUtility.color8F8F8F),

@@ -8,6 +8,8 @@ import 'package:payaki/utilities/image_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/network_image_widget.dart';
 
+import '../generated/l10n.dart';
+
 class EventTrainingWidget extends StatelessWidget {
   final String title;
   final String imageUrl;
@@ -91,7 +93,7 @@ class EventTrainingWidget extends StatelessWidget {
                           expiredDate != null
                               ? Expanded(
                             child: Text(
-                              "Exp. ${Moment(DateTime.parse(expiredDate!)).fromNow()}",
+                              "${ S.of(context).exp} ${Moment(DateTime.parse(expiredDate!)).fromNow()}",
                               style: StyleUtility.titleTextStyle
                                   .copyWith(
                                   color: ColorUtility.color323436),

@@ -15,6 +15,8 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:payaki/widgets/upload_image_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../generated/l10n.dart';
+
 class TrainingPromoScreen extends StatefulWidget {
   final int catId;
   final int subCatId;
@@ -54,8 +56,8 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar: const CustomAppBar(
-        title: "Training",
+      appBar:  CustomAppBar(
+        title: S.of(context).training,
       ),
       body: Consumer<TrainingPromoScreenVm>(
           builder: (context, trainingPromoScreenVm, child) {
@@ -72,7 +74,7 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                       children: [
                         SizedBox(height: 23.h),
                         Text(
-                          "Promo Image",
+                          S.of(context).promoImage,
                           style: StyleUtility.headingTextStyle,
                         ),
                         SizedBox(height: 25.h),
@@ -80,7 +82,7 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                             onTap: () {
                               trainingPromoScreenVm.getImages();
                             },
-                            title: "Attach File"),
+                            title: S.of(context).attachFile),
                         if (trainingPromoScreenVm.selectedImages != null)
                           Padding(
                             padding: EdgeInsets.only(top: 20.h),
@@ -117,7 +119,7 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                           ),
                         SizedBox(height: 23.h),
                         Text(
-                          "Promo Video",
+                          S.of(context).promoVideo,
                           style: StyleUtility.headingTextStyle,
                         ),
                         SizedBox(height: 25.h),
@@ -125,7 +127,7 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                           onTap: () {
                             trainingPromoScreenVm.getVideo();
                           },
-                          title: "Attach File",
+                          title: S.of(context).attachFile,
                           type: Constant.videoFile,
                         ),
                         SizedBox(
@@ -158,7 +160,7 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                                               color: ColorUtility.colorB3B3B3,
                                               child: Center(
                                                   child: Text(
-                                                "Video",
+                                                    S.of(context).video,
                                                 style: StyleUtility
                                                     .inputTextStyle
                                                     .copyWith(
@@ -190,14 +192,14 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                   ),
                 ),
                 CustomButton(
-                    buttonText: "Next",
+                    buttonText: S.of(context).next,
                     onTab: () {
                       if (trainingPromoScreenVm.selectedImages == null) {
                         context.flushBarTopErrorMessage(
-                            message: "Please Upload Promo Image.");
+                            message:S.of(context).pleaseUploadPromoImage);
                       } else if (trainingPromoScreenVm.selectedVideo == null) {
                         context.flushBarTopErrorMessage(
-                            message: "Please Upload Promo Video.");
+                            message: S.of(context).pleaseUploadPromoVideo);
                       } else {
                         CommonDialog.showLoadingDialog(context);
                         trainingPromoScreenVm.addPostApi(
