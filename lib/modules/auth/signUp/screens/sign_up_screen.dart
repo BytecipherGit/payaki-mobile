@@ -496,7 +496,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future getIdImage(SignUpVm signUpVm, String from) async {
     XFile? pickedFile;
-
     if (from == "Gallery") {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
     } else {

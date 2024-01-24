@@ -92,8 +92,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                       .postDetailResponse
                                                       ?.data
                                                       ?.image
-                                                      ?.length ??
-                                                  0) >
+                                                      ?.length ??0) >
                                               0
                                           ? postDetailScreenVm
                                                       .postDetailResponse!
@@ -170,7 +169,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                             DotsDecorator(
                                                           spacing:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   left: 2.5,
                                                                   right: 2.5),
                                                           color: ColorUtility
@@ -257,7 +256,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                               3.r)),
                                                   child: Center(
                                                     child: Text(
-                                                        S.of(context).negotiate
+                                                        S
+                                                            .of(context)
+                                                            .negotiate
                                                             .toUpperCase(),
                                                         style: StyleUtility
                                                             .typeStyle),
@@ -451,12 +452,12 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                   ?.postUserDetails
                                                   ?.id &&
                                           Preference().getUserLogin())
-
                                         Padding(
                                           padding:
                                               EdgeInsets.only(bottom: 25.h),
                                           child: CustomButton.withIcon(
-                                              buttonText: S.of(context).addToCart,
+                                              buttonText:
+                                                  S.of(context).addToCart,
                                               image: ImageUtility.addToCartIcon,
                                               onTab: () {
                                                 CommonDialog.showLoadingDialog(
@@ -478,8 +479,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                               message: message);
                                                     },
                                                     postId: widget.postId);
-                                              }
-                                              ),
+                                              }),
                                         ),
 
                                       Text(
@@ -618,7 +618,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                 });
                                           },
                                           child: Text(
-                                            S.of(context).reportThisAdd.toUpperCase(),
+                                            S
+                                                .of(context)
+                                                .reportThisAdd
+                                                .toUpperCase(),
                                             style: StyleUtility.urlTextStyle,
                                           )),
                                       SizedBox(
@@ -729,8 +732,11 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                             postId:
                                                                 widget.postId);
                                                   } else {
-                                                    showLoginDialog(context,
-                                                        S.of(context).logInToSaveThisAd);
+                                                    showLoginDialog(
+                                                        context,
+                                                        S
+                                                            .of(context)
+                                                            .logInToSaveThisAd);
                                                   }
                                                 },
                                                 style: ElevatedButton.styleFrom(
@@ -768,8 +774,12 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                                         ?.isFavourite ??
                                                                     false) ==
                                                                 false
-                                                            ?   S.of(context).saveThisAd
-                                                            :   S.of(context).adSaved,
+                                                            ? S
+                                                                .of(context)
+                                                                .saveThisAd
+                                                            : S
+                                                                .of(context)
+                                                                .adSaved,
                                                         maxLines: 1,
                                                         style: StyleUtility
                                                             .buttonTextStyle),
@@ -816,7 +826,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                           width: 18.w,
                                                         ),
                                                         Text(
-                                                          S.of(context).addReview,
+                                                          S
+                                                              .of(context)
+                                                              .addReview,
                                                           style: StyleUtility
                                                               .headingTextStyle
                                                               .copyWith(
@@ -978,11 +990,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                 padding: EdgeInsets.only(right: 22.w),
                                 child: InkWell(
                                   onTap: () {
-                                    Share.share("${postDetailScreenVm
-                                            .postDetailResponse
-                                            ?.data
-                                            ?.productName}\nhttps://c4e4-122-175-237-30.ngrok-free.app/payaki-web/" ??
-                                        "");
+                                    Share.share(
+                                        "${postDetailScreenVm.postDetailResponse?.data?.productName}\nhttps://c4e4-122-175-237-30.ngrok-free.app/payaki-web/" ??
+                                            "");
                                   },
                                   child: Image.asset(
                                     ImageUtility.shareIcon,
@@ -1033,8 +1043,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                           postDetailScreenVm.postDetailResponse
                                               ?.data?.postUserDetails?.id) {
                                         context.flushBarTopErrorMessage(
-                                            message:
-                                            S.of(context).youCanNotQuoteOnYourOwnPost);
+                                            message: S
+                                                .of(context)
+                                                .youCanNotQuoteOnYourOwnPost);
                                       } else {
                                         if (Preference().getUserLogin()) {
                                           Navigator.pushNamed(
@@ -1056,8 +1067,11 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                         ?.productName,
                                               });
                                         } else {
-                                          showLoginDialog(context,
-                                              S.of(context).logInToChatOrSendQuote);
+                                          showLoginDialog(
+                                              context,
+                                              S
+                                                  .of(context)
+                                                  .logInToChatOrSendQuote);
                                         }
                                       }
                                     })),
@@ -1066,7 +1080,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             ),
                             Expanded(
                                 child: CustomButton(
-                                    buttonText:  S.of(context).chat,
+                                    buttonText: S.of(context).chat,
                                     onTab: () {
                                       if (Preference().getUserLogin()) {
                                         if (Preference().getUserId() ==
@@ -1076,8 +1090,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                                 ?.postUserDetails
                                                 ?.id) {
                                           context.flushBarTopErrorMessage(
-                                              message:
-                                              S.of(context).youCanNotChatOnYourOwnPost);
+                                              message: S
+                                                  .of(context)
+                                                  .youCanNotChatOnYourOwnPost);
                                         } else {
                                           if (postDetailScreenVm
                                                   .postDetailResponse
@@ -1095,8 +1110,11 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                           }
                                         }
                                       } else {
-                                        showLoginDialog(context,
-                                            S.of(context).logInToChatOrSendQuote);
+                                        showLoginDialog(
+                                            context,
+                                            S
+                                                .of(context)
+                                                .logInToChatOrSendQuote);
                                       }
                                     }))
                           ],
@@ -1163,7 +1181,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                           height: 30.h,
                         ),
                         CustomButton(
-                            buttonText:  S.of(context).LogIn,
+                            buttonText: S.of(context).LogIn,
                             onTab: () {
                               Navigator.pop(context);
                               goToLogIn();
@@ -1301,7 +1319,7 @@ class UserReviews extends StatelessWidget {
               );
             })
         : Text(
-      S.of(context).noUserReviews,
+            S.of(context).noUserReviews,
             style: StyleUtility.headingTextStyle,
           );
   }

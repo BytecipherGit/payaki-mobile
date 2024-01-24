@@ -569,7 +569,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           },
           onFailure: (String message) {
             Navigator.pop(context);
-            context.flushBarTopSuccessMessage(message: message);
+            context.flushBarTopErrorMessage(message: message);
           });
     });
   }

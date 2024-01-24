@@ -334,7 +334,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         },
                                         onFailure: (String message) {
                                           Navigator.pop(context);
-                                          context.flushBarTopSuccessMessage(
+                                          context.flushBarTopErrorMessage(
                                               message: message);
                                         });
                                   });

@@ -13,7 +13,6 @@ class OtpTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return PinCodeTextField(
       controller: controller,
-
       pinTheme: PinTheme(
         shape: PinCodeFieldShape.box,
         borderRadius: BorderRadius.circular(10.r),

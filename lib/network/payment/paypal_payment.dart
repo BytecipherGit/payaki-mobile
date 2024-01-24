@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paypal/flutter_paypal.dart';
 import 'package:payaki/local_store/shared_preference.dart';
@@ -39,7 +40,6 @@ class Payment extends ChangeNotifier {
       )
           .then((paymentTokenResponse) async {
         print(paymentTokenResponse.accessToken);
-
         await paymentRepository
             .paymentApi(
           request: PaymentRequest(
@@ -53,8 +53,8 @@ class Payment extends ChangeNotifier {
           token: paymentTokenResponse.accessToken, context: context,
         ).then((value) async{
           print(value.id);
-          if (value.responseStatus!.successful == false){
-            Future.delayed(const Duration(seconds: 10),() {
+          if (value.responseStatus!.successful == true){
+            Future.delayed(const Duration(seconds: 90),() {
                 paymentRepository
                   .getPaymentStatus(
                   token: paymentTokenResponse.accessToken!, id:value.id.toString())
@@ -62,7 +62,9 @@ class Payment extends ChangeNotifier {
                   Navigator.pop(context);
                   Navigator.pop(context);
                 if (paymentStatus.payment!.transactionEvents![0].responseStatus!.successful==true) {
-                  print(paymentStatus);
+                  if (kDebugMode) {
+                    print(paymentStatus);
+                  }
                   onSuccess?.call(paymentStatus.payment!.transactionEvents![0].responseStatus!.message!);
                 }else{
                   onFailure?.call(paymentStatus.payment!.transactionEvents![0].responseStatus!.message!);

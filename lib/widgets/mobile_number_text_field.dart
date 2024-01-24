@@ -6,9 +6,7 @@ import 'package:intl_phone_field/phone_number.dart';
 import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/utilities/color_utility.dart';
 import 'package:payaki/utilities/style_utility.dart';
-
 import '../generated/l10n.dart';
-
 class MobileNumberTextField extends StatelessWidget {
   const MobileNumberTextField({
     Key? key,

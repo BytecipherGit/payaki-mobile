@@ -462,7 +462,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                             },
                                             onFailure: (String message) {
                                               Navigator.pop(context);
-                                              context.flushBarTopSuccessMessage(
+                                              context.flushBarTopErrorMessage(
                                                   message: message);
                                             });
                                       });
