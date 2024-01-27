@@ -107,6 +107,7 @@ class CartEndPoints {
   String get deleteFromCart => "deleteFromCart";
 
   String get checkoutPaypal => "checkoutPaypal";
+  String get finalCallAppyPayApi => "finalCallAppyPayApi";
 }
 
 class TrainingEndPoints {

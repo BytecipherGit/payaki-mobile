@@ -8,6 +8,7 @@ import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/myCart/viewModel/my_cart_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/cart/checkout_request.dart';
+import 'package:payaki/network/model/request/payment/payment_status_request.dart';
 import 'package:payaki/network/payment/paypal_payment.dart';
 import 'package:payaki/routes/route_name.dart';
 import 'package:payaki/utilities/color_utility.dart';
@@ -24,6 +25,7 @@ import 'package:payaki/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../generated/l10n.dart';
+import '../../../network/model/response/cart/checkout_cart_response.dart';
 import '../../../widgets/mobile_number_text_field.dart';
 
 class MyCartScreen extends StatefulWidget {
@@ -44,7 +46,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
 
   List<String> productIds = [];
   List<String> amounts = [];
-
+  TextEditingController mobileController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -63,7 +65,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar:  CustomAppBar(
+      appBar: CustomAppBar(
         title: S.of(context).myCart,
       ),
       body: SafeArea(
@@ -298,45 +300,106 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                             "0");
                                   }
 
-                                  print(productIds);
-                                  print(amounts);
                                   Timer(const Duration(seconds: 1), () {
-                                    CommonDialog.showLoadingDialog(context);
-                                    myCartScreenVm.checkoutCart(
-                                        request: CheckoutRequest(
-                                          name: Endpoints
-                                              .cartEndPoints.checkoutPaypal,
-                                          param: Param(
-                                            totalAmount:
-                                                myCart?.total.toString(),
-                                            productIds: productIds,
-                                            amounts: amounts,
-                                          ),
-                                        ),
-                                        onSuccess: (String id) {
-                                          Navigator.pop(context);
-                                          showPaymentLoadingDialog(
-                                            ctx: context,
-                                            onSuccess: (String message) {
+                                    showPaymentLoadingDialog(
+                                      ctx: context,
+                                      onSuccess: (String message) {
+                                        CommonDialog.showLoadingDialog(context);
+                                        myCartScreenVm.checkoutCart(
+                                            request: CheckoutRequest(
+                                              name: Endpoints
+                                                  .cartEndPoints.checkoutPaypal,
+                                              param: Param(
+                                                  totalAmount:
+                                                      myCart?.total.toString(),
+                                                  productIds: productIds,
+                                                  amounts: amounts,
+                                                  mobile: mobileController.text
+                                                      .toString()),
+                                            ),
+                                            onSuccess: (CartCheckoutResponse success) {
                                               Navigator.pop(context);
-                                              context.flushBarTopSuccessMessage(
-                                                  message: message.toString());
+                                              if (success.success == true) {
+                                                Navigator.pop(context);
+                                                myCartScreenVm.cartList(
+                                                    onSuccess: (String value) {},
+                                                    onFailure: (value) {
+                                                      Navigator.pop(context);
+                                                      context.flushBarTopErrorMessage(
+                                                              message: value
+                                                                  .toString());
+                                                    });
+                                              } else {
+                                                CommonDialog
+                                                    .showPaymentLoadingDialog(
+                                                        context);
+                                                Future.delayed(const Duration(seconds: 90)).then((value) {
+                                                  return  myCartScreenVm
+                                                      .checkPaymentStatus(
+                                                    request: PaymentStatusApiRequest(
+                                                      name: Endpoints
+                                                          .cartEndPoints
+                                                          .finalCallAppyPayApi,
+                                                      param: Parameter(
+                                                          transactionId: success
+                                                              .transactionId,
+                                                          merchantTransactionId:
+                                                          success
+                                                              .merchantTransactionId,
+                                                          accessToken:
+                                                          success.accessToken,
+                                                          orderId:
+                                                          success.orderId),
+                                                    ),
+                                                    onSuccess: (response) {
+                                                      if (response.success == true) {
+                                                        myCartScreenVm.cartList(
+                                                            onSuccess:
+                                                                (String value) {},
+                                                            onFailure: (value) {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              context.flushBarTopErrorMessage(
+                                                                  message: value
+                                                                      .toString());
+                                                            });
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                        context.flushBarTopSuccessMessage(
+                                                            message:
+                                                            response.message);
+                                                      }else{
+                                                        myCartScreenVm.cartList(
+                                                            onSuccess:
+                                                                (String value) {},
+                                                            onFailure: (value) {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              context.flushBarTopErrorMessage(
+                                                                  message: value
+                                                                      .toString());
+                                                            });
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                        context.flushBarTopErrorMessage(
+                                                            message:
+                                                            response.success==null? "Transaction Failed !":response.message);
+                                                      }
+                                                    },
+                                                  );
+                                                });
+
+                                              }
                                             },
                                             onFailure: (String message) {
                                               Navigator.pop(context);
+                                              Navigator.pop(context);
                                               context.flushBarTopErrorMessage(
-                                                  message: message.toString());
-                                            },
-                                            amount:
-                                                myCart?.total.toString() ?? "0",
-                                            id: id,
-                                          );
-                                        },
-                                        onFailure: (String message) {
-                                          Navigator.pop(context);
-                                          context.flushBarTopErrorMessage(
-                                              message: message);
-                                        });
+                                                  message: message);
+                                            });
+                                      },
+                                      mobileController: mobileController,
+                                    );
                                   });
                                 }),
                             SizedBox(
@@ -344,7 +407,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             )
                           ],
                         )
-                      :  NoDataWidget(
+                      : NoDataWidget(
                           title: S.of(context).noItemAvailable,
                         ),
                 );
@@ -353,17 +416,15 @@ class _MyCartScreenState extends State<MyCartScreen> {
     );
   }
 
-  static showPaymentLoadingDialog(
-      {required BuildContext ctx,
-      ValueChanged<String>? onSuccess,
-      ValueChanged<String>? onFailure,
-      required String amount,
-      required String id}) {
+  static showPaymentLoadingDialog({
+    required BuildContext ctx,
+    ValueChanged<String>? onSuccess,
+    required TextEditingController mobileController,
+  }) {
     showDialog(
       barrierDismissible: false,
       context: ctx,
       builder: (BuildContext context) {
-        TextEditingController mobileController = TextEditingController();
         return Dialog(
             child: Container(
                 height: 400.h,
@@ -375,7 +436,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                   create: (context) => Payment(),
                   child: Consumer<Payment>(builder: (context, payment, child) {
                     return WillPopScope(
-                      onWillPop: () async{
+                      onWillPop: () async {
                         return false;
                       },
                       child: Column(
@@ -421,24 +482,26 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                   height: 20.h,
                                 ),
                                 CustomButton(
-                                    buttonText:S.of(context).authorisePayment,
+                                    buttonText: S.of(context).authorisePayment,
                                     onTab: () async {
                                       if (mobileController.text.isEmpty) {
                                         context.flushBarTopErrorMessage(
-                                            message:
-                                            S.of(context).pleaseEnterYourPhoneNumber);
+                                            message: S
+                                                .of(context)
+                                                .pleaseEnterYourPhoneNumber);
                                       } else {
-                                        payment.pay(
-                                            amount: amount,
-                                            phoneNumber: mobileController.text,
-                                            id: id,
-                                            onSuccess: (valueData) {
-                                              onSuccess!.call(valueData);
-                                            },
-                                            onFailure: (value) {
-                                              onFailure!.call(value);
-                                            },
-                                            context: ctx);
+                                        onSuccess!.call(mobileController.text);
+                                        // payment.pay(
+                                        //     amount: amount,
+                                        //     phoneNumber: mobileController.text,
+                                        //     id: id,
+                                        //     onSuccess: (valueData) {
+                                        //       onSuccess!.call(valueData);
+                                        //     },
+                                        //     onFailure: (value) {
+                                        //       onFailure!.call(value);
+                                        //     },
+                                        //     context: ctx);
                                       }
                                     }),
                               ],

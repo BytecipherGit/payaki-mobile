@@ -25,6 +25,7 @@ class Param {
   List<String>? ticketAmounts;
   List<String>? ticketQuantities;
   String? totalAmount;
+  String? mobile;
   // String? paymentId;
   // String? payerId;
   // String? status;
@@ -35,6 +36,7 @@ class Param {
         this.ticketAmounts,
         this.ticketQuantities,
         this.totalAmount,
+        this.mobile,
         // this.paymentId,
         // this.payerId,
         // this.status
@@ -46,6 +48,7 @@ class Param {
     ticketAmounts = json['ticketAmounts'].cast<int>();
     ticketQuantities = json['ticketQuantities'].cast<int>();
     totalAmount = json['totalAmount'];
+    mobile = json['mobile'];
     // paymentId = json['paymentId'];
     // payerId = json['payer_id'];
     // status = json['status'];
@@ -58,6 +61,7 @@ class Param {
     data['ticketAmounts'] = this.ticketAmounts;
     data['ticketQuantities'] = this.ticketQuantities;
     data['totalAmount'] = this.totalAmount;
+    data['mobile'] = this.mobile;
     // data['paymentId'] = this.paymentId;
     // data['payer_id'] = this.payerId;
     // data['status'] = this.status;

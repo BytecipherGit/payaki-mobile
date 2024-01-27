@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:payaki/local_store/shared_preference.dart';
 import 'package:payaki/logger/app_logger.dart';
@@ -102,11 +104,14 @@ class DioHttpService implements HttpService {
     try {
       final response = await api;
       if (response.statusCode == 200 || response.statusCode == 201) {
+        logD(response.data);
         return Future.value(response.data);
       } else {
         return Future.error(parseHttpException(response));
       }
     } on DioError catch (e) {
+      logD(
+          "thi is the error body call");
       return Future.error(parseDioError(e));
     }
   }

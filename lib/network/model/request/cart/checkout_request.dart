@@ -23,6 +23,7 @@ class Param {
   List<String>? productIds;
   List<String>? amounts;
   String? totalAmount;
+  String? mobile;
   // String? paymentId;
   // String? payerId;
   // String? status;
@@ -31,6 +32,7 @@ class Param {
       {this.productIds,
       this.amounts,
       this.totalAmount,
+      this.mobile,
       // this.paymentId,
       // this.payerId,
       // this.status
@@ -40,6 +42,7 @@ class Param {
     productIds = json['productIds'].cast<String>();
     amounts = json['amounts'].cast<String>();
     totalAmount = json['totalAmount'];
+    mobile = json['mobile'];
     // paymentId = json['paymentId'];
     // payerId = json['payer_id'];
     // status = json['status'];
@@ -50,6 +53,7 @@ class Param {
     data['productIds'] = this.productIds;
     data['amounts'] = this.amounts;
     data['totalAmount'] = this.totalAmount;
+    data['mobile'] = this.mobile;
     // data['paymentId'] = this.paymentId;
     // data['payer_id'] = this.payerId;
     // data['status'] = this.status;

@@ -67,6 +67,7 @@ class _TrainingListScreenState extends State<TrainingListScreen> {
                             mainAxisSpacing: 15.w,
                             childAspectRatio: 0.85),
                         itemBuilder: (context, index) {
+                          print(trainingList?.length);
                           String? image;
                           if ((trainingList?[index].image?.length ?? 0) > 0) {
                             image = trainingList?[index].image?[0];

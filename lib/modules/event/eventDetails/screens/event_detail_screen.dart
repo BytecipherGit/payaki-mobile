@@ -8,6 +8,7 @@ import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/modules/event/eventDetails/viewModel/event_detail_screen_vm.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/model/request/event/event_checkout_request.dart';
+import 'package:payaki/network/model/request/payment/payment_status_request.dart';
 import 'package:payaki/network/model/response/event/event_list_response.dart';
 import 'package:payaki/network/payment/paypal_payment.dart';
 import 'package:payaki/routes/route_name.dart';
@@ -22,6 +23,7 @@ import 'package:payaki/widgets/network_image_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../generated/l10n.dart';
+import '../../../../network/model/response/cart/checkout_cart_response.dart';
 import '../../../../widgets/mobile_number_text_field.dart';
 
 class EventDetailsScreen extends StatefulWidget {
@@ -518,7 +520,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           );
         }));
   }
-
+  TextEditingController mobileController = TextEditingController();
   onBuyTickets(Data eventData, EventDetailScreenVm eventDetailScreenVm) {
     List<String> ticketIds = [];
     List<String> ticketAmounts = [];
@@ -535,56 +537,136 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     logD("Ticket amounts is ${ticketAmounts}");
     logD("Ticket Quantity is ${ticketQuantity}");
     logD("Total amount is $totalAmount");
-    Timer(const Duration(seconds: 1), () {
-      CommonDialog.showLoadingDialog(context);
-      eventDetailScreenVm.eventCheckout(
-          request: EventCheckoutRequest(
-            name: Endpoints.eventEndPoints.checkoutEventPaypal,
-            param: Param(
-              productId: eventData.id,
-              ticketTypeIds: ticketIds,
-              ticketAmounts: ticketAmounts,
-              ticketQuantities: ticketQuantity,
-              totalAmount: totalAmount.toString(),
-              // paymentId: paymentId,
-              // payerId: payerId,
-              // status: status
+
+    showPaymentLoadingDialog(
+      ctx: context,
+      onSuccess: (String message) {
+        CommonDialog.showLoadingDialog(context);
+        eventDetailScreenVm.eventCheckout(
+            request: EventCheckoutRequest(
+              name: Endpoints.eventEndPoints.checkoutEventPaypal,
+              param: Param(
+                  productId: eventData.id,
+                  ticketTypeIds: ticketIds,
+                  ticketAmounts: ticketAmounts,
+                  ticketQuantities: ticketQuantity,
+                  totalAmount: totalAmount.toString(),
+                  mobile: mobileController.text.toString()
+                // paymentId: paymentId,
+                // payerId: payerId,
+                // status: status
+              ),
             ),
-          ),
-          onSuccess: (String id) {
-            Navigator.pop(context);
-            showPaymentLoadingDialog(
-              ctx: context,
-              onSuccess: (String message) {
+            onSuccess: (CartCheckoutResponse success) {
+              Navigator.pop(context);
+              if (success.success == true) {
                 Navigator.pop(context);
-                context.flushBarTopSuccessMessage(message: message.toString());
-              },
-              onFailure: (String message) {
-                Navigator.pop(context);
-                context.flushBarTopErrorMessage(message: message.toString());
-              },
-              amount: totalAmount.toString(),
-              id: id,
-            );
-          },
-          onFailure: (String message) {
-            Navigator.pop(context);
-            context.flushBarTopErrorMessage(message: message);
-          });
-    });
+                refreshTicketQuantity();
+                eventDetailScreenVm.updateUi();
+                context.flushBarTopSuccessMessage(
+                    message:success.message);
+              } else {
+                CommonDialog
+                    .showPaymentLoadingDialog(
+                    context);
+                Future.delayed(const Duration(seconds: 90)).then((value) {
+                  return  eventDetailScreenVm
+                      .checkPaymentStatus(
+                    request: PaymentStatusApiRequest(
+                      name: Endpoints
+                          .cartEndPoints
+                          .finalCallAppyPayApi,
+                      param: Parameter(
+                          transactionId: success
+                              .transactionId,
+                          merchantTransactionId:
+                          success
+                              .merchantTransactionId,
+                          accessToken:
+                          success.accessToken,
+                          orderId:
+                          success.orderId),
+                    ),
+                    onSuccess: (response) {
+                      if (response.success == true) {
+                        eventDetailScreenVm.updateUi();
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        context.flushBarTopSuccessMessage(
+                            message:
+                            response.message);
+                      }else{
+                        eventDetailScreenVm.updateUi();
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        context.flushBarTopErrorMessage(
+                            message:response.success==null? "Transaction Failed !": response.message);
+                      }
+                    },
+                  );
+                });
+
+              }
+            },
+            onFailure: (String message) {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              context.flushBarTopErrorMessage(
+                  message: message);
+            });
+      },
+      mobileController: mobileController,
+    );
+    // Timer(const Duration(seconds: 1), () {
+    //   CommonDialog.showLoadingDialog(context);
+    //   eventDetailScreenVm.eventCheckout(
+    //       request: EventCheckoutRequest(
+    //         name: Endpoints.eventEndPoints.checkoutEventPaypal,
+    //         param: Param(
+    //           productId: eventData.id,
+    //           ticketTypeIds: ticketIds,
+    //           ticketAmounts: ticketAmounts,
+    //           ticketQuantities: ticketQuantity,
+    //           totalAmount: totalAmount.toString(),
+    //           mobile: "83738393848"
+    //           // paymentId: paymentId,
+    //           // payerId: payerId,
+    //           // status: status
+    //         ),
+    //       ),
+    //       onSuccess: (String id) {
+    //         Navigator.pop(context);
+    //         showPaymentLoadingDialog(
+    //           ctx: context,
+    //           onSuccess: (String message) {
+    //             Navigator.pop(context);
+    //             context.flushBarTopSuccessMessage(message: message.toString());
+    //           },
+    //           onFailure: (String message) {
+    //             Navigator.pop(context);
+    //             context.flushBarTopErrorMessage(message: message.toString());
+    //           },
+    //           amount: totalAmount.toString(),
+    //           id: id,
+    //         );
+    //       },
+    //       onFailure: (String message) {
+    //         Navigator.pop(context);
+    //         context.flushBarTopErrorMessage(message: message);
+    //       });
+    // });
   }
 
   static showPaymentLoadingDialog(
       {required BuildContext ctx,
-      ValueChanged<String>? onSuccess,
-      ValueChanged<String>? onFailure,
-      required String amount,
-      required String id}) {
+      ValueChanged<String>? onSuccess, required TextEditingController mobileController,
+
+  }) {
     showDialog(
       barrierDismissible: false,
       context: ctx,
       builder: (BuildContext context) {
-        TextEditingController mobileController = TextEditingController();
+
         return Dialog(
             child: Container(
                 height: 400.h,
@@ -646,17 +728,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                               .of(context)
                                               .pleaseEnterYourPhoneNumber);
                                     } else {
-                                      payment.pay(
-                                          amount: amount,
-                                          phoneNumber: mobileController.text,
-                                          id: id,
-                                          onSuccess: (valueData) {
-                                            onSuccess!.call(valueData);
-                                          },
-                                          onFailure: (value) {
-                                            onFailure!.call(value);
-                                          },
-                                          context: ctx);
+                                      onSuccess!.call(mobileController.text);
                                     }
                                   }),
                             ],

@@ -6,6 +6,7 @@ import 'package:payaki/network/model/request/cart/checkout_request.dart';
 import 'package:payaki/network/model/response/basic_response.dart';
 import 'package:payaki/network/model/response/cart/cart_list_response.dart';
 
+import '../model/request/payment/payment_status_request.dart';
 import '../model/response/cart/checkout_cart_response.dart';
 
 class CartRepository {
@@ -24,6 +25,11 @@ class CartRepository {
   }
 
   Future<CartCheckoutResponse> checkoutCart(CheckoutRequest request) {
+    return dioHttpService
+        .post(Endpoints.baseUrl, data: request.toJson())
+        .then((value) => CartCheckoutResponse.fromJson(value));
+  }
+  Future<CartCheckoutResponse> paymentStatusCart(PaymentStatusApiRequest request) {
     return dioHttpService
         .post(Endpoints.baseUrl, data: request.toJson())
         .then((value) => CartCheckoutResponse.fromJson(value));
