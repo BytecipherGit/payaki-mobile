@@ -24,6 +24,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../network/model/response/cart/checkout_cart_response.dart';
+import '../../../../utilities/image_utility.dart';
 import '../../../../widgets/mobile_number_text_field.dart';
 
 class EventDetailsScreen extends StatefulWidget {
@@ -670,7 +671,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
 
         return Dialog(
             child: Container(
-                height: 400.h,
+                height: 460.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: ColorUtility.whiteColor,
@@ -678,36 +679,60 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 child: ChangeNotifierProvider(
                   create: (context) => Payment(),
                   child: Consumer<Payment>(builder: (context, payment, child) {
-                    return Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(
-                                  Icons.cancel_sharp,
-                                  color: Colors.black,
-                                ))
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 25.h,
-                              ),
-                              Text(
-                                S.of(context).enterYourMobileNumber,
-                                style: StyleUtility.headingTextStyle,
-                              ),
-                              SizedBox(
-                                height: 25.h,
-                              ),
+                    return WillPopScope(
+                        onWillPop: () async {
+                      return false;
+                    },
+                    child: Column(
+                    children: [
+                    Row(crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    Flexible(flex: 6,
+                    child: Padding(
+                    padding:  EdgeInsets.only(top: 20.h),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                    Image.asset(ImageUtility.paymentGatewayLogo,height: 120.h,width: 120.w,),
+                    ],
+                    ),
+                    ),
+                    ),
+                    Flexible(flex: 3,
+                    child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                    IconButton(
+                    onPressed: () {
+                    Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                    Icons.cancel_sharp,
+                    color: Colors.black,
+                    )),
+                    ],
+                    ),
+                    )
+                    ],
+                    ),
+                    Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    SizedBox(
+                    height: 25.h,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    Text(
+                    "Multicaixa Express",
+                    style: StyleUtility.headingTextStyle,
+                    ),
+                    ],
+                    ),
+                    SizedBox(
+                    height: 25.h,
+                    ),
                               MobileNumberTextField(
                                 controller: mobileController,
                                 onChanged: (phone) {
@@ -736,7 +761,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           ),
                         ),
                       ],
-                    );
+                    ));
                   }),
                 )));
       },

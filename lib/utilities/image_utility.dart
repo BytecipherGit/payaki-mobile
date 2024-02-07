@@ -63,6 +63,7 @@ class ImageUtility {
   static const String eventIcon = 'assets/images/event_icon.png';
   static const String trainingIcon = 'assets/images/training_icon.png';
   static const String videoThumbnail = 'assets/images/video_thumbnail.png';
+  static const String paymentGatewayLogo = 'assets/images/img.png';
 
 
 }

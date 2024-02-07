@@ -80,7 +80,7 @@ class MobileNumberTextField extends StatelessWidget {
               filled: true,
               fillColor: ColorUtility.colorF8FAFB,
               hintStyle: StyleUtility.hintTextStyle,
-              hintText:  S.of(context).phoneNumber,
+              hintText:  S.of(context).enterYourPhoneNumber,
             ),
             initialCountryCode: 'AO',
             onChanged: (phone) {

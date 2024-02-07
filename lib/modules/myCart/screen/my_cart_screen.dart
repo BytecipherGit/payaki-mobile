@@ -428,7 +428,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
       builder: (BuildContext context) {
         return Dialog(
             child: Container(
-                height: 400.h,
+                height: 460.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: ColorUtility.whiteColor,
@@ -442,17 +442,33 @@ class _MyCartScreenState extends State<MyCartScreen> {
                       },
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                          Row(crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: const Icon(
-                                    Icons.cancel_sharp,
-                                    color: Colors.black,
-                                  ))
+                              Flexible(flex: 6,
+                                child: Padding(
+                                  padding:  EdgeInsets.only(top: 20.h),
+                                  child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Image.asset(ImageUtility.paymentGatewayLogo,height: 120.h,width: 120.w,),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Flexible(flex: 3,
+                                child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        icon: const Icon(
+                                          Icons.cancel_sharp,
+                                          color: Colors.black,
+                                        )),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                           Padding(
@@ -463,13 +479,22 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 SizedBox(
                                   height: 25.h,
                                 ),
-                                Text(
-                                  S.of(context).enterYourMobileNumber,
-                                  style: StyleUtility.headingTextStyle,
+                                Row(mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                     "Multicaixa Express",
+                                      style: StyleUtility.headingTextStyle,
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(
                                   height: 25.h,
                                 ),
+                                // Text(
+                                //   S.of(context).enterYourMobileNumber,
+                                //   style: StyleUtility.headingTextStyle,
+                                // ),
+
                                 MobileNumberTextField(
                                   controller: mobileController,
                                   onChanged: (phone) {
