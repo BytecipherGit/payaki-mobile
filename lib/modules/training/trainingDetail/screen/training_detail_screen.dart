@@ -420,85 +420,91 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                 return CustomButton(
                                     buttonText: S.of(context).purchaseTraining,
                                     onTab: () {
-                                      showPaymentLoadingDialog(
-                                        ctx: context,
-                                        onSuccess: (String message) {
-                                          CommonDialog.showLoadingDialog(context);
-                                          trainingDetailScreenVm
-                                              .purchaseTraining(
-                                              request: CheckoutRequest(
-                                                name: Endpoints
-                                                    .cartEndPoints.checkoutPaypal,
-                                                param: Param(
-                                                  totalAmount: widget
-                                                      .trainingData
-                                                      ?.price ??
-                                                      "0",mobile: mobileController.text.toString(),
-                                                  productIds: [
-                                                    "${widget.trainingData?.id}"
-                                                  ],
-                                                  amounts: [
-                                                    "${widget.trainingData?.price}"
-                                                  ],
+                                      if (Preference().getUserLogin() == true) {
+                                        showPaymentLoadingDialog(
+                                          ctx: context,
+                                          onSuccess: (String message) {
+                                            CommonDialog.showLoadingDialog(context);
+                                            trainingDetailScreenVm
+                                                .purchaseTraining(
+                                                request: CheckoutRequest(
+                                                  name: Endpoints
+                                                      .cartEndPoints.checkoutPaypal,
+                                                  param: Param(
+                                                    totalAmount: widget
+                                                        .trainingData
+                                                        ?.price ??
+                                                        "0",mobile: mobileController.text.toString(),
+                                                    productIds: [
+                                                      "${widget.trainingData?.id}"
+                                                    ],
+                                                    amounts: [
+                                                      "${widget.trainingData?.price}"
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              onSuccess: (CartCheckoutResponse success) {
-                                                Navigator.pop(context);
-                                                if (success.success == true) {
+                                                onSuccess: (CartCheckoutResponse success) {
                                                   Navigator.pop(context);
-                                                  trainingDetailScreenVm.updateUi();
-                                                } else {
-                                                  CommonDialog
-                                                      .showPaymentLoadingDialog(
-                                                      context);
-                                                  Future.delayed(const Duration(seconds: 5)).then((value) {
-                                                    return  trainingDetailScreenVm
-                                                        .checkPaymentStatus(
-                                                      request: PaymentStatusApiRequest(
-                                                        name: Endpoints
-                                                            .cartEndPoints
-                                                            .finalCallAppyPayApi,
-                                                        param: Parameter(
-                                                            transactionId: success
-                                                                .transactionId,
-                                                            merchantTransactionId:
-                                                            success
-                                                                .merchantTransactionId,
-                                                            accessToken:
-                                                            success.accessToken,
-                                                            orderId:
-                                                            success.orderId),
-                                                      ),
-                                                      onSuccess: (response) {
-                                                        if (response.success == true) {
-                                                          trainingDetailScreenVm.updateUi();
-                                                          Navigator.pop(context);
-                                                          Navigator.pop(context);
-                                                          context.flushBarTopSuccessMessage(
-                                                              message:
-                                                              response.message);
-                                                        }else{
-                                                          trainingDetailScreenVm.updateUi();
-                                                          Navigator.pop(context);
-                                                          Navigator.pop(context);
-                                                          context.flushBarTopErrorMessage(
-                                                              message: response.success==null? "Transaction Failed !":response.message);
-                                                        }
-                                                      },
-                                                    );
-                                                  });
+                                                  if (success.success == true) {
+                                                    Navigator.pop(context);
+                                                    trainingDetailScreenVm.updateUi();
+                                                  } else {
+                                                    CommonDialog
+                                                        .showPaymentLoadingDialog(
+                                                        context);
+                                                    Future.delayed(const Duration(seconds: 5)).then((value) {
+                                                      return  trainingDetailScreenVm
+                                                          .checkPaymentStatus(
+                                                        request: PaymentStatusApiRequest(
+                                                          name: Endpoints
+                                                              .cartEndPoints
+                                                              .finalCallAppyPayApi,
+                                                          param: Parameter(
+                                                              transactionId: success
+                                                                  .transactionId,
+                                                              merchantTransactionId:
+                                                              success
+                                                                  .merchantTransactionId,
+                                                              accessToken:
+                                                              success.accessToken,
+                                                              // orderId:
+                                                              // success.orderId
+                                                          ),
+                                                        ),
+                                                        onSuccess: (response) {
+                                                          if (response.success == true) {
+                                                            trainingDetailScreenVm.updateUi();
+                                                            Navigator.pop(context);
+                                                            Navigator.pop(context);
+                                                            context.flushBarTopSuccessMessage(
+                                                                message:
+                                                                response.message);
+                                                          }else{
+                                                            trainingDetailScreenVm.updateUi();
+                                                            Navigator.pop(context);
+                                                            Navigator.pop(context);
+                                                            context.flushBarTopErrorMessage(
+                                                                message: response.success==null? "Transaction Failed !":response.message);
+                                                          }
+                                                        },
+                                                      );
+                                                    });
 
-                                                }
-                                              },
-                                              onFailure: (String message) {
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                                context.flushBarTopErrorMessage(
-                                                    message: message);
-                                              });
-                                        },
-                                        mobileController: mobileController,
-                                      );
+                                                  }
+                                                },
+                                                onFailure: (String message) {
+                                                  Navigator.pop(context);
+                                                  Navigator.pop(context);
+                                                  context.flushBarTopErrorMessage(
+                                                      message: message);
+                                                });
+                                          },
+                                          mobileController: mobileController,
+                                        );
+                                      }else{
+                                        context.flushBarTopErrorMessage(
+                                            message:S.of(context).pleaseLogInFirstForChat);
+                                      }
                                       // Timer(const Duration(seconds: 1), () {
                                       //   CommonDialog.showLoadingDialog(context);
                                       //   trainingDetailScreenVm

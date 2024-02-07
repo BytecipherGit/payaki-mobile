@@ -13,7 +13,7 @@ class CartCheckoutResponse {
   dynamic transactionId;
   dynamic success;
   String accessToken;
-  String orderId;
+  // String orderId;
 
   CartCheckoutResponse({
     required this.status,
@@ -23,7 +23,7 @@ class CartCheckoutResponse {
     required this.transactionId,
     required this.success,
     required this.accessToken,
-    required this.orderId,
+    // required this.orderId,
   });
 
   factory CartCheckoutResponse.fromJson(Map<String, dynamic> json) => CartCheckoutResponse(
@@ -34,7 +34,7 @@ class CartCheckoutResponse {
     transactionId: json["transactionId"],
     success: json["success"],
     accessToken: json["accessToken"],
-    orderId: json["orderId"],
+    // orderId: json["orderId"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -45,6 +45,6 @@ class CartCheckoutResponse {
     "transactionId": transactionId,
     "success": success,
     "accessToken": accessToken,
-    "orderId": orderId,
+    // "orderId": orderId,
   };
 }

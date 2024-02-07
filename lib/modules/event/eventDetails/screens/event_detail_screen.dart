@@ -584,8 +584,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                               .merchantTransactionId,
                           accessToken:
                           success.accessToken,
-                          orderId:
-                          success.orderId),
+                          // orderId:
+                          // success.orderId
+                      ),
                     ),
                     onSuccess: (response) {
                       if (response.success == true) {

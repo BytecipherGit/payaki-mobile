@@ -28,26 +28,26 @@ class Parameter {
   String transactionId;
   String merchantTransactionId;
   String accessToken;
-  String orderId;
+  // String orderId;
 
   Parameter({
     required this.transactionId,
     required this.merchantTransactionId,
     required this.accessToken,
-    required this.orderId,
+    // required this.orderId,
   });
 
   factory Parameter.fromJson(Map<String, dynamic> json) => Parameter(
     transactionId: json["transactionId"],
     merchantTransactionId: json["merchantTransactionId"],
     accessToken: json["accessToken"],
-    orderId: json["orderId"],
+    // orderId: json["orderId"],
   );
 
   Map<String, dynamic> toJson() => {
     "transactionId": transactionId,
     "merchantTransactionId": merchantTransactionId,
     "accessToken": accessToken,
-    "orderId": orderId,
+    // "orderId": orderId,
   };
 }
