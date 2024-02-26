@@ -142,16 +142,15 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
                     const Expanded(
                       child: SizedBox(),
                     ),
-                    Expanded(
-                        child: BottomBarWidget(
+                    BottomBarWidget(
                       onTap: () {
                         onTabTapped(2);
                       },
-                      title:S.of(context).myAd,
+                      title: S.of(context).myAd,
                       image: ImageUtility.myAddIcon,
                       currentIndex: 2,
                       selectIndex: _selectIndex,
-                    )),
+                    ),
                     Expanded(
                         child: BottomBarWidget(
                       onTap: () {
@@ -334,12 +333,17 @@ class BottomBarWidget extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            Text(
-              title,
-              style: StyleUtility.bottomTextStyle.copyWith(
-                  color: currentIndex == selectIndex
-                      ? ColorUtility.color152D4A
-                      : ColorUtility.colorB0B9C3),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: StyleUtility.bottomTextStyle.copyWith(
+                      color: currentIndex == selectIndex
+                          ? ColorUtility.color152D4A
+                          : ColorUtility.colorB0B9C3),
+                ),
+              ],
             ),
           ],
         ),

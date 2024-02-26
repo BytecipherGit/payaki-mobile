@@ -1,3 +1,5 @@
+import '../../../../local_store/shared_preference.dart';
+
 class CategoryListResponse {
   bool? status;
   int? code;
@@ -49,7 +51,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     catId = json['cat_id'];
     catOrder = json['cat_order'];
-    catName = json['cat_name'];
+    catName =Preference().getLocal()=="pt"?json['portuguese_cat_name']: json['cat_name'];
     slug = json['slug'];
     icon = json['icon'];
     picture = json['picture'];

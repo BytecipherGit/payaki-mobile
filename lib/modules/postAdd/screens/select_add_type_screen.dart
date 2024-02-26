@@ -349,7 +349,6 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                               amount: calculateAmount.toString(),
                               onSuccess: (Map params) {
                                 logD("onSuccess: $params");
-
                                 amount = calculateAmount.toString();
                                 status = params["status"].toString();
                                 paymentId = params["paymentId"].toString();
@@ -398,7 +397,6 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
     logD("featured $featured");
     logD("urgent $urgent");
     logD("highlight $highlight");
-
     CommonDialog.showLoadingDialog(context);
     addPostVm.addPostApi(
         images: widget.selectedImages,

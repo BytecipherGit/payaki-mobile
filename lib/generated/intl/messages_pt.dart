@@ -226,7 +226,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Número de celular verificado com sucesso"),
         "months": MessageLookupByLibrary.simpleMessage("Meses"),
         "monthsAgo": MessageLookupByLibrary.simpleMessage("meses atrás"),
-        "myAd": MessageLookupByLibrary.simpleMessage("Meus anúncios"),
+        "myAd": MessageLookupByLibrary.simpleMessage("Meus Anúncios"),
         "myCart": MessageLookupByLibrary.simpleMessage("Meu Carrinho"),
         "myEvents": MessageLookupByLibrary.simpleMessage("Meus Eventos"),
         "myTrainings":

@@ -244,7 +244,7 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                         height: 25.h,
                       ),
                       Text(
-                        "Expire Ad",
+               S.of(context).expireAd,
                         style: StyleUtility.headingTextStyle,
                       ),
                       SizedBox(

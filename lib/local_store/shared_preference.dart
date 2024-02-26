@@ -17,6 +17,7 @@ class Preference {
 
   static const String _isUserLoggedIn = "isUserLoggedIn";
   static const String _userName = "userName";
+  static const String _local = "eng";
   static const String _name = "name";
   static const String _phone = "phone";
   static const String _userEmail = "userEmail";
@@ -29,6 +30,12 @@ class Preference {
   }
    String getUserName() {
     return _pref?.getString(_userName) ?? "";
+  }
+  static setLocal(String value) async {
+    _pref?.setString(_local, value);
+  }
+   String getLocal() {
+    return _pref?.getString(_local) ?? "";
   }
   static setPhone(String value) async {
     _pref?.setString(_phone, value);

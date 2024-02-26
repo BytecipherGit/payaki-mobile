@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import '../../../../local_store/shared_preference.dart';
+Locale currentLocale = WidgetsBinding.instance.window.locale;
 class SubCategoryListResponse {
   bool? status;
   int? code;
@@ -31,6 +35,7 @@ class SubCategoryListResponse {
 }
 
 class Data {
+
   String? catId;
   String? catOrder;
   String? catName;
@@ -59,13 +64,13 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     catId = json['cat_id'];
     catOrder = json['cat_order'];
-    catName = json['cat_name'];
+    catName =Preference().getLocal()=="pt"?json['portuguese_cat_name']:json['cat_name'];
     slug = json['slug'];
     icon = json['icon'];
     picture = json['picture'];
     subCatId = json['sub_cat_id'];
     mainCatId = json['main_cat_id'];
-    subCatName = json['sub_cat_name'];
+    subCatName =Preference().getLocal()=="pt"?json['portuguese_sub_cat_name']: json['sub_cat_name'];
     photoShow = json['photo_show'];
     priceShow = json['price_show'];
   }
