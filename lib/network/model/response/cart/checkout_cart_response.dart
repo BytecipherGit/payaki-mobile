@@ -30,10 +30,10 @@ class CartCheckoutResponse {
     status: json["status"],
     code: json["code"],
     message: json["Message"],
-    merchantTransactionId: json["merchantTransactionId"],
-    transactionId: json["transactionId"],
-    success: json["success"],
-    accessToken: json["accessToken"],
+    merchantTransactionId: json["merchantTransactionId"]??"",
+    transactionId: json["transactionId"]??"",
+    success: json["success"]??"",
+    accessToken: json["accessToken"]??"",
     // orderId: json["orderId"],
   );
 

@@ -6,11 +6,18 @@ import 'package:payaki/logger/app_logger.dart';
 import 'package:payaki/network/end_points.dart';
 import 'package:payaki/network/repository/post_repository.dart';
 
+import '../../../network/model/request/cart/checkout_request.dart';
+import '../../../network/model/request/cart/checkout_request.dart';
+import '../../../network/model/request/payment/payment_status_request.dart';
+import '../../../network/model/response/cart/checkout_cart_response.dart';
+import '../../../network/model/response/post/add_post_response.dart';
+
 class AddPostVm extends ChangeNotifier {
   final PostRepository postRepository = PostRepository();
 
   addPostApi({
     ValueChanged<String>? onSuccess,
+    ValueChanged<AddPostResponse>? onPaidSuccess,
     ValueChanged<String>? onFailure,
     required List<XFile> images,
     required String productName,
@@ -78,21 +85,111 @@ class AddPostVm extends ChangeNotifier {
     });
     postRepository.addPost(formData).then((value) {
       notifyListeners();
-
-      if (value.code == 200) {
-        onSuccess?.call(value.message ?? "");
+      if (value.status) {
+        if (value.pramotionType=='paid'){
+          onPaidSuccess?.call(value);
+        }else{
+          onSuccess?.call(value.message ?? "");
+        }
+   
       } else {
         onFailure?.call(value.message ?? "");
       }
     }).onError((error, stackTrace) {
       logE("error $error");
       notifyListeners();
-
       onFailure?.call("Server Error");
     });
   }
 
+  checkoutAddPaidPost({
+    ValueChanged<CartCheckoutResponse>? onSuccess,
+    ValueChanged<String>? onFailure,
+    required AddPostRequest request,
+  }) {
+    postRepository
+        .checkoutPaidPost(request)
+        .then((value) {
+      if (value.code == 200) {
+        logD(value.merchantTransactionId);
+        onSuccess?.call(value);
+      } else {
+        onFailure?.call(value.message.toString() ?? "");
+      }
+      notifyListeners();
+    }).onError((error, stackTrace) {
+      logE("error $error");
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
+
+  checkPaymentStatus({
+    ValueChanged<CartCheckoutResponse>? onSuccess,
+    ValueChanged<String>? onFailure,
+    required PaymentStatusApiRequest request,
+  }) {
+    postRepository
+        .paymentStatusPost(request)
+        .then((value) {
+      if (value.code == 200) {
+        onSuccess?.call(value);
+      } else {
+        onFailure?.call(value.message ?? "");
+      }
+      notifyListeners();
+    }).onError((error, stackTrace) {
+      logE("error $error");
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
   updateUi() {
     notifyListeners();
+  }
+}
+class AddPostRequest {
+  String? name;
+  AddPostParam? param;
+
+  AddPostRequest({this.name, this.param});
+
+  AddPostRequest.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    param = json['param'] != null ? AddPostParam.fromJson(json['param']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    if (param != null) {
+      data['param'] = param!.toJson();
+    }
+    return data;
+  }
+}
+
+class AddPostParam {
+  String? product_name;
+  String? merchantTransactionId;
+  String? totalAmount;
+  String? mobileNumber;
+
+  AddPostParam({this.product_name, this.merchantTransactionId, this.totalAmount,this.mobileNumber});
+
+  AddPostParam.fromJson(Map<String, dynamic> json) {
+    product_name = json['product_name'];
+    merchantTransactionId = json['merchantTransactionId'];
+    totalAmount = json['totalAmount'];
+    mobileNumber = json['mobile'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['product_name'] = product_name;
+    data['merchantTransactionId'] = merchantTransactionId;
+    data['totalAmount'] = totalAmount;
+    data['mobile'] = mobileNumber;
+    return data;
   }
 }

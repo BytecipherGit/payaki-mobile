@@ -14,6 +14,11 @@ import 'package:payaki/network/model/response/post/post_detail_response.dart';
 import 'package:payaki/network/model/response/post/premium_and_latest_post_response.dart';
 import 'package:payaki/network/model/response/post/post_list_response.dart';
 
+import '../../modules/postAdd/provider/add_post_vm.dart';
+import '../model/request/cart/checkout_request.dart';
+import '../model/request/payment/payment_status_request.dart';
+import '../model/response/cart/checkout_cart_response.dart';
+
 class PostRepository {
   DioHttpService dioHttpService = DioHttpService();
 
@@ -21,6 +26,16 @@ class PostRepository {
     return dioHttpService
         .post(Endpoints.baseUrl, data: data)
         .then((value) => AddPostResponse.fromJson(value));
+  }
+  Future<CartCheckoutResponse> paymentStatusPost(PaymentStatusApiRequest request) {
+    return dioHttpService
+        .post(Endpoints.baseUrl, data: request.toJson())
+        .then((value) => CartCheckoutResponse.fromJson(value));
+  }
+  Future<CartCheckoutResponse> checkoutPaidPost(AddPostRequest request) {
+    return dioHttpService
+        .post(Endpoints.baseUrl, data: request.toJson())
+        .then((value) => CartCheckoutResponse.fromJson(value));
   }
 
   Future<PostDetailResponse> postDetails(PostDetailRequest request) {

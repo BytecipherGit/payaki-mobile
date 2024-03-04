@@ -18,6 +18,11 @@ import 'package:payaki/utilities/style_utility.dart';
 import 'package:provider/provider.dart';
 
 import '../../../generated/l10n.dart';
+import '../../../network/end_points.dart';
+import '../../../network/model/request/cart/checkout_request.dart';
+import '../../../network/model/request/payment/payment_status_request.dart';
+import '../../../network/model/response/cart/checkout_cart_response.dart';
+import '../../../utilities/image_utility.dart';
 import '../../../widgets/mobile_number_text_field.dart';
 import '../../event/event_purchase_screen/event_purchase_screen.dart';
 
@@ -79,12 +84,12 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
   String? currency;
   String? status;
   String? paymentId;
-
+  TextEditingController mobileController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorUtility.whiteColor,
-      appBar:  CustomAppBar(
+      appBar: CustomAppBar(
         title: S.of(context).postAd,
       ),
       body: SafeArea(
@@ -231,10 +236,9 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                 children: <Widget>[
                                   PremiumWidget(
                                     title: S.of(context).featured,
-                                    description:
-                                    S.of(context).featuredDetails,
+                                    description: S.of(context).featuredDetails,
                                     price: "100",
-                                    month: "300 ${ S.of(context).days}",
+                                    month: "300 ${S.of(context).days}",
                                     checkBoxValue: featuredValue,
                                     onSelect: (vale) {
                                       featuredValue = vale;
@@ -246,10 +250,9 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                   ),
                                   PremiumWidget(
                                     title: S.of(context).urgent,
-                                    description:
-                                      S.of(context).urgentDetails,
+                                    description: S.of(context).urgentDetails,
                                     price: "100",
-                                    month: "300 ${ S.of(context).days}",
+                                    month: "300 ${S.of(context).days}",
                                     checkBoxValue: urgentValue,
                                     onSelect: (vale) {
                                       urgentValue = vale;
@@ -260,11 +263,10 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     width: 10.w,
                                   ),
                                   PremiumWidget(
-                                    title:S.of(context).highlight,
-                                    description:
-                                    S.of(context).highlightDetails,
+                                    title: S.of(context).highlight,
+                                    description: S.of(context).highlightDetails,
                                     price: "100",
-                                    month: "300 ${ S.of(context).days}",
+                                    month: "300 ${S.of(context).days}",
                                     checkBoxValue: highlightValue,
                                     onSelect: (vale) {
                                       highlightValue = vale;
@@ -308,6 +310,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                           if (highlightValue == true) {
                             calculateAmount = calculateAmount + 100;
                           }
+                          addPost(addPostVm: addPostVm,calculateAmount: calculateAmount);
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(
@@ -344,29 +347,29 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                           //             message: message.toString());
                           //       }, amount: amount
                           // );
-                          Payment().payPal(
-                              context: context,
-                              amount: calculateAmount.toString(),
-                              onSuccess: (Map params) {
-                                logD("onSuccess: $params");
-                                amount = calculateAmount.toString();
-                                status = params["status"].toString();
-                                paymentId = params["paymentId"].toString();
-                                currency = params["data"]["transactions"][0]
-                                        ["amount"]["currency"]
-                                    .toString();
-                                logD("amount: $amount");
-                                logD("currency: $currency");
-                                logD("status: $status");
-                                logD("paymentId: $paymentId");
-                                Timer(const Duration(seconds: 1), () {
-                                  addPost(addPostVm: addPostVm);
-                                });
-                              },
-                              onFailure: (String message) {
-                                context.flushBarTopErrorMessage(
-                                    message: message.toString());
-                              });
+                          // Payment().payPal(
+                          //     context: context,
+                          //     amount: calculateAmount.toString(),
+                          //     onSuccess: (Map params) {
+                          //       logD("onSuccess: $params");
+                          //       amount = calculateAmount.toString();
+                          //       status = params["status"].toString();
+                          //       paymentId = params["paymentId"].toString();
+                          //       currency = params["data"]["transactions"][0]
+                          //               ["amount"]["currency"]
+                          //           .toString();
+                          //       logD("amount: $amount");
+                          //       logD("currency: $currency");
+                          //       logD("status: $status");
+                          //       logD("paymentId: $paymentId");
+                          //       Timer(const Duration(seconds: 1), () {
+                          //
+                          //       });
+                          //     },
+                          //     onFailure: (String message) {
+                          //       context.flushBarTopErrorMessage(
+                          //           message: message.toString());
+                          //     });
                         }
                       }),
                 ),
@@ -389,7 +392,8 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
     highlightValue = false;
     addPostVm.updateUi();
   }
-  addPost({required AddPostVm addPostVm}) {
+
+  addPost({required AddPostVm addPostVm,calculateAmount}) {
     // context.showSnackBar(message: "Post Added ${amount ?? ""}");
     var featured = featuredValue == true ? "1" : "0";
     var urgent = urgentValue == true ? "1" : "0";
@@ -428,6 +432,78 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
               context, RouteName.bottomNavigationBarScreen, (route) => false);
           context.flushBarTopSuccessMessage(message: message);
         },
+        onPaidSuccess: (response) {
+          Navigator.pop(context);
+          showPaymentLoadingDialog(
+              ctx: context,
+              mobileController: mobileController,
+              onSuccess: (number) {
+                CommonDialog.showLoadingDialog(context);
+
+                addPostVm.checkoutAddPaidPost(
+                    request: AddPostRequest(
+                      name: Endpoints.cartEndPoints.checkoutPaypalForProduct,
+                      param: AddPostParam(
+                          merchantTransactionId: response.merchantTransactionId,
+                          product_name: response.data.productName,mobileNumber: mobileController.text.trim(),
+                          totalAmount:calculateAmount.toString()),
+                    ),
+                    onSuccess: (CartCheckoutResponse success) {
+                      Navigator.pop(context);
+                      if (success.success == true) {
+                        Navigator.pop(context);
+                        Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            RouteName.bottomNavigationBarScreen,
+                            (route) => false);
+                        context.flushBarTopSuccessMessage(
+                            message: success.message);
+                      } else {
+                        CommonDialog.showPaymentLoadingDialog(context);
+                        Future.delayed(const Duration(seconds: 90))
+                            .then((value) {
+                          return addPostVm.checkPaymentStatus(
+                            request: PaymentStatusApiRequest(
+                              name: Endpoints.cartEndPoints.finalCallAppyPayApi,
+                              param: Parameter(
+                                transactionId: success.transactionId,
+                                merchantTransactionId:
+                                    success.merchantTransactionId,
+                                accessToken: success.accessToken,
+                                // orderId:
+                                // success.orderId
+                              ),
+                            ),
+                            onSuccess: (response) {
+                              if (response.success == true) {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    RouteName.bottomNavigationBarScreen,
+                                    (route) => false);
+                                context.flushBarTopSuccessMessage(
+                                    message: response.message);
+                              } else {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                context.flushBarTopErrorMessage(
+                                    message: response.success == null
+                                        ? "Transaction Failed !"
+                                        : response.message);
+                              }
+                            },
+                          );
+                        });
+                      }
+                    },
+                    onFailure: (String message) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      context.flushBarTopErrorMessage(message: message);
+                    });
+              });
+        },
         onFailure: (value) {
           Navigator.pop(context);
           context.flushBarTopErrorMessage(message: value);
@@ -437,99 +513,123 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
   static showPaymentLoadingDialog({
     required BuildContext ctx,
     ValueChanged<String>? onSuccess,
-    ValueChanged<String>? onFailure,
-    required String? amount,
+    required TextEditingController mobileController,
   }) {
     showDialog(
       barrierDismissible: false,
       context: ctx,
       builder: (BuildContext context) {
-        TextEditingController mobileController = TextEditingController();
-        String? countryCode;
         return Dialog(
-
-            child:Container(
-
-                height: 400.h,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: ColorUtility.whiteColor,),
-                child:ChangeNotifierProvider(
+            child: Container(
+                height: 460.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: ColorUtility.whiteColor,
+                ),
+                child: ChangeNotifierProvider(
                   create: (context) => Payment(),
-                  child: Consumer<Payment>(
-                      builder: (context,payment,child) {
-                        return Column(
-                          children: [
-                            Row(mainAxisAlignment: MainAxisAlignment.end,
+                  child: Consumer<Payment>(builder: (context, payment, child) {
+                    return WillPopScope(
+                      onWillPop: () async {
+                        return false;
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                flex: 6,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 20.h),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Image.asset(
+                                        ImageUtility.paymentGatewayLogo,
+                                        height: 120.h,
+                                        width: 120.w,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                flex: 3,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        icon: const Icon(
+                                          Icons.cancel_sharp,
+                                          color: Colors.black,
+                                        )),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                IconButton(onPressed: (){
-                                  Navigator.pop(context);
-                                }, icon: const Icon(Icons.cancel_sharp,color: Colors.black,))
+                                SizedBox(
+                                  height: 25.h,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Multicaixa Express",
+                                      style: StyleUtility.headingTextStyle,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 25.h,
+                                ),
+                                // Text(
+                                //   S.of(context).enterYourMobileNumber,
+                                //   style: StyleUtility.headingTextStyle,
+                                // ),
+
+                                MobileNumberTextField(
+                                  controller: mobileController,
+                                  onChanged: (phone) {
+                                    logD(phone.number);
+                                    logD(phone.countryCode);
+                                    payment.countryCode = phone.countryCode;
+                                    payment.notifyListeners();
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                CustomButton(
+                                    buttonText: S.of(context).authorisePayment,
+                                    onTab: () async {
+                                      if (mobileController.text.isEmpty) {
+                                        context.flushBarTopErrorMessage(
+                                            message: S
+                                                .of(context)
+                                                .pleaseEnterYourPhoneNumber);
+                                      } else {
+                                        onSuccess!.call(mobileController.text);
+                                      }
+                                    }),
                               ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-
-                                  SizedBox(
-                                    height: 25.h,
-                                  ),
-                                  Text(
-                                    S.of(context).enterYourMobileNumber,
-                                    style: StyleUtility.headingTextStyle,
-                                  ),
-                                  SizedBox(
-                                    height: 25.h,
-                                  ),
-                                  MobileNumberTextField(
-                                    controller: mobileController,
-                                    onChanged: (phone) {
-                                      countryCode = phone.countryCode;
-                                      logD(phone.number);
-                                      logD(phone.countryCode);
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 20.h,
-                                  ),
-                                  CustomButton(
-                                      buttonText: S.of(context).authorisePayment,
-                                      onTab: () async{
-                                        if (mobileController.text.isEmpty) {
-                                          context.flushBarTopErrorMessage(
-                                              message:S.of(context).pleaseEnterYourPhoneNumber);
-                                        } else {
-                                          CommonDialog.showLoadingDialog(ctx);
-                                          payment.pay(
-                                              amount: amount,
-                                              phoneNumber:mobileController.text,
-                                              onSuccess: (valueData) {
-                                                Navigator.pop(context);
-                                                CommonDialog.showPaymentLoadingDialog(context);
-                                                Future.delayed(
-                                                    const Duration(seconds: 5))
-                                                    .then((value) {
-                                                  Navigator.pop(context);
-                                                  Navigator.pop(context);
-                                                  context.flushBarTopSuccessMessage(message: valueData);
-                                                });
-
-                                              },
-                                              onFailure: (value) {
-                                                onFailure!.call(value);
-                                              }, context: ctx, id: '');
-                                        }
-                                      }),
-
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-                  ),
-                )
-            ));
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                )));
       },
     );
   }

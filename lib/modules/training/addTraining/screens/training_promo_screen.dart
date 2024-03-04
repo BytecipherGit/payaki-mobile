@@ -220,7 +220,6 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                             amount: widget.price,
                             onSuccess: (AddPostResponse response) {
                               Navigator.pop(context);
-
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
                                 RouteName.bottomNavigationBarScreen,
