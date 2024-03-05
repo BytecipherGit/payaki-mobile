@@ -385,6 +385,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "purchase": MessageLookupByLibrary.simpleMessage("Purchase"),
         "purchaseTraining":
             MessageLookupByLibrary.simpleMessage("PurchaseTraining"),
+        "purchased": MessageLookupByLibrary.simpleMessage("Purchased"),
         "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
         "quantityRequired": MessageLookupByLibrary.simpleMessage("Quantity *"),
         "quote": MessageLookupByLibrary.simpleMessage("Quote"),

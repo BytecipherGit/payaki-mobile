@@ -103,12 +103,13 @@ bool success=false;
         onSuccess?.call(value);
       } else {
         onFailure?.call(value.message ?? "");
+
       }
       notifyListeners();
     }).onError((error, stackTrace) {
       logE("error $error");
-      notifyListeners();
       onFailure?.call(error.toString());
+      notifyListeners();
     });
   }
 

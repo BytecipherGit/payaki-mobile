@@ -106,7 +106,7 @@ class TrainingPromoScreenVm extends ChangeNotifier {
       notifyListeners();
 
 
-      if (value.code == 200) {
+      if (value.status == true) {
         onSuccess?.call(value);
       } else {
         onFailure?.call(value.message ?? "");

@@ -145,7 +145,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                     },
                                   ),
                                   Text(
-                                    freeAd,
+                                    S.of(context).freeAd,
                                     style: StyleUtility.radioTitleTextStyle,
                                   )
                                 ],
@@ -192,7 +192,7 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                         },
                                       ),
                                       Text(
-                                        premium,
+                                        S.of(context).premium,
                                         style: StyleUtility.radioTitleTextStyle
                                             .copyWith(
                                                 color:
@@ -488,11 +488,16 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                                 context.flushBarTopErrorMessage(
-                                    message: response.success == null
-                                        ? "Transaction Failed !"
-                                        : response.message);
+                                    message: response.message);
                               }
                             },
+                              onFailure: (message){
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                context.flushBarTopErrorMessage(
+                                    message: message
+                                        .toString());
+                              }
                           );
                         });
                       }
@@ -520,116 +525,121 @@ class _SelectAddTypeScreenState extends State<SelectAddTypeScreen> {
       context: ctx,
       builder: (BuildContext context) {
         return Dialog(
-            child: Container(
-                height: 460.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: ColorUtility.whiteColor,
-                ),
-                child: ChangeNotifierProvider(
-                  create: (context) => Payment(),
-                  child: Consumer<Payment>(builder: (context, payment, child) {
-                    return WillPopScope(
-                      onWillPop: () async {
-                        return false;
-                      },
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                flex: 6,
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 20.h),
+
+            child: InkWell(onTap: (){
+              FocusScope.of(context).unfocus();
+            },
+              child: Container(
+                  height: 460.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: ColorUtility.whiteColor,
+                  ),
+                  child: ChangeNotifierProvider(
+                    create: (context) => Payment(),
+                    child: Consumer<Payment>(builder: (context, payment, child) {
+                      return WillPopScope(
+                        onWillPop: () async {
+                          return false;
+                        },
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  flex: 6,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 20.h),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Image.asset(
+                                          ImageUtility.paymentGatewayLogo,
+                                          height: 120.h,
+                                          width: 120.w,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 3,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Image.asset(
-                                        ImageUtility.paymentGatewayLogo,
-                                        height: 120.h,
-                                        width: 120.w,
+                                      IconButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          icon: const Icon(
+                                            Icons.cancel_sharp,
+                                            color: Colors.black,
+                                          )),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 25.h,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Multicaixa Express",
+                                        style: StyleUtility.headingTextStyle,
                                       ),
                                     ],
                                   ),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 3,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        icon: const Icon(
-                                          Icons.cancel_sharp,
-                                          color: Colors.black,
-                                        )),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 25.h,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Multicaixa Express",
-                                      style: StyleUtility.headingTextStyle,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 25.h,
-                                ),
-                                // Text(
-                                //   S.of(context).enterYourMobileNumber,
-                                //   style: StyleUtility.headingTextStyle,
-                                // ),
+                                  SizedBox(
+                                    height: 25.h,
+                                  ),
+                                  // Text(
+                                  //   S.of(context).enterYourMobileNumber,
+                                  //   style: StyleUtility.headingTextStyle,
+                                  // ),
 
-                                MobileNumberTextField(
-                                  controller: mobileController,
-                                  onChanged: (phone) {
-                                    logD(phone.number);
-                                    logD(phone.countryCode);
-                                    payment.countryCode = phone.countryCode;
-                                    payment.notifyListeners();
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                CustomButton(
-                                    buttonText: S.of(context).authorisePayment,
-                                    onTab: () async {
-                                      if (mobileController.text.isEmpty) {
-                                        context.flushBarTopErrorMessage(
-                                            message: S
-                                                .of(context)
-                                                .pleaseEnterYourPhoneNumber);
-                                      } else {
-                                        onSuccess!.call(mobileController.text);
-                                      }
-                                    }),
-                              ],
+                                  MobileNumberTextField(
+                                    controller: mobileController,
+                                    onChanged: (phone) {
+                                      logD(phone.number);
+                                      logD(phone.countryCode);
+                                      payment.countryCode = phone.countryCode;
+                                      payment.notifyListeners();
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                  CustomButton(
+                                      buttonText: S.of(context).authorisePayment,
+                                      onTab: () async {
+                                        if (mobileController.text.isEmpty) {
+                                          context.flushBarTopErrorMessage(
+                                              message: S
+                                                  .of(context)
+                                                  .pleaseEnterYourPhoneNumber);
+                                        } else {
+                                          onSuccess!.call(mobileController.text);
+                                        }
+                                      }),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-                )));
+                          ],
+                        ),
+                      );
+                    }),
+                  )),
+            ));
       },
     );
   }

@@ -322,5 +322,6 @@
   "image":  "Image",
   "pleaseWait": "Please wait...",
   "pleaseWaitWhileAuthorising":    "Please wait while authorising...",
-  "pleaseSelectImages":   "Please Select Images."
+  "pleaseSelectImages":   "Please Select Images.",
+  "purchased":   "Purchased"
 }

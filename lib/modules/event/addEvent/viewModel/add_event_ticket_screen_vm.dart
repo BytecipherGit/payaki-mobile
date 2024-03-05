@@ -74,7 +74,7 @@ class AddEventTicketScreenVm extends ChangeNotifier {
 
     postRepository.addPost(formData).then((value) {
       notifyListeners();
-      if (value.code == 200) {
+      if (value.status == true) {
         onSuccess?.call(value);
       } else {
         onFailure?.call(value.message ?? "");

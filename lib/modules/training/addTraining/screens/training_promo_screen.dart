@@ -228,7 +228,7 @@ class _TrainingPromoScreenState extends State<TrainingPromoScreen> {
                               );
                               Navigator.pushNamed(
                                   context, RouteName.trainingGalleryScreen,
-                                  arguments: {"product_id": response.data?.id});
+                                  arguments: {"product_id": response.data.id});
 
                               context.flushBarTopSuccessMessage(
                                   message: response.message ?? "");

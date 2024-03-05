@@ -3289,6 +3289,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Purchased`
+  String get purchased {
+    return Intl.message(
+      'Purchased',
+      name: 'purchased',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

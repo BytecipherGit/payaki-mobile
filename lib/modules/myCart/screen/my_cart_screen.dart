@@ -384,9 +384,16 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                         Navigator.pop(context);
                                                         context.flushBarTopErrorMessage(
                                                             message:
-                                                            response.success==null? "Transaction Failed !":response.message);
+                                                            response.message);
                                                       }
                                                     },
+                                                    onFailure: (message){
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                      context.flushBarTopErrorMessage(
+                                                          message: message
+                                                              .toString());
+                                                    }
                                                   );
                                                 });
 

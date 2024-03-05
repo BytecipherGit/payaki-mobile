@@ -484,9 +484,16 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
                                                             Navigator.pop(context);
                                                             Navigator.pop(context);
                                                             context.flushBarTopErrorMessage(
-                                                                message: response.success==null? "Transaction Failed !":response.message);
+                                                                message: response.message);
                                                           }
                                                         },
+                                                          onFailure: (message){
+                                                            Navigator.pop(context);
+                                                            Navigator.pop(context);
+                                                            context.flushBarTopErrorMessage(
+                                                                message: message
+                                                                    .toString());
+                                                          }
                                                       );
                                                     });
 
