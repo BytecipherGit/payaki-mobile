@@ -379,6 +379,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "priceLowToHigh":
             MessageLookupByLibrary.simpleMessage("Price : Low to High"),
         "priceRange": MessageLookupByLibrary.simpleMessage("Price Range"),
+        "productName": MessageLookupByLibrary.simpleMessage("Product Name"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "promoImage": MessageLookupByLibrary.simpleMessage("Promo Image"),
         "promoVideo": MessageLookupByLibrary.simpleMessage("Promo Video"),
@@ -461,6 +462,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "transaction": MessageLookupByLibrary.simpleMessage("Transaction"),
         "transactionDetail":
             MessageLookupByLibrary.simpleMessage("Transaction Detail"),
+        "transactionHistory":
+            MessageLookupByLibrary.simpleMessage("Transaction History"),
         "twitter": MessageLookupByLibrary.simpleMessage("Twitter"),
         "uRLOfViolation":
             MessageLookupByLibrary.simpleMessage("URL of  Violation"),

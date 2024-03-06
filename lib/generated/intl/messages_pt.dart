@@ -401,6 +401,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "purchase": MessageLookupByLibrary.simpleMessage("Comprar"),
         "purchaseTraining":
             MessageLookupByLibrary.simpleMessage("Comprar treinamento"),
+        "purchased": MessageLookupByLibrary.simpleMessage("comprado"),
         "quantity": MessageLookupByLibrary.simpleMessage("Quantidade"),
         "quantityRequired":
             MessageLookupByLibrary.simpleMessage("Quantidade *"),
@@ -484,6 +485,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "transaction": MessageLookupByLibrary.simpleMessage("Transação"),
         "transactionDetail":
             MessageLookupByLibrary.simpleMessage("Detalhe da transação"),
+        "transactionHistory":
+            MessageLookupByLibrary.simpleMessage("Histórico de Transações"),
         "twitter": MessageLookupByLibrary.simpleMessage("Twitter"),
         "uRLOfViolation":
             MessageLookupByLibrary.simpleMessage("URL da violação"),

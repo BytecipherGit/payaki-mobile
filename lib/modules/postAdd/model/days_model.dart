@@ -1,17 +1,19 @@
+import '../../../generated/l10n.dart';
+
 class Day {
   final String name;
   final int value;
 
-  const Day(this.name, this.value);
+   Day(this.name, this.value);
 }
 
-const daysList = [
-  Day("1 days", 1),
-  Day("2 days", 2),
-  Day("5 days", 5),
-  Day("10 days", 10),
-  Day("20 days", 20),
-  Day("30 days", 30),
-  Day("45 days", 45),
-  Day("60 days", 60)
+ List<Day> daysList = [
+  Day("1 ${S.current.days.toLowerCase()}", 1),
+  Day("2 ${S.current.days.toLowerCase()}", 2),
+  Day("5 ${S.current.days.toLowerCase()}", 5),
+  Day("10 ${S.current.days.toLowerCase()}", 10),
+  Day("20 ${S.current.days.toLowerCase()}", 20),
+  Day("30 ${S.current.days.toLowerCase()}", 30),
+  Day("45 ${S.current.days.toLowerCase()}", 45),
+  Day("60 ${S.current.days.toLowerCase()}", 60)
 ];

@@ -322,6 +322,8 @@ class AppRoute {
         return MaterialPageRoute(
             builder: (context) => TransactionDetailScreen(
                   transaction: arg["transaction"],
+                  eventListItem: arg["event"],
+                  purchasedListItem: arg["purchased"],
                 ));
 
       case RouteName.quoteScreen:

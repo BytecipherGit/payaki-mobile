@@ -53,12 +53,13 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     searchScreenVm = Provider.of<SearchScreenVm>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     searchScreenVm.cityListApi(onSuccess: (value) {}, onFailure: (value) {});
     searchScreenVm.categoryListApi(
         onSuccess: (value) {},
         onFailure: (String message) {
           context.flushBarTopErrorMessage(message: message);
-        });
+        });});
   }
 
   @override

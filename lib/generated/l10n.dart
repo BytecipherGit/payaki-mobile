@@ -3299,6 +3299,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Transaction History`
+  String get transactionHistory {
+    return Intl.message(
+      'Transaction History',
+      name: 'transactionHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Name`
+  String get productName {
+    return Intl.message(
+      'Product Name',
+      name: 'productName',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

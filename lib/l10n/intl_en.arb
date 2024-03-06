@@ -323,5 +323,8 @@
   "pleaseWait": "Please wait...",
   "pleaseWaitWhileAuthorising":    "Please wait while authorising...",
   "pleaseSelectImages":   "Please Select Images.",
-  "purchased":   "Purchased"
+  "purchased":   "Purchased",
+  "transactionHistory":   "Transaction History",
+  "productName":   "Product Name",
+
 }

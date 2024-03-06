@@ -74,329 +74,338 @@ class _AddTrainingDetailScreenState extends State<AddTrainingDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorUtility.whiteColor,
-      appBar: CustomAppBar(
-        title: S.of(context).training,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Consumer<AddTrainingDetailScreenVm>(
-              builder: (context, addTrainingDetailScreenVm, child) {
-            return addTrainingDetailScreenVm.isLoading == true
-                ? const CircularProgressWidget()
-                : Column(
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          physics: const ClampingScrollPhysics(),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 23.h),
-                              Text(
-                                S.of(context).details,
-                                style: StyleUtility.headingTextStyle,
-                              ),
-                              SizedBox(height: 25.h),
-                              SimpleTextField(
-                                controller: titleController,
-                                hintText: S.of(context).titleForYourTraining,
-                                titleText: S.of(context).title,
-                              ),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                              SimpleTextField(
-                                controller: descriptionController,
-                                hintText: S
-                                    .of(context)
-                                    .tellUsMoreAboutYourDescription,
-                                titleText: S.of(context).description,
-                                maxLine: 5,
-                              ),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                              selectedLocation != null
-                                  ? Text(
-                                      selectedLocation ?? "",
-                                      style: StyleUtility.headingTextStyle,
-                                    )
-                                  : const SizedBox(),
-                              Text(
-                                S.of(context).addLocation,
-                                style: StyleUtility.inputTextStyle,
-                              ),
-                              TypeAheadField<Data>(
-                                textFieldConfiguration: TextFieldConfiguration(
-                                  controller: locationController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        top: 12.sp,
-                                        bottom: 12.sp,
-                                        left: 20.w,
-                                        right: 5.w),
-                                    filled: true,
-                                    hintText: S.of(context).enterLocation,
-                                    fillColor: ColorUtility.colorF8FAFB,
-                                    hintStyle: StyleUtility.hintTextStyle,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
-                                      ),
-                                    ),
-                                    disabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
-                                      ),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
-                                      ),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
-                                      ),
-                                    ),
-                                    prefixIcon: SizedBox(
-                                      height: 55.sp,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 20.sp),
-                                        child: Image.asset(
-                                            ImageUtility.locationSelectIcon),
-                                      ),
-                                    ),
-                                    focusColor: Colors.white,
-                                  ),
+    return GestureDetector(onTap: (){
+      FocusScope.of(context).unfocus();
+    },
+      child: Scaffold(
+        backgroundColor: ColorUtility.whiteColor,
+        appBar: CustomAppBar(
+          title: S.of(context).training,
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Consumer<AddTrainingDetailScreenVm>(
+                builder: (context, addTrainingDetailScreenVm, child) {
+              return addTrainingDetailScreenVm.isLoading == true
+                  ? const CircularProgressWidget()
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            physics: const ClampingScrollPhysics(),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 23.h),
+                                Text(
+                                  S.of(context).details,
+                                  style: StyleUtility.headingTextStyle,
                                 ),
-                                suggestionsCallback: (query) {
-                                  if (locationController.text.isNotEmpty) {
-                                    return addTrainingDetailScreenVm.cityList!
-                                        .where((obj) => obj.name!
-                                            .toLowerCase()
-                                            .contains(query.toLowerCase()));
-                                  }
-
-                                  return [];
-                                },
-                                itemBuilder: (context, suggestion) {
-                                  return ListTile(
-                                    title: Text(suggestion.name!),
-                                    subtitle: Text(suggestion.stateName!),
-                                  );
-                                },
-                                onSuggestionSelected: (suggestion) {
-                                  // Do something with the selected suggestion
-
-                                  location = suggestion.name;
-                                  city = suggestion.id;
-                                  country = suggestion.countryCode;
-                                  latlong =
-                                      "${suggestion.latitude},${suggestion.longitude}";
-                                  state = suggestion.subadmin1Code;
-
-                                  locationController.text =
-                                      "${suggestion.name!},${suggestion.stateName!}";
-                                  selectedLocation =
-                                      "${suggestion.name!},${suggestion.stateName!}";
-
-                                  addTrainingDetailScreenVm.notifyListeners();
-                                },
-                              ),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                              Text(
-                                S.of(context).expireAd,
-                                style: StyleUtility.inputTextStyle,
-                              ),
-                              DropdownButtonHideUnderline(
-                                child: DropdownButtonFormField<Day>(
-                                  isExpanded: true,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(
-                                        top: 15.sp,
-                                        bottom: 15.sp,
-                                        left: 20.w,
-                                        right: 5.w),
-                                    filled: true,
-                                    fillColor: ColorUtility.colorF8FAFB,
-                                    hintStyle: StyleUtility.hintTextStyle,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
+                                SizedBox(height: 25.h),
+                                SimpleTextField(
+                                  controller: titleController,
+                                  hintText: S.of(context).titleForYourTraining,
+                                  titleText: S.of(context).title,
+                                ),
+                                SizedBox(
+                                  height: 15.h,
+                                ),
+                                SimpleTextField(
+                                  controller: descriptionController,
+                                  hintText: S
+                                      .of(context)
+                                      .tellUsMoreAboutYourDescription,
+                                  titleText: S.of(context).description,
+                                  maxLine: 5,
+                                ),
+                                SizedBox(
+                                  height: 15.h,
+                                ),
+                                selectedLocation != null
+                                    ? Text(
+                                        selectedLocation ?? "",
+                                        style: StyleUtility.headingTextStyle,
+                                      )
+                                    : const SizedBox(),
+                                Text(
+                                  S.of(context).addLocation,
+                                  style: StyleUtility.inputTextStyle,
+                                ),
+                                TypeAheadField<Data>(
+                                  textFieldConfiguration: TextFieldConfiguration(
+                                    controller: locationController,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(
+                                          top: 12.sp,
+                                          bottom: 12.sp,
+                                          left: 20.w,
+                                          right: 5.w),
+                                      filled: true,
+                                      hintText: S.of(context).enterLocation,
+                                      fillColor: ColorUtility.colorF8FAFB,
+                                      hintStyle: StyleUtility.hintTextStyle,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
                                       ),
-                                    ),
-                                    disabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
+                                      disabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
                                       ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
                                       ),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
                                       ),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
                                       ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      borderSide: const BorderSide(
-                                        color: ColorUtility.colorE2E5EF,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
                                       ),
+                                      prefixIcon: SizedBox(
+                                        height: 55.sp,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20.sp),
+                                          child: Image.asset(
+                                              ImageUtility.locationSelectIcon),
+                                        ),
+                                      ),
+                                      focusColor: Colors.white,
                                     ),
-                                    focusColor: ColorUtility.whiteColor,
                                   ),
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  hint: Text(
-                                    S.of(context).selectYOurCountry,
-                                    style: StyleUtility.hintTextStyle,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  items: daysList
-                                      .map((e) => DropdownMenuItem<Day>(
-                                          value: e,
-                                          child: Text(e.name,
-                                              style:
-                                                  StyleUtility.inputTextStyle)))
-                                      .toList(),
-                                  value: selectDayValue,
-                                  onChanged: (Day? value) {
-                                    selectDayValue = value!;
-                                    logD(selectDayValue!.value);
+                                  suggestionsCallback: (query) {
+                                    if (locationController.text.isNotEmpty) {
+                                      return addTrainingDetailScreenVm.cityList!
+                                          .where((obj) => obj.name!
+                                              .toLowerCase()
+                                              .contains(query.toLowerCase()));
+                                    }
+
+                                    return [];
                                   },
-                                  icon: Padding(
-                                    padding: EdgeInsets.only(right: 10.w),
-                                    child: Image.asset(
-                                      ImageUtility.dropDownIcon,
-                                      width: 14.w,
-                                    ),
-                                  ),
-                                  iconSize: 20.sp,
-                                  iconEnabledColor: Colors.black,
-                                  iconDisabledColor: Colors.black,
+                                  itemBuilder: (context, suggestion) {
+                                    return ListTile(
+                                      title: Text(suggestion.name!),
+                                      subtitle: Text(suggestion.stateName!),
+                                    );
+                                  },
+                                  onSuggestionSelected: (suggestion) {
+                                    // Do something with the selected suggestion
+
+                                    location = suggestion.name;
+                                    city = suggestion.id;
+                                    country = suggestion.countryCode;
+                                    latlong =
+                                        "${suggestion.latitude},${suggestion.longitude}";
+                                    state = suggestion.subadmin1Code;
+
+                                    locationController.text =
+                                        "${suggestion.name!},${suggestion.stateName!}";
+                                    selectedLocation =
+                                        "${suggestion.name!},${suggestion.stateName!}";
+
+                                    addTrainingDetailScreenVm.notifyListeners();
+                                    FocusScope.of(context).unfocus();
+                                  },
                                 ),
-                              ),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                              MobileNumberTextField(
-                                  controller: phoneNumberController,
-                                  onChanged: (phone) {
-                                    countryCode = phone.countryCode;
-                                  }),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                              SimpleTextField(
-                                controller: priceController,
-                                hintText: S.of(context).enterPrice,
-                                titleText: S.of(context).price,
-                                textInputType: TextInputType.number,
-                                inputFormatter: [
-                                  DecimalInputFormatter(),
-                                ],
-                                onTapOutside: (String value) {
-                                  CommonMethod.numberFormatForTextEditing(
-                                      priceController);
-                                },
-                              ),
-                              SizedBox(
-                                height: 25.h,
-                              ),
-                            ],
+                                SizedBox(
+                                  height: 15.h,
+                                ),
+                                Text(
+                                  S.of(context).expireAd,
+                                  style: StyleUtility.inputTextStyle,
+                                ),
+                                DropdownButtonHideUnderline(
+                                  child: DropdownButtonFormField<Day>(
+                                    isExpanded: true,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(
+                                          top: 15.sp,
+                                          bottom: 15.sp,
+                                          left: 20.w,
+                                          right: 5.w),
+                                      filled: true,
+                                      fillColor: ColorUtility.colorF8FAFB,
+                                      hintStyle: StyleUtility.hintTextStyle,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
+                                      ),
+                                      disabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        borderSide: const BorderSide(
+                                          color: ColorUtility.colorE2E5EF,
+                                        ),
+                                      ),
+                                      focusColor: ColorUtility.whiteColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    hint: Text(
+                                      S.of(context).selectYOurCountry,
+                                      style: StyleUtility.hintTextStyle,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    items: daysList
+                                        .map((e) => DropdownMenuItem<Day>(
+                                            value: e,
+                                            child: Text(e.name,
+                                                style:
+                                                    StyleUtility.inputTextStyle)))
+                                        .toList(),
+                                    value: selectDayValue,
+                                    onChanged: (Day? value) {
+                                      selectDayValue = value!;
+                                      logD(selectDayValue!.value);
+                                    },
+                                    icon: Padding(
+                                      padding: EdgeInsets.only(right: 10.w),
+                                      child: Image.asset(
+                                        ImageUtility.dropDownIcon,
+                                        width: 14.w,
+                                      ),
+                                    ),
+                                    iconSize: 20.sp,
+                                    iconEnabledColor: Colors.black,
+                                    iconDisabledColor: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 15.h,
+                                ),
+                                MobileNumberTextField(
+                                    controller: phoneNumberController,
+                                    onChanged: (phone) {
+                                      countryCode = phone.countryCode;
+                                    }),
+                                SizedBox(
+                                  height: 15.h,
+                                ),
+                                SimpleTextField(
+                                  controller: priceController,
+                                  hintText: S.of(context).enterPrice,
+                                  titleText: S.of(context).price,
+                                  textInputType: TextInputType.number,
+                                  inputFormatter: [
+                                    DecimalInputFormatter(),
+                                  ],
+                                  onTapOutside: (String value) {
+                                    CommonMethod.numberFormatForTextEditing(
+                                        priceController);
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 25.h,
+                                ),
+                                CustomButton(
+                                    buttonText: S.of(context).next,
+                                    onTab: () {
+                                      FocusScope.of(context).unfocus();
+                                      logD("Selected location $location");
+                                      if (titleController.text.isEmpty) {
+                                        context.flushBarTopErrorMessage(
+                                            message: S.of(context).pleaseEnterTitle);
+                                      } else if (descriptionController.text.isEmpty) {
+                                        context.flushBarTopErrorMessage(
+                                            message:
+                                            S.of(context).pleaseEnterDescription);
+                                      } else if (location == null) {
+                                        context.flushBarTopErrorMessage(
+                                            message: S.of(context).pleaseSelectLocation);
+                                      } else if (selectDayValue?.value == null) {
+                                        context.flushBarTopErrorMessage(
+                                            message:
+                                            S.of(context).pleaseSelectExpireDays);
+                                      } else if (phoneNumberController.text.isEmpty) {
+                                        context.flushBarTopErrorMessage(
+                                            message:
+                                            S.of(context).pleaseEnterMobileNumber);
+                                      } else if (priceController.text.isEmpty) {
+                                        context.flushBarTopErrorMessage(
+                                            message: S.of(context).pleaseEnterPrice);
+                                      } else {
+                                        Navigator.pushNamed(
+                                          context,
+                                          RouteName.trainingPromoScreen,
+                                          arguments: {
+                                            "catId": widget.catId,
+                                            "subCatId": widget.subCatId,
+                                            "title": titleController.text,
+                                            //  "price": priceController.text,
+                                            "price":
+                                            priceController.text.replaceAll(',', ''),
+                                            "description": descriptionController.text,
+                                            "location": location,
+                                            "city": city,
+                                            "country": country,
+                                            "latlong": latlong,
+                                            "state": state,
+                                            "phone": phoneNumberController.text,
+                                            "availableDays": selectDayValue?.value,
+                                          },
+                                        );
+                                      }
+                                    }),
+                                if( FocusScope.of(context).hasFocus) SizedBox(
+                                  height: 300.h,
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      CustomButton(
-                          buttonText: S.of(context).next,
-                          onTab: () {
-                            FocusScope.of(context).unfocus();
-                            logD("Selected location $location");
-                            if (titleController.text.isEmpty) {
-                              context.flushBarTopErrorMessage(
-                                  message: S.of(context).pleaseEnterTitle);
-                            } else if (descriptionController.text.isEmpty) {
-                              context.flushBarTopErrorMessage(
-                                  message:
-                                      S.of(context).pleaseEnterDescription);
-                            } else if (location == null) {
-                              context.flushBarTopErrorMessage(
-                                  message: S.of(context).pleaseSelectLocation);
-                            } else if (selectDayValue?.value == null) {
-                              context.flushBarTopErrorMessage(
-                                  message:
-                                      S.of(context).pleaseSelectExpireDays);
-                            } else if (phoneNumberController.text.isEmpty) {
-                              context.flushBarTopErrorMessage(
-                                  message:
-                                      S.of(context).pleaseEnterMobileNumber);
-                            } else if (priceController.text.isEmpty) {
-                              context.flushBarTopErrorMessage(
-                                  message: S.of(context).pleaseEnterPrice);
-                            } else {
-                              Navigator.pushNamed(
-                                context,
-                                RouteName.trainingPromoScreen,
-                                arguments: {
-                                  "catId": widget.catId,
-                                  "subCatId": widget.subCatId,
-                                  "title": titleController.text,
-                                  //  "price": priceController.text,
-                                  "price":
-                                      priceController.text.replaceAll(',', ''),
-                                  "description": descriptionController.text,
-                                  "location": location,
-                                  "city": city,
-                                  "country": country,
-                                  "latlong": latlong,
-                                  "state": state,
-                                  "phone": phoneNumberController.text,
-                                  "availableDays": selectDayValue?.value,
-                                },
-                              );
-                            }
-                          }),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                    ],
-                  );
-          }),
+
+                      ],
+                    );
+            }),
+          ),
         ),
       ),
     );

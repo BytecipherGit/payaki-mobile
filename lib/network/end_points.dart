@@ -93,6 +93,8 @@ class UserProfileEndPoints {
   String get updateProfile => "updateProfile";
 
   String get getTransactionListing => "getTransactionListing";
+  String get getOrderListing => "getOrderListing";
+
 }
 
 class ChatEndPoints {

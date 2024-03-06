@@ -8,6 +8,8 @@ import 'package:payaki/network/repository/user_profile_repository.dart';
 class TransactionScreenVm extends ChangeNotifier {
   final UserProfileRepository userProfileRepository = UserProfileRepository();
   TransactionListResponse? transactionListResponse;
+  PurchasedHistoryResponse? purchasedHistoryResponse;
+  EventHistoryResponse? eventHistoryResponse;
     bool isLoading = true;
 
   getTransactionList({
@@ -22,6 +24,56 @@ class TransactionScreenVm extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
 
+      if (value.code == 200) {
+        onSuccess?.call(value.message ?? "");
+      } else {
+        onFailure?.call(value.message ?? "");
+      }
+    }).onError((error, stackTrace) {
+      logE("Error $error");
+      isLoading = false;
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
+
+  getTransactionPurchasedList({
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+  }) {
+    userProfileRepository
+        .getTransactionPurchasedList(
+      HistoryRequest(name: Endpoints.userProfileEndPoints.getOrderListing, param: HistoryParam(type: "purchased")),
+        )
+        .then((value) {
+      purchasedHistoryResponse = value;
+      isLoading = false;
+      notifyListeners();
+      if (value.code == 200) {
+        onSuccess?.call(value.message ?? "");
+      } else {
+        onFailure?.call(value.message ?? "");
+      }
+    }).onError((error, stackTrace) {
+      logE("Error $error");
+      isLoading = false;
+      notifyListeners();
+      onFailure?.call(error.toString());
+    });
+  }
+
+  getTransactionEventList({
+    ValueChanged<String>? onSuccess,
+    ValueChanged<String>? onFailure,
+  }) {
+    userProfileRepository
+        .getTransactionEventList(
+      HistoryRequest(name: Endpoints.userProfileEndPoints.getOrderListing, param: HistoryParam(type: "event")),
+    )
+        .then((value) {
+      eventHistoryResponse = value;
+      isLoading = false;
+      notifyListeners();
       if (value.code == 200) {
         onSuccess?.call(value.message ?? "");
       } else {

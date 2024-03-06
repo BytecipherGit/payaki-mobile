@@ -321,6 +321,9 @@
   "pleaseWait": "Por favor, aguarde...",
   "pleaseWaitWhileAuthorising": "Por favor, aguarde enquanto autoriza...",
 
-  "pleaseSelectImages": "Por favor, selecione imagens."
+  "pleaseSelectImages": "Por favor, selecione imagens.",
+  "purchased":   "comprado",
+  "transactionHistory":   "Histórico de Transações",
+  "productName":   "Nome do Produto"
 }
 

@@ -47,6 +47,25 @@ class UserProfileRepository {
   Future<TransactionListResponse> getTransactionList(BasicRequest request) {
     return dioHttpService
         .post(Endpoints.baseUrl, data: request.toJson())
-        .then((value) => TransactionListResponse.fromJson(value));
+        .then((value) {
+      print("transactionList$value");
+          return TransactionListResponse.fromJson(value);
+        });
+  }
+  Future<PurchasedHistoryResponse> getTransactionPurchasedList(HistoryRequest request) {
+    return dioHttpService
+        .post(Endpoints.baseUrl, data: request.toJson())
+        .then((value) {
+          print("purchasedList$value");
+          return PurchasedHistoryResponse.fromJson(value);
+        });
+  }
+  Future<EventHistoryResponse> getTransactionEventList(HistoryRequest request) {
+    return dioHttpService
+        .post(Endpoints.baseUrl, data: request.toJson())
+        .then((value) {
+      print("eventList$value");
+          return EventHistoryResponse.fromJson(value);
+        });
   }
 }
