@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../../../../local_store/shared_preference.dart';
@@ -64,13 +66,13 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     catId = json['cat_id'];
     catOrder = json['cat_order'];
-    catName =Preference().getLocal()=="pt"?json['portuguese_cat_name']:json['cat_name'];
+    catName =Platform.localeName.split('_')[0]=="pt"?json['portuguese_cat_name']:json['cat_name'];
     slug = json['slug'];
     icon = json['icon'];
     picture = json['picture'];
     subCatId = json['sub_cat_id'];
     mainCatId = json['main_cat_id'];
-    subCatName =Preference().getLocal()=="pt"?json['portuguese_sub_cat_name']: json['sub_cat_name'];
+    subCatName =Platform.localeName.split('_')[0]=="pt"?json['portuguese_sub_cat_name']: json['sub_cat_name'];
     photoShow = json['photo_show'];
     priceShow = json['price_show'];
   }

@@ -374,20 +374,20 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                       physics: const ClampingScrollPhysics(),
                                       padding: EdgeInsets.only(
                                           top: 25.h, bottom: 50.h),
-                                      itemCount: transactionList?.length,
+                                      itemCount: transactionList.length,
                                       itemBuilder: (context, index) {
-                                        String dateString =
-                                            transactionList?[index]
-                                                    .transactionTime ??
-                                                "";
-
-                                        // Define the date format
-                                        DateFormat format =
-                                            DateFormat("dd MMM yyyy hh:mm a");
-
-                                        // Parse the string to DateTime
-                                        DateTime dateTime =
-                                            format.parse(dateString);
+                                        // String dateString =
+                                        //     transactionList[index]
+                                        //             .transactionTime ??
+                                        //         "";
+                                        //
+                                        // // Define the date format
+                                        // DateFormat format =
+                                        //     DateFormat("dd MMM yyyy hh:mm a");
+                                        //
+                                        // // Parse the string to DateTime
+                                        // DateTime dateTime =
+                                        //     format.parse(dateString);
                                         return GestureDetector(
                                           behavior: HitTestBehavior.opaque,
                                           onTap: () {
@@ -442,7 +442,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            '${Moment(dateTime).fromNow()[0].toUpperCase()}${Moment(dateTime).fromNow().substring(1)}',
+                                                  transactionList[index]
+                                                      .transactionTime ??
+                                                      "",
                                                             style: StyleUtility
                                                                 .titleTextStyle
                                                                 .copyWith(
